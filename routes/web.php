@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdmSucursalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('contenido/contenido');
 });
+
+
+Route::get('/sucursal',[AdmSucursalController::class,'index']);
+Route::post('/sucursal/registrar', [AdmSucursalController::class,'store']);
+Route::put('/sucursal/actualizar', [AdmSucursalController::class,'update']);
+Route::put('/sucursal/desactivar', [AdmSucursalController::class,'desactivar']);
+Route::put('/sucursal/activar', [AdmSucursalController::class,'activar']);
+Route::get('/sucursal/selectsucursal',[AdmSucursalController::class,'selectSucursal']);
