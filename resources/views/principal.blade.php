@@ -19,14 +19,15 @@
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <div id="app">
+        {{ auth()->user() }}
        <!--  <img src="storage/producto/Ww84GOcIMegTRhMCFV5D1AFnCBTzUW7H.jpg" alt=""> -->
         <header class="app-header navbar">
             <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#"></a>
+            <font class="nav-link">SIA - Puerto del Rosario</font> 
             <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <ul class="nav navbar-nav d-md-down-none">
                 <li class="nav-item px-3">
@@ -36,7 +37,7 @@
                     <a class="nav-link" href="#">Configuraciones</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav ml-auto">
+            {{-- <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item d-md-down-none">
                     <a class="nav-link" href="#" data-toggle="dropdown">
                         <i class="icon-bell"></i>
@@ -69,7 +70,8 @@
                         <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Cerrar sesión</a>
                     </div>
                 </li>
-            </ul>
+            </ul> --}}
+            @yield('bodyheader')
         </header>
 
         <div class="app-body">

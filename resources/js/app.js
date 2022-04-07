@@ -10,6 +10,7 @@ createApp ({
         
     }
 })
+    .component('Body_header', require('./components/plugin_vue/Body_header.vue').default)
     .component('example',require('./components/Example.vue').default)
     .component('another-example',require('./components/AnotherExample.vue').default)
     .component('sucursal-component',require('./components/administracion/SucursalComponent.vue').default)

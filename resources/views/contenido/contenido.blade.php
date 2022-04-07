@@ -2,8 +2,10 @@
 @section('contenido')
 <template v-if="menu==0">
 <h1>Contenido menu 0</h1>
+
 </template>
  <template v-if="menu==10">
+    
     <sucursal-component></sucursal-component>
 
 </template>{{--
@@ -71,3 +73,16 @@
 </template> --}}
 
 @endsection
+
+@section('bodyheader') 
+<?php   
+    use App\Http\Controllers\AdmUserController;
+    $user = AdmUserController::getUser();  
+    //dd($user->name);
+    echo '
+             <Body_header user="'. $user->name.'"></Body_header> 
+          ';
+                                                                                                                                                  
+    ?>
+        
+    @endsection
