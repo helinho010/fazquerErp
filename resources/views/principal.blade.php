@@ -13,6 +13,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Icons -->
     <link href="css/plantilla.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     
     
 </head>
@@ -24,7 +25,8 @@
             <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <font class="nav-link">SIA - Puerto del Rosario</font> 
+            <a class="navbar-brand" href="#"></a>{{-- <font class="nav-link">Puerto del Rosario</font> --}} 
+            
             <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -85,7 +87,7 @@
 
     <footer class="app-footer">
         <span><a href="http://www.puertodelrosario.com/">Puerto del Rosario</a> &copy; 2022</span>
-        <span class="ml-auto">Desarrollado por <a href="http://www.eddyclarosc.com/">EddyClaros</a></span>
+        <span class="ml-auto">Desarrollado por <a href="https://eddyclaros.github.io">EddyClaros</a></span>
     </footer>
 
     

@@ -1,8 +1,7 @@
 @extends('principal')
 @section('contenido')
 <template v-if="menu==0">
-<h1>Contenido menu 0</h1>
-
+    <principal-component></principal-component>
 </template>
  <template v-if="menu==10">
     
@@ -75,7 +74,7 @@
 @endsection
 
 @section('bodyheader') 
-<?php   
+@php   
     use App\Http\Controllers\AdmUserController;
     $user = AdmUserController::getUser();  
     //dd($user->name);
@@ -83,6 +82,6 @@
              <Body_header user="'. $user->name.'"></Body_header> 
           ';
                                                                                                                                                   
-    ?>
+    @endphp
         
     @endsection

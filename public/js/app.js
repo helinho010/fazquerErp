@@ -19701,6 +19701,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Principal.vue?vue&type=template&id=809d595a":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Principal.vue?vue&type=template&id=809d595a ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "main"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "rounded-2 mx-2 my-2 px-2 py-2",
+  style: {
+    "text-align": "center",
+    "text-color": "white",
+    "background-color": "lightseagreen"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Bienvenido "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  "class": "text-muted"
+}, "Puerto del Rosario")])], -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"section-body\">\r\n            <div class=\"row\">\r\n                <div class=\"col-lg-12\">\r\n                    <div class=\"card\">\r\n                        <div class=\"card-body\">  \r\n                            <button @click=\"menu=10\" class=\"btn px-3 py-3 my-3 m-t3\" style=\"color\">hola mundoadfawef <br>klajfie</button>                        \r\n                                <div class=\"row\">\r\n                                    <div class=\"col-md-4 col-xl-4\">\r\n                                    \r\n                                    <div class=\"card bg-c-blue order-card\">\r\n                                            <div class=\"button-block\">\r\n                                            <h5>Usuarios</h5>                                               \r\n                                                @php\r\n                                                 use App\\Models\\User;\r\n                                                $cant_usuarios = User::count();                                                \r\n                                                @endphp\r\n                                                <h2 class=\"text-right\"><i class=\"fa fa-users f-left\"></i><span>{{$cant_usuarios}}</span></h2>\r\n                                                <p class=\"m-b-0 text-right\"><a href=\"/usuarios\" class=\"text-white\">Ver m\xE1s</a></p>\r\n                                            </div>                                            \r\n                                        </div>                                    \r\n                                    </div>\r\n                                    \r\n                                    <div class=\"col-md-4 col-xl-4\">\r\n                                        <div class=\"card bg-c-green order-card\">\r\n                                            <div class=\"card-block\">\r\n                                            <h5>Roles</h5>                                               \r\n                                                @php\r\n                                                use Spatie\\Permission\\Models\\Role;\r\n                                                 $cant_roles = Role::count();                                                \r\n                                                @endphp\r\n                                                <h2 class=\"text-right\"><i class=\"fa fa-user-lock f-left\"></i><span>{{$cant_roles}}</span></h2>\r\n                                                <p class=\"m-b-0 text-right\"><a href=\"/roles\" class=\"text-white\">Ver m\xE1s</a></p>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>                                                                \r\n                                    \r\n                                    <div class=\"col-md-4 col-xl-4\">\r\n                                        <div class=\"card bg-c-pink order-card\">\r\n                                            <div class=\"card-block\">\r\n                                                <h5>Blogs</h5>                                               \r\n                                                @php\r\n                                                 use App\\Models\\Blog;\r\n                                                $cant_blogs = Blog::count();                                                \r\n                                                @endphp\r\n                                                <h2 class=\"text-right\"><i class=\"fa fa-blog f-left\"></i><span>{{$cant_blogs}}</span></h2>\r\n                                                <p class=\"m-b-0 text-right\"><a href=\"/blogs\" class=\"text-white\">Ver m\xE1s</a></p>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>                        \r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div> ")]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/administracion/SucursalComponent.vue?vue&type=template&id=f0fd97f0&scoped=true":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/administracion/SucursalComponent.vue?vue&type=template&id=f0fd97f0&scoped=true ***!
@@ -56109,6 +56145,32 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/Principal.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Principal.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Principal.vue?vue&type=template&id=809d595a */ "./resources/js/components/Principal.vue?vue&type=template&id=809d595a");
+/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+const script = {}
+
+;
+const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Principal.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/administracion/SucursalComponent.vue":
 /*!**********************************************************************!*\
   !*** ./resources/js/components/administracion/SucursalComponent.vue ***!
@@ -56260,6 +56322,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Example_vue_vue_type_template_id_63af75cf__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Example_vue_vue_type_template_id_63af75cf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Example.vue?vue&type=template&id=63af75cf */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Example.vue?vue&type=template&id=63af75cf");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Principal.vue?vue&type=template&id=809d595a":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/Principal.vue?vue&type=template&id=809d595a ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Principal.vue?vue&type=template&id=809d595a */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Principal.vue?vue&type=template&id=809d595a");
 
 
 /***/ }),
@@ -56661,7 +56739,7 @@ window._pl = __webpack_require__(/*! ./func_10251 */ "./resources/js/func_10251.
       menu: 0
     };
   }
-}).component('Body_header', (__webpack_require__(/*! ./components/plugin_vue/Body_header.vue */ "./resources/js/components/plugin_vue/Body_header.vue")["default"])).component('example', (__webpack_require__(/*! ./components/Example.vue */ "./resources/js/components/Example.vue")["default"])).component('another-example', (__webpack_require__(/*! ./components/AnotherExample.vue */ "./resources/js/components/AnotherExample.vue")["default"])).component('sucursal-component', (__webpack_require__(/*! ./components/administracion/SucursalComponent.vue */ "./resources/js/components/administracion/SucursalComponent.vue")["default"])).mount('#app');
+}).component('principal-component', (__webpack_require__(/*! ./components/Principal.vue */ "./resources/js/components/Principal.vue")["default"])).component('Body_header', (__webpack_require__(/*! ./components/plugin_vue/Body_header.vue */ "./resources/js/components/plugin_vue/Body_header.vue")["default"])).component('example', (__webpack_require__(/*! ./components/Example.vue */ "./resources/js/components/Example.vue")["default"])).component('another-example', (__webpack_require__(/*! ./components/AnotherExample.vue */ "./resources/js/components/AnotherExample.vue")["default"])).component('sucursal-component', (__webpack_require__(/*! ./components/administracion/SucursalComponent.vue */ "./resources/js/components/administracion/SucursalComponent.vue")["default"])).mount('#app');
 })();
 
 /******/ })()
