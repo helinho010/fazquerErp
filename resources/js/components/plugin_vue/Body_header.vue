@@ -30,7 +30,7 @@
                    <strong>Notificaciones</strong>
                </div>
                <a class="dropdown-item" href="#">
-                   <i class="fa fa-envelope-o"></i> Prestamos
+                   <i class="fa fa-envelope-o"></i> Ventas Pendientes
                    <span class="badge badge-success">3</span>
                </a>
                <a class="dropdown-item" href="#">
@@ -46,7 +46,7 @@
                  <span class="d-md-down-none"
                    style="align-content: center; width: inherit;display: grid;    padding: 0 10px 0 10px;">
                    <b>{{usuario}}</b> </span>
-               <img class="img-avatar" src="img/avatars/3.jpg" style="  margin: auto !important;"
+               <img class="img-avatar" src="img/avatars/persona.png" style="  margin: auto !important;"
                    alt="admin@bootstrapmaster.com">
              
            </a>
@@ -63,6 +63,7 @@
 </template>
 
 <script> 
+import Swal from 'sweetalert2';
     export default {
          props : ['user'],
          
@@ -74,15 +75,42 @@
         methods : {  
 
             logout(event){
-            event.preventDefault(); 
-            $(".onloaditem").fadeIn( "fast", function() { 
-                    axios.post('/logout').then(function() {location.reload(); });
-              });  
+                //console.log('entralogout');
+                const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Desea Cerrar Sesion',
+                
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Cerrar',
+                cancelButtonText: 'No, Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href='/logout';
+                 } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    /* swalWithBootstrapButtons.fire(
+                    'Cancelado!',
+                    'El Registro no fue desactivado',
+                    'error'
+                    ) */
+                }
+                })
             }
             
         }  ,
         mounted(){
-            console.log("cargado");
+            //console.log("cargado");
         }
        
     }
