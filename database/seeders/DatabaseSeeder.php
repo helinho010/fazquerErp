@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmRoleSeeder::class);
         $this->call(AdmRoleAccionSeeder::class);
         $this->call(UsersSeeder::class);
-        $this->call(AdmuserRoleSucursalSeeder::class);
+        $this->call(AdmUserRoleSucursalSeeder::class);
 
         
     }
