@@ -23,7 +23,7 @@
                     <a href="{{ route('login.index') }}" class="font-semibold hover:bg-indigo-700 py-3 px-4 rounded-md">Login</a>
                 </li>
                 <li>
-                    <a href="{{ route('registro.index') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-indigo-700">Registro</a>
+                    {{-- <a href="{{ route('registro.index') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-indigo-700">Registro</a> --}}
                 </li>
             @endif
             

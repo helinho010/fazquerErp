@@ -31,10 +31,10 @@ Route::get('/logout',[AdmSessionController::class,'destroy'])
     ->name('login.destroy');
 
 Route::get('/registro',[AdmRegistroController::class,'create'])
-    ->middleware('guest')
+    ->middleware('auth')
     ->name('registro.index');
 Route::post('/registro',[AdmRegistroController::class,'store'])
-    ->middleware('guest')
+    ->middleware('auth')
     ->name('registro.store');
 
 
