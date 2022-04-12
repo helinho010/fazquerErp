@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRrhCargosTable extends Migration
+class CreateAdmRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,14 @@ class CreateRrhCargosTable extends Migration
      */
     public function up()
     {
-        Schema::create('rrh__cargos', function (Blueprint $table) {
+        Schema::create('adm__roles', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->smallInteger('idunidadorganizacional')->unsigned();
-            $table->string('nombre',50);
-            $table->string('descripcion',255)->nullable();
-            $table->text('actividades especificas')->nullable()->comment('detalla los objetivos especificos del cargo');
+            $table->string('nombre');
+            $table->string('descripcion')->nullable();
             $table->boolean('activo')->default(1);
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->timestamps();
-            $table->foreign('idunidadorganizacional')->references('id')->on('rrh__unidad_organizacionals');
-
-            
         });
     }
 
@@ -36,6 +31,6 @@ class CreateRrhCargosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rrh__cargos');
+        Schema::dropIfExists('adm__roles');
     }
 }

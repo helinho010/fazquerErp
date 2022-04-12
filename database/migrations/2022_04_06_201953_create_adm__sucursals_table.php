@@ -14,7 +14,8 @@ class CreateAdmSucursalsTable extends Migration
     public function up()
     {
         Schema::create('adm__sucursals', function (Blueprint $table) {
-            $table->id();
+            $table->smallIncrements('id');
+            $table->smallInteger('idrubro')->unsigned();
             $table->string('tipo',100);
             $table->string('cod',5);
             $table->smallInteger('correlativo')->unsigned();
@@ -24,6 +25,8 @@ class CreateAdmSucursalsTable extends Migration
             $table->string('direccion',250);
             $table->string('ciudad',100);
             $table->boolean('activo')->default(1);
+            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
+            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->timestamps();
         });
     }

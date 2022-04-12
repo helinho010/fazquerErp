@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdmModulosTable extends Migration
+class CreateRrhUnidadOrganizacionalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateAdmModulosTable extends Migration
      */
     public function up()
     {
-        Schema::create('adm__modulos', function (Blueprint $table) {
+        Schema::create('rrh__unidad_organizacionals', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->string('nombre',50);
+            $table->string('nombre');
+            $table->string('descripcion')->nullable();
             $table->boolean('activo')->default(1);
-            $table->boolean('contabilizable')->default(0);
-            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
-            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateAdmModulosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adm__modulos');
+        Schema::dropIfExists('rrh__unidad_organizacionals');
     }
 }

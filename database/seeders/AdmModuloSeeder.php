@@ -15,12 +15,11 @@ class AdmModuloSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::where('name', 'Admin')->first();        
-        DB::table('par__modulos')->insert(['nombre'=>'administración','id_usuario_registra'=>$user->id]);
-        DB::table('par__modulos')->insert(['nombre'=>'recursos humanos','id_usuario_registra'=>$user->id]);
-        DB::table('par__modulos')->insert(['nombre'=>'almacenes','id_usuario_registra'=>$user->id]);
-        DB::table('par__modulos')->insert(['nombre'=>'servicios','contabilizable'=>$user->id,'id_usuario_registra'=>$user->id]);
-        DB::table('par__modulos')->insert(['nombre'=>'configuraciones','id_usuario_registra'=>$user->id]);
-        DB::table('par__modulos')->insert(['nombre'=>'productos','id_usuario_registra'=>$user->id]);
+        DB::table('adm__modulos')->insert(['nombre'=>'administración']);
+        DB::table('adm__modulos')->insert(['nombre'=>'recursos humanos']);
+        DB::table('adm__modulos')->insert(['nombre'=>'almacenes']);
+        DB::table('adm__modulos')->insert(['nombre'=>'servicios']);
+        DB::table('adm__modulos')->insert(['nombre'=>'configuraciones']);
+        DB::table('adm__modulos')->insert(['nombre'=>'productos']);
     }
 }

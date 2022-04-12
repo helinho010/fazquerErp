@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdmModulosTable extends Migration
+class CreateAdmUserRoleSucursalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,18 @@ class CreateAdmModulosTable extends Migration
      */
     public function up()
     {
-        Schema::create('adm__modulos', function (Blueprint $table) {
-            $table->smallIncrements('id');
-            $table->string('nombre',50);
-            $table->boolean('activo')->default(1);
-            $table->boolean('contabilizable')->default(0);
+        Schema::create('adm__user_role_sucursals', function (Blueprint $table) {
+            $table->id();
+            $table->smallInteger('idrole')->unsigned();
+            $table->smallInteger('iduser')->unsigned();
+            $table->smallInteger('idsucursal')->unsigned();
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->timestamps();
+            $table->foreign('idrole')->references('id')->on('adm__roles');
+            $table->foreign('iduser')->references('id')->on('users');
+            $table->foreign('idsucursal')->references('id')->on('adm__sucursals');
+            
         });
     }
 
@@ -31,6 +35,6 @@ class CreateAdmModulosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adm__modulos');
+        Schema::dropIfExists('adm__user_role_sucursals');
     }
 }

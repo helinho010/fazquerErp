@@ -14,33 +14,38 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->truncateTables([
-            /* 'prod__dispensers',
-            'prod__forma_farmaceuticas',
-            'prod__lineas', */
+            'adm__rubros',
             'adm__sucursals',
-            /* 'prod__categorias',
-            'prod__tipo_descuentos',
+            'rrh__unidad_organizacionals',
             'rrh__cargos',
             'rrh__formacions',
             'rrh__profesions',
             'rrh__empleados',
+            'adm__modulos',
+            'adm__ventana_modulos',
+            'adm__accion_ventanas',
+            'adm__roles',
+            'adm__role_accions',
             'users',
-            'par__modulos',
-            'par__ventana_modulos', */
+            'adm__user_role_sucursals',
         ]);
-        /* $this->call(DispenserSeeder::class);
-        $this->call(FormaFarmaceuticaSeeder::class);
-        $this->call(LineaSeeder::class); */
+        
+        $this->call(AdmRubroSeeder::class);
         $this->call(AdmSucursalSeeder::class);
-        /* $this->call(ProdCategoriasSeeder::class);
-        $this->call(TipoDescuentoSeeder::class);
+        $this->call(RrhUnidadOrganizacionalSeeder::class);
         $this->call(RrhCargoSeeder::class);
         $this->call(RrhFormacionSeeder::class);
         $this->call(RrhProfesionSeeder::class);
         $this->call(RrhEmpleadoSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(ParModuloSeeder::class);
-        $this->call(ParVentanaModuloSeeder::class); */
+        $this->call(AdmModuloSeeder::class);
+        $this->call(AdmVentanaModuloSeeder::class);
+        $this->call(AdmAccionVentanaSeeder::class);
+        $this->call(AdmRoleSeeder::class);
+        $this->call(AdmRoleAccionSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(AdmuserRoleSucursalSeeder::class);
+
+        
     }
     protected function truncateTables(array $tables)
     {
