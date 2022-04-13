@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rrh_UnidadOrganizacional;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RrhUnidadOrganizacionalController extends Controller
 {
@@ -14,7 +15,19 @@ class RrhUnidadOrganizacionalController extends Controller
      */
     public function index()
     {
-        //
+        $unidadorg= Rrh_UnidadOrganizacional::orderby('nombre','asc')->paginate(50);
+        //$unidadorg = Rrh_UnidadOrganizacional::all();
+        return ['pagination'=>[
+            'total'         =>    $unidadorg->total(),
+            'current_page'  =>    $unidadorg->currentPage(),
+            'per_page'      =>    $unidadorg->perPage(),
+            'last_page'     =>    $unidadorg->lastPage(),
+            'from'          =>    $unidadorg->firstItem(),
+            'to'            =>    $unidadorg->lastItem(),
+
+            ] ,
+                'unidadorg'=>$unidadorg
+                ];
     }
 
     /**
@@ -35,7 +48,19 @@ class RrhUnidadOrganizacionalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),['nombre'=>'unique:rrh__unidad_organizacionals']);
+
+        //dd($validator->errors());
+        
+        if($validator->fails())
+        {
+            return 'error';
+        }
+        
+        $unidadorg = new Rrh_UnidadOrganizacional();
+
+        $unidadorg->nombre=$request->nombre;
+        $unidadorg->save();
     }
 
     /**
@@ -69,7 +94,10 @@ class RrhUnidadOrganizacionalController extends Controller
      */
     public function update(Request $request, Rrh_UnidadOrganizacional $rrh_UnidadOrganizacional)
     {
-        //
+        $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
+ 
+        $unidadorg->nombre=$request->nombre;
+        $unidadorg->save();
     }
 
     /**
@@ -81,5 +109,26 @@ class RrhUnidadOrganizacionalController extends Controller
     public function destroy(Rrh_UnidadOrganizacional $rrh_UnidadOrganizacional)
     {
         //
+    }
+    public function selectProfesion(Request $request)
+    {
+        $unidadorgs=Rrh_UnidadOrganizacional::select('id','nombre')
+                                ->where('activo',1)
+                                ->orderby('nombre','asc')
+                                ->get();
+        return $unidadorgs;
+    }
+    public function desactivar(Request $request)
+    {
+        $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
+        $unidadorg->activo=0;
+        $unidadorg->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
+        $unidadorg->activo=1;
+        $unidadorg->save();
     }
 }

@@ -21,6 +21,35 @@
             </li>
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>
+                    <font style="color: turquoise"> Recursos Humanos</font> </a>
+                <ul class="nav-dropdown-items">
+                    <li @click="menu=205" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Empleados</a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li @click="menu=201" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Nivel de Formacion</a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li @click="menu=202" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Profesiones</a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li @click="menu=203" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Unidad Org.</a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li @click="menu=204" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Cargos</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>
                     <font style="color: turquoise">Almacenes</font>
                 </a>
                 <ul class="nav-dropdown-items">

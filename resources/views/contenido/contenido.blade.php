@@ -13,6 +13,25 @@
     <rubros-component></rubros-component>
 
 </template>
+<template v-if="menu==205">
+    <rrhempleados-component></rrhempleados-component>
+</template>
+
+<template v-if="menu==201">
+    <rrhnivel-component></rrhnivel-component>
+</template>
+
+<template v-if="menu==202">
+    <rrhprofesion-component></rrhprofesion-component>
+</template>
+
+<template v-if="menu==204">
+    <rrhcargos-component></rrhcargos-component>
+</template>
+
+<template v-if="menu==203">
+    <rrhuorg-component></rrhuorg-component>
+</template>
 
 {{--
 <template v-if="menu==1">

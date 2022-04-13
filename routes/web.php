@@ -5,6 +5,11 @@ use App\Http\Controllers\AdmRegistroController;
 use App\Http\Controllers\AdmSessionController;
 use App\Http\Controllers\AdmSucursalController;
 use App\Http\Controllers\AdmRubroController;
+use App\Http\Controllers\RrhCargoController;
+use App\Http\Controllers\RrhEmpleadoController;
+use App\Http\Controllers\RrhFormacionController;
+use App\Http\Controllers\RrhProfesionController;
+use App\Http\Controllers\RrhUnidadOrganizacionalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +51,8 @@ Route::post('/registro',[AdmRegistroController::class,'store'])
 
 Route::group(['middleware'=>'auth'],function(){
 
+    //adm
+    
     Route::get('/rubro',[AdmRubroController::class,'index']);
     Route::post('/rubro/registrar', [AdmRubroController::class,'store']);
     Route::put('/rubro/actualizar', [AdmRubroController::class,'update']);
@@ -59,6 +66,42 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/sucursal/desactivar', [AdmSucursalController::class,'desactivar']);
     Route::put('/sucursal/activar', [AdmSucursalController::class,'activar']);
     Route::get('/sucursal/selectsucursal',[AdmSucursalController::class,'selectSucursal']);
+
+    //rrhh
+    Route::get('/empleado',[RrhEmpleadoController::class,'index']);
+    Route::post('/empleado/registrar', [RrhEmpleadoController::class,'store']);
+    Route::put('/empleado/actualizar', [RrhEmpleadoController::class,'update']);
+    Route::put('/empleado/desactivar', [RrhEmpleadoController::class,'desactivar']);
+    Route::put('/empleado/activar', [RrhEmpleadoController::class,'activar']);
+    Route::get('/empleado/selectempleado',[RrhEmpleadoController::class,'selectEmpleado']);
+
+    Route::get('/formacion',[RrhFormacionController::class,'index']);
+    Route::post('/formacion/registrar', [RrhFormacionController::class,'store']);
+    Route::put('/formacion/actualizar', [RrhFormacionController::class,'update']);
+    Route::put('/formacion/desactivar', [RrhFormacionController::class,'desactivar']);
+    Route::put('/formacion/activar', [RrhFormacionController::class,'activar']);
+    Route::get('/formacion/selectformacion',[RrhFormacionController::class,'selectFormacion']);
+
+    Route::get('/profesion',[RrhProfesionController::class,'index']);
+    Route::post('/profesion/registrar', [RrhProfesionController::class,'store']);
+    Route::put('/profesion/actualizar', [RrhProfesionController::class,'update']);
+    Route::put('/profesion/desactivar', [RrhProfesionController::class,'desactivar']);
+    Route::put('/profesion/activar', [RrhProfesionController::class,'activar']);
+    Route::get('/profesion/selectprofesion',[RrhProfesionController::class,'selectProfesion']);
+
+    Route::get('/cargo',[RrhCargoController::class,'index']);
+    Route::post('/cargo/registrar', [RrhCargoController::class,'store']);
+    Route::put('/cargo/actualizar', [RrhCargoController::class,'update']);
+    Route::put('/cargo/desactivar', [RrhCargoController::class,'desactivar']);
+    Route::put('/cargo/activar', [RrhCargoController::class,'activar']);
+    Route::get('/cargo/selectcargo',[RrhCargoController::class,'selectCargo']);
+
+    Route::get('/unidadorg',[RrhUnidadOrganizacionalController::class,'index']);
+    Route::post('/unidadorg/registrar', [RrhUnidadOrganizacionalController::class,'store']);
+    Route::put('/unidadorg/actualizar', [RrhUnidadOrganizacionalController::class,'update']);
+    Route::put('/unidadorg/desactivar', [RrhUnidadOrganizacionalController::class,'desactivar']);
+    Route::put('/unidadorg/activar', [RrhUnidadOrganizacionalController::class,'activar']);
+    Route::get('/unidadorg/selectuo',[RrhUnidadOrganizacionalController::class,'selectUnidadOrg']);
 
 });
     

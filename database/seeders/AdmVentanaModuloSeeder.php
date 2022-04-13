@@ -35,7 +35,7 @@ class AdmVentanaModuloSeeder extends Seeder
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'201','idmodulo'=>$rh->id,'nombre'=>'Nivel de Formacion','template'=>'rrhnivel-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'202','idmodulo'=>$rh->id,'nombre'=>'Profesiones','template'=>'rrhprofesion-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'203','idmodulo'=>$rh->id,'nombre'=>'Unidad Organizacional','template'=>'rrhuorg-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'204','idmodulo'=>$rh->id,'nombre'=>'Cargos','template'=>'rrhconf-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'204','idmodulo'=>$rh->id,'nombre'=>'Cargos','template'=>'rrhcargos-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'205','idmodulo'=>$rh->id,'nombre'=>'Empleados','template'=>'rrhempleados-component']);
 
         //almacenes 300
