@@ -11,6 +11,9 @@
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>
                     <font style="color: turquoise"> Administracion</font> </a>
                 <ul class="nav-dropdown-items">
+                    <li @click="menu=105" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Rubros</a>
+                    </li>
                     <li @click="menu=10" class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-bag"></i> Sucursales</a>
                     </li>

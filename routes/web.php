@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmRegistroController;
 use App\Http\Controllers\AdmSessionController;
 use App\Http\Controllers\AdmSucursalController;
+use App\Http\Controllers\AdmRubroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +44,26 @@ Route::post('/registro',[AdmRegistroController::class,'store'])
     return view('contenido/contenido');
 }); */
 
+Route::group(['middleware'=>'auth'],function(){
 
-    Route::get('/sucursal',[AdmSucursalController::class,'index'])->middleware('auth');
-    Route::post('/sucursal/registrar', [AdmSucursalController::class,'store'])->middleware('auth');
-    Route::put('/sucursal/actualizar', [AdmSucursalController::class,'update'])->middleware('auth');
-    Route::put('/sucursal/desactivar', [AdmSucursalController::class,'desactivar'])->middleware('auth');
-    Route::put('/sucursal/activar', [AdmSucursalController::class,'activar'])->middleware('auth');
-    Route::get('/sucursal/selectsucursal',[AdmSucursalController::class,'selectSucursal'])->middleware('auth');
+    Route::get('/rubro',[AdmRubroController::class,'index']);
+    Route::post('/rubro/registrar', [AdmRubroController::class,'store']);
+    Route::put('/rubro/actualizar', [AdmRubroController::class,'update']);
+    Route::put('/rubro/desactivar', [AdmRubroController::class,'desactivar']);
+    Route::put('/rubro/activar', [AdmRubroController::class,'activar']);
+    Route::get('/rubro/selectrubro',[AdmRubroController::class,'selectRubro']);
+
+
+
+    Route::get('/sucursal',[AdmSucursalController::class,'index']);
+    Route::post('/sucursal/registrar', [AdmSucursalController::class,'store']);
+    Route::put('/sucursal/actualizar', [AdmSucursalController::class,'update']);
+    Route::put('/sucursal/desactivar', [AdmSucursalController::class,'desactivar']);
+    Route::put('/sucursal/activar', [AdmSucursalController::class,'activar']);
+    Route::get('/sucursal/selectsucursal',[AdmSucursalController::class,'selectSucursal']);
+
+});
+    
 
 
 

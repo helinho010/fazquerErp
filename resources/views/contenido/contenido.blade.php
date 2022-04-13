@@ -7,7 +7,14 @@
     
     <sucursal-component></sucursal-component>
 
-</template>{{--
+</template>
+<template v-if="menu==105">
+    
+    <rubros-component></rubros-component>
+
+</template>
+
+{{--
 <template v-if="menu==1">
     <area-component></area-component>
 
