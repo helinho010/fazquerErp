@@ -24,21 +24,52 @@ class AdmSucursalController extends Controller
                 $sqls='';
                 foreach($buscararray as $valor){
                     if(empty($sqls)){
-                        $sqls="(razon_social like '%".$valor."%' or nit like '%".$valor."%' or direccion like '%".$valor."%')" ;
+                        $sqls="(razon_social like '%".$valor."%' or nit like '%".$valor."%' or direccion like '%".$valor."%' or adm__rubros.nombre like '%".$valor."%')" ;
                     }
                     else
                     {
-                        $sqls.=" and (razon_social like '%".$valor."%' or nit like '%".$valor."%' or direccion like '%".$valor."%')" ;
+                        $sqls.=" and (razon_social like '%".$valor."%' or nit like '%".$valor."%' or direccion like '%".$valor."%' or adm__rubros.nombre like '%".$valor."%')" ;
                     }
     
                 }
-                $sucursales= Adm_Sucursal::orderby('razon_social','asc')->whereraw($sqls)->paginate(20);
+                $sucursales= Adm_Sucursal::join('adm__rubros','adm__rubros.id','adm__sucursals.idrubro')
+                                            ->select('adm__sucursals.id',
+                                                    'adm__rubros.id as idrubro',
+                                                    'adm__rubros.nombre as nomrubro',
+                                                    'adm__sucursals.tipo',
+                                                    'adm__sucursals.cod',
+                                                    'correlativo',
+                                                    'razon_social',
+                                                    'telefonos',
+                                                    'nit',
+                                                    'direccion',
+                                                    'ciudad',
+                                                    'adm__sucursals.activo')
+                                            ->orderby('razon_social','asc')
+                                            ->whereraw($sqls)
+                                            
+                                            ->paginate(50);
             }
         }
         
         else
         {
-            $sucursales= Adm_Sucursal::orderby('razon_social','asc')->paginate(20);
+            $sucursales= Adm_Sucursal::join('adm__rubros','adm__rubros.id','adm__sucursals.idrubro')
+                                    ->select('adm__sucursals.id',
+                                            'adm__rubros.id as idrubro',
+                                            'adm__rubros.nombre as nomrubro',
+                                            'adm__sucursals.tipo',
+                                            'adm__sucursals.cod',
+                                            'correlativo',
+                                            'razon_social',
+                                            'telefonos',
+                                            'nit',
+                                            'direccion',
+                                            'ciudad',
+                                            'adm__sucursals.activo')
+                                    
+                                    ->orderby('razon_social','asc')
+                                    ->paginate(50);
         }
         
         //$sucursales = Adm_Sucursal::all();
@@ -97,6 +128,7 @@ class AdmSucursalController extends Controller
         
         
         $sucursal = new Adm_Sucursal();
+        $sucursal->idrubro=$request->idrubro;
         $sucursal->tipo=$request->tipo;
         $sucursal->cod=$codigo;
         $sucursal->correlativo=$correlativo;
@@ -105,6 +137,7 @@ class AdmSucursalController extends Controller
         $sucursal->nit=$request->nit;
         $sucursal->direccion=$request->direccion;
         $sucursal->ciudad=$request->ciudad;
+        $sucursal->id_usuario_registra=auth()->user()->id;
         $sucursal->save();
     }
 
@@ -141,12 +174,14 @@ class AdmSucursalController extends Controller
     {
         $sucursal = Adm_Sucursal::findOrFail($request->id);
 
+        $sucursal->idrubro=$request->idrubro;
         $sucursal->tipo=$request->tipo;
         $sucursal->razon_social=$request->razon_social;
         $sucursal->telefonos=$request->telefonos;
         $sucursal->nit=$request->nit;
         $sucursal->direccion=$request->direccion;
         $sucursal->ciudad=$request->ciudad;
+        $sucursal->id_usuario_modifica=auth()->user()->id;
         $sucursal->save();
     }
 
@@ -164,6 +199,7 @@ class AdmSucursalController extends Controller
     {
         $sucursal = Adm_Sucursal::findOrFail($request->id);
         $sucursal->activo=0;
+        $sucursal->id_usuario_modifica=auth()->user()->id;
         $sucursal->save();
     }
 
@@ -171,6 +207,7 @@ class AdmSucursalController extends Controller
     {
         $sucursal = Adm_Sucursal::findOrFail($request->id);
         $sucursal->activo=1;
+        $sucursal->id_usuario_modifica=auth()->user()->id;
         $sucursal->save();
     }
     public function selectSucursal()

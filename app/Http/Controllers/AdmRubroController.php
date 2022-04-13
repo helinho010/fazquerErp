@@ -151,7 +151,13 @@ class AdmRubroController extends Controller
     }
     public function selectRubro(Request $request)
     {
-        $buscararray = array(); 
+        $rubros=Adm_Rubro::select('id','nombre','areamedica')
+                                ->where('activo',1)
+                                ->orderBy('nombre', 'asc')
+                                ->get();
+        return $rubros;
+        
+        /* $buscararray = array(); 
         if(!empty($request->buscar)) $buscararray = explode(" ",$request->buscar); 
         $raw=DB::raw(DB::raw('concat(codigo," ",nombre) as cod'));
         if (sizeof($buscararray)>0) { 
@@ -186,7 +192,7 @@ class AdmRubroController extends Controller
             }
               
         }
-        return ['rubros' => $rubros];
+        return ['rubros' => $rubros]; */
         
 
     }

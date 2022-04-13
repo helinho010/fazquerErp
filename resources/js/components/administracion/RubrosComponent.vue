@@ -29,6 +29,7 @@
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
+                                <th>Descripcion</th>
                                 <th>Pertenece al Area Medica</th>
                                 <th>Estado</th>
                             </tr>
@@ -48,7 +49,8 @@
                                 </td>
                                     <td v-text="rubro.nombre"></td>
                                     <td v-text="rubro.descripcion"></td>
-                                    <td v-text="rubro.areamedica"></td>
+                                    <td v-if="rubro.areamedica">Si</td>
+                                    <td v-else>No</td>
                                 <td>
                                     <div v-if="rubro.activo==1">
                                         <span class="badge badge-success">Activo</span>

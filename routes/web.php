@@ -53,8 +53,6 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/rubro/activar', [AdmRubroController::class,'activar']);
     Route::get('/rubro/selectrubro',[AdmRubroController::class,'selectRubro']);
 
-
-
     Route::get('/sucursal',[AdmSucursalController::class,'index']);
     Route::post('/sucursal/registrar', [AdmSucursalController::class,'store']);
     Route::put('/sucursal/actualizar', [AdmSucursalController::class,'update']);

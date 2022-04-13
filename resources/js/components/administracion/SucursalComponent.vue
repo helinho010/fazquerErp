@@ -30,6 +30,7 @@
                                 <th>Opciones</th>
                                 <th>Codigo</th>
                                 <th>Tipo</th>
+                                <th>Rubro</th>
                                 <th>Razon Social</th>
                                 <th>Telefonos</th>
                                 <th>Nit</th>
@@ -53,6 +54,7 @@
                                 </td>
                                 <td v-text="sucursal.cod"></td>
                                 <td v-text="sucursal.tipo"></td>
+                                <td v-text="sucursal.nomrubro"></td>
                                 <td v-text="sucursal.razon_social"></td>
                                 <td v-text="sucursal.telefonos"></td>
                                 <td v-text="sucursal.nit"></td>
@@ -101,12 +103,19 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Tipo <span  v-if="tipo==0" class="error">(*)</span></label>
-                                <div class="col-md-9">
+                                <label class="col-md-2 form-control-label" for="text-input">Tipo <span  v-if="tipo==0" class="error">(*)</span></label>
+                                <div class="col-md-4">
                                     <select name="" id="" v-model="tipo" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-if="matriz!=1 || tipo=='Casa_Matriz'" value="Casa_Matriz">Casa Matriz</option>
                                         <option value="Sucursal">Sucursal</option>
+                                    </select>
+                                </div>
+                                <label class="col-md-2 form-control-label" for="text-input">Rubro <span  v-if="idrubro==0" class="error">(*)</span></label>
+                                <div class="col-md-4">
+                                    <select name="" id="" v-model="idrubro" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="rubros in arrayRubros" :key="rubros.id" :value="rubros.id" v-text="rubros.nombre" ></option>
                                     </select>
                                 </div>
                             </div>
@@ -206,6 +215,8 @@ import Swal from 'sweetalert2'
                                 {'id':10,'valor':'Beni'},
                             ],
                 matriz:0,
+                arrayRubros:[],
+                idrubro:0
                 
             }
 
@@ -283,6 +294,7 @@ import Swal from 'sweetalert2'
                 
 
                 axios.post('/sucursal/registrar',{
+                    'idrubro':me.idrubro,
                     'tipo':me.tipo,
                     'razon_social':me.razonsocial,
                     'telefonos':me.telefono,
@@ -400,6 +412,7 @@ import Swal from 'sweetalert2'
                // const Swal = require('sweetalert2')
                 let me =this;
                 axios.put('/sucursal/actualizar',{
+                    'idrubro':me.idrubro,
                     'id':me.idsucursal,
                     'nombre':me.nombre,
                     'razon_social':me.razonsocial,
@@ -440,6 +453,7 @@ import Swal from 'sweetalert2'
                         me.nit='';
                         me.direccion='';
                         me.ciudad=0;
+                        me.idrubro=0;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -456,6 +470,7 @@ import Swal from 'sweetalert2'
                         me.nit=data.nit;
                         me.direccion=data.direccion;
                         me.ciudad=data.ciudad;
+                        me.idrubro=data.idrubro;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -474,6 +489,7 @@ import Swal from 'sweetalert2'
                 me.direccion='';
                 me.ciudad=0;
                 me.tipoAccion=1;
+                me.idrubro=0;
                 
                 
             },
@@ -482,10 +498,22 @@ import Swal from 'sweetalert2'
                     event.target.select()
                 }, 0)
             },  
+            selectRubros(){
+                let me=this;
+                var url='/rubro/selectrubro';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayRubros=respuesta;
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
 
 
         },
         mounted() {
+            this.selectRubros();
             this.listarSucursales(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
