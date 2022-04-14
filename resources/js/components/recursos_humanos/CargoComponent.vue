@@ -28,26 +28,33 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
+                                <th>Unidad Org.</th>                               
                                 <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Actividades Especificas</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="nivelcargo in arrayCargo" :key="nivelcargo.id">
+                            <tr v-for="cargo in arrayCargo" :key="cargo.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',nivelcargo)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',cargo)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="nivelcargo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarCargo(nivelcargo.id)" >
+                                    <button v-if="cargo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarCargo(cargo.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarCargo(nivelcargo.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarCargo(cargo.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="nivelcargo.nombre"></td>
+                                <td v-text="cargo.nomunidadorg"></td>
+                                <td v-text="cargo.nombre"></td>
+                                <td v-text="cargo.descripcion"></td>
+                                <td v-text="cargo.act_especificas"></td>
+
                                 <td>
-                                    <div v-if="nivelcargo.activo==1">
+                                    <div v-if="cargo.activo==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
@@ -89,10 +96,33 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Cargo: <span  v-if="!sinombre" class="error">(*)</span></label>
+                                <strong class="col-md-3 form-control-label" for="text-input">Unidad Organizacional: <span  v-if="unidadorg==0" class="error">(*)</span></strong>
+                                <div class="col-md-4">
+                                    <select name="" id="" v-model="unidadorg" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="uorg in arrayUorg" :key="uorg.id" :value="uorg.id" v-text="uorg.nombre" ></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <strong class="col-md-3 form-control-label" for="text-input">Nombre: <span  v-if="!sinombre" class="error">(*)</span></strong>
                                 <div class="col-md-9">
-                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Nivel deFormacion" v-model="nombre" v-on:focus="selectAll" >
-                                    <span  v-if="!sinombre" class="error">Debe Ingresar la Cargo</span>
+                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Cargo" v-model="nombre" v-on:focus="selectAll" >
+                                    <span  v-if="!sinombre" class="error">Debe Ingresar el Cargo</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Descripcion: </label>
+                                <div class="col-md-9">
+                                    <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripcion del Cargo" v-model="descripcion" v-on:focus="selectAll" >
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Actividades Especificas: <span  v-if="especificas==''" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="especificas" name="especificas" class="form-control" placeholder="Actividades Especificas del Cargo" v-model="especificas" v-on:focus="selectAll" >
+                                    <span  v-if="!sinombre" class="error">Debe Ingresar las Actividades Especificas</span>
                                 </div>
                             </div>
                         </form>
@@ -133,8 +163,12 @@ import Swal from 'sweetalert2'
                 arrayCargo:[],
                 tituloModal:'',
                 tipoAccion:1,
-                idnivelcargo:'',
+                idcargo:'',
                 buscar:'',
+                unidadorg:0,
+                arrayUorg:[],
+                descripcion:'',
+                especificas:'',
                 
                 
             }
@@ -182,6 +216,17 @@ import Swal from 'sweetalert2'
 
         },
         methods :{
+            selectUnidadOrg(){
+                let me=this;
+                var url='/unidadorg/selectuo';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayUorg=respuesta;
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
             listarCargo(page){
                 let me=this;
                 var url='/cargo?page='+page+'&buscar='+me.buscar;
@@ -206,6 +251,9 @@ import Swal from 'sweetalert2'
 
                 axios.post('/cargo/registrar',{
                     'nombre':me.nombre,
+                    'idunidadorganizacional':me.unidadorg,
+                    'descripcion':me.descripcion,
+                    'act_especificas':me.especificas
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarCargo();
@@ -214,7 +262,7 @@ import Swal from 'sweetalert2'
                 });
 
             },
-            eliminarCargo(idnivelcargo){
+            eliminarCargo(idcargo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -236,7 +284,7 @@ import Swal from 'sweetalert2'
                 }).then((result) => {
                 if (result.isConfirmed) {
                      axios.put('/cargo/desactivar',{
-                        'id': idnivelcargo
+                        'id': idcargo
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -263,7 +311,7 @@ import Swal from 'sweetalert2'
                 }
                 })
             },
-            activarCargo(idnivelcargo){
+            activarCargo(idcargo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -285,7 +333,7 @@ import Swal from 'sweetalert2'
                 }).then((result) => {
                 if (result.isConfirmed) {
                      axios.put('/cargo/activar',{
-                        'id': idnivelcargo
+                        'id': idcargo
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -316,8 +364,11 @@ import Swal from 'sweetalert2'
                // const Swal = require('sweetalert2')
                 let me =this;
                 axios.put('/cargo/actualizar',{
-                    'id':me.idnivelcargo,
+                    'id':me.idcargo,
                     'nombre':me.nombre,
+                    'idunidadorganizacional':me.unidadorg,
+                    'descripcion':me.descripcion,
+                    'act_especificas':me.especificas
                     
                 }).then(function (response) {
                     if(response.data.length){
@@ -343,16 +394,22 @@ import Swal from 'sweetalert2'
                         me.tituloModal='Registar Cargo'
                         me.tipoAccion=1;
                         me.nombre='';
+                        me.unidadorg=0;
+                        me.descripcion='';
+                        me.especificas='';
                         me.classModal.openModal('registrar');
                         break;
                     }
                     
                     case 'actualizar':
                     {
-                        me.idnivelcargo=data.id;
+                        me.idcargo=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Cargo'
-                        me.nombre=data.nombre;
+                        me.nombre =data.nombre
+                        me.unidadorg =data.idunidadorganizacional
+                        me.descripcion =data.descripcion
+                        me.especificas =data.act_especificas
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -364,7 +421,11 @@ import Swal from 'sweetalert2'
                 let me = this;
                 me.classModal.closeModal(accion);
                 me.nombre='';
-                me.demora=7;
+                me.nombre='';
+                me.unidadorg=0;
+                me.descripcion='';
+                me.especificas='';
+               
                 
             },
             selectAll: function (event) {
@@ -374,6 +435,7 @@ import Swal from 'sweetalert2'
             },  
         },
         mounted() {
+            this.selectUnidadOrg();
             this.listarCargo(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');

@@ -60,6 +60,8 @@ class RrhUnidadOrganizacionalController extends Controller
         $unidadorg = new Rrh_UnidadOrganizacional();
 
         $unidadorg->nombre=$request->nombre;
+        $unidadorg->descripcion=$request->descripcion;
+        $unidadorg->id_usuario_registra=auth()->user()->id;
         $unidadorg->save();
     }
 
@@ -97,6 +99,8 @@ class RrhUnidadOrganizacionalController extends Controller
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
  
         $unidadorg->nombre=$request->nombre;
+        $unidadorg->descripcion=$request->descripcion;
+        $unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 
@@ -110,7 +114,7 @@ class RrhUnidadOrganizacionalController extends Controller
     {
         //
     }
-    public function selectProfesion(Request $request)
+    public function selectUnidadOrg(Request $request)
     {
         $unidadorgs=Rrh_UnidadOrganizacional::select('id','nombre')
                                 ->where('activo',1)
@@ -122,6 +126,7 @@ class RrhUnidadOrganizacionalController extends Controller
     {
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
         $unidadorg->activo=0;
+        $unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 
@@ -129,6 +134,7 @@ class RrhUnidadOrganizacionalController extends Controller
     {
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
         $unidadorg->activo=1;
+        $unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 }

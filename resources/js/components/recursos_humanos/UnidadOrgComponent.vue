@@ -89,10 +89,17 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Unidad Organizacional: <span  v-if="!sinombre" class="error">(*)</span></label>
+                                <strong class="col-md-3 form-control-label" for="text-input">Unidad Organizacional: <span  v-if="!sinombre" class="error">(*)</span></strong>
                                 <div class="col-md-9">
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Unidad Organizacional" v-model="nombre" v-on:focus="selectAll" >
                                     <span  v-if="!sinombre" class="error">Debe Ingresar la Unidad Organizacional</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <strong class="col-md-3 form-control-label" for="text-input">Descripcion: </strong>
+                                <div class="col-md-9">
+                                    <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripcion de la Unidad Organizacional" v-model="descripcion" v-on:focus="selectAll" >
+                                    
                                 </div>
                             </div>
                         </form>
@@ -135,8 +142,7 @@ import Swal from 'sweetalert2'
                 tipoAccion:1,
                 idnivelunidadorg:'',
                 buscar:'',
-                
-                
+                descripcion:'',
             }
 
         },
@@ -203,6 +209,7 @@ import Swal from 'sweetalert2'
                 let me = this;
                 axios.post('/unidadorg/registrar',{
                     'nombre':me.nombre,
+                    'descripcion':me.descripcion
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarUnidadOrg();
@@ -315,6 +322,7 @@ import Swal from 'sweetalert2'
                 axios.put('/unidadorg/actualizar',{
                     'id':me.idnivelunidadorg,
                     'nombre':me.nombre,
+                    'descripcion':me.descripcion
                     
                 }).then(function (response) {
                     if(response.data.length){
@@ -340,6 +348,7 @@ import Swal from 'sweetalert2'
                         me.tituloModal='Registar UnidadOrg'
                         me.tipoAccion=1;
                         me.nombre='';
+                        me.descripcion='';
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -350,6 +359,7 @@ import Swal from 'sweetalert2'
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar UnidadOrg'
                         me.nombre=data.nombre;
+                        me.descripcion=data.descripcion;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -361,7 +371,7 @@ import Swal from 'sweetalert2'
                 let me = this;
                 me.classModal.closeModal(accion);
                 me.nombre='';
-                me.demora=7;
+                me.descripcion='';
                 
             },
             selectAll: function (event) {

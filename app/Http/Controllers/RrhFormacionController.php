@@ -60,6 +60,7 @@ class RrhFormacionController extends Controller
         $formacion = new Rrh_Formacion();
 
         $formacion->nombre=$request->nombre;
+        $formacion->id_usuario_registra=auth()->user()->id;
         $formacion->save();
     }
 
@@ -97,6 +98,7 @@ class RrhFormacionController extends Controller
         $formacion = Rrh_Formacion::findOrFail($request->id);
 
         $formacion->nombre=$request->nombre;
+        $formacion->id_usuario_modifica=auth()->user()->id;
         $formacion->save();
     }
 
@@ -122,6 +124,7 @@ class RrhFormacionController extends Controller
     {
         $formacion = Rrh_Formacion::findOrFail($request->id);
         $formacion->activo=0;
+        $formacion->id_usuario_modifica=auth()->user()->id;
         $formacion->save();
     }
 
@@ -129,6 +132,7 @@ class RrhFormacionController extends Controller
     {
         $formacion = Rrh_Formacion::findOrFail($request->id);
         $formacion->activo=1;
+        $formacion->id_usuario_modifica=auth()->user()->id;
         $formacion->save();
     }
 }

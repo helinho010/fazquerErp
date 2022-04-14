@@ -60,6 +60,7 @@ class RrhProfesionController extends Controller
         $profesion = new Rrh_Profesion();
 
         $profesion->nombre=$request->nombre;
+        $profesion->id_usuario_registra=auth()->user()->id;
         $profesion->save();
     }
 
@@ -97,6 +98,7 @@ class RrhProfesionController extends Controller
        $profesion = Rrh_Profesion::findOrFail($request->id);
  
         $profesion->nombre=$request->nombre;
+        $profesion->id_usuario_modifica=auth()->user()->id;
         $profesion->save();
     }
 
@@ -122,6 +124,7 @@ class RrhProfesionController extends Controller
     {
         $profesion = Rrh_Profesion::findOrFail($request->id);
         $profesion->activo=0;
+        $profesion->id_usuario_modifica=auth()->user()->id;
         $profesion->save();
     }
 
@@ -129,6 +132,7 @@ class RrhProfesionController extends Controller
     {
         $profesion = Rrh_Profesion::findOrFail($request->id);
         $profesion->activo=1;
+        $profesion->id_usuario_modifica=auth()->user()->id;
         $profesion->save();
     }
 }

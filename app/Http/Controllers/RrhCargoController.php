@@ -15,11 +15,27 @@ class RrhCargoController extends Controller
      */
     public function index()
     {
-        $cargo= Rrh_Cargo::orderby('nivel','asc')
-                            ->orderby('nombre','asc')
+        $cargo= Rrh_Cargo::join('rrh__unidad_organizacionals','rrh__unidad_organizacionals.id','rrh__cargos.idunidadorganizacional')
+                            ->select('rrh__unidad_organizacionals.nombre as nomunidadorg',
+                                        'rrh__cargos.id',
+                                        'rrh__cargos.nombre',
+                                        'rrh__cargos.descripcion',
+                                        'act_especificas',
+                                        'rrh__cargos.activo',
+                                        'rrh__cargos.idunidadorganizacional')
+                            ->orderby('rrh__unidad_organizacionals.nombre','asc')
+                            ->orderby('rrh__cargos.nombre','asc')
                             ->paginate(50);
         //$cargo = Rrh_Cargo::all();
-        return [
+        return ['pagination'=>[
+            'total'         =>    $cargo->total(),
+            'current_page'  =>    $cargo->currentPage(),
+            'per_page'      =>    $cargo->perPage(),
+            'last_page'     =>    $cargo->lastPage(),
+            'from'          =>    $cargo->firstItem(),
+            'to'            =>    $cargo->lastItem(),
+
+            ] ,
                 'cargo'=>$cargo
                 ];
     }
@@ -54,7 +70,10 @@ class RrhCargoController extends Controller
         $cargo = new Rrh_Cargo();
 
         $cargo->nombre=$request->nombre;
-        $cargo->nivel=$request->nivel;
+        $cargo->idunidadorganizacional=$request->idunidadorganizacional;
+        $cargo->descripcion=$request->descripcion;
+        $cargo->act_especificas=$request->act_especificas;
+        $cargo->id_usuario_registra=auth()->user()->id;
         $cargo->save();
     }
 
@@ -92,7 +111,10 @@ class RrhCargoController extends Controller
         $cargo = Rrh_Cargo::findOrFail($request->id);
 
         $cargo->nombre=$request->nombre;
-        $cargo->nivel=$request->nivel;
+        $cargo->idunidadorganizacional=$request->idunidadorganizacional;
+        $cargo->descripcion=$request->descripcion;
+        $cargo->act_especificas=$request->act_especificas;
+        $cargo->id_usuario_modifica=auth()->user()->id;
         $cargo->save();
     }
 
@@ -118,6 +140,7 @@ class RrhCargoController extends Controller
     {
         $cargo = Rrh_Cargo::findOrFail($request->id);
         $cargo->activo=0;
+        $cargo->id_usuario_modifica=auth()->user()->id;
         $cargo->save();
     }
 
@@ -125,6 +148,7 @@ class RrhCargoController extends Controller
     {
         $cargo = Rrh_Cargo::findOrFail($request->id);
         $cargo->activo=1;
+        $cargo->id_usuario_modifica=auth()->user()->id;
         $cargo->save();
     }
 }
