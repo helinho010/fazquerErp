@@ -18,6 +18,10 @@ createApp ({
     //administracion
     .component('rubros-component',require('./components/administracion/RubrosComponent.vue').default)
     .component('sucursal-component',require('./components/administracion/SucursalComponent.vue').default)
+    .component('modulo-component',require('./components/administracion/ModuloVentanaAccionComponent.vue').default)
+    .component('rolpermiso-component',require('./components/administracion/RolPermisoComponent.vue').default)
+    .component('usuario-component',require('./components/administracion/UsuariosComponent.vue').default)
+
 
     //rrhh
     .component('rrhempleados-component',require('./components/recursos_humanos/EmpleadosComponent.vue').default)

@@ -11,12 +11,22 @@
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>
                     <font style="color: turquoise"> Administracion</font> </a>
                 <ul class="nav-dropdown-items">
+                    <li @click="menu=101" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Mod. Vent. Acc.</a>
+                    </li>
+                    <li @click="menu=102" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Roles-Permisos</a>
+                    </li>
+                    <li @click="menu=103" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-bag"></i> Usuarios</a>
+                    </li>
                     <li @click="menu=105" class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-bag"></i> Rubros</a>
                     </li>
-                    <li @click="menu=10" class="nav-item">
+                    <li @click="menu=104" class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-bag"></i> Sucursales</a>
                     </li>
+                    
                 </ul>
             </li>
             <li class="nav-item nav-dropdown">
