@@ -10,73 +10,91 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Rubros
+                    <i class="fa fa-align-justify"></i> Modulos - Ventanas - Acciones
+                    
                     <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')">
-                        <i class="icon-plus"></i>&nbsp;Nuevo
+                        <i class="icon-plus"></i>&nbsp;Nuevo Modulo
                     </button>
+                
                 </div>
                 <div class="card-body">
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarRubros(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarRubros(1)"><i class="fa fa-search" ></i> Buscar</button>
+                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarModulos(1)">
+                                <button type="submit" class="btn btn-primary" @click="listarModulos(1)"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
                         </div>
-                    </div>
-                    <table class="table table-bordered table-striped table-sm table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Pertenece al Area Medica</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
+                    </div> -->
+                    <div v-for="modulo in arrayModulos" :key="modulo.id">
+                        <table class="table table-bordered table-striped table-sm table-responsive">
+                        
                         <tbody>
-                            <tr v-for="rubro in arrayRubros" :key="rubro.id">
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',rubro)">
+                            <tr >
+                                <td style="width:200px">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',modulo)">
                                         <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button v-if="rubro.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarRubro(rubro.id)" >
+                                    </button>&nbsp;
+                                    <button v-if="modulo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id)" >
                                         <i class="icon-trash"></i>
-                                    </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarRubro(rubro.id)" >
+                                    </button>&nbsp;
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(modulo.id)" >
                                         <i class="icon-check"></i>
-                                    </button>
+                                    </button>&nbsp;
+                                    <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirModulo(modulo.id)">
+                                        +
+                                    </button> &nbsp;
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="reducirModulo(modulo.id)">
+                                        -
+                                    </button> &nbsp;
                                 </td>
-                                    <td v-text="rubro.nombre"></td>
-                                    <td v-text="rubro.descripcion"></td>
-                                    <td v-if="rubro.areamedica">Si</td>
-                                    <td v-else>No</td>
-                                <td>
-                                    <div v-if="rubro.activo==1">
+                                <td v-text="modulo.nombre" colspan="3" ></td>
+                                <td style="width:50px">
+                                    <div v-if="modulo.activo==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">Desactivado</span>
                                     </div>
-                                    
                                 </td>
                             </tr>
-                           
+                            
+                                <tr v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id" >
+                                    <td style="width:200px"></td>
+                                    <td style="width:200px">
+                                        <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
+                                            <i class="icon-pencil"></i>
+                                        </button>&nbsp;
+                                        <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(ventana.id)" >
+                                            <i class="icon-trash"></i>
+                                        </button>&nbsp;
+                                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(ventana.id)" >
+                                            <i class="icon-check"></i>
+                                        </button>&nbsp;
+                                         <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirVentana(ventana.id)">
+                                            +
+                                        </button> &nbsp;
+                                        <button v-else type="button" class="btn btn-info btn-sm" @click="reducirVentana(ventana.id)">
+                                            -
+                                        </button> &nbsp;
+                                    </td>
+                                    <td v-text="ventana.nombre"></td>
+                                    <td style="width:50px">
+                                        <div v-if="ventana.activo==1">
+                                            <span class="badge badge-success">Activo</span>
+                                        </div>
+                                        <div v-else>
+                                            <span class="badge badge-warning">Desactivado</span>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            
+
+                            
                         </tbody>
                     </table>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item" v-if="pagination.current_page > 1">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1)">Ant</a>
-                            </li>
-                            <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active':'']">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page"></a>
-                            </li>
-                            <li class="page-item" v-if="pagination.current_page< pagination.last_page">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1)">Sig</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    </div>
                 </div>
             </div>
             <!-- Fin ejemplo de tabla Listado -->
@@ -94,32 +112,18 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="!sinombre" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Modulo <span  v-if="!simodulo" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Rubro" v-model="nombre" v-on:focus="selectAll" >
-                                    <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre del Rubro</span>
+                                    <input type="text" id="modulo" name="modulo" class="form-control" placeholder="Nombre del Modulo" v-model="modulo" v-on:focus="selectAll" >
+                                    <span  v-if="!simodulo" class="error">Debe Ingresar el Nombre del Modulo</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Descripción</label>
-                                <div class="col-md-9">
-                                    <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Ingrese una Descripción" v-model="descripcion" v-on:focus="selectAll">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="areamedica">Rubro Pertenece al Area Medica? </label>
-                                <div class="col-md-9">
-                                    <input type="checkbox"  class="form-control"  v-model="areamedica" name="areamedica" checked  >
-                                </div>
-                            </div>
-                            
-                            
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarRubro()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarRubro()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarModulo()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarModulo()">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -138,30 +142,20 @@ import Swal from 'sweetalert2'
     export default {
         data(){
             return{
-                pagination:{
-                    'total' :0,
-                    'current_page':0,
-                    'per_page':0,
-                    'last_page':0,
-                    'from':0,
-                    'to':0
-                },
-                offset:3,
-                nombre:'',
-                descripcion:'',
-                arrayRubros:[],
+                modulo:'',
+                
+                arrayModulos:[],
                 tituloModal:'',
                 tipoAccion:1,
-                idrubro:'',
+                idmodulo:'',
                 buscar:'',
-                areamedica:true,
             }
 
         },
         computed:{
-            sinombre(){
+            simodulo(){
                 let me=this;
-                if(me.nombre!='')
+                if(me.modulo!='')
                     return true;
                 else
                     return false;
@@ -169,7 +163,7 @@ import Swal from 'sweetalert2'
             
             sicompleto(){
                 let me=this;
-                if (me.nombre!='' )
+                if (me.modulo!='' )
                     return true;
                 else
                     return false;
@@ -177,36 +171,83 @@ import Swal from 'sweetalert2'
             isActived:function(){
                 return this.pagination.current_page;
             },
-            pagesNumber:function(){
-                if(!this.pagination.to){
-                    return[];
-                }
-                var from = this.pagination.current_page - this.offset;
-                if(from<1){
-                    from=1;
-                }
-                var to = from +(this.offset * 2);
-                if(to>= this.pagination.last_page){
-                    to=this.pagination.last_page;
-                }
-                var pagesArray =[];
-                while(from<=to){
-                    pagesArray.push(from);
-                    from++
-                }
-                return pagesArray;
-            },
-
 
         },
         methods :{
-            listarRubros(page){
+            expandirModulo(id){
                 let me=this;
-                var url='/rubro?page='+page+'&buscar='+me.buscar;
+                me.arrayModulos.forEach(element => {
+                    if(element.id==id)
+                    {
+                        element.mostrarventana=true;                        
+                    }
+                    else
+                        element.mostrarventana=false;
+                    
+                });
+                //let resp=me.arrayModulos.find(element=>element.id==id);
+                //console.log(resp);
+                
+
+            },
+
+            reducirModulo(id){
+                let me=this;
+                me.arrayModulos.forEach(element => {
+                    if(element.id==id)
+                    {
+                        element.mostrarventana=false;                        
+                    }
+                    
+                });
+                //let resp=me.arrayModulos.find(element=>element.id==id);
+                //console.log(resp);
+                
+
+            },
+            expandirVentana(id){
+                let me=this;
+                me.arrayModulos.forEach(element => {
+                    element.acciones.forEach(elemento=>{
+
+                    });
+                    
+                    
+                    if(element.id==id)
+                    {
+                        element.mostrarventana=true;                        
+                    }
+                    else
+                        element.mostrarventana=false;
+                    
+                });
+                //let resp=me.arrayModulos.find(element=>element.id==id);
+                //console.log(resp);
+                
+
+            },
+
+            reducirVentana(id){
+                let me=this;
+                me.arrayModulos.forEach(element => {
+                    if(element.id==id)
+                    {
+                        element.mostrarventana=false;                        
+                    }
+                    
+                });
+                //let resp=me.arrayModulos.find(element=>element.id==id);
+                //console.log(resp);
+                
+
+            },
+            listarModulos(page){
+                let me=this;
+                var url='/modulo?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    me.pagination=respuesta.pagination;
-                    me.arrayRubros=respuesta.rubros.data;
+                    console.log(respuesta);
+                    me.arrayModulos=respuesta.modulos;
                     
                     
                 })
@@ -214,29 +255,19 @@ import Swal from 'sweetalert2'
                     console.log(error);
                 });
             },
-            cambiarPagina(page){
-                let me =this;
-                me.pagination.current_page = page;
-                me.listarRubros(page);
-            },
-            registrarRubro(){
+            registrarModulo(){
                 let me = this;
-                
-                
-
-                axios.post('/rubro/registrar',{
-                    'nombre':me.nombre,
-                    'descripcion':me.descripcion,
-                    'areamedica':me.areamedica,
+                axios.post('/modulo/registrar',{
+                    'nombre':me.modulo,
                 }).then(function(response){
                     me.cerrarModal('registrar');
-                    me.listarRubros();
+                    me.listarModulos();
                 }).catch(function(error){
                     console.log(error);
                 });
 
             },
-            eliminarRubro(idrubro){
+            eliminarModulo(idmodulo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -257,8 +288,8 @@ import Swal from 'sweetalert2'
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/rubro/desactivar',{
-                        'id': idrubro
+                     axios.put('/modulo/desactivar',{
+                        'id': idmodulo
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -266,7 +297,7 @@ import Swal from 'sweetalert2'
                             'El registro a sido desactivado Correctamente',
                             'success'
                         )
-                        me.listarRubros();
+                        me.listarModulos();
                         
                     }).catch(function (error) {
                         console.log(error);
@@ -285,7 +316,7 @@ import Swal from 'sweetalert2'
                 }
                 })
             },
-            activarRubro(idrubro){
+            activarModulo(idmodulo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -306,8 +337,8 @@ import Swal from 'sweetalert2'
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/rubro/activar',{
-                        'id': idrubro
+                     axios.put('/modulo/activar',{
+                        'id': idmodulo
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -315,7 +346,7 @@ import Swal from 'sweetalert2'
                             'El registro a sido Activado Correctamente',
                             'success'
                         )
-                        me.listarRubros();
+                        me.listarModulos();
                         
                     }).catch(function (error) {
                         console.log(error);
@@ -334,14 +365,12 @@ import Swal from 'sweetalert2'
                 }
                 })
             },
-            actualizarRubro(){
+            actualizarModulo(){
                // const Swal = require('sweetalert2')
                 let me =this;
-                axios.put('/rubro/actualizar',{
-                    'id':me.idrubro,
-                    'nombre':me.nombre,
-                    'descripcion':me.descripcion,
-                    'areamedica':me.areamedica
+                axios.put('/modulo/actualizar',{
+                    'id':me.idmodulo,
+                    'nombre':me.modulo,
                     
                 }).then(function (response) {
                     if(response.data.length){
@@ -350,7 +379,7 @@ import Swal from 'sweetalert2'
                     else{
                             Swal.fire('Actualizado Correctamente')
 
-                        me.listarRubros();
+                        me.listarModulos();
                     } 
                 }).catch(function (error) {
                    
@@ -364,23 +393,19 @@ import Swal from 'sweetalert2'
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Rubro'
+                        me.tituloModal='Registar Modulo'
                         me.tipoAccion=1;
-                        me.nombre='';
-                        me.descripcion='';
-                        me.areamedica=true;
+                        me.modulo='';
                         me.classModal.openModal('registrar');
                         break;
                     }
                     
                     case 'actualizar':
                     {
-                        me.idrubro=data.id;
+                        me.idmodulo=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Rubro'
-                        me.nombre=data.nombre;
-                        me.descripcion=data.descripcion;
-                        me.areamedica=data.areamedica;
+                        me.tituloModal='Actualizar Modulo'
+                        me.modulo=data.nombre;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -391,7 +416,7 @@ import Swal from 'sweetalert2'
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
-                me.nombre='';
+                me.modulo='';
                 me.descripcion='';
                 me.tipoAccion=1;
                 me.areamedica=true;
@@ -406,7 +431,7 @@ import Swal from 'sweetalert2'
 
         },
         mounted() {
-            this.listarRubros(1);
+            this.listarModulos(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')

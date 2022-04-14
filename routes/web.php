@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdmAccionVentanaController;
+use App\Http\Controllers\AdmModuloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmRegistroController;
 use App\Http\Controllers\AdmSessionController;
 use App\Http\Controllers\AdmSucursalController;
 use App\Http\Controllers\AdmRubroController;
+use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
@@ -51,7 +54,7 @@ Route::post('/registro',[AdmRegistroController::class,'store'])
 
 Route::group(['middleware'=>'auth'],function(){
 
-    //adm
+    //adm///////////////////////////////////////////////////////////////////////////////////
     
     Route::get('/rubro',[AdmRubroController::class,'index']);
     Route::post('/rubro/registrar', [AdmRubroController::class,'store']);
@@ -67,7 +70,29 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/sucursal/activar', [AdmSucursalController::class,'activar']);
     Route::get('/sucursal/selectsucursal',[AdmSucursalController::class,'selectSucursal']);
 
-    //rrhh
+    Route::get('/modulo',[AdmModuloController::class,'index']);
+    Route::post('/modulo/registrar', [AdmModuloController::class,'store']);
+    Route::put('/modulo/actualizar', [AdmModuloController::class,'update']);
+    Route::put('/modulo/desactivar', [AdmModuloController::class,'desactivar']);
+    Route::put('/modulo/activar', [AdmModuloController::class,'activar']);
+    Route::get('/modulo/selectmodulo',[AdmModuloController::class,'selectSucursal']);
+
+    Route::get('/ventana',[AdmVentanaModuloController::class,'index']);
+    Route::post('/ventana/registrar', [AdmVentanaModuloController::class,'store']);
+    Route::put('/ventana/actualizar', [AdmVentanaModuloController::class,'update']);
+    Route::put('/ventana/desactivar', [AdmVentanaModuloController::class,'desactivar']);
+    Route::put('/ventana/activar', [AdmVentanaModuloController::class,'activar']);
+    Route::get('/ventana/selectventana',[AdmVentanaModuloController::class,'selectSucursal']);
+
+    Route::get('/accion',[AdmAccionVentanaController::class,'index']);
+    Route::post('/accion/registrar', [AdmAccionVentanaController::class,'store']);
+    Route::put('/accion/actualizar', [AdmAccionVentanaController::class,'update']);
+    Route::put('/accion/desactivar', [AdmAccionVentanaController::class,'desactivar']);
+    Route::put('/accion/activar', [AdmAccionVentanaController::class,'activar']);
+    Route::get('/accion/selectaccion',[AdmAccionVentanaController::class,'selectSucursal']);
+
+
+    //rrhh ////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('/empleado',[RrhEmpleadoController::class,'index']);
     Route::post('/empleado/registrar', [RrhEmpleadoController::class,'store']);
     Route::put('/empleado/actualizar', [RrhEmpleadoController::class,'update']);

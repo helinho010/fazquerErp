@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adm_Modulo;
+use App\Models\Adm_AccionVentana;
+use App\Models\Adm_VentanaModulo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AdmModuloController extends Controller
 {
@@ -14,7 +17,18 @@ class AdmModuloController extends Controller
      */
     public function index()
     {
-        //
+        $modulo= Adm_Modulo::orderby('nombre','asc')->get();
+        foreach ($modulo as $value) {
+            $ventana=Adm_VentanaModulo::where('idmodulo',$value->id)
+                                        ->orderby('nombre','asc')
+                                        ->get();
+
+            $value->ventana=$ventana;
+            $value->mostrarventana=false;
+        }
+
+        //$modulo = Adm_Modulo::all();
+        return ['modulos'=>$modulo];
     }
 
     /**
@@ -35,7 +49,20 @@ class AdmModuloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),['nombre'=>'unique:adm__modulos']);
+
+        //dd($validator->errors());
+        
+        if($validator->fails())
+        {
+            return 'error';
+        }
+        
+        $modulo = new Adm_Modulo();
+
+        $modulo->nombre=$request->nombre;
+        $modulo->id_usuario_registra=auth()->user()->id;
+        $modulo->save();
     }
 
     /**
@@ -69,7 +96,11 @@ class AdmModuloController extends Controller
      */
     public function update(Request $request, Adm_Modulo $adm_Modulo)
     {
-        //
+        $modulo = Adm_Modulo::findOrFail($request->id);
+
+        $modulo->nombre=$request->nombre;
+        $modulo->id_usuario_modifica=auth()->user()->id;
+        $modulo->save();
     }
 
     /**
@@ -81,5 +112,28 @@ class AdmModuloController extends Controller
     public function destroy(Adm_Modulo $adm_Modulo)
     {
         //
+    }
+    public function selectFormacion(Request $request)
+    {
+        $modulos=Adm_Modulo::select('id','nombre')
+                                ->where('activo',1)
+                                ->orderby('nombre','asc')
+                                ->get();
+        return $modulos;
+    }
+    public function desactivar(Request $request)
+    {
+        $modulo = Adm_Modulo::findOrFail($request->id);
+        $modulo->activo=0;
+        $modulo->id_usuario_modifica=auth()->user()->id;
+        $modulo->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $modulo = Adm_Modulo::findOrFail($request->id);
+        $modulo->activo=1;
+        $modulo->id_usuario_modifica=auth()->user()->id;
+        $modulo->save();
     }
 }
