@@ -27,7 +27,84 @@
                         </div>
                     </div> -->
                     <div v-for="modulo in arrayModulos" :key="modulo.id">
-                        <table class="table table-bordered table-striped table-sm table-responsive">
+                        
+                        <label for="" class="col-md-6">- &nbsp;{{ modulo.nombre }}</label>
+                        <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirModulo(modulo.id)">
+                            Abrir Modulo
+                        </button> &nbsp;
+                        <button v-else type="button" class="btn btn-warning btn-sm" @click="reducirModulo(modulo.id)">
+                               Cerrar Modulo
+                        </button> &nbsp;
+                        <button v-if="modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="abrirModal('registrarventana',idventana)">
+                                    Agregar Ventana
+                                </button>&nbsp;
+                        <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',modulo)">
+                            <i class="icon-pencil"></i>
+                        </button>&nbsp;
+                        <button v-if="modulo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id)" >
+                            <i class="icon-trash"></i>
+                        </button>&nbsp;
+                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(modulo.id)" >
+                            <i class="icon-check"></i>
+                        </button>&nbsp;
+                        
+                        
+                         
+                        <span v-if="modulo.activo" class="badge badge-success">Activo</span>
+                        <span v-else class="badge badge-warning">Desactivado</span>
+                        <hr>
+                        <div  v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id" >    
+                            
+                                <label for="" class="col-md-1" style="text-align:right">-</label>
+                                <label for="" v-text="ventana.nombre" class="col-md-6"></label>
+                                <button v-if="!ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="expandirVentana(modulo.id,ventana.id)">
+                                    Abrir Ventana
+                                </button> &nbsp;
+                                <button v-else type="button" class="btn btn-warning btn-sm" @click="reducirVentana(modulo.id,ventana.id)">
+                                    Cerrar Ventana
+                                </button>&nbsp;
+                                <button v-if="ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="abrirModal('registrarAccion',idventana)">
+                                    Agregar Accion
+                                </button>&nbsp;
+                                
+                                <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
+                                    <i class="icon-pencil"></i>
+                                </button>&nbsp;
+                                <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarVentana(modulo.id,ventana.id)" >
+                                    <i class="icon-trash"></i>
+                                </button>&nbsp;
+                                <button v-else type="button" class="btn btn-info btn-sm" @click="activarVentana(modulo.id,ventana.id)" >
+                                    <i class="icon-check"></i>
+                                </button>&nbsp;
+                                
+                                <span v-if="ventana.activo" class="badge badge-success">Activo</span>
+                                <span v-else class="badge badge-warning">Desactivado</span>
+                                 
+                            
+                            
+<hr>
+                            <div  v-show="ventana.mostraraccion" v-for="accion in ventana.accion" :key="accion.id" >    
+                                <label for="" class="col-md-2" style="text-align:right">-</label>
+                                <label for="" v-text="accion.nombre" class="col-md-6"></label>
+                                
+                                &nbsp;<button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',accion)">
+                                    <i class="icon-pencil"></i>
+                                </button>&nbsp;
+                                <button v-if="accion.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAccion(modulo.id,ventana.id,accion.id)" >
+                                    <i class="icon-trash"></i>
+                                </button>&nbsp;
+                                <button v-else type="button" class="btn btn-info btn-sm" @click="activarAccion(modulo.id,ventana.id,accion.id)" >
+                                    <i class="icon-check"></i>
+                                </button>&nbsp;
+                                <span v-if="accion.activo" class="badge badge-success">Activo</span>
+                                <span v-else class="badge badge-warning">Desactivado</span>
+                                
+                            </div>
+                            <hr>
+
+                        </div>
+
+                        <!-- <table class="table table-bordered table-striped table-sm table-responsive">
                         
                         <tbody>
                             <tr >
@@ -58,42 +135,49 @@
                                     </div>
                                 </td>
                             </tr>
-                            
-                                <tr v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id" >
-                                    <td style="width:200px"></td>
-                                    <td style="width:200px">
-                                        <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
-                                            <i class="icon-pencil"></i>
-                                        </button>&nbsp;
-                                        <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(ventana.id)" >
-                                            <i class="icon-trash"></i>
-                                        </button>&nbsp;
-                                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(ventana.id)" >
-                                            <i class="icon-check"></i>
-                                        </button>&nbsp;
-                                         <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirVentana(ventana.id)">
-                                            +
-                                        </button> &nbsp;
-                                        <button v-else type="button" class="btn btn-info btn-sm" @click="reducirVentana(ventana.id)">
-                                            -
-                                        </button> &nbsp;
-                                    </td>
-                                    <td v-text="ventana.nombre"></td>
-                                    <td style="width:50px">
-                                        <div v-if="ventana.activo==1">
-                                            <span class="badge badge-success">Activo</span>
-                                        </div>
-                                        <div v-else>
-                                            <span class="badge badge-warning">Desactivado</span>
-                                        </div>
-                                    </td>
-
+                            <tr v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id">
+                                <td style="width:200px"></td>
+                                <td style="width:200px">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
+                                        <i class="icon-pencil"></i>
+                                    </button>&nbsp;
+                                    <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id,ventana.id)" >
+                                        <i class="icon-trash"></i>
+                                    </button>&nbsp;
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(ventana.id)" >
+                                        <i class="icon-check"></i>
+                                    </button>&nbsp;
+                                        <button v-if="!ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="expandirVentana(modulo.id,ventana.id)">
+                                        +
+                                    </button> &nbsp;
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="reducirVentana(ventana.id)">
+                                        -
+                                    </button> &nbsp;
+                                </td>
+                                <td v-text="ventana.nombre"></td>
+                                <td style="width:50px">
+                                    <div v-if="ventana.activo==1">
+                                        <span class="badge badge-success">Activo</span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-warning">Desactivado</span>
+                                    </div>
+                                </td>
+                                <tr v-show="!ventana.mostraraccion" v-for="accion in ventana.mostraraccion" :key="accion.id">
+                                    <td v-text="accion.nombre"></td>
                                 </tr>
+                            </tr>
+                             -->
                             
 
                             
-                        </tbody>
-                    </table>
+                            
+
+                            
+
+                            
+                        <!-- </tbody>
+                    </table> -->
                     </div>
                 </div>
             </div>
@@ -112,7 +196,7 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Modulo <span  v-if="!simodulo" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Ventana <span  v-if="!simodulo" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="modulo" name="modulo" class="form-control" placeholder="Nombre del Modulo" v-model="modulo" v-on:focus="selectAll" >
                                     <span  v-if="!simodulo" class="error">Debe Ingresar el Nombre del Modulo</span>
@@ -205,42 +289,36 @@ import Swal from 'sweetalert2'
                 
 
             },
-            expandirVentana(id){
+            expandirVentana(idmodulo,idventana){
                 let me=this;
                 me.arrayModulos.forEach(element => {
-                    element.acciones.forEach(elemento=>{
-
-                    });
-                    
-                    
-                    if(element.id==id)
-                    {
-                        element.mostrarventana=true;                        
+                    if(element.id==idmodulo){
+                        element.ventana.forEach(el=>{
+                            
+                            if(el.id==idventana)
+                                el.mostraraccion=true;
+                            else
+                                el.mostraraccion=false;
+                        });
                     }
-                    else
-                        element.mostrarventana=false;
-                    
                 });
-                //let resp=me.arrayModulos.find(element=>element.id==id);
-                //console.log(resp);
-                
-
             },
 
-            reducirVentana(id){
+            reducirVentana(idmodulo,idventana){
                 let me=this;
+                //console.log(idmodulo,idventana);
                 me.arrayModulos.forEach(element => {
-                    if(element.id==id)
-                    {
-                        element.mostrarventana=false;                        
+                    if(element.id==idmodulo){
+                        element.ventana.forEach(el=>{
+                            if(el.id==idventana)
+                                el.mostraraccion=false;
+                           
+                        });
                     }
-                    
                 });
-                //let resp=me.arrayModulos.find(element=>element.id==id);
-                //console.log(resp);
-                
-
             },
+
+            
             listarModulos(page){
                 let me=this;
                 var url='/modulo?page='+page+'&buscar='+me.buscar;

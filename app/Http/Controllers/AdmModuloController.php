@@ -22,6 +22,13 @@ class AdmModuloController extends Controller
             $ventana=Adm_VentanaModulo::where('idmodulo',$value->id)
                                         ->orderby('nombre','asc')
                                         ->get();
+            foreach ($ventana as $valueVentana) {
+                $accion=Adm_AccionVentana::where('idventana',$valueVentana->id)
+                                            ->orderBy('nombre','asc')
+                                            ->get();
+                $valueVentana->accion=$accion;
+                $valueVentana->mostraraccion=false;
+            }
 
             $value->ventana=$ventana;
             $value->mostrarventana=false;

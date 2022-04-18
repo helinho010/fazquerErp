@@ -19348,25 +19348,26 @@ __webpack_require__.r(__webpack_exports__);
       }); //let resp=me.arrayModulos.find(element=>element.id==id);
       //console.log(resp);
     },
-    expandirVentana: function expandirVentana(id) {
+    expandirVentana: function expandirVentana(idmodulo, idventana) {
       var me = this;
       me.arrayModulos.forEach(function (element) {
-        element.acciones.forEach(function (elemento) {});
-
-        if (element.id == id) {
-          element.mostrarventana = true;
-        } else element.mostrarventana = false;
-      }); //let resp=me.arrayModulos.find(element=>element.id==id);
-      //console.log(resp);
-    },
-    reducirVentana: function reducirVentana(id) {
-      var me = this;
-      me.arrayModulos.forEach(function (element) {
-        if (element.id == id) {
-          element.mostrarventana = false;
+        if (element.id == idmodulo) {
+          element.ventana.forEach(function (el) {
+            if (el.id == idventana) el.mostraraccion = true;else el.mostraraccion = false;
+          });
         }
-      }); //let resp=me.arrayModulos.find(element=>element.id==id);
-      //console.log(resp);
+      });
+    },
+    reducirVentana: function reducirVentana(idmodulo, idventana) {
+      var me = this; //console.log(idmodulo,idventana);
+
+      me.arrayModulos.forEach(function (element) {
+        if (element.id == idmodulo) {
+          element.ventana.forEach(function (el) {
+            if (el.id == idventana) el.mostraraccion = false;
+          });
+        }
+      });
     },
     listarModulos: function listarModulos(page) {
       var me = this;
@@ -21687,16 +21688,19 @@ var _hoisted_11 = {
   "class": "card-body"
 };
 var _hoisted_12 = {
-  "class": "table table-bordered table-striped table-sm table-responsive"
+  "for": "",
+  "class": "col-md-6"
 };
-var _hoisted_13 = {
-  style: {
-    "width": "200px"
-  }
-};
+var _hoisted_13 = ["onClick"];
 var _hoisted_14 = ["onClick"];
 
-var _hoisted_15 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_17 = ["onClick"];
+
+var _hoisted_18 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "icon-pencil"
   }, null, -1
@@ -21704,116 +21708,24 @@ var _hoisted_15 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_16 = [_hoisted_15];
+var _hoisted_19 = [_hoisted_18];
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
 
-var _hoisted_18 = ["onClick"];
-
-var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon-trash"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_20 = [_hoisted_19];
 var _hoisted_21 = ["onClick"];
 
 var _hoisted_22 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon-check"
+    "class": "icon-trash"
   }, null, -1
   /* HOISTED */
   );
 });
 
 var _hoisted_23 = [_hoisted_22];
+var _hoisted_24 = ["onClick"];
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
-
-var _hoisted_25 = ["onClick"];
-var _hoisted_26 = ["onClick"];
-
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
-
-var _hoisted_28 = ["textContent"];
-var _hoisted_29 = {
-  style: {
-    "width": "50px"
-  }
-};
-var _hoisted_30 = {
-  key: 0
-};
-
-var _hoisted_31 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge badge-success"
-  }, "Activo", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_32 = [_hoisted_31];
-var _hoisted_33 = {
-  key: 1
-};
-
-var _hoisted_34 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge badge-warning"
-  }, "Desactivado", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_35 = [_hoisted_34];
-
-var _hoisted_36 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-    style: {
-      "width": "200px"
-    }
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_37 = {
-  style: {
-    "width": "200px"
-  }
-};
-var _hoisted_38 = ["onClick"];
-
-var _hoisted_39 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon-pencil"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_40 = [_hoisted_39];
-
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
-
-var _hoisted_42 = ["onClick"];
-
-var _hoisted_43 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon-trash"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_44 = [_hoisted_43];
-var _hoisted_45 = ["onClick"];
-
-var _hoisted_46 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_25 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "icon-check"
   }, null, -1
@@ -21821,48 +21733,170 @@ var _hoisted_46 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_47 = [_hoisted_46];
+var _hoisted_26 = [_hoisted_25];
 
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
 
-var _hoisted_49 = ["onClick"];
-var _hoisted_50 = ["onClick"];
+var _hoisted_28 = {
+  key: 5,
+  "class": "badge badge-success"
+};
+var _hoisted_29 = {
+  key: 6,
+  "class": "badge badge-warning"
+};
 
-var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
+var _hoisted_30 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_31 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "",
+    "class": "col-md-1",
+    style: {
+      "text-align": "right"
+    }
+  }, "-", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_32 = ["textContent"];
+var _hoisted_33 = ["onClick"];
+var _hoisted_34 = ["onClick"];
+
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_37 = ["onClick"];
+
+var _hoisted_38 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-pencil"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_39 = [_hoisted_38];
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_41 = ["onClick"];
+
+var _hoisted_42 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-trash"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_43 = [_hoisted_42];
+var _hoisted_44 = ["onClick"];
+
+var _hoisted_45 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-check"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_46 = [_hoisted_45];
+
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_48 = {
+  key: 5,
+  "class": "badge badge-success"
+};
+var _hoisted_49 = {
+  key: 6,
+  "class": "badge badge-warning"
+};
+
+var _hoisted_50 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_51 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "",
+    "class": "col-md-2",
+    style: {
+      "text-align": "right"
+    }
+  }, "-", -1
+  /* HOISTED */
+  );
+});
 
 var _hoisted_52 = ["textContent"];
-var _hoisted_53 = {
-  style: {
-    "width": "50px"
-  }
-};
-var _hoisted_54 = {
-  key: 0
-};
+
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_54 = ["onClick"];
 
 var _hoisted_55 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge badge-success"
-  }, "Activo", -1
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-pencil"
+  }, null, -1
   /* HOISTED */
   );
 });
 
 var _hoisted_56 = [_hoisted_55];
-var _hoisted_57 = {
-  key: 1
-};
 
-var _hoisted_58 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge badge-warning"
-  }, "Desactivado", -1
+var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_58 = ["onClick"];
+
+var _hoisted_59 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-trash"
+  }, null, -1
   /* HOISTED */
   );
 });
 
-var _hoisted_59 = [_hoisted_58];
-var _hoisted_60 = {
+var _hoisted_60 = [_hoisted_59];
+var _hoisted_61 = ["onClick"];
+
+var _hoisted_62 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-check"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_63 = [_hoisted_62];
+
+var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("  ");
+
+var _hoisted_65 = {
+  key: 2,
+  "class": "badge badge-success"
+};
+var _hoisted_66 = {
+  key: 3,
+  "class": "badge badge-warning"
+};
+
+var _hoisted_67 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_68 = {
   "class": "modal fade",
   tabindex: "-1",
   role: "dialog",
@@ -21872,21 +21906,21 @@ var _hoisted_60 = {
   "data-backdrop": "static",
   "data-keyboard": "false"
 };
-var _hoisted_61 = {
+var _hoisted_69 = {
   "class": "modal-dialog modal-primary modal-lg",
   role: "document"
 };
-var _hoisted_62 = {
+var _hoisted_70 = {
   "class": "modal-content"
 };
-var _hoisted_63 = {
+var _hoisted_71 = {
   "class": "modal-header"
 };
-var _hoisted_64 = {
+var _hoisted_72 = {
   "class": "modal-title"
 };
 
-var _hoisted_65 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_73 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
   }, "×", -1
@@ -21894,39 +21928,39 @@ var _hoisted_65 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_66 = [_hoisted_65];
-var _hoisted_67 = {
+var _hoisted_74 = [_hoisted_73];
+var _hoisted_75 = {
   "class": "modal-body"
 };
-var _hoisted_68 = {
+var _hoisted_76 = {
   action: "",
   "class": "form-horizontal"
 };
-var _hoisted_69 = {
+var _hoisted_77 = {
   "class": "form-group row"
 };
-var _hoisted_70 = {
+var _hoisted_78 = {
   "class": "col-md-3 form-control-label",
   "for": "text-input"
 };
 
-var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Modulo ");
+var _hoisted_79 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ventana ");
 
-var _hoisted_72 = {
+var _hoisted_80 = {
   key: 0,
   "class": "error"
 };
-var _hoisted_73 = {
+var _hoisted_81 = {
   "class": "col-md-9"
 };
-var _hoisted_74 = {
+var _hoisted_82 = {
   key: 0,
   "class": "error"
 };
-var _hoisted_75 = {
+var _hoisted_83 = {
   "class": "modal-footer"
 };
-var _hoisted_76 = ["disabled"];
+var _hoisted_84 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Breadcrumb "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ejemplo de tabla Listado "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -21937,156 +21971,207 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"form-group row\">\r\n                        <div class=\"col-md-6\">\r\n                            <div class=\"input-group\">\r\n                                <input type=\"text\" id=\"texto\" name=\"texto\" class=\"form-control\" placeholder=\"Texto a buscar\" v-model=\"buscar\"  @keyup.enter=\"listarModulos(1)\">\r\n                                <button type=\"submit\" class=\"btn btn-primary\" @click=\"listarModulos(1)\"><i class=\"fa fa-search\" ></i> Buscar</button>\r\n                            </div>\r\n                        </div>\r\n                    </div> "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayModulos, function (modulo) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: modulo.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      "class": "btn btn-warning btn-sm",
-      onClick: function onClick($event) {
-        return $options.abrirModal('actualizar', modulo);
-      }
-    }, _hoisted_16, 8
-    /* PROPS */
-    , _hoisted_14), _hoisted_17, modulo.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_12, "-  " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(modulo.nombre), 1
+    /* TEXT */
+    ), !modulo.mostrarventana ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
-      type: "button",
-      "class": "btn btn-danger btn-sm",
-      onClick: function onClick($event) {
-        return $options.eliminarModulo(modulo.id);
-      }
-    }, _hoisted_20, 8
-    /* PROPS */
-    , _hoisted_18)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 1,
-      type: "button",
-      "class": "btn btn-info btn-sm",
-      onClick: function onClick($event) {
-        return $options.activarModulo(modulo.id);
-      }
-    }, _hoisted_23, 8
-    /* PROPS */
-    , _hoisted_21)), _hoisted_24, !modulo.mostrarventana ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 2,
       type: "button",
       "class": "btn btn-success btn-sm",
       onClick: function onClick($event) {
         return $options.expandirModulo(modulo.id);
       }
-    }, " + ", 8
+    }, " Abrir Modulo ", 8
     /* PROPS */
-    , _hoisted_25)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 3,
+    , _hoisted_13)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 1,
       type: "button",
-      "class": "btn btn-info btn-sm",
+      "class": "btn btn-warning btn-sm",
       onClick: function onClick($event) {
         return $options.reducirModulo(modulo.id);
       }
-    }, " - ", 8
+    }, " Cerrar Modulo ", 8
     /* PROPS */
-    , _hoisted_26)), _hoisted_27]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(modulo.nombre),
-      colspan: "3"
-    }, null, 8
+    , _hoisted_14)), _hoisted_15, modulo.mostrarventana ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 2,
+      type: "button",
+      "class": "btn btn-success btn-sm",
+      onClick: _cache[1] || (_cache[1] = function ($event) {
+        return $options.abrirModal('registrarventana', _ctx.idventana);
+      })
+    }, " Agregar Ventana ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-warning btn-sm",
+      onClick: function onClick($event) {
+        return $options.abrirModal('actualizar', modulo);
+      }
+    }, _hoisted_19, 8
     /* PROPS */
-    , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, [modulo.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _hoisted_32)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, _hoisted_35))])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(modulo.ventana, function (ventana) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+    , _hoisted_17), _hoisted_20, modulo.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 3,
+      type: "button",
+      "class": "btn btn-danger btn-sm",
+      onClick: function onClick($event) {
+        return $options.eliminarModulo(modulo.id);
+      }
+    }, _hoisted_23, 8
+    /* PROPS */
+    , _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 4,
+      type: "button",
+      "class": "btn btn-info btn-sm",
+      onClick: function onClick($event) {
+        return $options.activarModulo(modulo.id);
+      }
+    }, _hoisted_26, 8
+    /* PROPS */
+    , _hoisted_24)), _hoisted_27, modulo.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, "Activo")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "Desactivado")), _hoisted_30, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(modulo.ventana, function (ventana) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: ventana.id
-      }, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "for": "",
+        textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ventana.nombre),
+        "class": "col-md-6"
+      }, null, 8
+      /* PROPS */
+      , _hoisted_32), !ventana.mostraraccion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 0,
+        type: "button",
+        "class": "btn btn-success btn-sm",
+        onClick: function onClick($event) {
+          return $options.expandirVentana(modulo.id, ventana.id);
+        }
+      }, " Abrir Ventana ", 8
+      /* PROPS */
+      , _hoisted_33)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 1,
+        type: "button",
+        "class": "btn btn-warning btn-sm",
+        onClick: function onClick($event) {
+          return $options.reducirVentana(modulo.id, ventana.id);
+        }
+      }, " Cerrar Ventana ", 8
+      /* PROPS */
+      , _hoisted_34)), _hoisted_35, ventana.mostraraccion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 2,
+        type: "button",
+        "class": "btn btn-success btn-sm",
+        onClick: _cache[2] || (_cache[2] = function ($event) {
+          return $options.abrirModal('registrarAccion', _ctx.idventana);
+        })
+      }, " Agregar Accion ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn btn-warning btn-sm",
         onClick: function onClick($event) {
           return $options.abrirModal('actualizar', ventana);
         }
-      }, _hoisted_40, 8
+      }, _hoisted_39, 8
       /* PROPS */
-      , _hoisted_38), _hoisted_41, ventana.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: 0,
+      , _hoisted_37), _hoisted_40, ventana.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 3,
         type: "button",
         "class": "btn btn-danger btn-sm",
         onClick: function onClick($event) {
-          return $options.eliminarModulo(ventana.id);
+          return _ctx.eliminarVentana(modulo.id, ventana.id);
         }
-      }, _hoisted_44, 8
+      }, _hoisted_43, 8
       /* PROPS */
-      , _hoisted_42)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: 1,
+      , _hoisted_41)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 4,
         type: "button",
         "class": "btn btn-info btn-sm",
         onClick: function onClick($event) {
-          return $options.activarModulo(ventana.id);
+          return _ctx.activarVentana(modulo.id, ventana.id);
         }
-      }, _hoisted_47, 8
+      }, _hoisted_46, 8
       /* PROPS */
-      , _hoisted_45)), _hoisted_48, !modulo.mostrarventana ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: 2,
-        type: "button",
-        "class": "btn btn-success btn-sm",
-        onClick: function onClick($event) {
-          return $options.expandirVentana(ventana.id);
-        }
-      }, " + ", 8
-      /* PROPS */
-      , _hoisted_49)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: 3,
-        type: "button",
-        "class": "btn btn-info btn-sm",
-        onClick: function onClick($event) {
-          return $options.reducirVentana(ventana.id);
-        }
-      }, " - ", 8
-      /* PROPS */
-      , _hoisted_50)), _hoisted_51]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-        textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ventana.nombre)
-      }, null, 8
-      /* PROPS */
-      , _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_53, [ventana.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, _hoisted_56)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, _hoisted_59))])])), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, modulo.mostrarventana]]);
+      , _hoisted_44)), _hoisted_47, ventana.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_48, "Activo")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_49, "Desactivado")), _hoisted_50, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(ventana.accion, function (accion) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: accion.id
+        }, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+          "for": "",
+          textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(accion.nombre),
+          "class": "col-md-6"
+        }, null, 8
+        /* PROPS */
+        , _hoisted_52), _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          type: "button",
+          "class": "btn btn-warning btn-sm",
+          onClick: function onClick($event) {
+            return $options.abrirModal('actualizar', accion);
+          }
+        }, _hoisted_56, 8
+        /* PROPS */
+        , _hoisted_54), _hoisted_57, accion.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+          key: 0,
+          type: "button",
+          "class": "btn btn-danger btn-sm",
+          onClick: function onClick($event) {
+            return _ctx.eliminarAccion(modulo.id, ventana.id, accion.id);
+          }
+        }, _hoisted_60, 8
+        /* PROPS */
+        , _hoisted_58)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+          key: 1,
+          type: "button",
+          "class": "btn btn-info btn-sm",
+          onClick: function onClick($event) {
+            return _ctx.activarAccion(modulo.id, ventana.id, accion.id);
+          }
+        }, _hoisted_63, 8
+        /* PROPS */
+        , _hoisted_61)), _hoisted_64, accion.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_65, "Activo")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_66, "Desactivado"))])), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, ventana.mostraraccion]]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), _hoisted_67])), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, modulo.mostrarventana]]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])]);
+    )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <table class=\"table table-bordered table-striped table-sm table-responsive\">\r\n                        \r\n                        <tbody>\r\n                            <tr >\r\n                                <td style=\"width:200px\">\r\n                                    <button type=\"button\" class=\"btn btn-warning btn-sm\" @click=\"abrirModal('actualizar',modulo)\">\r\n                                        <i class=\"icon-pencil\"></i>\r\n                                    </button>&nbsp;\r\n                                    <button v-if=\"modulo.activo==1\" type=\"button\" class=\"btn btn-danger btn-sm\" @click=\"eliminarModulo(modulo.id)\" >\r\n                                        <i class=\"icon-trash\"></i>\r\n                                    </button>&nbsp;\r\n                                    <button v-else type=\"button\" class=\"btn btn-info btn-sm\" @click=\"activarModulo(modulo.id)\" >\r\n                                        <i class=\"icon-check\"></i>\r\n                                    </button>&nbsp;\r\n                                    <button v-if=\"!modulo.mostrarventana\" type=\"button\" class=\"btn btn-success btn-sm\" @click=\"expandirModulo(modulo.id)\">\r\n                                        +\r\n                                    </button> &nbsp;\r\n                                    <button v-else type=\"button\" class=\"btn btn-info btn-sm\" @click=\"reducirModulo(modulo.id)\">\r\n                                        -\r\n                                    </button> &nbsp;\r\n                                </td>\r\n                                <td v-text=\"modulo.nombre\" colspan=\"3\" ></td>\r\n                                <td style=\"width:50px\">\r\n                                    <div v-if=\"modulo.activo==1\">\r\n                                        <span class=\"badge badge-success\">Activo</span>\r\n                                    </div>\r\n                                    <div v-else>\r\n                                        <span class=\"badge badge-warning\">Desactivado</span>\r\n                                    </div>\r\n                                </td>\r\n                            </tr>\r\n                            <tr v-show=\"modulo.mostrarventana\" v-for=\"ventana in modulo.ventana\" :key=\"ventana.id\">\r\n                                <td style=\"width:200px\"></td>\r\n                                <td style=\"width:200px\">\r\n                                    <button type=\"button\" class=\"btn btn-warning btn-sm\" @click=\"abrirModal('actualizar',ventana)\">\r\n                                        <i class=\"icon-pencil\"></i>\r\n                                    </button>&nbsp;\r\n                                    <button v-if=\"ventana.activo==1\" type=\"button\" class=\"btn btn-danger btn-sm\" @click=\"eliminarModulo(modulo.id,ventana.id)\" >\r\n                                        <i class=\"icon-trash\"></i>\r\n                                    </button>&nbsp;\r\n                                    <button v-else type=\"button\" class=\"btn btn-info btn-sm\" @click=\"activarModulo(ventana.id)\" >\r\n                                        <i class=\"icon-check\"></i>\r\n                                    </button>&nbsp;\r\n                                        <button v-if=\"!ventana.mostraraccion\" type=\"button\" class=\"btn btn-success btn-sm\" @click=\"expandirVentana(modulo.id,ventana.id)\">\r\n                                        +\r\n                                    </button> &nbsp;\r\n                                    <button v-else type=\"button\" class=\"btn btn-info btn-sm\" @click=\"reducirVentana(ventana.id)\">\r\n                                        -\r\n                                    </button> &nbsp;\r\n                                </td>\r\n                                <td v-text=\"ventana.nombre\"></td>\r\n                                <td style=\"width:50px\">\r\n                                    <div v-if=\"ventana.activo==1\">\r\n                                        <span class=\"badge badge-success\">Activo</span>\r\n                                    </div>\r\n                                    <div v-else>\r\n                                        <span class=\"badge badge-warning\">Desactivado</span>\r\n                                    </div>\r\n                                </td>\r\n                                <tr v-show=\"!ventana.mostraraccion\" v-for=\"accion in ventana.mostraraccion\" :key=\"accion.id\">\r\n                                    <td v-text=\"accion.nombre\"></td>\r\n                                </tr>\r\n                            </tr>\r\n                             "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </tbody>\r\n                    </table> ")]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fin ejemplo de tabla Listado ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Inicio del modal agregar/actualizar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tituloModal), 1
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fin ejemplo de tabla Listado ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Inicio del modal agregar/actualizar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tituloModal), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "close",
     "aria-label": "Close",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
       return $options.cerrarModal('registrar');
     })
-  }, _hoisted_66)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_70, [_hoisted_71, !$options.simodulo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_72, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, _hoisted_74)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_78, [_hoisted_79, !$options.simodulo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_80, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     id: "modulo",
     name: "modulo",
     "class": "form-control",
     placeholder: "Nombre del Modulo",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.modulo = $event;
     }),
-    onFocus: _cache[3] || (_cache[3] = function () {
+    onFocus: _cache[5] || (_cache[5] = function () {
       return $options.selectAll && $options.selectAll.apply($options, arguments);
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.modulo]]), !$options.simodulo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_74, "Debe Ingresar el Nombre del Modulo")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.modulo]]), !$options.simodulo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_82, "Debe Ingresar el Nombre del Modulo")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.cerrarModal('registrar');
     })
   }, "Cerrar"), $data.tipoAccion == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     "class": "btn btn-primary",
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.registrarModulo();
     }),
     disabled: !$options.sicompleto
   }, "Guardar", 8
   /* PROPS */
-  , _hoisted_76)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  , _hoisted_84)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     "class": "btn btn-primary",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $options.actualizarModulo();
     })
   }, "Actualizar")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-content ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-dialog ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Fin del modal")]);
@@ -61728,13 +61813,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _AnotherExample_vue_vue_type_template_id_0912e892__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AnotherExample.vue?vue&type=template&id=0912e892 */ "./resources/js/components/AnotherExample.vue?vue&type=template&id=0912e892");
 /* harmony import */ var _AnotherExample_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AnotherExample.vue?vue&type=script&lang=js */ "./resources/js/components/AnotherExample.vue?vue&type=script&lang=js");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_AnotherExample_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AnotherExample_vue_vue_type_template_id_0912e892__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AnotherExample.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_AnotherExample_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AnotherExample_vue_vue_type_template_id_0912e892__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AnotherExample.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61756,13 +61841,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Example_vue_vue_type_template_id_63af75cf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Example.vue?vue&type=template&id=63af75cf */ "./resources/js/components/Example.vue?vue&type=template&id=63af75cf");
 /* harmony import */ var _Example_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Example.vue?vue&type=script&lang=js */ "./resources/js/components/Example.vue?vue&type=script&lang=js");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Example_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Example_vue_vue_type_template_id_63af75cf__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Example.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Example_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Example_vue_vue_type_template_id_63af75cf__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Example.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61783,12 +61868,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Principal.vue?vue&type=template&id=809d595a */ "./resources/js/components/Principal.vue?vue&type=template&id=809d595a");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 const script = {}
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Principal.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_Principal_vue_vue_type_template_id_809d595a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Principal.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61811,7 +61896,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ModuloVentanaAccionComponent_vue_vue_type_template_id_00c5cedc_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModuloVentanaAccionComponent.vue?vue&type=template&id=00c5cedc&scoped=true */ "./resources/js/components/administracion/ModuloVentanaAccionComponent.vue?vue&type=template&id=00c5cedc&scoped=true");
 /* harmony import */ var _ModuloVentanaAccionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModuloVentanaAccionComponent.vue?vue&type=script&lang=js */ "./resources/js/components/administracion/ModuloVentanaAccionComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _ModuloVentanaAccionComponent_vue_vue_type_style_index_0_id_00c5cedc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModuloVentanaAccionComponent.vue?vue&type=style&index=0&id=00c5cedc&scoped=true&lang=css */ "./resources/js/components/administracion/ModuloVentanaAccionComponent.vue?vue&type=style&index=0&id=00c5cedc&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -61819,7 +61904,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ModuloVentanaAccionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ModuloVentanaAccionComponent_vue_vue_type_template_id_00c5cedc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-00c5cedc"],['__file',"resources/js/components/administracion/ModuloVentanaAccionComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ModuloVentanaAccionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ModuloVentanaAccionComponent_vue_vue_type_template_id_00c5cedc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-00c5cedc"],['__file',"resources/js/components/administracion/ModuloVentanaAccionComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61839,11 +61924,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 const script = {}
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"])(script, [['__file',"resources/js/components/administracion/RolPermisoComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"])(script, [['__file',"resources/js/components/administracion/RolPermisoComponent.vue"]])
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
 
@@ -61863,7 +61948,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RubrosComponent_vue_vue_type_template_id_136789b1_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RubrosComponent.vue?vue&type=template&id=136789b1&scoped=true */ "./resources/js/components/administracion/RubrosComponent.vue?vue&type=template&id=136789b1&scoped=true");
 /* harmony import */ var _RubrosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RubrosComponent.vue?vue&type=script&lang=js */ "./resources/js/components/administracion/RubrosComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _RubrosComponent_vue_vue_type_style_index_0_id_136789b1_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RubrosComponent.vue?vue&type=style&index=0&id=136789b1&scoped=true&lang=css */ "./resources/js/components/administracion/RubrosComponent.vue?vue&type=style&index=0&id=136789b1&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -61871,7 +61956,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_RubrosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RubrosComponent_vue_vue_type_template_id_136789b1_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-136789b1"],['__file',"resources/js/components/administracion/RubrosComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_RubrosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RubrosComponent_vue_vue_type_template_id_136789b1_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-136789b1"],['__file',"resources/js/components/administracion/RubrosComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61894,7 +61979,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SucursalComponent_vue_vue_type_template_id_f0fd97f0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SucursalComponent.vue?vue&type=template&id=f0fd97f0&scoped=true */ "./resources/js/components/administracion/SucursalComponent.vue?vue&type=template&id=f0fd97f0&scoped=true");
 /* harmony import */ var _SucursalComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SucursalComponent.vue?vue&type=script&lang=js */ "./resources/js/components/administracion/SucursalComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _SucursalComponent_vue_vue_type_style_index_0_id_f0fd97f0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SucursalComponent.vue?vue&type=style&index=0&id=f0fd97f0&scoped=true&lang=css */ "./resources/js/components/administracion/SucursalComponent.vue?vue&type=style&index=0&id=f0fd97f0&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -61902,7 +61987,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SucursalComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SucursalComponent_vue_vue_type_template_id_f0fd97f0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-f0fd97f0"],['__file',"resources/js/components/administracion/SucursalComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SucursalComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SucursalComponent_vue_vue_type_template_id_f0fd97f0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-f0fd97f0"],['__file',"resources/js/components/administracion/SucursalComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61922,11 +62007,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 const script = {}
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"])(script, [['__file',"resources/js/components/administracion/UsuariosComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"])(script, [['__file',"resources/js/components/administracion/UsuariosComponent.vue"]])
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
 
@@ -61945,13 +62030,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Body_header_vue_vue_type_template_id_18405920__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Body_header.vue?vue&type=template&id=18405920 */ "./resources/js/components/plugin_vue/Body_header.vue?vue&type=template&id=18405920");
 /* harmony import */ var _Body_header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Body_header.vue?vue&type=script&lang=js */ "./resources/js/components/plugin_vue/Body_header.vue?vue&type=script&lang=js");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Body_header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Body_header_vue_vue_type_template_id_18405920__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/plugin_vue/Body_header.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Body_header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Body_header_vue_vue_type_template_id_18405920__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/plugin_vue/Body_header.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -61974,7 +62059,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CargoComponent_vue_vue_type_template_id_1c00dfd9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CargoComponent.vue?vue&type=template&id=1c00dfd9&scoped=true */ "./resources/js/components/recursos_humanos/CargoComponent.vue?vue&type=template&id=1c00dfd9&scoped=true");
 /* harmony import */ var _CargoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CargoComponent.vue?vue&type=script&lang=js */ "./resources/js/components/recursos_humanos/CargoComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _CargoComponent_vue_vue_type_style_index_0_id_1c00dfd9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CargoComponent.vue?vue&type=style&index=0&id=1c00dfd9&scoped=true&lang=css */ "./resources/js/components/recursos_humanos/CargoComponent.vue?vue&type=style&index=0&id=1c00dfd9&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -61982,7 +62067,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_CargoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_CargoComponent_vue_vue_type_template_id_1c00dfd9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-1c00dfd9"],['__file',"resources/js/components/recursos_humanos/CargoComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_CargoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_CargoComponent_vue_vue_type_template_id_1c00dfd9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-1c00dfd9"],['__file',"resources/js/components/recursos_humanos/CargoComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -62005,7 +62090,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EmpleadosComponent_vue_vue_type_template_id_5908cbe6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EmpleadosComponent.vue?vue&type=template&id=5908cbe6&scoped=true */ "./resources/js/components/recursos_humanos/EmpleadosComponent.vue?vue&type=template&id=5908cbe6&scoped=true");
 /* harmony import */ var _EmpleadosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmpleadosComponent.vue?vue&type=script&lang=js */ "./resources/js/components/recursos_humanos/EmpleadosComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _EmpleadosComponent_vue_vue_type_style_index_0_id_5908cbe6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EmpleadosComponent.vue?vue&type=style&index=0&id=5908cbe6&scoped=true&lang=css */ "./resources/js/components/recursos_humanos/EmpleadosComponent.vue?vue&type=style&index=0&id=5908cbe6&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -62013,7 +62098,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_EmpleadosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EmpleadosComponent_vue_vue_type_template_id_5908cbe6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5908cbe6"],['__file',"resources/js/components/recursos_humanos/EmpleadosComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_EmpleadosComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EmpleadosComponent_vue_vue_type_template_id_5908cbe6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5908cbe6"],['__file',"resources/js/components/recursos_humanos/EmpleadosComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -62036,7 +62121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NivelComponent_vue_vue_type_template_id_408bcd53_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NivelComponent.vue?vue&type=template&id=408bcd53&scoped=true */ "./resources/js/components/recursos_humanos/NivelComponent.vue?vue&type=template&id=408bcd53&scoped=true");
 /* harmony import */ var _NivelComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NivelComponent.vue?vue&type=script&lang=js */ "./resources/js/components/recursos_humanos/NivelComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _NivelComponent_vue_vue_type_style_index_0_id_408bcd53_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NivelComponent.vue?vue&type=style&index=0&id=408bcd53&scoped=true&lang=css */ "./resources/js/components/recursos_humanos/NivelComponent.vue?vue&type=style&index=0&id=408bcd53&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -62044,7 +62129,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_NivelComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NivelComponent_vue_vue_type_template_id_408bcd53_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-408bcd53"],['__file',"resources/js/components/recursos_humanos/NivelComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_NivelComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_NivelComponent_vue_vue_type_template_id_408bcd53_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-408bcd53"],['__file',"resources/js/components/recursos_humanos/NivelComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -62067,7 +62152,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProfesionComponent_vue_vue_type_template_id_69e56a58_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfesionComponent.vue?vue&type=template&id=69e56a58&scoped=true */ "./resources/js/components/recursos_humanos/ProfesionComponent.vue?vue&type=template&id=69e56a58&scoped=true");
 /* harmony import */ var _ProfesionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfesionComponent.vue?vue&type=script&lang=js */ "./resources/js/components/recursos_humanos/ProfesionComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _ProfesionComponent_vue_vue_type_style_index_0_id_69e56a58_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfesionComponent.vue?vue&type=style&index=0&id=69e56a58&scoped=true&lang=css */ "./resources/js/components/recursos_humanos/ProfesionComponent.vue?vue&type=style&index=0&id=69e56a58&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -62075,7 +62160,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ProfesionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ProfesionComponent_vue_vue_type_template_id_69e56a58_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-69e56a58"],['__file',"resources/js/components/recursos_humanos/ProfesionComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ProfesionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ProfesionComponent_vue_vue_type_template_id_69e56a58_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-69e56a58"],['__file',"resources/js/components/recursos_humanos/ProfesionComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -62098,7 +62183,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UnidadOrgComponent_vue_vue_type_template_id_5b9bf868_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UnidadOrgComponent.vue?vue&type=template&id=5b9bf868&scoped=true */ "./resources/js/components/recursos_humanos/UnidadOrgComponent.vue?vue&type=template&id=5b9bf868&scoped=true");
 /* harmony import */ var _UnidadOrgComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UnidadOrgComponent.vue?vue&type=script&lang=js */ "./resources/js/components/recursos_humanos/UnidadOrgComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _UnidadOrgComponent_vue_vue_type_style_index_0_id_5b9bf868_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UnidadOrgComponent.vue?vue&type=style&index=0&id=5b9bf868&scoped=true&lang=css */ "./resources/js/components/recursos_humanos/UnidadOrgComponent.vue?vue&type=style&index=0&id=5b9bf868&scoped=true&lang=css");
-/* harmony import */ var D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -62106,7 +62191,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_Desarrollo_Eddy_Claros_nueva_farmacia_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_UnidadOrgComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UnidadOrgComponent_vue_vue_type_template_id_5b9bf868_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5b9bf868"],['__file',"resources/js/components/recursos_humanos/UnidadOrgComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_proyectos_farmacia_proyectos_farmacia_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_UnidadOrgComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UnidadOrgComponent_vue_vue_type_template_id_5b9bf868_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5b9bf868"],['__file',"resources/js/components/recursos_humanos/UnidadOrgComponent.vue"]])
 /* hot reload */
 if (false) {}
 
