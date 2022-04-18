@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Adm_AccionVentana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AdmAccionVentanaController extends Controller
 {
@@ -35,7 +36,15 @@ class AdmAccionVentanaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        
+        $accion = new Adm_AccionVentana();
+        $accion->nombre=$request->nombre;
+        $accion->metodo_vue=$request->metodovue;
+        $accion->idventana=$request->idventana;
+        $accion->descripcion=$request->descripcion;
+        $accion->id_usuario_registra=auth()->user()->id;
+        $accion->save();
     }
 
     /**
@@ -69,7 +78,14 @@ class AdmAccionVentanaController extends Controller
      */
     public function update(Request $request, Adm_AccionVentana $adm_AccionVentana)
     {
-        //
+        $accion = Adm_AccionVentana::findOrFail($request->id);
+
+        $accion->nombre=$request->nombre;
+
+        $accion->metodo_vue=$request->metodovue;
+        $accion->descripcion=$request->descripcion;
+        $accion->id_usuario_modifica=auth()->user()->id;
+        $accion->save();
     }
 
     /**
@@ -81,5 +97,20 @@ class AdmAccionVentanaController extends Controller
     public function destroy(Adm_AccionVentana $adm_AccionVentana)
     {
         //
+    }
+    public function desactivar(Request $request)
+    {
+        $modulo = Adm_AccionVentana::findOrFail($request->id);
+        $modulo->activo=0;
+        $modulo->id_usuario_modifica=auth()->user()->id;
+        $modulo->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $modulo = Adm_AccionVentana::findOrFail($request->id);
+        $modulo->activo=1;
+        $modulo->id_usuario_modifica=auth()->user()->id;
+        $modulo->save();
     }
 }

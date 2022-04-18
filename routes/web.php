@@ -7,6 +7,7 @@ use App\Http\Controllers\AdmRegistroController;
 use App\Http\Controllers\AdmSessionController;
 use App\Http\Controllers\AdmSucursalController;
 use App\Http\Controllers\AdmRubroController;
+use App\Http\Controllers\AdmUserController;
 use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
@@ -92,6 +93,14 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/accion/selectaccion',[AdmAccionVentanaController::class,'selectSucursal']);
 
 
+    Route::get('/usuario',[AdmUserController::class,'index']);
+    Route::post('/usuario/registrar', [AdmUserController::class,'store']);
+    Route::put('/usuario/actualizar', [AdmUserController::class,'update']);
+    Route::put('/usuario/desactivar', [AdmUserController::class,'desactivar']);
+    Route::put('/usuario/activar', [AdmUserController::class,'activar']);
+    Route::get('/usuario/selectusuario',[AdmUserController::class,'selectSucursal']);
+
+
     //rrhh ////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('/empleado',[RrhEmpleadoController::class,'index']);
     Route::post('/empleado/registrar', [RrhEmpleadoController::class,'store']);
@@ -99,6 +108,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/empleado/desactivar', [RrhEmpleadoController::class,'desactivar']);
     Route::put('/empleado/activar', [RrhEmpleadoController::class,'activar']);
     Route::get('/empleado/selectempleado',[RrhEmpleadoController::class,'selectEmpleado']);
+    Route::get('/empleado/selectnouser',[RrhEmpleadoController::class,'selectNoUser']);
 
     Route::get('/formacion',[RrhFormacionController::class,'index']);
     Route::post('/formacion/registrar', [RrhFormacionController::class,'store']);

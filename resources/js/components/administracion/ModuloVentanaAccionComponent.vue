@@ -18,33 +18,25 @@
                 
                 </div>
                 <div class="card-body">
-                    <!-- <div class="form-group row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarModulos(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarModulos(1)"><i class="fa fa-search" ></i> Buscar</button>
-                            </div>
-                        </div>
-                    </div> -->
                     <div v-for="modulo in arrayModulos" :key="modulo.id">
                         
                         <label for="" class="col-md-6">- &nbsp;{{ modulo.nombre }}</label>
                         <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirModulo(modulo.id)">
-                            Abrir Modulo
+                            Mostrar Modulo
                         </button> &nbsp;
                         <button v-else type="button" class="btn btn-warning btn-sm" @click="reducirModulo(modulo.id)">
-                               Cerrar Modulo
+                            Cerrar Modulo
                         </button> &nbsp;
-                        <button v-if="modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="abrirModal('registrarventana',idventana)">
-                                    Agregar Ventana
-                                </button>&nbsp;
+                        <button v-if="modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="abrirModal('registrarventana',[],modulo.id)">
+                            Agregar Ventana
+                        </button>&nbsp;
                         <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',modulo)">
                             <i class="icon-pencil"></i>
                         </button>&nbsp;
-                        <button v-if="modulo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id)" >
+                        <button v-if="modulo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo('modulo',modulo.id)" >
                             <i class="icon-trash"></i>
                         </button>&nbsp;
-                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(modulo.id)" >
+                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo('modulo',modulo.id)" >
                             <i class="icon-check"></i>
                         </button>&nbsp;
                         
@@ -55,129 +47,50 @@
                         <hr>
                         <div  v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id" >    
                             
-                                <label for="" class="col-md-1" style="text-align:right">-</label>
-                                <label for="" v-text="ventana.nombre" class="col-md-6"></label>
-                                <button v-if="!ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="expandirVentana(modulo.id,ventana.id)">
-                                    Abrir Ventana
-                                </button> &nbsp;
-                                <button v-else type="button" class="btn btn-warning btn-sm" @click="reducirVentana(modulo.id,ventana.id)">
-                                    Cerrar Ventana
-                                </button>&nbsp;
-                                <button v-if="ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="abrirModal('registrarAccion',idventana)">
-                                    Agregar Accion
-                                </button>&nbsp;
-                                
-                                <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
-                                    <i class="icon-pencil"></i>
-                                </button>&nbsp;
-                                <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarVentana(modulo.id,ventana.id)" >
-                                    <i class="icon-trash"></i>
-                                </button>&nbsp;
-                                <button v-else type="button" class="btn btn-info btn-sm" @click="activarVentana(modulo.id,ventana.id)" >
-                                    <i class="icon-check"></i>
-                                </button>&nbsp;
-                                
-                                <span v-if="ventana.activo" class="badge badge-success">Activo</span>
-                                <span v-else class="badge badge-warning">Desactivado</span>
-                                 
+                            <label for="" class="col-md-1" style="text-align:right">-</label>
+                            <label for="" v-text="ventana.nombre" class="col-md-6"></label>
+                            <button v-if="!ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="expandirVentana(modulo.id,ventana.id)">
+                                Mostrar Ventana
+                            </button> &nbsp;
+                            <button v-else type="button" class="btn btn-warning btn-sm" @click="reducirVentana(modulo.id,ventana.id)">
+                                Cerrar Ventana
+                            </button>&nbsp;
+                            <button v-if="ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="abrirModal('registraraccion',[],ventana.id)">
+                                Agregar Accion
+                            </button>&nbsp;
                             
+                            <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizarventana',ventana)">
+                                <i class="icon-pencil"></i>
+                            </button>&nbsp;
+                            <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo('ventana',ventana.id)" >
+                                <i class="icon-trash"></i>
+                            </button>&nbsp;
+                            <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo('ventana',ventana.id)" >
+                                <i class="icon-check"></i>
+                            </button>&nbsp;
                             
-<hr>
+                            <span v-if="ventana.activo" class="badge badge-success">Activo</span>
+                            <span v-else class="badge badge-warning">Desactivado</span>
+                                
+                            <hr>
                             <div  v-show="ventana.mostraraccion" v-for="accion in ventana.accion" :key="accion.id" >    
                                 <label for="" class="col-md-2" style="text-align:right">-</label>
                                 <label for="" v-text="accion.nombre" class="col-md-6"></label>
                                 
-                                &nbsp;<button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',accion)">
+                                &nbsp;<button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizaraccion',accion)">
                                     <i class="icon-pencil"></i>
                                 </button>&nbsp;
-                                <button v-if="accion.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAccion(modulo.id,ventana.id,accion.id)" >
+                                <button v-if="accion.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo('accion',accion.id)" >
                                     <i class="icon-trash"></i>
                                 </button>&nbsp;
-                                <button v-else type="button" class="btn btn-info btn-sm" @click="activarAccion(modulo.id,ventana.id,accion.id)" >
+                                <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo('accion',accion.id)" >
                                     <i class="icon-check"></i>
                                 </button>&nbsp;
                                 <span v-if="accion.activo" class="badge badge-success">Activo</span>
                                 <span v-else class="badge badge-warning">Desactivado</span>
-                                
+                                <hr>
                             </div>
-                            <hr>
-
                         </div>
-
-                        <!-- <table class="table table-bordered table-striped table-sm table-responsive">
-                        
-                        <tbody>
-                            <tr >
-                                <td style="width:200px">
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',modulo)">
-                                        <i class="icon-pencil"></i>
-                                    </button>&nbsp;
-                                    <button v-if="modulo.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id)" >
-                                        <i class="icon-trash"></i>
-                                    </button>&nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(modulo.id)" >
-                                        <i class="icon-check"></i>
-                                    </button>&nbsp;
-                                    <button v-if="!modulo.mostrarventana" type="button" class="btn btn-success btn-sm" @click="expandirModulo(modulo.id)">
-                                        +
-                                    </button> &nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="reducirModulo(modulo.id)">
-                                        -
-                                    </button> &nbsp;
-                                </td>
-                                <td v-text="modulo.nombre" colspan="3" ></td>
-                                <td style="width:50px">
-                                    <div v-if="modulo.activo==1">
-                                        <span class="badge badge-success">Activo</span>
-                                    </div>
-                                    <div v-else>
-                                        <span class="badge badge-warning">Desactivado</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr v-show="modulo.mostrarventana" v-for="ventana in modulo.ventana" :key="ventana.id">
-                                <td style="width:200px"></td>
-                                <td style="width:200px">
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ventana)">
-                                        <i class="icon-pencil"></i>
-                                    </button>&nbsp;
-                                    <button v-if="ventana.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarModulo(modulo.id,ventana.id)" >
-                                        <i class="icon-trash"></i>
-                                    </button>&nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarModulo(ventana.id)" >
-                                        <i class="icon-check"></i>
-                                    </button>&nbsp;
-                                        <button v-if="!ventana.mostraraccion" type="button" class="btn btn-success btn-sm" @click="expandirVentana(modulo.id,ventana.id)">
-                                        +
-                                    </button> &nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="reducirVentana(ventana.id)">
-                                        -
-                                    </button> &nbsp;
-                                </td>
-                                <td v-text="ventana.nombre"></td>
-                                <td style="width:50px">
-                                    <div v-if="ventana.activo==1">
-                                        <span class="badge badge-success">Activo</span>
-                                    </div>
-                                    <div v-else>
-                                        <span class="badge badge-warning">Desactivado</span>
-                                    </div>
-                                </td>
-                                <tr v-show="!ventana.mostraraccion" v-for="accion in ventana.mostraraccion" :key="accion.id">
-                                    <td v-text="accion.nombre"></td>
-                                </tr>
-                            </tr>
-                             -->
-                            
-
-                            
-                            
-
-                            
-
-                            
-                        <!-- </tbody>
-                    </table> -->
                     </div>
                 </div>
             </div>
@@ -196,10 +109,30 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ventana <span  v-if="!simodulo" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">{{ etiqueta }} <span  v-if="!simodulo" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="modulo" name="modulo" class="form-control" placeholder="Nombre del Modulo" v-model="modulo" v-on:focus="selectAll" >
                                     <span  v-if="!simodulo" class="error">Debe Ingresar el Nombre del Modulo</span>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="tipomodal=='ventana'">
+                                <label class="col-md-3 form-control-label" for="text-input">Template vue <span  v-if="templatevue==''" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="templatevue" name="templatevue" class="form-control" placeholder="Nombre del Modulo" v-model="templatevue" v-on:focus="selectAll" >
+                                    <span  v-if="templatevue==''" class="error">Debe Ingresar el Nombre del Template</span>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="tipomodal=='accion'">
+                                <label class="col-md-3 form-control-label" for="text-input">Metodo Vue <span  v-if="metodovue==''" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="metodovue" name="metodovue" class="form-control" placeholder="Nombre del Metodo Vue" v-model="metodovue" v-on:focus="selectAll" >
+                                    <span  v-if="metodovue==''" class="error">Debe Ingresar el Nombre del Metodo Vue</span>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="tipomodal=='accion'">
+                                <label class="col-md-3 form-control-label" for="text-input">Descripcion </label>
+                                <div class="col-md-9">
+                                    <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Nombre del Metodo Vue" v-model="descripcion" v-on:focus="selectAll" >
                                 </div>
                             </div>
                         </form>
@@ -233,6 +166,14 @@ import Swal from 'sweetalert2'
                 tipoAccion:1,
                 idmodulo:'',
                 buscar:'',
+                nombre:'',
+                etiqueta:'Modulo:',
+                tipomodal:'modulo',
+                templatevue:'',
+                metodovue:'',
+                descripcion:'',
+                idventana:'',
+                idaccion:''
             }
 
         },
@@ -335,17 +276,48 @@ import Swal from 'sweetalert2'
             },
             registrarModulo(){
                 let me = this;
-                axios.post('/modulo/registrar',{
+                if(me.tipomodal=='modulo')
+                {
+                    axios.post('/modulo/registrar',{
                     'nombre':me.modulo,
-                }).then(function(response){
-                    me.cerrarModal('registrar');
-                    me.listarModulos();
-                }).catch(function(error){
-                    console.log(error);
-                });
+                    }).then(function(response){
+                        me.cerrarModal('registrar');
+                        me.listarModulos();
+                    }).catch(function(error){
+                        console.log(error);
+                    });
+                }
+                if(me.tipomodal=='ventana')
+                {
+                    axios.post('/ventana/registrar',{
+                        'idmodulo':me.idmodulo,
+                        'nombre':me.modulo,
+                        'nomtemplate':me.templatevue,
+                    }).then(function(response){
+                        me.cerrarModal('registrar');
+                        me.listarModulos();
+                    }).catch(function(error){
+                        console.log(error);
+                    });
+                }
+                if(me.tipomodal=='accion')
+                {
+                    axios.post('/accion/registrar',{
+                        'idventana':me.idventana,
+                        'nombre':me.modulo,
+                        'metodovue':me.metodovue,
+                        'descripcion':me.descripcion
+                    }).then(function(response){
+                        me.cerrarModal('registrar');
+                        me.listarModulos();
+                    }).catch(function(error){
+                        console.log(error);
+                    });
+                }
+                    
 
             },
-            eliminarModulo(idmodulo){
+            eliminarModulo(accion,idmodulo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -365,8 +337,29 @@ import Swal from 'sweetalert2'
                 cancelButtonText: 'No, Cancelar',
                 reverseButtons: true
                 }).then((result) => {
+                    let url;
+                    switch(accion){
+                        case 'modulo':
+                            {
+                                url='/modulo/desactivar';
+                                break;
+                            }
+                        case 'ventana':
+                            {
+                                url='/ventana/desactivar';
+                                break;
+                            }
+                        case 'accion':
+                            {
+                                url='/accion/desactivar';
+                                break;
+                            }
+                                
+                    }
+                    
+
                 if (result.isConfirmed) {
-                     axios.put('/modulo/desactivar',{
+                     axios.put(url,{
                         'id': idmodulo
                     }).then(function (response) {
                         
@@ -394,7 +387,7 @@ import Swal from 'sweetalert2'
                 }
                 })
             },
-            activarModulo(idmodulo){
+            activarModulo(accion,idmodulo){
                 let me=this;
                 //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -414,8 +407,27 @@ import Swal from 'sweetalert2'
                 cancelButtonText: 'No, Cancelar',
                 reverseButtons: true
                 }).then((result) => {
+                    let url;
+                    switch(accion){
+                        case 'modulo':
+                            {
+                                url='/modulo/activar';
+                                break;
+                            }
+                        case 'ventana':
+                            {
+                                url='/ventana/activar';
+                                break;
+                            }
+                        case 'accion':
+                            {
+                                url='/accion/activar';
+                                break;
+                            }
+                                
+                    }
                 if (result.isConfirmed) {
-                     axios.put('/modulo/activar',{
+                     axios.put(url,{
                         'id': idmodulo
                     }).then(function (response) {
                         
@@ -446,32 +458,78 @@ import Swal from 'sweetalert2'
             actualizarModulo(){
                // const Swal = require('sweetalert2')
                 let me =this;
-                axios.put('/modulo/actualizar',{
-                    'id':me.idmodulo,
-                    'nombre':me.modulo,
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
 
-                        me.listarModulos();
-                    } 
-                }).catch(function (error) {
-                   
-                });
+                if(me.tipomodal=='modulo'){
+                    axios.put('/modulo/actualizar',{
+                        'id':me.idmodulo,
+                        'nombre':me.modulo,
+                        
+                    }).then(function (response) {
+                        if(response.data.length){
+                        }
+                        // console.log(response)
+                        else{
+                                Swal.fire('Actualizado Correctamente')
+
+                            me.listarModulos();
+                        } 
+                    }).catch(function (error) {
+                    
+                    });
+                }
+                if(me.tipomodal=='ventana')
+                {
+                    axios.put('/ventana/actualizar',{
+                        'id':me.idventana,
+                        'idmodulo':me.idmodulo,
+                        'nombre':me.modulo,
+                        'nomtemplate':me.templatevue,
+                        
+                    }).then(function (response) {
+                        if(response.data.length){
+                        }
+                        // console.log(response)
+                        else{
+                                Swal.fire('Actualizado Correctamente')
+
+                            me.listarModulos();
+                        } 
+                    }).catch(function (error) {
+                    
+                    });
+                }
+                if(me.tipomodal=='accion'){
+                    axios.put('/accion/actualizar',{
+                        'id':me.idaccion,
+                        'nombre':me.modulo,
+                        'metodovue':me.metodovue,
+                        'descripcion':me.descripcion
+                        
+                    }).then(function (response) {
+                        if(response.data.length){
+                        }
+                        // console.log(response)
+                        else{
+                                Swal.fire('Actualizado Correctamente')
+
+                            me.listarModulos();
+                        } 
+                    }).catch(function (error) {
+                    
+                    });
+                }
+                
                 me.cerrarModal('registrar');
 
 
             },
-            abrirModal(accion,data= []){
+            abrirModal(accion,data= [],id){
                 let me=this;
                 switch(accion){
                     case 'registrar':
                     {
                         me.tituloModal='Registar Modulo'
+                        me.tipomodal='modulo';
                         me.tipoAccion=1;
                         me.modulo='';
                         me.classModal.openModal('registrar');
@@ -487,6 +545,59 @@ import Swal from 'sweetalert2'
                         me.classModal.openModal('registrar');
                         break;
                     }
+                    case 'registrarventana':
+                    {
+                        me.tituloModal='Registar Ventana'
+                        me.tipoAccion=1;
+                        me.etiqueta='Nombre Ventana: ';
+                        me.tipomodal='ventana';
+                        me.modulo='';
+                        me.templatevue=''
+                        me.idmodulo=id;
+                        me.classModal.openModal('registrar');
+                        break;
+
+                    }
+                     case 'actualizarventana':
+                    {
+                        console.log(data);
+                        me.tituloModal='Actualizar Ventana'
+                        me.tipoAccion=2;
+                        me.etiqueta='Nombre Ventana: ';
+                        me.tipomodal='ventana';
+                        me.modulo=data.nombre;
+                        me.templatevue=data.template
+                        me.idventana=data.id;
+                        me.classModal.openModal('registrar');
+                        break;
+
+                    }
+                    case 'registraraccion':
+                    {
+                        me.tituloModal='Registar Accion'
+                        me.tipoAccion=1;
+                        me.etiqueta='Nombre Accion: ';
+                        me.tipomodal='accion';
+                        me.modulo='';
+                        me.metodovue=''
+                        me.idventana=id;
+                        me.classModal.openModal('registrar');
+                        break;
+
+                    }
+                     case 'actualizaraccion':
+                    {
+                        me.tituloModal='Actualizar Accion'
+                        me.tipoAccion=2;
+                        me.etiqueta='Nombre Accion: ';
+                        me.tipomodal='accion';
+                        me.modulo=data.nombre;
+                        me.metodovue=data.metodo_vue
+                        me.idaccion=data.id;
+                        me.classModal.openModal('registrar');
+                        break;
+
+                    }
 
                 }
                 
@@ -497,6 +608,8 @@ import Swal from 'sweetalert2'
                 me.modulo='';
                 me.descripcion='';
                 me.tipoAccion=1;
+                me.templatevue=''
+                
                 me.areamedica=true;
                 
             },
@@ -521,5 +634,9 @@ import Swal from 'sweetalert2'
     color: red;
     font-size: 10px;
     
+}
+hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 </style>

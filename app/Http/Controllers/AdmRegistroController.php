@@ -38,12 +38,19 @@ class AdmRegistroController extends Controller
     {
         $this->validate(request(),[
             'name'=>'required',
+            'idempleado'=>'required',
             'email'=>'required|email',
-            'password'=>'required|confirmed',
+            'password'=>'required',
         ]);
-        $user =User::create(request(['name','email','password']));
-        auth()->login($user);
-        return redirect()->to('/');
+        
+        /* $user =new User();
+        $user->idempleado=$request->idempleado;
+        $user->email=$request->email;
+        $user->password=bcrypt($request->password);
+        $user->save(); */
+        $user =User::create(request(['name','idempleado','email','password']));
+        //auth()->login($user);
+        //return redirect()->to('/');
     }
 
     /**

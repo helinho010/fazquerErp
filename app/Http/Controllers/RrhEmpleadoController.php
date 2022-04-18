@@ -260,4 +260,27 @@ class RrhEmpleadoController extends Controller
                                 ->get();
         return $empleados;
     }
+    public function selectNoUser(Request $request)
+    {
+        
+        $raw2=DB::raw('concat(apaterno," ",amaterno," ",rrh__empleados.nombre) as nomempleado');               
+        $raw3=DB::raw('concat(left(nombre,1),apaterno) as name');
+        //dd($raw2);
+        $user=DB::table('users')->select('idempleado')->where('activo',1)->get()->toArray();
+        //dd($user);
+        $users=array();
+
+        foreach ($user as $value) {
+            array_push($users,$value->idempleado);
+        }
+        //dd($users);
+        $empleados=DB::table('rrh__empleados')->select('id',$raw2,$raw3)
+        ->whereNotIn('id',$users )
+        ->get();
+
+        //dd($empleados);
+        return $empleados;
+    }
+
+    
 }
