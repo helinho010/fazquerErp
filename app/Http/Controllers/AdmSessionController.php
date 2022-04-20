@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adm_Modulo;
+use App\Models\Adm_Role;
 use App\Models\Adm_Session;
 use App\Models\Adm_UserRoleSucursal;
+use App\Models\Adm_VentanaModulo;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -91,7 +94,10 @@ class AdmSessionController extends Controller
 
         session(['idsuc'=>$sucurs[0]->idsucursal,
                 'nomsucursal'=>$sucurs[0]->nomsuc,
-                'nomrole '=>$sucurs[0]->nomrole]);
+                'nomrole '=>$sucurs[0]->nomrole,
+                'idrole'=>$sucurs[0]->idrole,
+                'iduserrolesuc'=>$request->sucur,
+            ]);
         return redirect()->to('/');
     }
 
@@ -143,5 +149,28 @@ class AdmSessionController extends Controller
         session()->forget('nomrole');
         auth()->logout();
         return redirect()->to('/');
+    }
+    public function listarPermisos(){
+        //echo "hola";
+         $idrole=session('idrole');
+         //dd($idrole);
+        $roles=Adm_Role::where('id',$idrole)
+                        ->get();
+        //dd($roles)       ;
+        $idmodulos=explode(",",$roles[0]->idmodulos);
+        $idventanas=explode(",",$roles[0]->idventanas);
+ 
+        //dd($idventanas);
+
+        $modulos=Adm_Modulo::wherein('id',$idmodulos)->get();
+        $ventanas=Adm_VentanaModulo::wherein('id',$idventanas)->get();
+        //dd($modulos);
+        return ['modulos'=>$modulos,
+                'ventanas'=>$ventanas];
+
+
+
+        //dd($role);
+
     }
 }

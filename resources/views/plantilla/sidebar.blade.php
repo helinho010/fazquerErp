@@ -1,13 +1,39 @@
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
-            <li @click="menu=0" class="nav-item">
-                <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Escritorio</a>
+            {{-- <li @click="menu=0" class="nav-item">
+                <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Inicio</a>
+            </li> --}}
+            <li class="nav-title">
+                Menu Opciones
             </li>
-            <!-- <li class="nav-title">
-                Mantenimiento
-            </li> -->
-            <li class="nav-item nav-dropdown">
+
+            <?php use App\Http\Controllers\AdmSessionController;
+            $vent=AdmSessionController::listarPermisos();
+            //dd($vent);
+            
+            ?>
+           
+
+
+            @foreach ($vent['modulos'] as $item)
+                <li class="nav-item nav-dropdown menudown ">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> 
+                        <font color="turquoise" style="text-transform:capitalize">{{ $item->nombre }}</font>
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        @foreach($vent['ventanas'] as $ventana)
+                            <li @click="menu={{ $ventana->codventana }}" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i>{{ $ventana->nomventana }} </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
+
+
+
+            {{-- <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i>
                     <font style="color: turquoise"> Administracion</font> </a>
                 <ul class="nav-dropdown-items">
@@ -121,7 +147,7 @@
                         <a class="nav-link" href="#"><i class="icon-info"></i> Categorias</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <!--
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i> Acceso</a>
