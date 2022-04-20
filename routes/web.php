@@ -30,9 +30,9 @@ use App\Http\Controllers\RrhUnidadOrganizacionalController;
 */
 
 Route::get('/', function () {
-    if(!is_null(session('idsucursal')))
+    /* if(!is_null(session('idsucursal')))
         return redirect()->to('/selectsuc');    
-    else
+    else */
         return view('contenido/contenido');    
     
 })->middleware('auth');
