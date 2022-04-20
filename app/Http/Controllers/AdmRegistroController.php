@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adm_Registro;
+use App\Models\Adm_UserRoleSucursal;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AdmRegistroController extends Controller
 {
@@ -48,7 +50,20 @@ class AdmRegistroController extends Controller
         $user->email=$request->email;
         $user->password=bcrypt($request->password);
         $user->save(); */
+        
         $user =User::create(request(['name','idempleado','email','password']));
+        
+        DB::table('users')->where('id',$user->id)->update(['id_usuario_registra'=>auth()->user()->id]);
+
+        $userrolesuc= new Adm_UserRoleSucursal();
+
+        $userrolesuc->idrole=$request->idrole;
+        $userrolesuc->iduser=$user->id;
+        $userrolesuc->idsucursal=$request->idsucursal;
+        $userrolesuc->id_usuario_registra=auth()->user()->id;
+        $userrolesuc->save();
+
+
         //auth()->login($user);
         //return redirect()->to('/');
     }

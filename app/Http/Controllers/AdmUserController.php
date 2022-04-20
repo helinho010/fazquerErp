@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adm_UserRoleSucursal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,8 @@ class AdmUserController extends Controller
 {
     public static function getUser() {    
         //dd(Auth::user());
-        return Auth::user();    
+        $user=Auth::user();
+        return $user;    
     }
     /**
      * Display a listing of the resource.
@@ -20,7 +22,7 @@ class AdmUserController extends Controller
      */
     public function index(Request $request)
     {
-        $raw=DB::raw('concat(nombre," ",apaterno," ",amaterno) as nombre');
+        $raw=DB::raw('concat(nombre," ",ifnull(apaterno," ")," ",ifnull(amaterno," ")) as nombre');
         $buscararray=array();
         if(!empty($request->buscar)){
             $buscararray = explode(" ",$request->buscar);
@@ -42,7 +44,8 @@ class AdmUserController extends Controller
                                 ->select($raw,
                                         'users.id as id',
                                         'email',
-                                        'users.activo')
+                                        'users.activo',
+                                        'name')
                                 ->orderby('rrh__empleados.apaterno','asc')
                                 ->orderby('rrh__empleados.amaterno','asc')
                                 ->orderby('nombre','asc')
@@ -56,11 +59,27 @@ class AdmUserController extends Controller
                             ->select($raw,
                                     'users.id as id',
                                     'email',
-                                    'users.activo')
+                                    'users.activo',
+                                    'name')
                             ->orderby('rrh__empleados.apaterno','asc')
                             ->orderby('rrh__empleados.amaterno','asc')
                             ->orderby('nombre','asc')
                             ->paginate(20);
+        }
+        $rawroles=DB::raw('concat(adm__roles.nombre," - ",adm__sucursals.razon_social) as rolsucursal');
+        foreach ($users as  $value) {
+            $rolsuc=Adm_UserRoleSucursal::join('adm__sucursals','adm__sucursals.id','adm__user_role_sucursals.idsucursal')
+                                        ->join('adm__roles','adm__roles.id','adm__user_role_sucursals.idrole')
+                                        ->select('adm__user_role_sucursals.id as id',
+                                                $rawroles,
+                                                'idsucursal',
+                                                'idrole',
+                                                'adm__user_role_sucursals.activo')
+                                        ->where('iduser',$value->id)
+                                        //->where('adm__user_role_sucursals.activo',1)
+                                        ->get();
+        
+            $value->rolsucursal=$rolsuc;            
         }
         
         //$users = User::all();
@@ -97,13 +116,7 @@ class AdmUserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
        
-        $user->nombre=$request->nombre;
-        $user->email=$request->descripcion;
-        $user->password=$request->areamedica;
-        $user->id_usuario_registra=auth()->user()->id;
-        $user->save();
     }
 
     /**
@@ -139,9 +152,9 @@ class AdmUserController extends Controller
     {
         $user = User::findOrFail($request->id);
 
-        $user->nombre=$request->nombre;
-        $user->descripcion=$request->descripcion;
-        $user->areamedica=$request->areamedica;
+        $user->email=$request->email;
+        if($request->cambiarpass)
+            $user->password=$request->password;
         $user->id_usuario_modifica=auth()->user()->id;
         $user->save();
     }

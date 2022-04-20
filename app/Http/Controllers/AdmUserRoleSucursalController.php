@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Adm_UserRoleSucursal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdmUserRoleSucursalController extends Controller
 {
@@ -12,9 +13,21 @@ class AdmUserRoleSucursalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //dd($request->iduser);
+        $rawroles=DB::raw('concat(adm__roles.nombre," - ",adm__sucursals.razon_social) as rolsucursal');
+        $userrolesuc=Adm_UserRoleSucursal::join('adm__roles','adm__roles.id','adm__user_role_sucursals.idrole')
+                                            ->join('adm__sucursals','adm__sucursals.id','adm__user_role_sucursals.idsucursal')
+                                            ->select('adm__user_role_sucursals.id as id',
+                                                        $rawroles,
+                                                        'idsucursal',
+                                                        'idrole',
+                                                        'adm__user_role_sucursals.activo'
+                                                        )
+                                            ->where('iduser',$request->iduser)
+                                            ->get();
+        return $userrolesuc;
     }
 
     /**
@@ -35,7 +48,15 @@ class AdmUserRoleSucursalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        //dd($request->iduser);
+        $userrolesuc = new Adm_UserRoleSucursal();
+
+        $userrolesuc->iduser=$request->iduser;
+        $userrolesuc->idsucursal=$request->idsucursal;
+        $userrolesuc->idrole=$request->idrole;
+        $userrolesuc->id_usuario_registra=auth()->user()->id;
+        $userrolesuc->save();
     }
 
     /**
@@ -81,5 +102,20 @@ class AdmUserRoleSucursalController extends Controller
     public function destroy(Adm_UserRoleSucursal $adm_UserRoleSucursal)
     {
         //
+    }
+    public function desactivar(Request $request)
+    {
+        $userrolesuc = Adm_UserRoleSucursal::findOrFail($request->id);
+        $userrolesuc->activo=0;
+        $userrolesuc->id_usuario_modifica=auth()->user()->id;
+        $userrolesuc->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $userrolesuc = Adm_UserRoleSucursal::findOrFail($request->id);
+        $userrolesuc->activo=1;
+        $userrolesuc->id_usuario_modifica=auth()->user()->id;
+        $userrolesuc->save();
     }
 }

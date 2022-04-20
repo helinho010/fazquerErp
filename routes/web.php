@@ -4,16 +4,19 @@ use App\Http\Controllers\AdmAccionVentanaController;
 use App\Http\Controllers\AdmModuloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmRegistroController;
+use App\Http\Controllers\AdmRoleController;
 use App\Http\Controllers\AdmSessionController;
 use App\Http\Controllers\AdmSucursalController;
 use App\Http\Controllers\AdmRubroController;
 use App\Http\Controllers\AdmUserController;
+use App\Http\Controllers\AdmUserRoleSucursalController;
 use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
 use App\Http\Controllers\RrhProfesionController;
 use App\Http\Controllers\RrhUnidadOrganizacionalController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +30,26 @@ use App\Http\Controllers\RrhUnidadOrganizacionalController;
 */
 
 Route::get('/', function () {
-    return view('contenido/contenido');
+    if(!is_null(session('idsucursal')))
+        return redirect()->to('/selectsuc');    
+    else
+        return view('contenido/contenido');    
+    
 })->middleware('auth');
 
 Route::get('/login',[AdmSessionController::class,'create'])
     ->middleware('guest')
     ->name('login.index');
+
+Route::get('/selectsuc',[AdmSessionController::class,'sucursal'])
+    ->middleware('auth')
+    ->name('login.sucursal');
+
+Route::post('/selectsuc',[AdmSessionController::class,'entrar'])
+    ->middleware('auth')
+    ->name('login.entrar');
+
+
 Route::post('/login',[AdmSessionController::class,'store'])
     ->middleware('guest')
     ->name('login.store');
@@ -76,21 +93,21 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/modulo/actualizar', [AdmModuloController::class,'update']);
     Route::put('/modulo/desactivar', [AdmModuloController::class,'desactivar']);
     Route::put('/modulo/activar', [AdmModuloController::class,'activar']);
-    Route::get('/modulo/selectmodulo',[AdmModuloController::class,'selectSucursal']);
+    Route::get('/modulo/selectmodulo',[AdmModuloController::class,'selectModulo']);
 
     Route::get('/ventana',[AdmVentanaModuloController::class,'index']);
     Route::post('/ventana/registrar', [AdmVentanaModuloController::class,'store']);
     Route::put('/ventana/actualizar', [AdmVentanaModuloController::class,'update']);
     Route::put('/ventana/desactivar', [AdmVentanaModuloController::class,'desactivar']);
     Route::put('/ventana/activar', [AdmVentanaModuloController::class,'activar']);
-    Route::get('/ventana/selectventana',[AdmVentanaModuloController::class,'selectSucursal']);
+    Route::get('/ventana/selectventana',[AdmVentanaModuloController::class,'selectVentana']);
 
     Route::get('/accion',[AdmAccionVentanaController::class,'index']);
     Route::post('/accion/registrar', [AdmAccionVentanaController::class,'store']);
     Route::put('/accion/actualizar', [AdmAccionVentanaController::class,'update']);
     Route::put('/accion/desactivar', [AdmAccionVentanaController::class,'desactivar']);
     Route::put('/accion/activar', [AdmAccionVentanaController::class,'activar']);
-    Route::get('/accion/selectaccion',[AdmAccionVentanaController::class,'selectSucursal']);
+    Route::get('/accion/selectaccion',[AdmAccionVentanaController::class,'selectAccion']);
 
 
     Route::get('/usuario',[AdmUserController::class,'index']);
@@ -98,7 +115,19 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/usuario/actualizar', [AdmUserController::class,'update']);
     Route::put('/usuario/desactivar', [AdmUserController::class,'desactivar']);
     Route::put('/usuario/activar', [AdmUserController::class,'activar']);
-    Route::get('/usuario/selectusuario',[AdmUserController::class,'selectSucursal']);
+    Route::get('/usuario/selectusuario',[AdmUserController::class,'selectUsuario']);
+
+    Route::get('/role',[AdmRoleController::class,'index']);
+    Route::post('/role/registrar', [AdmRoleController::class,'store']);
+    Route::put('/role/actualizar', [AdmRoleController::class,'update']);
+    Route::put('/role/desactivar', [AdmRoleController::class,'desactivar']);
+    Route::put('/role/activar', [AdmRoleController::class,'activar']);
+    Route::get('/role/selectrole',[AdmRoleController::class,'selectRole']);
+
+    Route::get('/userrolesuc',[AdmUserRoleSucursalController::class,'index']);
+    Route::post('/userrolesuc/registrar', [AdmUserRoleSucursalController::class,'store']);
+    Route::put('/userrolesuc/desactivar', [AdmUserRoleSucursalController::class,'desactivar']);
+    Route::put('/userrolesuc/activar', [AdmUserRoleSucursalController::class,'activar']);
 
 
     //rrhh ////////////////////////////////////////////////////////////////////////////////////////////////

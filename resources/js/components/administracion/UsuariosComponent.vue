@@ -30,6 +30,7 @@
                                 <th>Opciones</th>
                                 <th>Nombre</th>
                                 <th>email</th>
+                                <th>rol - sucursal</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -41,13 +42,22 @@
                                     </button> &nbsp;
                                     <button v-if="usuario.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarUsuario(usuario.id)" >
                                         <i class="icon-trash"></i>
-                                    </button>
+                                    </button>&nbsp;
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarUsuario(usuario.id)" >
                                         <i class="icon-check"></i>
-                                    </button>
+                                    </button>&nbsp;
+                                    <button v-if="usuario.id!=1" type="button" class="btn btn-success btn-sm" @click="abrirModal('addrolsuc',usuario)">
+                                        <!-- <i class="icon-pencil"></i> -->Editar Rol-Sucursal
+                                    </button> 
                                 </td>
                                     <td v-text="usuario.nombre"></td>
                                     <td v-text="usuario.email"></td>
+                                    <td><div  v-for="rolsuc in usuario.rolsucursal" :key="rolsuc.id" >
+                                            <span v-if="rolsuc.activo" class="badge badge-success" v-text="rolsuc.rolsucursal"></span>
+                                            <span v-else class="badge badge-danger" v-text="rolsuc.rolsucursal"></span>
+
+                                        </div></td>
+                                    
                                 <td>
                                     <div v-if="usuario.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -92,12 +102,15 @@
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Empleado: <span  v-if="idempleado==0" class="error">(*)</span></label>
-                                <div class="col-md-9">
+                                <div class="col-md-9" v-if="!siactualizar">
                                     <select name="" id="" v-model="idempleado" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-for="empleados in arrayEmpleado" :key="empleados.id" v-text="empleados.nomempleado" :value="empleados.id" ></option>
                                     </select>
                                     <span  v-if="empleado==0" class="error">(*)</span>
+                                </div>
+                                <div class="col-md-9" v-else>
+                                    <strong>{{ nameempleado }}</strong>                                    
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -107,11 +120,38 @@
                                     <span  v-if="email==''" class="error">Debe Ingresar el email</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div>
+
+                            </div>
+
+                            <div v-if="siactualizar" >
+
+                                <input type="checkbox" v-model="cambiarpass" unchecked id="cambiarpass"> <label for="cambiarpass">Actualizar Password?</label>
+                            </div>
+
+                            
+                            <div class="form-group row" v-if="cambiarpass ||!siactualizar">
                                 <label class="col-md-3 form-control-label" for="password"> Password: <span  v-if="password==''" class="error">(*)</span> </label>
                                 <div class="col-md-9">
                                     <input type="password"  class="form-control"  v-model="password"   >
                                     <span  v-if="password==''" class="error">Debe Ingresar el password</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 form-control-label" for="text-input">Seleccionar Rol: <span  v-if="rol==0" class="error">(*)</span></label>
+                                <div class="col-md-4">
+                                    <select name="" id="" v-model="rol" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="roles in arrayRoles" :key="roles.id" :value="roles.id" v-text="roles.nombre" ></option>
+                                    </select>
+                                </div>
+                                <label class="col-md-2 form-control-label" for="text-input">Seleccionar Sucursal <span  v-if="sucursal==0" class="error">(*)</span></label>
+                                <div class="col-md-4">
+                                    <select name="" id="" v-model="sucursal" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="sucur in arraySucursal" :key="sucur.id" :value="sucur.id" v-text="sucur.nombre" ></option>
+                                    </select>
                                 </div>
                             </div>
                             
@@ -122,6 +162,88 @@
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarUsuario()" :disabled="!sicompleto">Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--Fin del modal-->
+
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="addrolsuc" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-primary modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ tituloModal }}</h4>
+                        <button type="button" class="close"  aria-label="Close" @click="cerrarModal('addrolsuc')">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped table-sm table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Opciones</th>
+                                <th colspan="3">Rol Sucursal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="rolsuc in arrayRolSucursal" :key="rolsuc.id">
+                                <td>
+                                    <!-- <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizarrolsuc',rolsuc)">
+                                        <i class="icon-pencil"></i>
+                                    </button> &nbsp; -->
+                                    <button v-if="rolsuc.activo" type="button" class="btn btn-danger btn-sm" @click="eliminarRolSuc(rolsuc.id)" >
+                                        <i class="icon-trash"></i>
+                                    </button>&nbsp;
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarRolSuc(rolsuc.id)" >
+                                        <i class="icon-check"></i>
+                                    </button>&nbsp;
+                                    
+                                    
+                                </td>
+                                    <td v-text="rolsuc.rolsucursal" colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <label class="form-control-label" for="text-input">Seleccionar Rol: <span  v-if="rol==0" class="error">(*)</span></label>
+                                
+                                    <select name="" id="" v-model="rol" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="roles in arrayRoles" :key="roles.id" :value="roles.id" v-text="roles.nombre" ></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label class="form-control-label" for="text-input">Seleccionar Sucursal <span  v-if="sucursal==0" class="error">(*)</span></label>
+                                
+                                    <select name="" id="" v-model="sucursal" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="sucur in arraySucursal" :key="sucur.id" :value="sucur.id" v-text="sucur.nombre" ></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button  type="button" class="btn btn-success btn-sm" @click="AgregarRolSuc()" >
+                                        Agregar Rol-Sucursal
+                                    </button>&nbsp;
+                                </td>
+                                
+                                
+                                
+                            
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                        
+                    </div>
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  @click="cerrarModal('addrolsuc')">Cerrar</button>
+                        <!-- <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarRolSuc()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarRolSuc()">Actualizar</button> -->
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -158,6 +280,16 @@ import Swal from 'sweetalert2'
                 buscar:'',
                 password:'',
                 arrayEmpleado:[],
+                siactualizar:0,
+                nameempleado:'',
+                cambiarpass:false,
+                rol:0,
+                sucursal:0,
+                arraySucursal:[],
+                arrayRoles:[],
+                arrayRolSucursal:[],
+                idrolsuc:'',
+                
 
             }
 
@@ -204,6 +336,35 @@ import Swal from 'sweetalert2'
 
         },
         methods :{
+            AgregarRolSuc(){
+                let me = this;
+                //console.log(me.idusuario);
+                let user=me.idusuario;
+                axios.post('/userrolesuc/registrar',{
+                    'iduser':user,
+                    'idsucursal':me.sucursal,
+                    'idrole':me.rol,
+                }).then(function(response){
+                    me.cerrarModal('registrar');
+                    me.listarUserRolSuc();
+                    me.listarUsuarios();
+                }).catch(function(error){
+                    console.log(error);
+                });
+
+
+            },
+            listarUserRolSuc(){
+                let me=this;
+                var url='/userrolesuc?iduser='+me.idusuario;
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayRolSucursal=respuesta;
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
             listarUsuarios(page){
                 let me=this;
                 var url='/usuario?page='+page+'&buscar='+me.buscar;
@@ -233,6 +394,8 @@ import Swal from 'sweetalert2'
                     'idempleado':me.idempleado,
                     'email':me.email,
                     'password':me.password,
+                    'idrole':me.rol,
+                    'idsucursal':me.sucursal
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarUsuarios();
@@ -240,6 +403,108 @@ import Swal from 'sweetalert2'
                     console.log(error);
                 });
 
+            },
+
+            eliminarRolSuc(idrolsuc){
+                let me=this;
+                //console.log("prueba");
+                const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Esta Seguro de Desactivar?',
+                text: "Es una eliminacion logica",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Desactivar',
+                cancelButtonText: 'No, Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                     axios.put('/userrolesuc/desactivar',{
+                        'id': idrolsuc
+                    }).then(function (response) {
+                        
+                        swalWithBootstrapButtons.fire(
+                            'Desactivado!',
+                            'El registro a sido desactivado Correctamente',
+                            'success'
+                        )
+                        me.listarUserRolSuc();
+                        me.listarUsuarios();
+                        
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    
+                    
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    /* swalWithBootstrapButtons.fire(
+                    'Cancelado!',
+                    'El Registro no fue desactivado',
+                    'error'
+                    ) */
+                }
+                })
+
+            },
+            activarRolSuc(idrolsuc){
+                let me=this;
+                //console.log("prueba");
+                const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Esta Seguro de Activar?',
+                text: "Es una Activacion logica",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Activar',
+                cancelButtonText: 'No, Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                     axios.put('/userrolesuc/activar',{
+                        'id': idrolsuc
+                    }).then(function (response) {
+                        
+                        swalWithBootstrapButtons.fire(
+                            'Activado!',
+                            'El registro a sido Activado Correctamente',
+                            'success'
+                        )
+                        me.listarUserRolSuc();
+                        me.listarUsuarios();
+                        
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    
+                    
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    /* swalWithBootstrapButtons.fire(
+                    'Cancelado!',
+                    'El Registro no fue Activado',
+                    'error'
+                    ) */
+                }
+                })
             },
             eliminarUsuario(idusuario){
                 let me=this;
@@ -344,7 +609,7 @@ import Swal from 'sweetalert2'
                 let me =this;
                 axios.put('/usuario/actualizar',{
                     'id':me.idusuario,
-                    'nombre':me.nombre,
+                    'cambiarpass':me.cambiarpass,
                     'email':me.email,
                     'password':me.password
                     
@@ -369,6 +634,7 @@ import Swal from 'sweetalert2'
                 switch(accion){
                     case 'registrar':
                     {
+                        me.siactualizar=0;
                         me.tituloModal='Registar Usuario'
                         me.tipoAccion=1;
                         me.nombre='';
@@ -380,15 +646,29 @@ import Swal from 'sweetalert2'
                     
                     case 'actualizar':
                     {
+                        me.siactualizar=1;
                         me.idusuario=data.id;
+                        me.nameempleado=data.name;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Usuario'
                         me.nombre=data.nombre;
                         me.email=data.email;
-                        me.password=data.password;
+                        me.password='';
                         me.classModal.openModal('registrar');
                         break;
                     }
+                    case 'addrolsuc':
+                        {
+                            console.log(data);
+
+                            me.classModal.openModal('addrolsuc');
+                            me.arrayRolSucursal=data.rolsucursal;
+                            me.tituloModal='Editar - Agregar Rol Sucursal';
+                            me.idusuario=data.id;
+                            me.idsucursal=data.rolsucursal.idsucursal;
+                            me.idrole=data.rolsucursal.idrole;
+
+                        }
 
                 }
                 
@@ -400,6 +680,8 @@ import Swal from 'sweetalert2'
                 me.email='';
                 me.tipoAccion=1;
                 me.password=true;
+                me.siactualizar=0;
+                me.tituloModal='';
                 
             },
             selectAll: function (event) {
@@ -419,14 +701,41 @@ import Swal from 'sweetalert2'
                     console.log(error);
                 });
             },  
+            selectRoles(){
+                let me=this;
+                var url='/role/selectrole';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayRoles=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },  
+            selectSucursales(){
+                let me=this;
+                var url='/sucursal/selectsucursal';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arraySucursal=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },  
 
 
         },
         mounted() {
             this.listarUsuarios(1);
+            this.selectRoles();
+            this.selectSucursales();
             this.selectEmpleados();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
+            this.classModal.addModal('addrolsuc');
             //console.log('Component mounted.')
         }
     }

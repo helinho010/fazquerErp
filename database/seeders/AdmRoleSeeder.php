@@ -14,6 +14,6 @@ class AdmRoleSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('adm__roles')->insert(['id'=>1,'nombre'=>'AdmSys']);
+        DB::table('adm__roles')->insert(['id'=>1,'nombre'=>'AdmSys','descripcion'=>'Acceso a todos los mudulos como administrador del sistema','idmodulos'=>1,'idventanas'=>1]);
     }
 }

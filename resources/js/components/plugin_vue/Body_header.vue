@@ -6,8 +6,14 @@
 
    <main class="ml-auto"> 
   <ul class="nav navbar-nav ml-auto"> 
+        <li>
+             <div class="text-center" style="width: 300px;">
+                    <span>Sucursal :</span> {{ nomsucursal }} - {{ nomrole }}
+                </div>
+        </li>
         <li id="valueSession" class=" d-md-down-none" style="font-size: 13px; padding-right: 10px;">
             <a class="nav-link" href="#">
+                
                 <div class="text-center" style="width: 156px;">
                     <span>Tu sesión expira en :</span> <strong id="timeout"></strong>
                 </div>
@@ -65,11 +71,14 @@
 <script> 
 import Swal from 'sweetalert2';
     export default {
-         props : ['user'],
+         props : ['user','nomsucursal','nomrole'],
+
          
         data (){
             return {
-                usuario:this.user
+                usuario:this.user,
+                nomsucursal:this.nomsucursal,
+                nomrole:this.nomrole,
             }
         },  
         methods : {  

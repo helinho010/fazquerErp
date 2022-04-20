@@ -115,9 +115,15 @@
 @php   
     use App\Http\Controllers\AdmUserController;
     $user = AdmUserController::getUser();  
+    $idsucursal=session('idsucursal');
+    
+    $nomsucursal=session('nomsucursal');
+    $nomrole=session('nomrole');
+    //dd($nomsucursal);
     //dd($user->name);
+    //dd($sucursalselected);
     echo '
-             <Body_header user="'. $user->name.'"></Body_header> 
+             <Body_header user="'. $user->name.'" nomsucursal="'.$nomsucursal.'" nomrole="'.$nomrole.'"></Body_header> 
           ';
                                                                                                                                                   
     @endphp

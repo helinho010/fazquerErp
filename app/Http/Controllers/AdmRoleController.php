@@ -12,9 +12,48 @@ class AdmRoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $buscararray=array();
+        if(!empty($request->buscar)){
+            $buscararray = explode(" ",$request->buscar);
+            //dd($buscararray);
+            $valor=sizeof($buscararray);
+            if($valor > 0){
+                $sqls='';
+                foreach($buscararray as $valor){
+                    if(empty($sqls)){
+                        $sqls="(nombre like '%".$valor."%' or descripcion like '%".$valor."%')" ;
+                    }
+                    else
+                    {
+                        $sqls.=" and (nombre like '%".$valor."%' or descripcion like '%".$valor."%')" ;
+                    }
+    
+                }
+                $roles= Adm_Role::orderby('nombre','asc')->whereraw($sqls)->paginate(20);
+            }
+        }
+        
+        else
+        {
+            $roles= Adm_Role::orderby('nombre','asc')->paginate(20);
+        }
+        
+        //$roles = Adm_Role::all();
+        
+        
+        return ['pagination'=>[
+            'total'         =>    $roles->total(),
+            'current_page'  =>    $roles->currentPage(),
+            'per_page'      =>    $roles->perPage(),
+            'last_page'     =>    $roles->lastPage(),
+            'from'          =>    $roles->firstItem(),
+            'to'            =>    $roles->lastItem(),
+
+            ] ,
+                'roles'=>$roles
+        ];
     }
 
     /**
@@ -35,7 +74,15 @@ class AdmRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = new Adm_Role();
+       
+        $role->nombre=$request->nombre;
+        $role->descripcion=$request->descripcion;
+        $role->idmodulos=$request->idmodulos;
+        $role->idventanas=$request->idventanas;
+        $role->idacciones=$request->idacciones;
+        $role->id_usuario_registra=auth()->user()->id;
+        $role->save();
     }
 
     /**
@@ -69,7 +116,13 @@ class AdmRoleController extends Controller
      */
     public function update(Request $request, Adm_Role $adm_Role)
     {
-        //
+        $role = Adm_Role::findOrFail($request->id);
+
+        $role->nombre=$request->nombre;
+        $role->descripcion=$request->descripcion;
+        $role->areamedica=$request->areamedica;
+        $role->id_usuario_modifica=auth()->user()->id;
+        $role->save();
     }
 
     /**
@@ -82,4 +135,27 @@ class AdmRoleController extends Controller
     {
         //
     }
+    public function desactivar(Request $request)
+    {
+        $role = Adm_Role::findOrFail($request->id);
+        $role->activo=0;
+        $role->id_usuario_modifica=auth()->user()->id;
+        $role->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $role = Adm_Role::findOrFail($request->id);
+        $role->activo=1;
+        $role->id_usuario_modifica=auth()->user()->id;
+        $role->save();
+    }
+    public function selectRole(){
+        $role=Adm_Role::select('id','nombre')
+                                ->where('activo',1)
+                                ->orderby('nombre','asc')
+                                ->get();
+        return $role;
+    }
+    
 }

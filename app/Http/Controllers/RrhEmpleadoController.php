@@ -15,7 +15,7 @@ class RrhEmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $raw=DB::raw('concat(apaterno," ",amaterno," ",rrh__empleados.nombre) as nomempleado');
+        $raw=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');
         $raw2=DB::raw('concat(domicilio,"-",ciudad) as direccion');
         $buscararray=array();
         if(!empty($request->buscar)){
@@ -251,7 +251,7 @@ class RrhEmpleadoController extends Controller
     }
     public function selectEmpleado(Request $request)
     {
-        $raw=DB::raw('concat(apaterno," ",amaterno," ",rrh__empleados.nombre) as nomempleado');
+        $raw=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');
         $empleados=Rrh_Empleado::select('id',$raw)
                                 ->where('activo',1)
                                 ->orderby('rrh__empleados.apaterno','asc')
@@ -263,8 +263,8 @@ class RrhEmpleadoController extends Controller
     public function selectNoUser(Request $request)
     {
         
-        $raw2=DB::raw('concat(apaterno," ",amaterno," ",rrh__empleados.nombre) as nomempleado');               
-        $raw3=DB::raw('concat(left(nombre,1),apaterno) as name');
+        $raw2=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');               
+        $raw3=DB::raw('concat(left(nombre,1),ifnull(apaterno,amaterno)) as name');
         //dd($raw2);
         $user=DB::table('users')->select('idempleado')->where('activo',1)->get()->toArray();
         //dd($user);

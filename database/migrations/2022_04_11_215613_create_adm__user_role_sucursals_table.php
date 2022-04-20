@@ -18,6 +18,7 @@ class CreateAdmUserRoleSucursalsTable extends Migration
             $table->smallInteger('idrole')->unsigned();
             $table->smallInteger('iduser')->unsigned();
             $table->smallInteger('idsucursal')->unsigned();
+            $table->boolean('activo')->default(1);
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
             $table->timestamps();
