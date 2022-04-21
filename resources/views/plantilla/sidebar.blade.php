@@ -22,9 +22,9 @@
                         <font color="turquoise" style="text-transform:capitalize">{{ $item->nombre }}</font>
                     </a>
                     <ul class="nav-dropdown-items">
-                        @foreach($vent['ventanas'] as $ventana)
+                        @foreach($item->ventanas as $ventana)
                             <li @click="menu={{ $ventana->codventana }}" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-bag"></i>{{ $ventana->nomventana }} </a>
+                                <a class="nav-link" href="#"><i class="icon-bag"></i>{{ $ventana->nombre }} </a>
                             </li>
                         @endforeach
                     </ul>

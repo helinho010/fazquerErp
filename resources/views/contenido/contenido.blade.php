@@ -5,6 +5,17 @@
 </template>
 
 
+<?php 
+use App\Http\Controllers\AdmSessionController;
+$var2 = AdmSessionController::listarVentanas(); 
+?>
+@foreach($var2 as $ventana)
+    <template v-if="menu=={{ $ventana->codventana }}">
+        <{{ $ventana->template }}></{{ $ventana->template }}>
+    </template>
+@endforeach
+
+
 {{--  <template v-if="menu==104">
     <sucursal-component></sucursal-component>
 </template>

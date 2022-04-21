@@ -152,25 +152,52 @@ class AdmSessionController extends Controller
     }
     public function listarPermisos(){
         //echo "hola";
-         $idrole=session('idrole');
-         //dd($idrole);
-        $roles=Adm_Role::where('id',$idrole)
-                        ->get();
-        //dd($roles)       ;
-        $idmodulos=explode(",",$roles[0]->idmodulos);
-        $idventanas=explode(",",$roles[0]->idventanas);
- 
+        
         //dd($idventanas);
 
-        $modulos=Adm_Modulo::wherein('id',$idmodulos)->get();
-        $ventanas=Adm_VentanaModulo::wherein('id',$idventanas)->get();
-        //dd($modulos);
-        return ['modulos'=>$modulos,
-                'ventanas'=>$ventanas];
+        if(auth()->user()->name=='admin'){
+            $modulos=Adm_Modulo::all();
+            //dd($modulos);
+            foreach ($modulos as $value) {
+                $ventanas=Adm_VentanaModulo::where('idmodulo',$value->id)    
+                                            ->where('activo',1)
+                                            ->get();
+
+                $value->ventanas=$ventanas;
+            }
+        }
+        else
+        {
+            $idrole=session('idrole');
+         //dd($idrole);
+            $roles=Adm_Role::where('id',$idrole)
+                            ->get();
+            //dd($roles)       ;
+            $idmodulos=explode(",",$roles[0]->idmodulos);
+            $idventanas=explode(",",$roles[0]->idventanas);
+ 
+            $modulos=Adm_Modulo::wherein('id',$idmodulos)->get();
+            foreach ($modulos as $value) {
+                $ventanas=Adm_VentanaModulo::wherein('id',$idventanas)->get();    
+                $value->ventanas=$ventanas;
+            }
+        }
+
+        
+
+
+        return ['modulos'=>$modulos];
 
 
 
         //dd($role);
 
     }
+    public function listarVentanas()
+    {
+        $ventanas =Adm_VentanaModulo::where('activo',1)->get();
+
+        return $ventanas;
+    }
+
 }
