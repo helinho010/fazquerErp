@@ -16,7 +16,8 @@ use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
 use App\Http\Controllers\RrhProfesionController;
 use App\Http\Controllers\RrhUnidadOrganizacionalController;
-
+use App\Http\Controllers\SerAreaController;
+use App\Http\Controllers\SerPrestacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,6 +167,22 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/unidadorg/desactivar', [RrhUnidadOrganizacionalController::class,'desactivar']);
     Route::put('/unidadorg/activar', [RrhUnidadOrganizacionalController::class,'activar']);
     Route::get('/unidadorg/selectuo',[RrhUnidadOrganizacionalController::class,'selectUnidadOrg']);
+
+    /////////////////////////SERVICIOS///////////////////////////////////////
+    Route::get('/area',[SerAreaController::class,'index']);
+    Route::post('/area/registrar', [SerAreaController::class,'store']);
+    Route::put('/area/actualizar', [SerAreaController::class,'update']);
+    Route::put('/area/desactivar', [SerAreaController::class,'desactivar']);
+    Route::put('/area/activar', [SerAreaController::class,'activar']);
+    Route::get('/area/selectarea',[SerAreaController::class,'selectArea']);
+
+    Route::get('/prestacion',[SerPrestacionController::class,'index']);
+    Route::post('/prestacion/registrar', [SerPrestacionController::class,'store']);
+    Route::put('/prestacion/actualizar', [SerPrestacionController::class,'update']);
+    Route::put('/prestacion/desactivar', [SerPrestacionController::class,'desactivar']);
+    Route::put('/prestacion/activar', [SerPrestacionController::class,'activar']);
+    Route::get('/prestacion/selectprest',[SerPrestacionController::class,'selectPrestacion']);
+    Route::get('/prestacion/selectprestaciones',[SerPrestacionController::class,'selectPrestaciones']);
 
 });
     

@@ -31,6 +31,11 @@ createApp ({
     .component('rrhuorg-component',require('./components/recursos_humanos/UnidadOrgComponent.vue').default)
 
 
+    //Servicios
+    .component('area-component',require('./components/servicios/AreaComponent.vue').default)
+    .component('prestaciones-component',require('./components/servicios/PrestacionComponent.vue').default)
+
+
     
     .mount('#app');
  
