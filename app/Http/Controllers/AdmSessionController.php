@@ -150,7 +150,7 @@ class AdmSessionController extends Controller
         auth()->logout();
         return redirect()->to('/');
     }
-    public function listarPermisos(){
+    public static function listarPermisos(){
         //echo "hola";
         
         //dd($idventanas);
@@ -193,7 +193,7 @@ class AdmSessionController extends Controller
         //dd($role);
 
     }
-    public function listarVentanas()
+    public static function listarVentanas()
     {
         $ventanas =Adm_VentanaModulo::where('activo',1)->get();
 
