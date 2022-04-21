@@ -8,7 +8,7 @@
   <ul class="nav navbar-nav ml-auto"> 
         <li>
              <div class="text-center" style="width: 300px;">
-                    <span>Sucursal :</span> {{ nomsucursal }} - {{ nomrole }}
+                    <span>Sucursal: </span><strong> {{ nomsucursal }} - {{ nomrol }}</strong>
                 </div>
         </li>
         <li id="valueSession" class=" d-md-down-none" style="font-size: 13px; padding-right: 10px;">
@@ -71,14 +71,14 @@
 <script> 
 import Swal from 'sweetalert2';
     export default {
-         props : ['user','nomsucursal','nomrole'],
+         props : ['user','nomsucursal','nomrol'],
 
          
         data (){
             return {
                 usuario:this.user,
                 nomsucursal:this.nomsucursal,
-                nomrole:this.nomrole,
+                nomrol:this.nomrol,
             }
         },  
         methods : {  

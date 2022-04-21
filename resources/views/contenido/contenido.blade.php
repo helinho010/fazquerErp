@@ -65,15 +65,14 @@ $var2 = AdmSessionController::listarVentanas();
 @php   
     use App\Http\Controllers\AdmUserController;
     $user = AdmUserController::getUser();  
-    $idsucursal=session('idsucursal');
-    
+    $idsucursal=session('idsuc');
     $nomsucursal=session('nomsucursal');
-    $nomrole=session('nomrole');
-    //dd($nomsucursal);
+    $nomrol=session('nomrol');
+    //dd($nomrol);
     //dd($user->name);
     //dd($sucursalselected);
     echo '
-             <Body_header user="'. $user->name.'" nomsucursal="'.$nomsucursal.'" nomrole="'.$nomrole.'"></Body_header> 
+             <Body_header user="'. $user->name.'" nomsucursal="'.$nomsucursal.'" nomrol="'.$nomrol.'"></Body_header> 
           ';
                                                                                                                                                   
     @endphp

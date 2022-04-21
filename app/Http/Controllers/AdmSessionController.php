@@ -90,14 +90,15 @@ class AdmSessionController extends Controller
 
         
         
-        //dd($sucurs[0]->nomsuc);
+        //dd($sucurs[0]->nomrole);
 
         session(['idsuc'=>$sucurs[0]->idsucursal,
                 'nomsucursal'=>$sucurs[0]->nomsuc,
-                'nomrole '=>$sucurs[0]->nomrole,
+                'nomrol'=>$sucurs[0]->nomrole,
                 'idrole'=>$sucurs[0]->idrole,
                 'iduserrolesuc'=>$request->sucur,
             ]);
+            //dd(session('nomrol'));
         return redirect()->to('/');
     }
 
@@ -146,7 +147,7 @@ class AdmSessionController extends Controller
     {
         session()->forget('idsucursal');
         session()->forget('nomsucursal');
-        session()->forget('nomrole');
+        session()->forget('nomrol');
         auth()->logout();
         return redirect()->to('/');
     }
@@ -169,7 +170,7 @@ class AdmSessionController extends Controller
         else
         {
             $idrole=session('idrole');
-         //dd($idrole);
+            //dd($idrole);
             $roles=Adm_Role::where('id',$idrole)
                             ->get();
             //dd($roles)       ;
