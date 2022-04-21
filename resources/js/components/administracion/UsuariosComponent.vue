@@ -251,8 +251,6 @@
             <!-- /.modal-dialog -->
         </div>
         <!--Fin del modal-->
-        
-        
     </main>
 </template>
 

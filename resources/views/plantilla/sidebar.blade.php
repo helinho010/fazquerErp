@@ -13,9 +13,6 @@
             //dd($vent);
             
             ?>
-           
-
-
             @foreach ($vent['modulos'] as $item)
                 <li class="nav-item nav-dropdown menudown ">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> 
