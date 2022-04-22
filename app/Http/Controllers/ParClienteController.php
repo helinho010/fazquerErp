@@ -62,6 +62,18 @@ class ParClienteController extends Controller
         }
         return ['clientes' => $clientes];
     }
+    public function selectCli(Request $request)  //AjaxSelect
+    {
+        $raw=DB::raw(DB::raw('concat(if(ISNULL(apaterno)=1," ",apaterno)," ",if(ISNULL(amaterno)=1," ",amaterno)," ",nombre) as nom'));
+        $clientes = Par_Cliente::select($raw,'id','nombre')
+                            ->where('activo',1)
+                            ->orderby('apaterno','asc')
+                            ->orderby('amaterno','asc')
+                            ->orderby('nombre','asc')
+                            ->get();
+
+        return $clientes;
+    }
 
     /**
      * Show the form for creating a new resource.

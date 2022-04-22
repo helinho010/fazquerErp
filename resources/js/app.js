@@ -34,6 +34,7 @@ createApp ({
     //Servicios
     .component('area-component',require('./components/servicios/AreaComponent.vue').default)
     .component('prestaciones-component',require('./components/servicios/PrestacionComponent.vue').default)
+    .component('ventas-component',require('./components/servicios/VentasComponent.vue').default)
 
     //Parametros
     .component('descuentos-component',require('./components/parametros/ServiciosDescuentoscomponent.vue').default)

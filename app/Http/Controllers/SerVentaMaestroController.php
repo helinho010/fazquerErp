@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ser_Venta_Maestro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SerVentaMaestroController extends Controller
 {
@@ -24,7 +25,7 @@ class SerVentaMaestroController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +36,26 @@ class SerVentaMaestroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ventamaestro = new Ser_Venta_Maestro();
+
+        $ventamaestro->num_documento=1;
+        $ventamaestro->tipodocumento=1;
+        $ventamaestro->idcliente=$request->idcliente;
+        $ventamaestro->total=$request->total;
+        $ventamaestro->efectivo=$request->efectivo;
+        $ventamaestro->cambio=$request->cambio;
+        $ventamaestro->id_usuario_registra=auth()->user()->id;
+        $ventamaestro->idsucursal=session('idsuc');
+        $ventamaestro->save();
+        $id=$ventamaestro->id;
+        
+        DB::table('ser__ventas')
+            ->where('estado', 0)
+            ->where('idsucursal',session('idsuc'))
+            ->where('id_usuario_registra',auth()->user()->id)
+            ->update(['estado' => 1,
+                        'idventamaestro'=>$id]);
+        return 'correcto';
     }
 
     /**

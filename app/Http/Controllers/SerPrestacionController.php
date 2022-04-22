@@ -199,8 +199,9 @@ class SerPrestacionController extends Controller
     }
     public function selectPrestacion()
     {
+        $raw=DB::raw(DB::raw('concat(ser__areas.codigo,ser__prestacions.codigo," ",ser__prestacions.nombre) as cod'));
         $prestaciones=Ser_Prestacion::join('ser__areas','ser__areas.id','ser__prestacions.idarea')
-                                ->select(DB::raw('concat(ser__areas.codigo,ser__prestacions.codigo) as cod'),
+                                ->select($raw,
                                         'ser__prestacions.nombre',
                                         'ser__prestacions.id',
                                         'ser__prestacions.precio')

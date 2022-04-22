@@ -11,6 +11,7 @@ use App\Http\Controllers\AdmRubroController;
 use App\Http\Controllers\AdmUserController;
 use App\Http\Controllers\AdmUserRoleSucursalController;
 use App\Http\Controllers\AdmVentanaModuloController;
+use App\Http\Controllers\ParClienteController;
 use App\Http\Controllers\ParDescServicioController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\RrhProfesionController;
 use App\Http\Controllers\RrhUnidadOrganizacionalController;
 use App\Http\Controllers\SerAreaController;
 use App\Http\Controllers\SerPrestacionController;
+use App\Http\Controllers\SerVentaController;
+use App\Http\Controllers\SerVentaMaestroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,6 +188,18 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/prestacion/selectprest',[SerPrestacionController::class,'selectPrestacion']);
     Route::get('/prestacion/selectprestaciones',[SerPrestacionController::class,'selectPrestaciones']);
 
+    Route::get('/ventas/listar',[SerVentaController::class,'ventasListar']);
+    Route::post('/ventas/registrar', [SerVentaController::class,'store']);
+    Route::put('/ventas/desactivar', [SerVentaController::class,'desactivar']);
+    Route::put('/ventas/registrarventa', [SerVentaController::class,'registrarVenta']);
+    Route::get('/ventas/detalle',[SerVentaController::class,'ventasDetalle']);
+
+    Route::post('/ventamaestro/registrarventamaestro', [SerVentaMaestroController::class,'store']);
+    Route::get('/ventasmaestro',[SerVentaMaestroController::class,'index']);
+    Route::put('/ventasmaestro/desactivar', [SerVentaMaestroController::class,'desactivar']);
+    Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
+
+
     ////////////////////// PARAMETROS/////////////////////////////////////////////
     Route::get('/descuento',[ParDescServicioController::class,'index']);
     Route::post('/descuento/registrar', [ParDescServicioController::class,'store']);
@@ -193,6 +208,11 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/descuento/activar', [ParDescServicioController::class,'activar']);
     Route::get('/descuento/selectdescuento',[ParDescServicioController::class,'selectDescuento']);
     Route::get('/obtenerfecha', [ParDescServicioController::class,'obtenerFecha']);
+
+    Route::get('/clientes',[ParClienteController::class,'index']);
+    Route::get('/clientes/selectclientes',[ParClienteController::class,'selectClientes']);
+    Route::get('/clientes/selectcli',[ParClienteController::class,'selectCli']);
+    Route::post('/clientes/registrar', [ParClienteController::class,'store']);
 
 });
     
