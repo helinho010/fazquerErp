@@ -19,7 +19,7 @@ class AdmModuloSeeder extends Seeder
         DB::table('adm__modulos')->insert(['nombre'=>'recursos humanos']);
         DB::table('adm__modulos')->insert(['nombre'=>'almacenes']);
         DB::table('adm__modulos')->insert(['nombre'=>'servicios']);
-        DB::table('adm__modulos')->insert(['nombre'=>'configuraciones']);
+        DB::table('adm__modulos')->insert(['nombre'=>'parametros']);
         DB::table('adm__modulos')->insert(['nombre'=>'productos']);
     }
 }

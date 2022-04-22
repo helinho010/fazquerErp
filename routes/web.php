@@ -11,6 +11,7 @@ use App\Http\Controllers\AdmRubroController;
 use App\Http\Controllers\AdmUserController;
 use App\Http\Controllers\AdmUserRoleSucursalController;
 use App\Http\Controllers\AdmVentanaModuloController;
+use App\Http\Controllers\ParDescServicioController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
@@ -183,6 +184,15 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/prestacion/activar', [SerPrestacionController::class,'activar']);
     Route::get('/prestacion/selectprest',[SerPrestacionController::class,'selectPrestacion']);
     Route::get('/prestacion/selectprestaciones',[SerPrestacionController::class,'selectPrestaciones']);
+
+    ////////////////////// PARAMETROS/////////////////////////////////////////////
+    Route::get('/descuento',[ParDescServicioController::class,'index']);
+    Route::post('/descuento/registrar', [ParDescServicioController::class,'store']);
+    Route::put('/descuento/actualizar', [ParDescServicioController::class,'update']);
+    Route::put('/descuento/desactivar', [ParDescServicioController::class,'desactivar']);
+    Route::put('/descuento/activar', [ParDescServicioController::class,'activar']);
+    Route::get('/descuento/selectdescuento',[ParDescServicioController::class,'selectDescuento']);
+    Route::get('/obtenerfecha', [ParDescServicioController::class,'obtenerFecha']);
 
 });
     

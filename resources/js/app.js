@@ -35,6 +35,11 @@ createApp ({
     .component('area-component',require('./components/servicios/AreaComponent.vue').default)
     .component('prestaciones-component',require('./components/servicios/PrestacionComponent.vue').default)
 
+    //Parametros
+    .component('descuentos-component',require('./components/parametros/ServiciosDescuentoscomponent.vue').default)
+
+
+
 
     
     .mount('#app');
