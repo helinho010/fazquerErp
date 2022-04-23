@@ -19,7 +19,7 @@ class AdmVentanaModuloSeeder extends Seeder
         $rh = Adm_Modulo::where('nombre', 'recursos humanos')->first();        
         $alm = Adm_Modulo::where('nombre', 'almacenes')->first();        
         $serv = Adm_Modulo::where('nombre', 'servicios')->first();        
-        $config = Adm_Modulo::where('nombre', 'configuraciones')->first();        
+        $config = Adm_Modulo::where('nombre', 'parametros')->first();        
         $prod = Adm_Modulo::where('nombre', 'productos')->first();        
 
         
