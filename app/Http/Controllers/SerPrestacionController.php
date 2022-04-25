@@ -263,6 +263,6 @@ class SerPrestacionController extends Controller
             }
               
         }
-        return ['prestaciones' => $prestaciones];
+        return $prestaciones;
     }
 }

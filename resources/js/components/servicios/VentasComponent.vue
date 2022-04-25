@@ -26,6 +26,35 @@
                         </thead>
                         <tr>
                             <td>
+                                <form action="form-inline ml-3">
+                                    <div class="input-group input-group-sm">
+                                        <input  class="form-control form-control navbar" type="search" placeholder="Buscar" 
+                                        name="prestacionbus"
+                                        v-model="prestacionBuscar"
+                                        v-on:keyup="selectPrestaciones()"
+                                        >
+                                    </div>
+                                    <!-- <div class="input-group-append">
+                                        <button class="btn btn-navbar" type="submit">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div> -->
+                                </form>
+                                <div class="panel-footer" v-if="prestacionBuscar.length>0">
+                                    <ul class="list-group">
+                                        <li class="list-group-item" v-for="presbus in prestacionBuscar" :key="presbus.id">
+                                           <a href="#" class="dropdown-item" v-on:click.prevent="presbus.nombre">
+                                                <span>{{ presbus.nombre}}</span>   
+                                            </a> 
+                                        </li>
+                                        
+                                    </ul>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <select name="" id="" v-model="prestacionselected" class="form-control" @change="selectPres()">
                                     <option value="0" disabled>Seleccionar...</option>
                                     <option v-for="prestacion in arrayPrestaciones" :key="prestacion.id" :value="prestacion.id" v-text="prestacion.cod"></option>
@@ -300,7 +329,9 @@ import Swal from 'sweetalert2'
                 siprestacion:0,
                 arrayClientes:[],
                 clienteselected:0,
-                sicliente:0
+                sicliente:0,
+                arrayPresAutocomplete:[],
+                prestacionBuscar:'',
                 
                 
             }
@@ -531,7 +562,7 @@ import Swal from 'sweetalert2'
 
             },
 
-            selectPrestaciones(){
+            selectPrest(){
                 let me=this;
                 var url='/prestacion/selectprest';
                 axios.get(url).then(function(response){
@@ -541,6 +572,23 @@ import Swal from 'sweetalert2'
                 .catch(function(error){
                     console.log(error);
                 });
+            },
+
+            selectPrestaciones(){
+                let me=this;
+                if(me.prestacionBuscar.length>2)
+                {
+                    var url='/prestacion/selectprestaciones?buscar='+me.prestacionBuscar;
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayPresAutocomplete=respuesta;
+                    console.log(me.arrayPresAutocomplete);
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+                }
+                
             },
 
             selectClientes(){
@@ -718,7 +766,8 @@ import Swal from 'sweetalert2'
             },  
         },
         mounted() {
-            this.selectPrestaciones();
+            this.selectPrest();
+            //this.selectPrestaciones();
             this.selectClientes();
             this.selectDescuentos();
             this.listarVenta();
