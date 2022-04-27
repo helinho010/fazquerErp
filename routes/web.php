@@ -153,6 +153,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     //rrhh ////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('/empleado',[RrhEmpleadoController::class,'index']);
+    Route::get('/empleado/perfil',[RrhEmpleadoController::class,'perfil']);
     Route::post('/empleado/registrar', [RrhEmpleadoController::class,'store']);
     Route::put('/empleado/actualizar', [RrhEmpleadoController::class,'update']);
     Route::put('/empleado/desactivar', [RrhEmpleadoController::class,'desactivar']);

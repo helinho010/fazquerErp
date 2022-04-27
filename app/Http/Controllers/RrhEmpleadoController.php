@@ -150,6 +150,61 @@ class RrhEmpleadoController extends Controller
                 'empleados'=>$empleados
         ];
     }
+    public function perfil()
+    {
+        $raw=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');
+        $raw2=DB::raw('concat(domicilio,"-",adm__ciudads.nombre) as direccion');
+        
+        
+       
+            $empleados= Rrh_Empleado::join('rrh__formacions','rrh__formacions.id','rrh__empleados.idformacion')
+                                    ->join('rrh__profesions','rrh__profesions.id','rrh__empleados.idprofesion')
+                                    ->join('rrh__cargos','rrh__cargos.id','rrh__empleados.idcargo')
+                                    ->leftjoin('adm__departamentos','adm__departamentos.id','rrh__empleados.iddepartamento')
+                                    ->leftjoin('adm__nacionalidads','adm__nacionalidads.id', 'rrh__empleados.idnacionalidad')
+                                    ->leftjoin('adm__ciudads','adm__ciudads.id', 'rrh__empleados.idciudad')
+                                    ->leftjoin('adm__bancos','adm__bancos.id', 'rrh__empleados.idbanco')
+                                    ->select('rrh__empleados.id',
+                                            'rrh__empleados.nombre',
+                                            'papellido',
+                                            'sapellido',
+                                            $raw,
+                                            'sexo',
+                                            'ci',
+                                            'telefonos',
+                                            'fechanacimiento',
+                                            'estadocivil',
+                                            'rrh__formacions.nombre as nomformacion',
+                                            'rrh__profesions.nombre as nomprofecion',
+                                            'rrh__cargos.nombre as nomcargo',
+                                            'rrh__formacions.id as idformacion',
+                                            'rrh__profesions.id as idprofesion',
+                                            'rrh__cargos.id as idcargo',
+                                            
+                                            'domicilio',
+                                            $raw2,
+                                            'fechaingreso',
+                                            'fecharetiro',
+                                            'nrcuenta',
+                                            'obs',
+                                            'rrh__empleados.activo',
+                                            'rrh__empleados.iddepartamento',
+                                            'idnacionalidad',
+                                            'idciudad',
+                                            'idbanco',
+                                            'adm__bancos.nombre as nombanco',
+                                            'complementoci',
+                                            'celular',
+                                            'nit')
+                                    ->orderby('rrh__empleados.papellido','asc')
+                                    ->orderby('rrh__empleados.sapellido','asc')
+                                    ->orderby('rrh__empleados.nombre','asc')
+                                    ->where('rrh__empleados.id',auth()->user()->id)
+                                    ->get();
+       
+        
+        return $empleados;
+    }
 
     /**
      * Show the form for creating a new resource.
