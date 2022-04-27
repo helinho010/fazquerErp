@@ -15,8 +15,8 @@ class RrhEmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $raw=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');
-        $raw2=DB::raw('concat(domicilio,"-",ciudad) as direccion');
+        $raw=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');
+        $raw2=DB::raw('concat(domicilio,"-",adm__ciudads.nombre) as direccion');
         $buscararray=array();
         if(!empty($request->buscar)){
             $buscararray = explode(" ",$request->buscar);
@@ -26,20 +26,18 @@ class RrhEmpleadoController extends Controller
                 $sqls='';
                 foreach($buscararray as $valor){
                     if(empty($sqls)){
-                        $sqls="(rrh__empleados.nombre like '%".$valor."%' or apaterno like '%".$valor."%' or  amaterno like '%".$valor."%' or ci like '%".$valor."%'
+                        $sqls="(rrh__empleados.nombre like '%".$valor."%' or papellido like '%".$valor."%' or  sapellido like '%".$valor."%' or ci like '%".$valor."%'
                         or rrh__formacions.nombre like '%".$valor."%'
                         or rrh__profesions.nombre like '%".$valor."%'
                         or rrh__cargos.nombre like '%".$valor."%' 
-                        or ciudad like '%".$valor."%'
                         or nrcuenta like '%".$valor."%')" ;
                     }
                     else
                     {
-                        $sqls.=" and (rrh__empleados.nombre like '%".$valor."%' or apaterno like '%".$valor."%' or  amaterno like '%".$valor."%' or ci like '%".$valor."%'
+                        $sqls.=" and (rrh__empleados.nombre like '%".$valor."%' or papellido like '%".$valor."%' or  sapellido like '%".$valor."%' or ci like '%".$valor."%'
                         or rrh__formacions.nombre like '%".$valor."%'
                         or rrh__profesions.nombre like '%".$valor."%'
                         or rrh__cargos.nombre like '%".$valor."%' 
-                        or ciudad like '%".$valor."%'
                         or nrcuenta like '%".$valor."%')" ;
                     }
     
@@ -47,10 +45,14 @@ class RrhEmpleadoController extends Controller
                 $empleados= Rrh_Empleado::join('rrh__formacions','rrh__formacions.id','rrh__empleados.idformacion')
                                         ->join('rrh__profesions','rrh__profesions.id','rrh__empleados.idprofesion')
                                         ->join('rrh__cargos','rrh__cargos.id','rrh__empleados.idcargo')
+                                        ->leftjoin('adm__departamentos','adm__departamentos.id','rrh__empleados.iddepartamento')
+                                        ->leftjoin('adm__nacionalidads','adm__nacionalidads.id', 'rrh__empleados.idnacionalidad')
+                                        ->leftjoin('adm__ciudads','adm__ciudads.id', 'rrh__empleados.idciudad')
+                                        ->leftjoin('adm__bancos','adm__bancos.id', 'rrh__empleados.idbanco')
                                         ->select('rrh__empleados.id',
                                                 'rrh__empleados.nombre',
-                                                'apaterno',
-                                                'amaterno',
+                                                'papellido',
+                                                'sapellido',
                                                 $raw,
                                                 'sexo',
                                                 'ci',
@@ -63,16 +65,24 @@ class RrhEmpleadoController extends Controller
                                                 'rrh__formacions.id as idformacion',
                                                 'rrh__profesions.id as idprofesion',
                                                 'rrh__cargos.id as idcargo',
-                                                'ciudad',
+                                                
                                                 'domicilio',
                                                 $raw2,
                                                 'fechaingreso',
                                                 'fecharetiro',
                                                 'nrcuenta',
                                                 'obs',
-                                                'rrh__empleados.activo')
-                                        ->orderby('rrh__empleados.apaterno','asc')
-                                        ->orderby('rrh__empleados.amaterno','asc')
+                                                'rrh__empleados.activo',
+                                                'rrh__empleados.iddepartamento',
+                                                'idnacionalidad',
+                                                'idciudad',
+                                                'idbanco',
+                                                'adm__bancos.nombre',
+                                                'complementoci',
+                                                'celular',
+                                                'nit')
+                                        ->orderby('rrh__empleados.papellido','asc')
+                                        ->orderby('rrh__empleados.sapellido','asc')
                                         ->orderby('rrh__empleados.nombre','asc')
                                         ->whereraw($sqls)->paginate(50);
             }
@@ -83,10 +93,14 @@ class RrhEmpleadoController extends Controller
             $empleados= Rrh_Empleado::join('rrh__formacions','rrh__formacions.id','rrh__empleados.idformacion')
                                     ->join('rrh__profesions','rrh__profesions.id','rrh__empleados.idprofesion')
                                     ->join('rrh__cargos','rrh__cargos.id','rrh__empleados.idcargo')
+                                    ->leftjoin('adm__departamentos','adm__departamentos.id','rrh__empleados.iddepartamento')
+                                    ->leftjoin('adm__nacionalidads','adm__nacionalidads.id', 'rrh__empleados.idnacionalidad')
+                                    ->leftjoin('adm__ciudads','adm__ciudads.id', 'rrh__empleados.idciudad')
+                                    ->leftjoin('adm__bancos','adm__bancos.id', 'rrh__empleados.idbanco')
                                     ->select('rrh__empleados.id',
                                             'rrh__empleados.nombre',
-                                            'apaterno',
-                                            'amaterno',
+                                            'papellido',
+                                            'sapellido',
                                             $raw,
                                             'sexo',
                                             'ci',
@@ -99,16 +113,24 @@ class RrhEmpleadoController extends Controller
                                             'rrh__formacions.id as idformacion',
                                             'rrh__profesions.id as idprofesion',
                                             'rrh__cargos.id as idcargo',
-                                            'ciudad',
+                                            
                                             'domicilio',
                                             $raw2,
                                             'fechaingreso',
                                             'fecharetiro',
                                             'nrcuenta',
                                             'obs',
-                                            'rrh__empleados.activo')
-                                    ->orderby('rrh__empleados.apaterno','asc')
-                                    ->orderby('rrh__empleados.amaterno','asc')
+                                            'rrh__empleados.activo',
+                                            'rrh__empleados.iddepartamento',
+                                            'idnacionalidad',
+                                            'idciudad',
+                                            'idbanco',
+                                            'adm__bancos.nombre as nombanco',
+                                            'complementoci',
+                                            'celular',
+                                            'nit')
+                                    ->orderby('rrh__empleados.papellido','asc')
+                                    ->orderby('rrh__empleados.sapellido','asc')
                                     ->orderby('rrh__empleados.nombre','asc')
                                     ->paginate(50);
         }
@@ -147,24 +169,38 @@ class RrhEmpleadoController extends Controller
      */
     public function store(Request $request)
     {
+       // dd($request);
         $empleado = new Rrh_Empleado();
+        
 
         $empleado->nombre=$request->nombre;
-        $empleado->apaterno=$request->apaterno;
-        $empleado->amaterno=$request->amaterno;
+        $empleado->papellido=$request->papellido;
+        $empleado->sapellido=$request->sapellido;
+       
         $empleado->ci=$request->ci;
+        $empleado->sexo=$request->sexo;
+        $empleado->complementoci=$request->complementoci;
+        $empleado->iddepartamento=$request->iddepartamento;
+        $empleado->fechanacimiento=$request->fechanacimiento;
+        $empleado->foto=$request->foto;
+        $empleado->estadocivil=$request->estadocivil;
+        $empleado->idnacionalidad=$request->idnacionalidad;
+        
+        $empleado->domicilio=$request->domicilio;
+        $empleado->idciudad=$request->idciudad;
         $empleado->telefonos=$request->telefonos;
+        $empleado->celular=$request->celular;
+        
         $empleado->idformacion=$request->idformacion;
         $empleado->idprofesion=$request->idprofesion;
         $empleado->idcargo=$request->idcargo;
-        $empleado->fechanacimiento=$request->fechanacimiento;
-        $empleado->domicilio=$request->domicilio;
-        $empleado->ciudad=$request->ciudad;
+        $empleado->nit=$request->nit;
         $empleado->fechaingreso=$request->fechaingreso;
-        $empleado->sexo=$request->sexo;
-        $empleado->estadocivil=$request->estadocivil;
-        $empleado->nrcuenta=$request->nrcuenta;
         $empleado->fecharetiro=$request->fecharetiro;
+        
+        $empleado->idbanco=$request->idbanco;
+        $empleado->nrcuenta=$request->nrcuenta;
+        
         $empleado->obs=$request->obs;
         $empleado->id_usuario_registra=auth()->user()->id;
         $empleado->save();
@@ -204,21 +240,33 @@ class RrhEmpleadoController extends Controller
         $empleado = Rrh_Empleado::findOrFail($request->id);
 
         $empleado->nombre=$request->nombre;
-        $empleado->apaterno=$request->apaterno;
-        $empleado->amaterno=$request->amaterno;
+        $empleado->papellido=$request->papellido;
+        $empleado->sapellido=$request->sapellido;
+       
         $empleado->ci=$request->ci;
+        $empleado->sexo=$request->sexo;
+        $empleado->complementoci=$request->complementoci;
+        $empleado->iddepartamento=$request->iddepartamento;
+        $empleado->fechanacimiento=$request->fechanacimiento;
+        $empleado->foto=$request->foto;
+        $empleado->estadocivil=$request->estadocivil;
+        $empleado->idnacionalidad=$request->idnacionalidad;
+        
+        $empleado->domicilio=$request->domicilio;
+        $empleado->idciudad=$request->idciudad;
         $empleado->telefonos=$request->telefonos;
+        $empleado->celular=$request->celular;
+        
         $empleado->idformacion=$request->idformacion;
         $empleado->idprofesion=$request->idprofesion;
         $empleado->idcargo=$request->idcargo;
-        $empleado->fechanacimiento=$request->fechanacimiento;
-        $empleado->domicilio=$request->domicilio;
-        $empleado->ciudad=$request->ciudad;
+        $empleado->nit=$request->nit;
         $empleado->fechaingreso=$request->fechaingreso;
-        $empleado->sexo=$request->sexo;
-        $empleado->estadocivil=$request->estadocivil;
-        $empleado->nrcuenta=$request->nrcuenta;
         $empleado->fecharetiro=$request->fecharetiro;
+        
+        $empleado->idbanco=$request->idbanco;
+        $empleado->nrcuenta=$request->nrcuenta;
+        
         $empleado->obs=$request->obs;
         $empleado->id_usuario_modifica=auth()->user()->id;
         $empleado->save();
@@ -251,11 +299,11 @@ class RrhEmpleadoController extends Controller
     }
     public function selectEmpleado(Request $request)
     {
-        $raw=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');
+        $raw=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');
         $empleados=Rrh_Empleado::select('id',$raw)
                                 ->where('activo',1)
-                                ->orderby('rrh__empleados.apaterno','asc')
-                                ->orderby('rrh__empleados.amaterno','asc')
+                                ->orderby('rrh__empleados.papellido','asc')
+                                ->orderby('rrh__empleados.sapellido','asc')
                                 ->orderby('rrh__empleados.nombre','asc')
                                 ->get();
         return $empleados;
@@ -263,8 +311,8 @@ class RrhEmpleadoController extends Controller
     public function selectNoUser(Request $request)
     {
         
-        $raw2=DB::raw('concat(ifnull(apaterno," ")," ",ifnull(amaterno," ")," ",rrh__empleados.nombre) as nomempleado');               
-        $raw3=DB::raw('concat(left(nombre,1),ifnull(apaterno,amaterno)) as name');
+        $raw2=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');               
+        $raw3=DB::raw('concat(left(nombre,1),ifnull(papellido,sapellido)) as name');
         //dd($raw2);
         $user=DB::table('users')->select('idempleado')->where('activo',1)->get()->toArray();
         //dd($user);

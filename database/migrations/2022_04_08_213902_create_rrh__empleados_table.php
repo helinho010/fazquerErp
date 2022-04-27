@@ -15,24 +15,36 @@ class CreateRrhEmpleadosTable extends Migration
     {
         Schema::create('rrh__empleados', function (Blueprint $table) {
             $table->smallIncrements('id');
+            //////////datos empleado///////////////
             $table->string('codempleado',12)->nullable();
             $table->string('nombre',50);
-            $table->string('apaterno',50)->nullable();
-            $table->string('amaterno',50)->nullable();
+            $table->string('papellido',50)->nullable();
+            $table->string('sapellido',50)->nullable();
             $table->string('sexo',1);
-            $table->string('ci',12)->nullable();
-            $table->string('foto',150)->nullable();
-            $table->string('telefonos',100)->nullable();
+            $table->bigInteger('ci')->nullable();
+            $table->string('complementoci',6)->nullable();
+            $table->tinyInteger('iddepartamento')->nullable();
             $table->date('fechanacimiento')->nullable();
+            $table->string('foto',150)->nullable();
             $table->string('estadocivil')->nullable();
+            $table->smallInteger('idnacionalidad')->nullable();
+            ///////////contacto/////////////////
+            $table->string('domicilio',50)->nullable();
+            $table->smallInteger('idciudad')->nullable();
+            $table->string('telefonos',100)->nullable();
+            $table->string('celular',100)->nullable();
+            /////////datos laborales////////////////////
             $table->smallInteger('idformacion')->unsigned(); 
             $table->smallInteger('idprofesion')->unsigned();
             $table->smallinteger('idcargo')->unsigned();
-            $table->string('domicilio',50)->nullable();
-            $table->string('ciudad',30)->nullable();
+            $table->string('nit')->nullable();
             $table->date('fechaingreso')->nullable();
             $table->date('fecharetiro')->nullable();
+            ////////////datos para pagos//////////////
+            $table->tinyInteger('idbanco')->nullable();
             $table->string('nrcuenta',20)->nullable();
+            $table->string('tipo_cuenta',20)->nullable();
+            
             $table->string('obs',150)->nullable();
             $table->boolean('activo')->default(1);
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');

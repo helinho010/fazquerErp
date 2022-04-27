@@ -29,6 +29,7 @@
                                 <form action="form-inline ml-3">
                                     <div class="input-group input-group-sm">
                                         <input  class="form-control form-control navbar" type="search" placeholder="Buscar" 
+                                        aria-label="Buscar"
                                         name="prestacionbus"
                                         v-model="prestacionBuscar"
                                         v-on:keyup="selectPrestaciones()"
@@ -40,9 +41,9 @@
                                         </button>
                                     </div> -->
                                 </form>
-                                <div class="panel-footer" v-if="prestacionBuscar.length>0">
+                                <div class="panel-footer" v-if="arrayPresAutocomplete.length>0">
                                     <ul class="list-group">
-                                        <li class="list-group-item" v-for="presbus in prestacionBuscar" :key="presbus.id">
+                                        <li class="list-group-item" v-for="presbus in arrayPresAutocomplete" :key="presbus.id">
                                            <a href="#" class="dropdown-item" v-on:click.prevent="presbus.nombre">
                                                 <span>{{ presbus.nombre}}</span>   
                                             </a> 
@@ -231,16 +232,16 @@
                             </div>
                             <div class="form-group col-sm-6">
                                 <strong>Apellido Paterno:</strong>
-                                <input type="text" class="form-control" v-model="apaterno">
-                                <span class="error" v-if="apaterno=='' && amaterno == '' ">Apellido no debe estar vacio</span>
+                                <input type="text" class="form-control" v-model="papellido">
+                                <span class="error" v-if="papellido=='' && sapellido == '' ">Apellido no debe estar vacio</span>
                             </div>
                             
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <strong>Apellido Materno</strong>
-                                <input type="text" class="form-control" v-model="amaterno">
-                                <span class="error" v-if="apaterno=='' && amaterno == '' ">Apellido no debe estar vacio</span>
+                                <input type="text" class="form-control" v-model="sapellido">
+                                <span class="error" v-if="papellido=='' && sapellido == '' ">Apellido no debe estar vacio</span>
                             </div>
                             <div class="form-group col-sm-6">
                                 <strong>CI:</strong>
@@ -319,8 +320,8 @@ import Swal from 'sweetalert2'
                 idclientes:[],
                 //clienteselected:'',
                 nombre:'',
-                apaterno:'',
-                amaterno:'',
+                papellido:'',
+                sapellido:'',
                 ci:'',
                 telefono:'',
                 nit:'',
@@ -340,7 +341,7 @@ import Swal from 'sweetalert2'
         computed:{
             iscompletecliente(){
                 let me=this;
-                if (me.nombre!='' && (me.apaterno!='' || me.amaterno!='') && me.ci!='')
+                if (me.nombre!='' && (me.papellido!='' || me.sapellido!='') && me.ci!='')
                     return true;
                 else
                     return false;
@@ -435,8 +436,8 @@ import Swal from 'sweetalert2'
                 let me=this;
                 me.tituloModal='Registro de Clientes';
                 me.nombre='';
-                me.apaterno='';
-                me.amaterno='';
+                me.papellido='';
+                me.sapellido='';
                 me.nit='';
                 me.ci='';
                 me.telefono='';
@@ -446,8 +447,8 @@ import Swal from 'sweetalert2'
                 let me = this;
                 me.classModal.closeModal('cliente');
                 me.nombre='';
-                me.apaterno='';
-                me.amaterno='';
+                me.papellido='';
+                me.sapellido='';
                 me.nit='';
                 me.ci='';
                 me.telefono='';
@@ -683,8 +684,8 @@ import Swal from 'sweetalert2'
                 let me=this;
                 axios.post('/clientes/registrar',{
                     'nombre':me.nombre,
-                    'apaterno':me.apaterno,
-                    'amaterno':me.amaterno,
+                    'papellido':me.papellido,
+                    'sapellido':me.sapellido,
                     'ci':me.ci,
                     'nit':me.nit,
                     'telefono':me.telefono,

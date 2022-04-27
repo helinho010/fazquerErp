@@ -21,20 +21,20 @@ class ParClienteController extends Controller
     {
         $buscararray = array(); 
         if(!empty($request->buscar)) $buscararray = explode(" ",$request->buscar); 
-        $raw=DB::raw(DB::raw('concat(if(ISNULL(apaterno)=1," ",apaterno)," ",if(ISNULL(amaterno)=1," ",amaterno)," ",nombre) as nom'));
+        $raw=DB::raw(DB::raw('concat(if(ISNULL(papellido)=1," ",papellido)," ",if(ISNULL(sapellido)=1," ",sapellido)," ",nombre) as nom'));
         if (sizeof($buscararray)>0) { 
             $sqls=''; 
             foreach($buscararray as $valor){
                 if(empty($sqls))
-                    $sqls="(apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                    $sqls="(papellido like '%".$valor."%' or sapellido like '%".$valor."%' or nombre like '%".$valor."%' )";
                 else
-                    $sqls.=" and (apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                    $sqls.=" and (papellido like '%".$valor."%' or sapellido like '%".$valor."%' or nombre like '%".$valor."%' )";
             }   
             $clientes = Par_Cliente::select($raw,'id','nombre')
                                 ->where('activo',1)
                                 ->whereraw($sqls)
-                                ->orderby('apaterno','asc')
-                                ->orderby('amaterno','asc')
+                                ->orderby('papellido','asc')
+                                ->orderby('sapellido','asc')
                                 ->orderby('nombre','asc')
                                 ->get();
         }
@@ -43,8 +43,8 @@ class ParClienteController extends Controller
                     $clientes = Par_Cliente::select($raw,'id','nombre')
                                                  ->where('activo',1)
                                                 ->where('id',$request->id)
-                                                ->orderby('apaterno','asc')
-                                                ->orderby('amaterno','asc')
+                                                ->orderby('papellido','asc')
+                                                ->orderby('sapellido','asc')
                                                 ->orderby('nombre','asc')
                                                 ->get();
             }
@@ -53,8 +53,8 @@ class ParClienteController extends Controller
             {
                 $clientes = Par_Cliente::select($raw,'id','nombre')
                                     ->where('activo',1)
-                                    ->orderby('apaterno','asc')
-                                    ->orderby('amaterno','asc')
+                                    ->orderby('papellido','asc')
+                                    ->orderby('sapellido','asc')
                                     ->orderby('nombre','asc')
                                     ->get();
             }
@@ -64,11 +64,11 @@ class ParClienteController extends Controller
     }
     public function selectCli(Request $request)  //AjaxSelect
     {
-        $raw=DB::raw(DB::raw('concat(if(ISNULL(apaterno)=1," ",apaterno)," ",if(ISNULL(amaterno)=1," ",amaterno)," ",nombre) as nom'));
+        $raw=DB::raw(DB::raw('concat(if(ISNULL(papellido)=1," ",papellido)," ",if(ISNULL(sapellido)=1," ",sapellido)," ",nombre) as nom'));
         $clientes = Par_Cliente::select($raw,'id','nombre')
                             ->where('activo',1)
-                            ->orderby('apaterno','asc')
-                            ->orderby('amaterno','asc')
+                            ->orderby('papellido','asc')
+                            ->orderby('sapellido','asc')
                             ->orderby('nombre','asc')
                             ->get();
 
@@ -96,8 +96,8 @@ class ParClienteController extends Controller
         $cliente = new Par_Cliente();
 
         $cliente->nombre=$request->nombre;
-        $cliente->apaterno=$request->apaterno;
-        $cliente->amaterno=$request->amaterno;
+        $cliente->papellido=$request->papellido;
+        $cliente->sapellido=$request->sapellido;
         $cliente->nit=$request->nit;
         $cliente->ci=$request->ci;
         $cliente->telefono=$request->telefono;

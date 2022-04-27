@@ -22,7 +22,7 @@ class AdmUserController extends Controller
      */
     public function index(Request $request)
     {
-        $raw=DB::raw('concat(nombre," ",ifnull(apaterno," ")," ",ifnull(amaterno," ")) as nombre');
+        $raw=DB::raw('concat(nombre," ",ifnull(papellido," ")," ",ifnull(sapellido," ")) as nombre');
         $buscararray=array();
         if(!empty($request->buscar)){
             $buscararray = explode(" ",$request->buscar);
@@ -32,11 +32,11 @@ class AdmUserController extends Controller
                 $sqls='';
                 foreach($buscararray as $valor){
                     if(empty($sqls)){
-                        $sqls="(rrh__nombre like '%".$valor."%' or apaterno like '%".$valor."%' or amaaterno like '%".$valor."%' or email like '%".$valor."%')" ;
+                        $sqls="(rrh__nombre like '%".$valor."%' or papellido like '%".$valor."%' or amaaterno like '%".$valor."%' or email like '%".$valor."%')" ;
                     }
                     else
                     {
-                        $sqls.=" and (rrh__nombre like '%".$valor."%' or apaterno like '%".$valor."%' or amaaterno like '%".$valor."%' or email like '%".$valor."%')" ;
+                        $sqls.=" and (rrh__nombre like '%".$valor."%' or papellido like '%".$valor."%' or amaaterno like '%".$valor."%' or email like '%".$valor."%')" ;
                     }
     
                 }
@@ -46,8 +46,8 @@ class AdmUserController extends Controller
                                         'email',
                                         'users.activo',
                                         'name')
-                                ->orderby('rrh__empleados.apaterno','asc')
-                                ->orderby('rrh__empleados.amaterno','asc')
+                                ->orderby('rrh__empleados.papellido','asc')
+                                ->orderby('rrh__empleados.sapellido','asc')
                                 ->orderby('nombre','asc')
                                 ->whereraw($sqls)->paginate(50);
             }
@@ -61,8 +61,8 @@ class AdmUserController extends Controller
                                     'email',
                                     'users.activo',
                                     'name')
-                            ->orderby('rrh__empleados.apaterno','asc')
-                            ->orderby('rrh__empleados.amaterno','asc')
+                            ->orderby('rrh__empleados.papellido','asc')
+                            ->orderby('rrh__empleados.sapellido','asc')
                             ->orderby('nombre','asc')
                             ->paginate(20);
         }

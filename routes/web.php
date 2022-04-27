@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdmAccionVentanaController;
+use App\Http\Controllers\AdmBancoController;
+use App\Http\Controllers\AdmCiudadController;
+use App\Http\Controllers\AdmDepartamentoController;
 use App\Http\Controllers\AdmModuloController;
+use App\Http\Controllers\AdmNacionalidadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmRegistroController;
 use App\Http\Controllers\AdmRoleController;
@@ -133,6 +137,18 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/userrolesuc/registrar', [AdmUserRoleSucursalController::class,'store']);
     Route::put('/userrolesuc/desactivar', [AdmUserRoleSucursalController::class,'desactivar']);
     Route::put('/userrolesuc/activar', [AdmUserRoleSucursalController::class,'activar']);
+
+    Route::get('/depto/selectdepto',[AdmDepartamentoController::class,'selectDepartamento']);
+
+    Route::get('/ciudad/selectciudad',[AdmCiudadController::class,'selectCiudad']);
+    Route::post('/ciudad/registrar', [AdmCiudadController::class,'store']);
+
+    Route::get('/nacion/selectnacion',[AdmNacionalidadController::class,'selectNacion']);
+    Route::post('/nacion/registrar', [AdmNacionalidadController::class,'store']);
+
+    Route::get('/banco/selectbanco',[AdmBancoController::class,'selectBanco']);
+    Route::post('/banco/registrar', [AdmBancoController::class,'store']);
+
 
 
     //rrhh ////////////////////////////////////////////////////////////////////////////////////////////////

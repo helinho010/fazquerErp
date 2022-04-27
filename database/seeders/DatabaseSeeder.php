@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
             'adm__role_accions',
             'users',
             'adm__user_role_sucursals',
+            'adm__departamentos',
+            'adm__nacionalidads',
+            'adm__ciudads',
+            'adm__bancos'
         ]);
         
         $this->call(AdmRubroSeeder::class);
@@ -44,6 +48,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmRoleAccionSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(AdmUserRoleSucursalSeeder::class);
+        $this->call(AdmDepartamentoSeeder::class);
+        $this->call(AdmNacionalidadSeeder::class);
+        $this->call(AdmCiudadSeeder::class);
+        $this->call(AdmBancoSeeder::class);
 
         
     }
