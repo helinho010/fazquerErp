@@ -21297,7 +21297,8 @@ __webpack_require__.r(__webpack_exports__);
       var url = '/empleado/perfil/';
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayEmpleado = respuesta;
+        me.arrayEmpleado = respuesta[0];
+        console.log(me.arrayEmpleado);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21334,8 +21335,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.listarEmpleado();
-    console.log(this.menu);
+    this.listarEmpleado(); //console.log(this.menu);
   }
 });
 
@@ -27693,29 +27693,303 @@ var _hoisted_22 = {
   "class": "modal-body"
 };
 var _hoisted_23 = {
-  "class": "form-group"
+  "class": "row"
+};
+var _hoisted_24 = {
+  "class": "form-group col-sm-8",
+  style: {
+    "padding-right": "0px"
+  }
+};
+var _hoisted_25 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": ""
-}, "Nombre", -1
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Nombre: ", -1
 /* HOISTED */
 );
 
-var _hoisted_25 = {
-  "for": ""
+var _hoisted_27 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_28 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
 };
 
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Primer Apellido: ", -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_31 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Segundo Apellido: ", -1
+/* HOISTED */
+);
+
+var _hoisted_33 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_34 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "CI: ", -1
+/* HOISTED */
+);
+
+var _hoisted_36 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "form-group col-sm-4",
+  style: {
+    "padding-left": "0px"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "img/avatars/persona.png",
+  alt: "",
+  "class": "img-thumbnail"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_38 = {
+  "class": "form-group col"
+};
+var _hoisted_39 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Telefonos: ", -1
+/* HOISTED */
+);
+
+var _hoisted_41 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_42 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Celular: ", -1
+/* HOISTED */
+);
+
+var _hoisted_44 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_45 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Grado Academico: ", -1
+/* HOISTED */
+);
+
+var _hoisted_47 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_48 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Formacion: ", -1
+/* HOISTED */
+);
+
+var _hoisted_50 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_51 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Cargo: ", -1
+/* HOISTED */
+);
+
+var _hoisted_53 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_54 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Cuenta de Banco: ", -1
+/* HOISTED */
+);
+
+var _hoisted_56 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+var _hoisted_57 = {
+  "class": "form-group row rounded",
+  style: {
+    "background-color": "gainsboro",
+    "margin-left": "15px",
+    "margin-right": "15px",
+    "margin-bottom": "8px"
+  }
+};
+
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "",
+  "class": "col-sm-6 col-form-label",
+  style: {
+    "text-align": "right"
+  }
+}, "Fecha de Ingreso: ", -1
+/* HOISTED */
+);
+
+var _hoisted_59 = {
+  "for": "",
+  "class": "col-sm-6 col-form-label"
+};
+
+var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "modal-footer"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "button",
   "class": "btn btn-secondary",
   "data-dismiss": "modal"
-}, "Close"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  type: "button",
-  "class": "btn btn-primary"
-}, "Save changes")], -1
+}, "Close")], -1
 /* HOISTED */
 );
 
@@ -27731,9 +28005,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.logout && $options.logout.apply($options, arguments);
     })
-  }, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button trigger modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado), 1
+  }, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button trigger modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nomempleado), 1
   /* TEXT */
-  )])]), _hoisted_26])])])])], 2112
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nombre), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.papellido), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.sapellido), 1
+  /* TEXT */
+  )])]), _hoisted_37]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.telefonos), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.celular), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nomformacion), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nomprofecion), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nomcargo), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.nombanco + ' ' + $data.arrayEmpleado.nrcuenta), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [_hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.arrayEmpleado.fechaingreso), 1
+  /* TEXT */
+  )])])]), _hoisted_60])])])])], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 }

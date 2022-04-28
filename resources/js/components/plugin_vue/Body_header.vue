@@ -76,30 +76,88 @@
      <!-- Button trigger modal -->
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Perfil de usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="form-group">
-                <label for="">Nombre</label>
-                <label for="">{{ arrayEmpleado }}</label>
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Perfil de usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                         <div class="form-group col-sm-8" style="padding-right: 0px;">
+                            <div class="form-group row rounded " style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                                <label for="" class="col-sm-6 col-form-label" style="text-align:right">Nombre: </label>
+                                <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nomempleado }}</label>
+                            </div>
+                        
+                            <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                                <label for="" class="col-sm-6 col-form-label" style="text-align:right">Primer Apellido: </label>
+                                <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nombre }}</label>
+                            </div>
+                        
+                            <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                                <label for="" class="col-sm-6 col-form-label" style="text-align:right">Segundo Apellido: </label>
+                                <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.papellido }}</label>
+                            </div>
+                        
+                            <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                                <label for="" class="col-sm-6 col-form-label" style="text-align:right">CI: </label>
+                                <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.sapellido }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4" style="padding-left: 0px;">
+                            <img src="img/avatars/persona.png" alt="" class="img-thumbnail">
+                        </div>
+
+                    </div>
+                   
+                    <div class="form-group col">
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Telefonos: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.telefonos }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Celular: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.celular }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Grado Academico: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nomformacion }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Formacion: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nomprofecion }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Cargo: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nomcargo }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded " style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Cuenta de Banco: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.nombanco + ' ' + arrayEmpleado.nrcuenta }}</label>
+                        </div>
+                    
+                        <div class="form-group row rounded" style="background-color:gainsboro ;margin-left: 15px;margin-right: 15px; margin-bottom: 8px;">
+                            <label for="" class="col-sm-6 col-form-label" style="text-align:right">Fecha de Ingreso: </label>
+                            <label for="" class="col-sm-6 col-form-label">{{ arrayEmpleado.fechaingreso }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
   </main>
 </template>
 
@@ -123,8 +181,8 @@ import Swal from 'sweetalert2';
                 var url='/empleado/perfil/';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    me.arrayEmpleado=respuesta;
-                    
+                    me.arrayEmpleado=respuesta[0];
+                    console.log(me.arrayEmpleado);
                     
                 })
                 .catch(function(error){
@@ -169,7 +227,7 @@ import Swal from 'sweetalert2';
         }  ,
         mounted(){
             this.listarEmpleado();
-            console.log(this.menu);
+            //console.log(this.menu);
         }
        
     }

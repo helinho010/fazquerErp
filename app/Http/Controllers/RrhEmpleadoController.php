@@ -225,9 +225,22 @@ class RrhEmpleadoController extends Controller
     public function store(Request $request)
     {
        // dd($request);
+        if(strlen($request->papellido)!=0){
+            if(strlen($request->sapellido)!=0)
+                $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0].$request->sapellido[0];
+
+            else
+                $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0];
+        }
+        else
+        {
+            if(strlen($request->sapellido)!=0)
+                $codempleado=$request->ci."-".$request->nombre[0].$request->sapellido[0];
+        }
+            
         $empleado = new Rrh_Empleado();
         
-
+        $empleado->codempleado=$codempleado;
         $empleado->nombre=$request->nombre;
         $empleado->papellido=$request->papellido;
         $empleado->sapellido=$request->sapellido;
@@ -367,7 +380,7 @@ class RrhEmpleadoController extends Controller
     {
         
         $raw2=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');               
-        $raw3=DB::raw('concat(left(nombre,1),ifnull(papellido,sapellido)) as name');
+        $raw3=DB::raw('codempleado as name');
         //dd($raw2);
         $user=DB::table('users')->select('idempleado')->where('activo',1)->get()->toArray();
         //dd($user);
