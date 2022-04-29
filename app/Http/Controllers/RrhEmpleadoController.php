@@ -180,7 +180,7 @@ class RrhEmpleadoController extends Controller
                                             'rrh__formacions.id as idformacion',
                                             'rrh__profesions.id as idprofesion',
                                             'rrh__cargos.id as idcargo',
-                                            
+                                            'foto',
                                             'domicilio',
                                             $raw2,
                                             'fechaingreso',
@@ -224,63 +224,69 @@ class RrhEmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->foto);
+        //dd($request->foto);
+        $empleado = new Rrh_Empleado();
+        //dd($request);
         if($request->hasFile('foto'))
         {
             $filename=$request->foto->getClientOriginalName();
+            
             info($filename);
+
+            if(strlen($request->papellido)!=0){
+                if(strlen($request->sapellido)!=0)
+                    $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0].$request->sapellido[0];
+    
+                else
+                    $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0];
+            }
+            else
+            {
+                if(strlen($request->sapellido)!=0)
+                    $codempleado=$request->ci."-".$request->nombre[0].$request->sapellido[0];
+            }
+                
+            
+            
+            $empleado->codempleado=$codempleado;
+            $empleado->nombre=$request->nombre;
+            $empleado->papellido=$request->papellido;
+            $empleado->sapellido=$request->sapellido;
+           
+            $empleado->ci=$request->ci;
+            $empleado->sexo=$request->sexo;
+            $empleado->complementoci=$request->complementoci;
+            $empleado->iddepartamento=$request->iddepartamento;
+            $empleado->fechanacimiento=$request->fechanacimiento;
+            $empleado->foto=$request->file('foto')->store('empleados');
+            $empleado->estadocivil=$request->estadocivil;
+            $empleado->idnacionalidad=$request->idnacionalidad;
+            
+            $empleado->domicilio=$request->domicilio;
+            $empleado->idciudad=$request->idciudad;
+            $empleado->telefonos=$request->telefonos;
+            $empleado->celular=$request->celular;
+            
+            $empleado->idformacion=$request->idformacion;
+            $empleado->idprofesion=$request->idprofesion;
+            $empleado->idcargo=$request->idcargo;
+            $empleado->nit=$request->nit;
+            $empleado->fechaingreso=$request->fechaingreso;
+            $empleado->fecharetiro=$request->fecharetiro;
+            
+            $empleado->idbanco=$request->idbanco;
+            $empleado->nrcuenta=$request->nrcuenta;
+            
+            $empleado->obs=$request->obs;
+            $empleado->id_usuario_registra=auth()->user()->id;
+            $empleado->save();
+
         }
         else{
             echo "no entra";
         }
 
-        if(strlen($request->papellido)!=0){
-            if(strlen($request->sapellido)!=0)
-                $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0].$request->sapellido[0];
-
-            else
-                $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0];
-        }
-        else
-        {
-            if(strlen($request->sapellido)!=0)
-                $codempleado=$request->ci."-".$request->nombre[0].$request->sapellido[0];
-        }
-            
-        $empleado = new Rrh_Empleado();
         
-        $empleado->codempleado=$codempleado;
-        $empleado->nombre=$request->nombre;
-        $empleado->papellido=$request->papellido;
-        $empleado->sapellido=$request->sapellido;
-       
-        $empleado->ci=$request->ci;
-        $empleado->sexo=$request->sexo;
-        $empleado->complementoci=$request->complementoci;
-        $empleado->iddepartamento=$request->iddepartamento;
-        $empleado->fechanacimiento=$request->fechanacimiento;
-        //$empleado->foto=$request->foto;
-        $empleado->estadocivil=$request->estadocivil;
-        $empleado->idnacionalidad=$request->idnacionalidad;
-        
-        $empleado->domicilio=$request->domicilio;
-        $empleado->idciudad=$request->idciudad;
-        $empleado->telefonos=$request->telefonos;
-        $empleado->celular=$request->celular;
-        
-        $empleado->idformacion=$request->idformacion;
-        $empleado->idprofesion=$request->idprofesion;
-        $empleado->idcargo=$request->idcargo;
-        $empleado->nit=$request->nit;
-        $empleado->fechaingreso=$request->fechaingreso;
-        $empleado->fecharetiro=$request->fecharetiro;
-        
-        $empleado->idbanco=$request->idbanco;
-        $empleado->nrcuenta=$request->nrcuenta;
-        
-        $empleado->obs=$request->obs;
-        $empleado->id_usuario_registra=auth()->user()->id;
-        $empleado->save();
     }
 
     /**

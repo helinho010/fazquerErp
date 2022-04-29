@@ -52,7 +52,7 @@
                  <span class="d-md-down-none"
                    style="align-content: center; width: inherit;display: grid;    padding: 0 10px 0 10px;">
                    <b>{{usuario}}</b> </span>
-               <img class="img-avatar" src="img/avatars/persona.png" style="  margin: auto !important;"
+               <img class="img-avatar" :src="'storage/'+ arrayEmpleado.foto" style="  margin: auto !important;"
                    alt="admin@bootstrapmaster.com">
              
            </a>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="form-group col-sm-4" style="padding-left: 0px;">
-                            <img src="img/avatars/persona.png" alt="" class="img-thumbnail">
+                            <img :src="'storage/'+ arrayEmpleado.foto" alt="" class="img-thumbnail">
                         </div>
 
                     </div>

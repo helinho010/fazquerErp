@@ -102,6 +102,9 @@
                         </button>
                     </div>
                     <div class="modal-body" style="background-color: whitesmoke">
+                        <form @submit.prevent="registrarempleado" enctype="multipart/form-data">
+
+                       
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="pills-personal-tab" data-toggle="pill" href="#pills-personal" role="tab" aria-controls="pills-home" aria-selected="true">Datos Personales</a>
@@ -187,8 +190,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Fotografia:&nbsp; &nbsp;</label>
-                                    <input class="form-control rounded" type="file" name="" id="">
+                                    <input class="form-control rounded" type="file" @change="subirfoto">
                                 </div>
+                                <figure>
+                                    <img width="100" height="100" :src="imagen" alt="">
+                                </figure>
 
 
                             </div>
@@ -309,6 +315,7 @@
                                 
                             </div>
                         </div>
+                        </form>
                     </div>    
                     <div class="modal-footer justify-content-between"> 
                         <div>
@@ -316,7 +323,8 @@
                         </div>
                         <div>
                             <button type="button" class="btn btn-secondary rounded"  @click="cerrarModal('registrar')" style="margin-right: 20px;">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto">Guardar</button>
+                            <!-- <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto">Guardar</button> -->
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" >Guardar</button>
                             <button type="button" v-if="tipoAccion==2" class="btn btn-primary rounded" @click="actualizarempleado()" :disabled="!sicompleto">Actualizar</button>
                         </div>
                         
@@ -466,6 +474,8 @@ import Swal from 'sweetalert2'
                 foto:'',
                 depselec:0,
                 nomciudad:'',
+
+                imagenminiatura:'',
                 
                 
 
@@ -474,6 +484,9 @@ import Swal from 'sweetalert2'
 
         },
         computed:{
+            imagen(){
+                return this.imagenminiatura;
+            },
             sicompleto(){
                 let me=this;
                 if (me.nombre!='' && me.ci!='' && me.deptoselected!=0 && me.fechanacimiento!='' && me.estadocivil!='' && me.sexo!='' && me.domicilio!='' && me.ciudadselected!=0 && me.celular!='' && me.formacion!=0 && me.profesion!=0 && me.cargo!=0 && me.fechaingreso!='' && me.bancoselected!=0 && me.nrcuenta!='')
@@ -505,6 +518,19 @@ import Swal from 'sweetalert2'
             },
         },
         methods :{
+            subirfoto(event){
+                let me=this;
+                me.foto=event.target.files[0];
+                console.log(me.foto);
+                me.cargarImagen();
+            },
+            cargarImagen(){
+                let reader = new FileReader();
+                reader.onload=(e)=>{
+                    this.imagenminiatura=e.target.result;
+                }
+                reader.readAsDataURL(this.foto);
+            },
             listarEmpleados(page){
                 let me=this;
                 var url='/empleado?page='+page+'&buscar='+me.buscar;
@@ -526,36 +552,42 @@ import Swal from 'sweetalert2'
             },
             registrarempleado(){
                 let me = this;
-                axios.post('/empleado/registrar',{
-                    'nombre':me.nombre,
-                    'papellido':me.papellido,
-                    'sapellido':me.sapellido,
-                    'sexo':me.sexo,
-                    'ci':me.ci,
-                    'complementoci':me.complemento,
-                    'iddepartamento':me.deptoselected,
-                    'fechanacimiento':me.fechanacimiento,
-                    'foto':me.foto,
-                    'estadocivil':me.estadocivil,
-                    'idnacionalidad':me.nacionselected,
-                    
-                    'domicilio':me.domicilio,
-                    'idciudad':me.ciudadselected,
-                    'telefonos':me.telefono,
-                    'celular':me.celular,
+                
+                let formData = new FormData();
+                
+                formData.append('nombre',me.nombre);
+                formData.append('papellido',me.papellido);
+                formData.append('sapellido',me.sapellido);
+                formData.append('sexo',me.sexo);
+                formData.append('ci',me.ci);
+                formData.append('complementoci',me.complemento);
+                formData.append('iddepartamento',me.deptoselected);
+                formData.append('fechanacimiento',me.fechanacimiento);
+                formData.append('foto',me.foto);
+                formData.append('estadocivil',me.estadocivil);
+                formData.append('idnacionalidad',me.nacionselected);
+                
+                formData.append('domicilio',me.domicilio);
+                formData.append('idciudad',me.ciudadselected);
+                formData.append('telefonos',me.telefono);
+                formData.append('celular',me.celular);
 
-                    'idformacion':me.formacion,
-                    'idprofesion':me.profesion,
-                    'idcargo':me.cargo,
-                    'nit':me.nit,
-                    'fechaingreso':me.fechaingreso,
-                    'fecharetiro':me.fecharetiro,
-                    
-                    'idbanco':me.bancoselected,
-                    'nrcuenta':me.nrcuenta,
-                    
-                    'obs':me.observaciones,
-                }).then(function(response){
+                formData.append('idformacion',me.formacion);
+                formData.append('idprofesion',me.profesion);
+                formData.append('idcargo',me.cargo);
+                formData.append('nit',me.nit);
+                formData.append('fechaingreso',me.fechaingreso);
+                formData.append('fecharetiro',me.fecharetiro);
+                
+                formData.append('idbanco',me.bancoselected);
+                formData.append('nrcuenta',me.nrcuenta);
+                
+                formData.append('obs',me.observaciones);
+                
+                
+                axios.post('/empleado/registrar',
+                    formData    
+                ).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarEmpleados();
                 }).catch(function(error){
