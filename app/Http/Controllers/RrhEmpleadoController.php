@@ -157,7 +157,8 @@ class RrhEmpleadoController extends Controller
         
         
        
-            $empleados= Rrh_Empleado::join('rrh__formacions','rrh__formacions.id','rrh__empleados.idformacion')
+            $empleados= Rrh_Empleado::join('users','users.idempleado','rrh__empleados.id')
+                                    ->join('rrh__formacions','rrh__formacions.id','rrh__empleados.idformacion')
                                     ->join('rrh__profesions','rrh__profesions.id','rrh__empleados.idprofesion')
                                     ->join('rrh__cargos','rrh__cargos.id','rrh__empleados.idcargo')
                                     ->leftjoin('adm__departamentos','adm__departamentos.id','rrh__empleados.iddepartamento')
@@ -199,7 +200,7 @@ class RrhEmpleadoController extends Controller
                                     ->orderby('rrh__empleados.papellido','asc')
                                     ->orderby('rrh__empleados.sapellido','asc')
                                     ->orderby('rrh__empleados.nombre','asc')
-                                    ->where('rrh__empleados.id',auth()->user()->id)
+                                    ->where('users.id',auth()->user()->id)
                                     ->get();
        
         
