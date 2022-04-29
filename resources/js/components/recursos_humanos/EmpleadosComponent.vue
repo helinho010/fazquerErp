@@ -27,7 +27,7 @@
                     <table class="table table-bordered table-striped table-sm table-responsive">
                         <thead>
                             <tr>
-                                <th>Opciones</th>
+                                <th style="width:150px">Opciones</th>
                                 <th>Nombre</th>
                                 <th>Cargo</th>
                                 <th>sexo</th>
@@ -48,10 +48,12 @@
                                     </button> &nbsp;
                                     <button v-if="empleado.activo==1" type="button" class="btn btn-danger btn-sm rounded" @click="eliminarempleado(empleado.id)" >
                                         <i class="icon-trash"></i>
-                                    </button>
+                                    </button> &nbsp;
                                     <button v-else type="button" class="btn btn-info btn-sm rounded" @click="activarempleado(empleado.id)" >
                                         <i class="icon-check"></i>
-                                    </button>
+                                    </button> &nbsp;
+                                     <img v-if="empleado.foto" :src="'storage/'+ empleado.foto" class="rounded-circle fotosociomini">
+                                     <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
                                 </td>
                                     <td v-text="empleado.nomempleado"></td>
                                     <td v-text="empleado.nomcargo"></td>
@@ -102,7 +104,7 @@
                         </button>
                     </div>
                     <div class="modal-body" style="background-color: whitesmoke">
-                        <form @submit.prevent="registrarempleado" enctype="multipart/form-data">
+                        <form @submit.prevent="registrarempleado || actualizarempleado" enctype="multipart/form-data" >
 
                        
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -139,7 +141,7 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>CI:<span  v-if="ci==''" class="error">(*)</span></label>
-                                        <input type="text" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" >
+                                        <input type="number" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" >
                                         <span  v-if="ci==''" class="error">Debe Ingresar el CI del empleado</span>
                                     </div>
                                 </div>
@@ -188,9 +190,9 @@
                                         <span class="error" v-if="sexo==0">Debe Seleccionar el Sexo</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" v-if="clearInputFile">
                                     <label for="">Fotografia:&nbsp; &nbsp;</label>
-                                    <input class="form-control rounded" type="file" @change="subirfoto">
+                                    <input class="form-control rounded" type="file" @change="subirfoto" accept="image/*" id="img-empleado">
                                 </div>
                                 <figure>
                                     <img width="100" height="100" :src="imagen" alt="">
@@ -476,6 +478,7 @@ import Swal from 'sweetalert2'
                 nomciudad:'',
 
                 imagenminiatura:'',
+                clearInputFile:1
                 
                 
 
@@ -696,6 +699,37 @@ import Swal from 'sweetalert2'
             actualizarempleado(){
                // const Swal = require('sweetalert2')
                 let me =this;
+
+                /* let formData = new FormData();
+                
+                formData.append('nombre',me.nombre);
+                formData.append('papellido',me.papellido);
+                formData.append('sapellido',me.sapellido);
+                formData.append('sexo',me.sexo);
+                formData.append('ci',me.ci);
+                formData.append('complementoci',me.complemento);
+                formData.append('iddepartamento',me.deptoselected);
+                formData.append('fechanacimiento',me.fechanacimiento);
+                formData.append('foto',me.foto);
+                formData.append('estadocivil',me.estadocivil);
+                formData.append('idnacionalidad',me.nacionselected);
+                
+                formData.append('domicilio',me.domicilio);
+                formData.append('idciudad',me.ciudadselected);
+                formData.append('telefonos',me.telefono);
+                formData.append('celular',me.celular);
+
+                formData.append('idformacion',me.formacion);
+                formData.append('idprofesion',me.profesion);
+                formData.append('idcargo',me.cargo);
+                formData.append('nit',me.nit);
+                formData.append('fechaingreso',me.fechaingreso);
+                formData.append('fecharetiro',me.fecharetiro);
+                
+                formData.append('idbanco',me.bancoselected);
+                formData.append('nrcuenta',me.nrcuenta);
+                
+                formData.append('obs',me.observaciones); */
                 axios.put('/empleado/actualizar',{
                     'id':me.idempleado,
                     'nombre':me.nombre,
@@ -753,6 +787,7 @@ import Swal from 'sweetalert2'
                         if(data[0]==2)
                             me.classModal.openModal('registrar');
                         else{
+                            
                             me.tituloModal='Registar empleado'
                             me.tipoAccion=1;
                             me.nombre='';
@@ -780,6 +815,8 @@ import Swal from 'sweetalert2'
                             me.nit='';
                             me.bancoselected=0;
                             me.classModal.openModal('registrar');
+                            me.clearInputFile=0;
+                            setTimeout(me.tiempo, 200);   
                             
                         }
                         break;
@@ -815,7 +852,11 @@ import Swal from 'sweetalert2'
                         me.celular=data.celular
                         me.nit=data.nit
                         me.bancoselected=data.idbanco;
+                        me.imagenminiatura='storage/'+data.foto;
                         me.classModal.openModal('registrar');
+                        me.clearInputFile=0;
+                        setTimeout(me.tiempo, 200);   
+
                         break;
                     }
                     case 'regbanco':
@@ -871,6 +912,9 @@ import Swal from 'sweetalert2'
                 });
 
             },
+            tiempo(){
+            this.clearInputFile=1;
+            },
             cerrarModal(accion){
                 let me = this;
                 if(accion=='regmodal'){
@@ -887,7 +931,9 @@ import Swal from 'sweetalert2'
                     }
                     else    
                     {
+                        
                         me.classModal.closeModal(accion);
+                                            
                         me.tipoAccion=1;
                         me.nombre='';
                         me.papellido='';
@@ -914,6 +960,9 @@ import Swal from 'sweetalert2'
                         me.celular='';
                         me.nit='';
                         me.bancoselected=0;
+                        me.imagenminiatura='';
+                        me.foto='';
+                        
                     }
                 }
             },
@@ -1035,4 +1084,10 @@ label{
     max-height: calc(100vh - 210px);
     overflow-y: auto;
 }
+.fotosociomini{
+	     display: inline-block;
+        border:#efefef 1px solid;
+        filter:drop-shadow(1px 0px 2px #333);
+        width:35px;
+    }
 </style>
