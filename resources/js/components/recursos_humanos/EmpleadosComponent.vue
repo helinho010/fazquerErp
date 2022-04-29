@@ -323,8 +323,8 @@
                         </div>
                         <div>
                             <button type="button" class="btn btn-secondary rounded"  @click="cerrarModal('registrar')" style="margin-right: 20px;">Cerrar</button>
-                            <!-- <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto">Guardar</button> -->
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" >Guardar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto">Guardar</button>
+                            <!-- <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" >Guardar</button> -->
                             <button type="button" v-if="tipoAccion==2" class="btn btn-primary rounded" @click="actualizarempleado()" :disabled="!sicompleto">Actualizar</button>
                         </div>
                         
