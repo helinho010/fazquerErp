@@ -47,24 +47,33 @@ class AdmSessionController extends Controller
                     ->select('rrh__empleados.activo')                
                     ->where('email',request()->email)
                     ->get()->toarray();
-        //dd($res[0]['activo']);
-        if($res[0]['activo']==false)
-        {
+        //dd($res);
+        if(count($res)==0){
             return back()->withErrors([
-                'message'=>'Usuario Bloqueado'
-            ]);
+                'message'=>'No existe Usuario'
+            ]);   
         }
         else
         {
-            if(auth()->attempt(request(['email','password']))==false ) 
+            if($res[0]['activo']==false)
             {
                 return back()->withErrors([
-                    'message'=>'Email o contraseña incorrectos, intentelo de nuevo'
+                    'message'=>'Usuario Bloqueado'
                 ]);
-
             }
-            return redirect()->to('/selectsuc');
+            else
+            {
+                if(auth()->attempt(request(['email','password']))==false ) 
+                {
+                    return back()->withErrors([
+                        'message'=>'Email o contraseña incorrectos, intentelo de nuevo'
+                    ]);
+
+                }
+                return redirect()->to('/selectsuc');
+            }
         }
+            
     }
     public function sucursal(Request $request)
     {

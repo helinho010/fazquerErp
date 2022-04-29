@@ -224,7 +224,16 @@ class RrhEmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request);
+        dd($request->foto);
+        if($request->hasFile('foto'))
+        {
+            $filename=$request->foto->getClientOriginalName();
+            info($filename);
+        }
+        else{
+            echo "no entra";
+        }
+
         if(strlen($request->papellido)!=0){
             if(strlen($request->sapellido)!=0)
                 $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0].$request->sapellido[0];
@@ -250,7 +259,7 @@ class RrhEmpleadoController extends Controller
         $empleado->complementoci=$request->complementoci;
         $empleado->iddepartamento=$request->iddepartamento;
         $empleado->fechanacimiento=$request->fechanacimiento;
-        $empleado->foto=$request->foto;
+        //$empleado->foto=$request->foto;
         $empleado->estadocivil=$request->estadocivil;
         $empleado->idnacionalidad=$request->idnacionalidad;
         
