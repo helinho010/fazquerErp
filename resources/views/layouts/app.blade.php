@@ -4,15 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" >
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" > --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <title>@yield('title')</title>
 </head>
-<body class="bg-gray-100 tx-gray-800">
-    <nav class="flex py-5 bg-indigo-500 text-white">
-        <div class="w-1/2 px-12 mr-auto">
-            <p class="text-2xl font-bold">Puerto del Rosario</p>
-        </div>
-        <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
+<body>
+
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 h1">Puerto del Rosario</span>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                @if (auth()->check())
+                    <p class="text-xl">Bienvenido <p>{{ auth()->user()->name }}</p></p>
+                    <li class="nav-item">
+                        <a href="{{ route('login.destroy') }}" class="nav-link active">Cerrar Sesion</a>
+                    </li>
+                @else 
+                <li class="nav-item">
+                    <a href="{{ route('login.index') }}" class="nav-link">Login</a>
+                </li>
+                <li>
+                    {{-- <a href="{{ route('registro.index') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-indigo-700">Registro</a> --}}
+                </li>
+                @endif
+            </ul>
+          </div>
+
+          {{-- <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
             @if (auth()->check())
                 <p class="text-xl">Bienvenido <p>{{ auth()->user()->name }}</p></p>
                 <li>
@@ -22,13 +42,20 @@
                 <li class="mx-6">
                     <a href="{{ route('login.index') }}" class="font-semibold hover:bg-indigo-700 py-3 px-4 rounded-md">Login</a>
                 </li>
-                <li>
+                <li> --}}
                     {{-- <a href="{{ route('registro.index') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-indigo-700">Registro</a> --}}
                 </li>
-            @endif
+          {{--   @endif
             
-        </ul>
-    </nav>
+        </ul> --}}
+        </div>
+      </nav>
+   {{--  <nav class="flex py-5 bg-indigo-500 text-white">
+        <div class="w-1/2 px-12 mr-auto">
+            <p class="text-2xl font-bold">Puerto del Rosario</p>
+        </div>
+        
+    </nav> --}}
     @yield('content')
 </body>
 </html>
