@@ -52,8 +52,10 @@
                  <span class="d-md-down-none"
                    style="align-content: center; width: inherit;display: grid;    padding: 0 10px 0 10px;">
                    <b>{{usuario}}</b> </span>
-               <img class="img-avatar" :src="'storage/'+ arrayEmpleado.foto" style="  margin: auto !important;"
-                   alt="admin@bootstrapmaster.com">
+                   
+               <img v-if="arrayEmpleado.foto" class="img-avatar" :src="'storage/'+ arrayEmpleado.foto" style="  margin: auto !important;"
+                   alt="eddyclarosc@gmail.com">
+                <img v-else src="img/avatars/persona.png"  class="img-avatar" style="  margin: auto !important;" >
              
            </a>
            <div class="dropdown-menu dropdown-menu-right">

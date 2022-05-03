@@ -16,7 +16,7 @@ class CreateRrhEmpleadosTable extends Migration
         Schema::create('rrh__empleados', function (Blueprint $table) {
             $table->smallIncrements('id');
             //////////datos empleado///////////////
-            $table->string('codempleado',12)->nullable();
+            $table->string('codempleado',30)->nullable();
             $table->string('nombre',50);
             $table->string('papellido',50)->nullable();
             $table->string('sapellido',50)->nullable();

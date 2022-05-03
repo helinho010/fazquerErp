@@ -43,17 +43,21 @@
                         <tbody>
                             <tr v-for="empleado in arrayEmpleados" :key="empleado.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm rounded" @click="abrirModal('actualizar',empleado)">
+                                    <div v-if="empleado.nombre!='ADMIN'">
+                                        <button type="button" class="btn btn-warning btn-sm rounded" @click="abrirModal('actualizar',empleado)">
                                         <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button v-if="empleado.activo==1" type="button" class="btn btn-danger btn-sm rounded" @click="eliminarempleado(empleado.id)" >
-                                        <i class="icon-trash"></i>
-                                    </button> &nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm rounded" @click="activarempleado(empleado.id)" >
-                                        <i class="icon-check"></i>
-                                    </button> &nbsp;
-                                     <img v-if="empleado.foto" :src="'storage/'+ empleado.foto" class="rounded-circle fotosociomini">
-                                     <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
+                                        </button> &nbsp;
+                                        <button v-if="empleado.activo==1" type="button" class="btn btn-danger btn-sm rounded" @click="eliminarempleado(empleado.id)" >
+                                            <i class="icon-trash"></i>
+                                        </button> &nbsp;
+                                        <button v-else type="button" class="btn btn-info btn-sm rounded" @click="activarempleado(empleado.id)" >
+                                            <i class="icon-check"></i>
+                                        </button> &nbsp;
+                                        <img v-if="empleado.foto" :src="'storage/'+ empleado.foto" class="rounded-circle fotosociomini">
+                                        <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
+
+                                    </div>
+                                    
                                 </td>
                                     <td v-text="empleado.nomempleado"></td>
                                     <td v-text="empleado.nomcargo"></td>
@@ -700,8 +704,9 @@ import Swal from 'sweetalert2'
                // const Swal = require('sweetalert2')
                 let me =this;
 
-                /* let formData = new FormData();
+                let formData = new FormData();
                 
+                formData.append( 'id',me.idempleado,);
                 formData.append('nombre',me.nombre);
                 formData.append('papellido',me.papellido);
                 formData.append('sapellido',me.sapellido);
@@ -729,9 +734,9 @@ import Swal from 'sweetalert2'
                 formData.append('idbanco',me.bancoselected);
                 formData.append('nrcuenta',me.nrcuenta);
                 
-                formData.append('obs',me.observaciones); */
-                axios.put('/empleado/actualizar',{
-                    'id':me.idempleado,
+                formData.append('obs',me.observaciones);
+                axios.post('/empleado/actualizar',formData
+                   /*  'id':me.idempleado,
                     'nombre':me.nombre,
                     'papellido':me.papellido,
                     'sapellido':me.sapellido,
@@ -759,9 +764,9 @@ import Swal from 'sweetalert2'
                     'idbanco':me.bancoselected,
                     'nrcuenta':me.nrcuenta,
                     
-                    'obs':me.observaciones,
+                    'obs':me.observaciones, */
                     
-                }).then(function (response) {
+                ).then(function (response) {
                     if(response.data.length){
                     }
                     // console.log(response)

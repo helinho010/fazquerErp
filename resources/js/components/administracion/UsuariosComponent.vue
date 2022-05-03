@@ -37,18 +37,21 @@
                         <tbody>
                             <tr v-for="usuario in arrayUsuarios" :key="usuario.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',usuario)">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button v-if="usuario.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarUsuario(usuario.id)" >
-                                        <i class="icon-trash"></i>
-                                    </button>&nbsp;
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarUsuario(usuario.id)" >
-                                        <i class="icon-check"></i>
-                                    </button>&nbsp;
-                                    <button v-if="usuario.id!=1" type="button" class="btn btn-success btn-sm" @click="abrirModal('addrolsuc',usuario)">
-                                        <!-- <i class="icon-pencil"></i> -->Editar Rol-Sucursal
-                                    </button> 
+                                    <div v-if="usuario.name!='admin'">
+                                        <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',usuario)">
+                                            <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+                                        <button v-if="usuario.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarUsuario(usuario.id)" >
+                                            <i class="icon-trash"></i>
+                                        </button>&nbsp;
+                                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarUsuario(usuario.id)" >
+                                            <i class="icon-check"></i>
+                                        </button>&nbsp;
+                                        <button  type="button" class="btn btn-success btn-sm" @click="abrirModal('addrolsuc',usuario)">
+                                            <!-- <i class="icon-pencil"></i> -->Editar Rol-Sucursal
+                                        </button> 
+                                    </div>
+                                    
                                 </td>
                                     <td v-text="usuario.nombre"></td>
                                     <td v-text="usuario.email"></td>
