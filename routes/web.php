@@ -46,9 +46,33 @@ Route::get('/', function () {
     
 })->middleware('auth');
 
+/* Route::get('/perfilusuario', function () {
+        return view('contenido/perfilusuario');    
+    
+})->middleware('auth'); */
+
 Route::get('/login',[AdmSessionController::class,'create'])
     ->middleware('guest')
     ->name('login.index');
+
+Route::get('/recpass',[AdmSessionController::class,'recpass'])
+    ->middleware('guest')
+    ->name('login.recpass');
+
+Route::post('/recpass',[AdmSessionController::class,'verEmail'])
+    ->middleware('guest')
+    ->name('login.vermail');
+
+Route::get('/resetpass',[AdmSessionController::class,'resetpass'])
+    ->middleware('guest')
+    ->name('login.codigo');
+
+Route::post('/resetpass',[AdmSessionController::class,'actpass'])
+    ->middleware('guest')
+    ->name('login.actpass');
+
+Route::get('/enviar-email',[AdmSessionController::class,'sendEmail'])
+    ->middleware('guest');
 
 Route::get('/selectsuc',[AdmSessionController::class,'sucursal'])
     ->middleware('auth')

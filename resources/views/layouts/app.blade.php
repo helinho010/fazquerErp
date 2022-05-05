@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,30 +32,12 @@
             </ul>
           </div>
 
-          {{-- <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
-            @if (auth()->check())
-                <p class="text-xl">Bienvenido <p>{{ auth()->user()->name }}</p></p>
-                <li>
-                    <a href="{{ route('login.destroy') }}" class="font-bold py-3 px-4 rounded-md hover:bg-red-500 ">Cerrar Sesion</a>
-                </li>
-            @else    
-                <li class="mx-6">
-                    <a href="{{ route('login.index') }}" class="font-semibold hover:bg-indigo-700 py-3 px-4 rounded-md">Login</a>
-                </li>
-                <li> --}}
-                    {{-- <a href="{{ route('registro.index') }}" class="font-semibold border-2 border-white py-2 px-4 rounded-md hover:bg-white hover:text-indigo-700">Registro</a> --}}
-                </li>
-          {{--   @endif
-            
-        </ul> --}}
+         
         </div>
       </nav>
-   {{--  <nav class="flex py-5 bg-indigo-500 text-white">
-        <div class="w-1/2 px-12 mr-auto">
-            <p class="text-2xl font-bold">Puerto del Rosario</p>
-        </div>
-        
-    </nav> --}}
+  
     @yield('content')
+    @yield('recuperarpass')
+    @yield('codigo')
 </body>
 </html>

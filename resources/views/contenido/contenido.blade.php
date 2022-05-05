@@ -9,72 +9,30 @@
 use App\Http\Controllers\AdmSessionController;
 $var2 = AdmSessionController::listarVentanas(); 
 ?>
-@foreach($var2 as $ventana)
-    <template v-if="menu=={{ $ventana->codventana }}">
-        <{{ $ventana->template }}></{{ $ventana->template }}>
-    </template>
-@endforeach
-
-
-{{--  <template v-if="menu==104">
-    <sucursal-component></sucursal-component>
-</template>
-
-</template>
-<template v-if="menu==101">
-   <modulo-component></modulo-component>
-</template>
-
-</template>
-<template v-if="menu==102">
-   <rolpermiso-component></rolpermiso-component>
-</template>
-
-</template>
-<template v-if="menu==103">
-   <usuario-component></usuario-component>
-</template>
-
-<template v-if="menu==105">
-    <rubros-component></rubros-component>
-</template>
-<template v-if="menu==205">
-    <rrhempleados-component></rrhempleados-component>
-</template>
-
-<template v-if="menu==201">
-    <rrhnivel-component></rrhnivel-component>
-</template>
-
-<template v-if="menu==202">
-    <rrhprofesion-component></rrhprofesion-component>
-</template>
-
-<template v-if="menu==204">
-    <rrhcargos-component></rrhcargos-component>
-</template>
-
-<template v-if="menu==203">
-    <rrhuorg-component></rrhuorg-component>
-</template> --}}
+    @foreach($var2 as $ventana)
+        <template v-if="menu=={{ $ventana->codventana }}">
+            <{{ $ventana->template }}></{{ $ventana->template }}>
+        </template>
+    @endforeach
 
 
 @endsection
 
 @section('bodyheader') 
-@php   
-    use App\Http\Controllers\AdmUserController;
-    $user = AdmUserController::getUser();  
-    $idsucursal=session('idsuc');
-    $nomsucursal=session('nomsucursal');
-    $nomrol=session('nomrol');
-    //dd($nomrol);
-    //dd($user->name);
-    //dd($sucursalselected);
-    echo '
-             <Body_header user="'. $user->name.'" nomsucursal="'.$nomsucursal.'" nomrol="'.$nomrol.'"></Body_header> 
-          ';
-                                                                                                                                                  
+    @php   
+        use App\Http\Controllers\AdmUserController;
+        $user = AdmUserController::getUser();  
+        $idsucursal=session('idsuc');
+        $nomsucursal=session('nomsucursal');
+        $nomrol=session('nomrol');
+        //dd($nomrol);
+        //dd($user->name);
+        //dd($sucursalselected);
+        echo '
+                <Body_header user="'. $user->name.'" nomsucursal="'.$nomsucursal.'" nomrol="'.$nomrol.'"></Body_header> 
+            ';
+                                                                                                                                                    
     @endphp
         
-    @endsection
+@endsection
+

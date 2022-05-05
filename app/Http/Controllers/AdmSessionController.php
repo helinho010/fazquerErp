@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PruebaMail;
 use App\Models\Adm_Modulo;
 use App\Models\Adm_Role;
 use App\Models\Adm_Session;
@@ -11,6 +12,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Mail;
+
+use function PHPUnit\Framework\returnSelf;
 
 class AdmSessionController extends Controller
 {
@@ -33,6 +37,10 @@ class AdmSessionController extends Controller
     {
         return view('auth.login');
     }
+    public function recpass()
+    {
+        return view('auth.recpass');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,7 +51,7 @@ class AdmSessionController extends Controller
     public function store(Request $request)
     {
         
-        $res=User::join('rrh__empleados','rrh__empleados.id','users.idempleado')
+         $res=User::join('rrh__empleados','rrh__empleados.id','users.idempleado')
                     ->select('rrh__empleados.activo')                
                     ->where('email',request()->email)
                     ->get()->toarray();
@@ -74,6 +82,72 @@ class AdmSessionController extends Controller
             }
         }
             
+    }
+    public function verEmail(Request $request)
+    {
+        //dd($request);
+        $usuario= User::where('email',$request->email)->get();
+        $token=mt_rand(10000,99999);
+        
+        
+        
+        if(count($usuario)>0)
+        {
+            $email=$usuario[0]->email;
+            DB::table('password_resets')->where('email',$request->email)->delete();
+            DB::table('password_resets')->insert(['email'=>$email,'token'=>$token]);
+            $respuesta=$this->sendEmail($email,$token);
+            if($respuesta=='correcto')
+                /* return view('auth.codigo')->with('email',$email); */
+                //return redirect('/resetpass');
+                return redirect('/resetpass');
+            //return "correcto";
+        }
+        else
+            return view('auth.recpass')->with('error','error');
+            
+    }
+    public function resetpass(Request $request)
+    {
+        //dd($request);
+        return view('auth.codigo');
+    }
+    public function actpass(Request $request)
+    {
+        //dd($request);
+        $respuesta=DB::table('password_resets')->where('token',$request->codigo)->get();
+        $password=$request->newpass;
+
+        if(count($respuesta)>0)
+        {
+            $usuario=User::where('email',$respuesta[0]->email)->get();
+            $user = User::findOrFail($usuario[0]->id);
+            $user->password=$password;
+            $user->save();
+            DB::table('password_resets')->where('email',$respuesta[0]->email)->delete();
+            return redirect()->to('/');
+            
+        }
+        else
+        {
+            $incorrecto='Incorrecto';
+            return view('auth.codigo')->with('incorrecto',$incorrecto);            
+        }
+            
+
+
+
+        
+    }
+
+    public function sendEmail($email,$token)
+    {
+        $detalles=[
+            'title'=>'Correo de prueba',
+            'body'=>'Este es el codigo de Recuperacion de Contraseña '. $token .'Copielo y peguelo en la aplicacion'
+        ];
+        Mail::to($email)->send(new PruebaMail($detalles));
+        return "correcto";
     }
     public function sucursal(Request $request)
     {

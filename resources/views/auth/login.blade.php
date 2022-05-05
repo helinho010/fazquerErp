@@ -107,7 +107,12 @@
                   @error('message')
                     <p class="border" style="color:crimson">* {{ $message }}</p>    
                     @enderror
-    
+
+                    <div class="col">
+                      <!-- Simple link -->
+                      <a href="{{ route('login.recpass') }}">Olvidaste el password?</a>
+                    </div>
+                    <hr>
                   <!-- Checkbox -->
                  {{--  <div class="form-check d-flex justify-content-center mb-4">
                     <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
