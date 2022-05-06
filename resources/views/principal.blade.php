@@ -16,6 +16,7 @@
     <link href="css/style.css" rel="stylesheet">
     
     
+    
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
@@ -60,6 +61,7 @@
     
     <script src="js/app.js"></script>
     <script src="js/plantilla.js"></script>
+    
     
 </body>
 

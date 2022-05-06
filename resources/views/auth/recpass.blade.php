@@ -42,7 +42,7 @@
                 @endif
                     
                 <div class="form-group">
-                  <input type="email" class="form-control" name="email" placeholder="Direccion de Correo">
+                  <input type="email" class="form-control" name="email" placeholder="Direccion de Correo" required>
                 </div>
             <br>
                 <div class="form-group">

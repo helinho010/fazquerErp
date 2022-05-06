@@ -39,5 +39,6 @@
     @yield('content')
     @yield('recuperarpass')
     @yield('codigo')
+    
 </body>
 </html>
