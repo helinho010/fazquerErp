@@ -15,8 +15,17 @@ use App\Http\Controllers\AdmRubroController;
 use App\Http\Controllers\AdmUserController;
 use App\Http\Controllers\AdmUserRoleSucursalController;
 use App\Http\Controllers\AdmVentanaModuloController;
+use App\Http\Controllers\AlmAlmacenController;
+use App\Http\Controllers\AlmCodificacionController;
 use App\Http\Controllers\ParClienteController;
 use App\Http\Controllers\ParDescServicioController;
+use App\Http\Controllers\ProdCategoriaController;
+use App\Http\Controllers\ProdDescuentoController;
+use App\Http\Controllers\ProdDispenserController;
+use App\Http\Controllers\ProdFormaFarmaceuticaController;
+use App\Http\Controllers\ProdLineaController;
+use App\Http\Controllers\ProdProductoController;
+use App\Http\Controllers\ProdTipoDescuentoController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
@@ -254,6 +263,70 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/clientes/selectclientes',[ParClienteController::class,'selectClientes']);
     Route::get('/clientes/selectcli',[ParClienteController::class,'selectCli']);
     Route::post('/clientes/registrar', [ParClienteController::class,'store']);
+
+
+    ////////////////////////productos//////////////////////////////
+    Route::get('/linea',[ProdLineaController::class,'index']);
+    Route::post('/linea/registrar', [ProdLineaController::class,'store']);
+    Route::put('/linea/actualizar', [ProdLineaController::class,'update']);
+    Route::put('/linea/desactivar', [ProdLineaController::class,'desactivar']);
+    Route::put('/linea/activar', [ProdLineaController::class,'activar']);
+    Route::get('/linea/selectlinea',[ProdLineaController::class,'selectLinea']);
+
+    Route::get('/producto',[ProdProductoController::class,'index']);
+    Route::post('/producto/registrar', [ProdProductoController::class,'store']);
+    Route::put('/producto/actualizar', [ProdProductoController::class,'update']);
+    Route::put('/producto/desactivar', [ProdProductoController::class,'desactivar']);
+    Route::put('/producto/activar', [ProdProductoController::class,'activar']);
+    Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
+
+    Route::get('/dispenser',[ProdDispenserController::class,'index']);
+    Route::post('/dispenser/registrar', [ProdDispenserController::class,'store']);
+    Route::put('/dispenser/actualizar', [ProdDispenserController::class,'update']);
+    Route::put('/dispenser/desactivar', [ProdDispenserController::class,'desactivar']);
+    Route::put('/dispenser/activar', [ProdDispenserController::class,'activar']);
+    Route::get('/dispenser/selectdispenser',[ProdDispenserController::class,'selectDispenser']);
+
+    Route::get('/formafarm',[ProdFormaFarmaceuticaController::class,'index']);
+    Route::post('/formafarm/registrar', [ProdFormaFarmaceuticaController::class,'store']);
+    Route::put('/formafarm/actualizar', [ProdFormaFarmaceuticaController::class,'update']);
+    Route::put('/formafarm/desactivar', [ProdFormaFarmaceuticaController::class,'desactivar']);
+    Route::put('/formafarm/activar', [ProdFormaFarmaceuticaController::class,'activar']);
+    Route::get('/formafarm/selectformafarm',[ProdFormaFarmaceuticaController::class,'selectFormaFarm']);
+
+
+    Route::get('/categoria',[ProdCategoriaController::class,'index']);
+    Route::post('/categoria/registrar', [ProdCategoriaController::class,'store']);
+    Route::put('/categoria/actualizar', [ProdCategoriaController::class,'update']);
+    Route::put('/categoria/desactivar', [ProdCategoriaController::class,'desactivar']);
+    Route::put('/categoria/activar', [ProdCategoriaController::class,'activar']);
+    Route::get('/categoria/selectcategoria',[ProdCategoriaController::class,'selectCategoria']);
+
+    Route::get('/estante',[AlmCodificacionController::class,'index']);
+    Route::post('/estante/registrar', [AlmCodificacionController::class,'store']);
+    Route::put('/estante/actualizar', [AlmCodificacionController::class,'update']);
+    Route::put('/estante/desactivar', [AlmCodificacionController::class,'desactivar']);
+    Route::put('/estante/activar', [AlmCodificacionController::class,'activar']);
+    Route::get('/estante/selectestante',[AlmCodificacionController::class,'selectEstante']);
+
+
+    Route::get ('/imprimir_codigos', [AlmCodificacionController::class,'imprimirCodigos']);
+
+    Route::get('/almacen',[AlmAlmacenController::class,'index']);
+    Route::post('/almacen/registrar', [AlmAlmacenController::class,'store']);
+    Route::put('/almacen/actualizar', [AlmAlmacenController::class,'update']);
+    Route::put('/almacen/desactivar', [AlmAlmacenController::class,'desactivar']);
+    Route::put('/almacen/activar', [AlmAlmacenController::class,'activar']);
+    Route::get('/almacen/selectalmacen',[AlmAlmacenController::class,'selectAlmacen']);
+
+    Route::get('/tipodescuento/selecttipodescuento',[ProdTipoDescuentoController::class,'selectTipoDescuento']);
+
+    Route::get('/proddescuento',[ProdDescuentoController::class,'index']);
+    Route::post('/proddescuento/registrar', [ProdDescuentoController::class,'store']);
+    Route::put('/proddescuento/actualizar', [ProdDescuentoController::class,'update']);
+    Route::put('/proddescuento/desactivar', [ProdDescuentoController::class,'desactivar']);
+    Route::put('/proddescuento/activar', [ProdDescuentoController::class,'activar']);
+    Route::get('/proddescuento/selectdescuento',[ProdDescuentoController::class,'selectDescuento']);
 
 });
     

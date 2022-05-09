@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Prod_Categoria;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
@@ -31,7 +32,9 @@ class DatabaseSeeder extends Seeder
             'adm__departamentos',
             'adm__nacionalidads',
             'adm__ciudads',
-            'adm__bancos'
+            'adm__bancos',
+            'prod__categorias',
+            'prod__tipo_descuentos'
         ]);
         
         $this->call(AdmRubroSeeder::class);
@@ -52,6 +55,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmNacionalidadSeeder::class);
         $this->call(AdmCiudadSeeder::class);
         $this->call(AdmBancoSeeder::class);
+        $this->call(ProdCategoriaSeeder::class);
+        $this->call(ProdTipoDescuentSeeder::class);
 
         
     }
