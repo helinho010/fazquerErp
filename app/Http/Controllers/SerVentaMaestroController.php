@@ -13,9 +13,80 @@ class SerVentaMaestroController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $buscararray=array();
+        $fechainicio = date("Y-m-d", strtotime($request->fechainicio));
+        $fechafin=date("Y-m-d",strtotime($request->fechafin));
+        $raw=DB::raw(DB::raw('concat(apaterno," ",amaterno," ",nombre) as nombres'));
+        if(!empty($request->buscar)){
+            $buscararray = explode(" ",$request->buscar);
+            //dd($buscararray);
+            
+            $valor=sizeof($buscararray);
+            if($valor > 0){
+                $sqls='';
+                foreach($buscararray as $valor){
+                    if(empty($sqls)){
+                        $sqls="(apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                    }
+                    else
+                    {
+                        $sqls.=" and (apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                    }
+    
+                }
+                $ventamaestro= Ser_Venta_Maestro::join('par__clientes','par__clientes.id','ser__venta__maestros.idcliente')
+                                            ->select($raw,
+                                                    'ser__venta__maestros.id as id',
+                                                    'total',
+                                                    'efectivo',
+                                                    'cambio',
+                                                    'ser__venta__maestros.created_at',
+                                                    'ser__venta__maestros.activo')
+                                            ->orderby('ser__venta__maestros.created_at','desc')
+                                            ->whereraw($sqls)
+                                            ->where('ser__venta__maestros.activo',1)
+                                            ->whereBetween(DB::raw('date(ser__venta__maestros.created_at)'), [$fechainicio, $fechafin])
+                                            ->paginate(20);
+                
+            }
+        }
+        
+        else
+        {
+            $ventamaestro= Ser_Venta_Maestro::join('par__clientes','par__clientes.id','ser__venta__maestros.idcliente')
+                                        ->select($raw,
+                                                'ser__venta__maestros.id as id',
+                                                'total',
+                                                'efectivo',
+                                                'cambio',
+                                                'ser__venta__maestros.created_at',
+                                                'ser__venta__maestros.activo')
+                                                ->orderby('ser__venta__maestros.created_at','desc')
+                                                ->where('ser__venta__maestros.activo',1)
+                                                ->whereBetween(DB::raw('date(ser__venta__maestros.created_at)'), [$fechainicio, $fechafin])
+                                        ->paginate(20);
+        }
+        
+        //$ventamaestro = VentaMaestro::all();
+        $sumatotal=0;
+        foreach ($ventamaestro as $key => $value) {
+            $sumatotal=$sumatotal+$value->total;
+        }
+        return ['pagination'=>[
+                                'total'         =>    $ventamaestro->total(),
+                                'current_page'  =>    $ventamaestro->currentPage(),
+                                'per_page'      =>    $ventamaestro->perPage(),
+                                'last_page'     =>    $ventamaestro->lastPage(),
+                                'from'          =>    $ventamaestro->firstItem(),
+                                'to'            =>    $ventamaestro->lastItem(),
+
+                                ] ,
+                'ventamaestro'=>$ventamaestro,
+                'sumatotal'=>$sumatotal
+            ];
+
     }
 
     /**
@@ -101,5 +172,27 @@ class SerVentaMaestroController extends Controller
     public function destroy(Ser_Venta_Maestro $ser_Venta_Maestro)
     {
         //
+    }
+    public function registrarVentaMaestro()
+    {
+        //$venta=Venta::
+        DB::table('ventas')
+                ->where('estado', 0)
+                ->update(['estado' => 1]);
+    }
+    public function desactivar(Request $request)
+    {
+        $ventamaestro = Ser_Venta_Maestro::findOrFail($request->id);
+        $ventamaestro->activo=0;
+        $ventamaestro->id_usuario_modifica=auth()->user()->id;
+        $ventamaestro->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $ventamaestro = Ser_Venta_Maestro::findOrFail($request->id);
+        $ventamaestro->activo=1;
+        $ventamaestro->id_usuario_modifica=auth()->user()->id;
+        $ventamaestro->save();
     }
 }

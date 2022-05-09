@@ -35,6 +35,7 @@ createApp ({
     .component('area-component',require('./components/servicios/AreaComponent.vue').default)
     .component('prestaciones-component',require('./components/servicios/PrestacionComponent.vue').default)
     .component('ventas-component',require('./components/servicios/VentasComponent.vue').default)
+    .component('histventas-component', require('./components/servicios/HistorialVentasComponent.vue').default)
 
     //Parametros
     .component('descuentos-component',require('./components/parametros/ServiciosDescuentoscomponent.vue').default)

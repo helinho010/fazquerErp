@@ -328,6 +328,11 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/proddescuento/activar', [ProdDescuentoController::class,'activar']);
     Route::get('/proddescuento/selectdescuento',[ProdDescuentoController::class,'selectDescuento']);
 
+    Route::post('/ventamaestro/registrarventamaestro', [SerVentaMaestroController::class,'store']);
+    Route::get('/ventasmaestro',[SerVentaMaestroController::class,'index']);
+    Route::put('/ventasmaestro/desactivar', [SerVentaMaestroController::class,'desactivar']);
+    Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
+
 });
     
 
