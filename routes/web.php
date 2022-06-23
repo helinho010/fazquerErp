@@ -272,6 +272,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/linea/desactivar', [ProdLineaController::class,'desactivar']);
     Route::put('/linea/activar', [ProdLineaController::class,'activar']);
     Route::get('/linea/selectlinea',[ProdLineaController::class,'selectLinea']);
+    Route::get('/linea/selectlinea2',[ProdLineaController::class,'selectLinea2']);
 
     Route::get('/producto',[ProdProductoController::class,'index']);
     Route::post('/producto/registrar', [ProdProductoController::class,'store']);
@@ -279,6 +280,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/producto/desactivar', [ProdProductoController::class,'desactivar']);
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
+    Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
 
     Route::get('/dispenser',[ProdDispenserController::class,'index']);
     Route::post('/dispenser/registrar', [ProdDispenserController::class,'store']);
@@ -286,6 +288,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/dispenser/desactivar', [ProdDispenserController::class,'desactivar']);
     Route::put('/dispenser/activar', [ProdDispenserController::class,'activar']);
     Route::get('/dispenser/selectdispenser',[ProdDispenserController::class,'selectDispenser']);
+    Route::get('/dispenser/selectdispenser2',[ProdDispenserController::class,'selectDispenser2']);
 
     Route::get('/formafarm',[ProdFormaFarmaceuticaController::class,'index']);
     Route::post('/formafarm/registrar', [ProdFormaFarmaceuticaController::class,'store']);
@@ -293,6 +296,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/formafarm/desactivar', [ProdFormaFarmaceuticaController::class,'desactivar']);
     Route::put('/formafarm/activar', [ProdFormaFarmaceuticaController::class,'activar']);
     Route::get('/formafarm/selectformafarm',[ProdFormaFarmaceuticaController::class,'selectFormaFarm']);
+    Route::get('/formafarm/selectformafarm2',[ProdFormaFarmaceuticaController::class,'selectFormaFarm2']);
 
 
     Route::get('/categoria',[ProdCategoriaController::class,'index']);
@@ -301,6 +305,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/categoria/desactivar', [ProdCategoriaController::class,'desactivar']);
     Route::put('/categoria/activar', [ProdCategoriaController::class,'activar']);
     Route::get('/categoria/selectcategoria',[ProdCategoriaController::class,'selectCategoria']);
+    Route::get('/categoria/selectcategoria2',[ProdCategoriaController::class,'selectCategoria2']);
 
     Route::get('/estante',[AlmCodificacionController::class,'index']);
     Route::post('/estante/registrar', [AlmCodificacionController::class,'store']);

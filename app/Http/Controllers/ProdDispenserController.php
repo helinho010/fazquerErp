@@ -194,4 +194,16 @@ class ProdDispenserController extends Controller
         
 
     }
+    public function selectDispenser2(Request $request)
+    {
+        
+        $dispensers = Prod_Dispenser::select('id','nombre')
+                                    ->where('activo',1)
+                                    ->orderby('nombre','asc')
+                                    ->get();
+        return $dispensers;
+        
+        
+
+    }
 }

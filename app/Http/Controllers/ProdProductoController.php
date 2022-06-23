@@ -338,4 +338,18 @@ class ProdProductoController extends Controller
         
 
     }
+    function selectProducto2(Request $request){
+        $raw=DB::raw(DB::raw('concat(prod__productos.codigo," ",prod__productos.nombre," ",prod__dispensers.nombre," ",prod__productos.cantidad," ",prod__forma_farmaceuticas.nombre) as cod'));
+        $productos = Prod_Producto::join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
+                                                ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
+                                                ->select('prod__productos.id as id' ,
+                                                            $raw,
+                                                            'prod__productos.nombre as nombre',
+                                                            'prod__productos.codigo')
+                                                ->where('prod__productos.activo',1)
+                                                ->orderby('prod__productos.nombre','asc')
+                                                ->get();
+        return $productos;
+
+    }
 }

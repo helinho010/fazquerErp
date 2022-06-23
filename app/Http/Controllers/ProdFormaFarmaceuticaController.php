@@ -191,4 +191,13 @@ class ProdFormaFarmaceuticaController extends Controller
         return ['formafarm' => $formafarm];
 
     }
+    public function selectFormaFarm2(Request $request)
+    {
+        $formafarm = Prod_FormaFarmaceutica::select('id','nombre')
+                                    ->where('activo',1)
+                                    ->orderby('nombre','asc')
+                                    ->get();
+        return $formafarm;
+
+    }
 }
