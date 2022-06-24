@@ -139,7 +139,12 @@
                                 </div>
                                 <div v-else-if="valor==3" class="col-md-6">
                                     <strong>Categoria:</strong>
-                                    <Ajaxselect  v-if="clearSelected"
+                                     <select class="form-control" v-model="idcategoriaselected">
+                                            <option disabled value="0">Seleccionar...</option>
+                                            <option v-for="categoria in categorias" :key="categoria.id" v-text="categoria.nombre" :value="categoria.id"></option>
+                                        </select>
+
+                                    <!--<Ajaxselect  v-if="clearSelected"
                                         ruta="/categoria/selectcategoria?buscar=" @found="categorias" @cleaning="cleancategorias"
                                         resp_ruta="categorias"
                                         labels="nombre"
@@ -147,7 +152,7 @@
                                         idtabla="id"
                                         :id="idcategoriaselected"
                                         :clearable='true'>
-                                    </Ajaxselect>
+                                    </Ajaxselect>-->
                                 </div>
                                 <div v-else-if="valor==7" class="col-md-12">
                                     <div class="form-group row">
@@ -295,7 +300,8 @@ import Swal from 'sweetalert2'
                 valor:0,
 
                 idcategoria:[],
-                idcategoriaselected:'',
+                idcategoriaselected:0,
+                categorias:[],
                 clearSelected:1,
 
                 fechainicio:'',
@@ -376,7 +382,7 @@ import Swal from 'sweetalert2'
             tiempo(){
                 this.clearSelected=1;
             },
-            cleancategorias(){
+            /*cleancategorias(){
                 this.idcategoria=[];
                 this.idcategoriaelected='';
             
@@ -390,6 +396,18 @@ import Swal from 'sweetalert2'
                         this.idcategoria.push(element);
                     }
                 }
+            },*/
+            listarCategorias(){
+                let me = this;
+                var url= '/categoria/selectcategoria2';
+                axios.get(url).then(function (response) {
+                    let respuesta= response.data; 
+                    me.categorias=respuesta;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
             },
             listarSubcategorias(){
                 let me =this;
@@ -698,6 +716,7 @@ import Swal from 'sweetalert2'
         mounted() {
             this.obtenerfecha();
             this.selectTipoDescuentos();
+            this.listarCategorias();
             //this.listarDescuentos(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
