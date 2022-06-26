@@ -18,7 +18,7 @@ class SerVentaMaestroController extends Controller
         $buscararray=array();
         $fechainicio = date("Y-m-d", strtotime($request->fechainicio));
         $fechafin=date("Y-m-d",strtotime($request->fechafin));
-        $raw=DB::raw(DB::raw('concat(apaterno," ",amaterno," ",nombre) as nombres'));
+        $raw=DB::raw(DB::raw('concat(papellido," ",sapellido," ",nombre) as nombres'));
         if(!empty($request->buscar)){
             $buscararray = explode(" ",$request->buscar);
             //dd($buscararray);
@@ -28,11 +28,11 @@ class SerVentaMaestroController extends Controller
                 $sqls='';
                 foreach($buscararray as $valor){
                     if(empty($sqls)){
-                        $sqls="(apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                        $sqls="(papellido like '%".$valor."%' or sapellido like '%".$valor."%' or nombre like '%".$valor."%' )";
                     }
                     else
                     {
-                        $sqls.=" and (apaterno like '%".$valor."%' or amaterno like '%".$valor."%' or nombre like '%".$valor."%' )";
+                        $sqls.=" and (papellido like '%".$valor."%' or sapellido like '%".$valor."%' or nombre like '%".$valor."%' )";
                     }
     
                 }
@@ -107,6 +107,11 @@ class SerVentaMaestroController extends Controller
      */
     public function store(Request $request)
     {
+        if(is_null(session('idsuc')))
+            $idsucursal=0;
+        else
+            $idsucursal=session('idsuc');
+
         $ventamaestro = new Ser_Venta_Maestro();
 
         $ventamaestro->num_documento=1;
@@ -116,13 +121,13 @@ class SerVentaMaestroController extends Controller
         $ventamaestro->efectivo=$request->efectivo;
         $ventamaestro->cambio=$request->cambio;
         $ventamaestro->id_usuario_registra=auth()->user()->id;
-        $ventamaestro->idsucursal=session('idsuc');
+        $ventamaestro->idsucursal=$idsucursal;
         $ventamaestro->save();
         $id=$ventamaestro->id;
         
         DB::table('ser__ventas')
             ->where('estado', 0)
-            ->where('idsucursal',session('idsuc'))
+            ->where('idsucursal',$idsucursal)
             ->where('id_usuario_registra',auth()->user()->id)
             ->update(['estado' => 1,
                         'idventamaestro'=>$id]);

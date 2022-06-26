@@ -24,7 +24,7 @@
                                 <th>Agregar</th>
                            </tr>
                         </thead>
-                        <tr>
+                        <!--<tr>
                             <td>
                                 <form action="form-inline ml-3">
                                     <div class="input-group input-group-sm">
@@ -35,11 +35,6 @@
                                         v-on:keyup="selectPrestaciones()"
                                         >
                                     </div>
-                                    <!-- <div class="input-group-append">
-                                        <button class="btn btn-navbar" type="submit">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div> -->
                                 </form>
                                 <div class="panel-footer" v-if="arrayPresAutocomplete.length>0">
                                     <ul class="list-group">
@@ -53,7 +48,7 @@
 
                                 </div>
                             </td>
-                        </tr>
+                        </tr>-->
                         <tr>
                             <td>
                                 <select name="" id="" v-model="prestacionselected" class="form-control" @change="selectPres()">
@@ -305,7 +300,7 @@ import Swal from 'sweetalert2'
                 arrayPrestacion:[],
                 areaselected:0,
                 precio:'',
-                idprestacionselected:'',
+                idprestacionselected:0,
                 idprestaciones:[],
                 clearSelected:1,
                 clearSelected1:1,
@@ -625,6 +620,7 @@ import Swal from 'sweetalert2'
                     'idprestacion':me.idprestaciones.id,
                     'iddescuento':me.descuentoSelected,
                     'monto_a_cancelar':me.preciofinal,
+                    'idsucursal':1
                     
                 }).then(function(response){
                     //me.cerrarModal('registrar');

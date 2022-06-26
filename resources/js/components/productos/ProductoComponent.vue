@@ -114,7 +114,11 @@
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Linea:</strong>
-                                <Ajaxselect  v-if="clearSelected"
+                                <select v-model="idlineaselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="linea in lineas" :key="linea.id" :value="linea.id" v-text="linea.cod"></option>
+                                </select>
+                                <!--<Ajaxselect  v-if="clearSelected"
                                     ruta="/linea/selectlinea?buscar=" @found="lineas" @cleaning="cleanlineas"
                                     resp_ruta="lineas"
                                     labels="cod"
@@ -122,8 +126,8 @@
                                     idtabla="id"
                                     :id="idlineaselected"
                                     :clearable='true'>
-                                </Ajaxselect>
-                                <span class="error" v-if="idlineas.length==0">Debe Seleccionar la Linea</span>
+                                </Ajaxselect>-->
+                                <span class="error" v-if="idlineaselected==0">Debe Seleccionar la Linea</span>
                             </div>
                             <div class="form-group col-sm-8">
                                 <strong>Producto:</strong>
@@ -137,7 +141,11 @@
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Dispenser:</strong>
-                                <Ajaxselect  v-if="clearSelected1"
+                                <select v-model="iddispenserselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
+                                </select>
+                                <!--<Ajaxselect  v-if="clearSelected1"
                                     ruta="/dispenser/selectdispenser?buscar=" @found="dispensers" @cleaning="cleandispensers"
                                     resp_ruta="dispensers"
                                     labels="nombre"
@@ -145,8 +153,8 @@
                                     idtabla="id"
                                     :id="iddispenserselected"
                                     :clearable='true'>
-                                </Ajaxselect>
-                                <span class="error" v-if="iddispenser.length==0">Debe Seleccionar el dispenser</span>
+                                </Ajaxselect>-->
+                                <span class="error" v-if="iddispenserselected==0">Debe Seleccionar el dispenser</span>
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Cantidad:</strong>
@@ -155,7 +163,11 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Forma Farmaceutica:</strong>
-                                <Ajaxselect  v-if="clearSelected2"
+                                 <select v-model="idformafarmselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
+                                </select>
+                                <!--<Ajaxselect  v-if="clearSelected2"
                                     ruta="/formafarm/selectformafarm?buscar=" @found="formafarm" @cleaning="cleanformafarm"
                                     resp_ruta="formafarm"
                                     labels="nombre"
@@ -163,8 +175,8 @@
                                     idtabla="id"
                                     :id="idformafarmselected"
                                     :clearable='true'>
-                                </Ajaxselect>
-                                <span class="error" v-if="idformafarm.length==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                </Ajaxselect>-->
+                                <span class="error" v-if="idformafarmselected==0">Debe Seleccionar la Forma Farmaceutica</span>
                             </div>
 
                             
@@ -172,7 +184,8 @@
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Precio de Lista:</strong>
-                                <vue-numeric  
+                                <input type="number" class="form-control" v-model="preciolista" step="any" v-on:focus="selectAll" style="text-align:right">
+                                <!--<vue-numeric  
                                     class="form-control"
                                     currency="Bs." 
                                     separator="," 
@@ -180,12 +193,13 @@
                                     v-bind:precision="2"
                                     v-on:focus="selectAll"
                                     style="text-align:right">
-                                </vue-numeric>
+                                </vue-numeric>-->
                                 <span class="error" v-if="preciolista==0">Debe Ingresar el Precio de Lista</span>
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Precio de Venta:</strong>
-                                <vue-numeric  
+                                <input type="number" class="form-control" v-model="precioventa" step="any" v-on:focus="selectAll" style="text-align:right">
+                                <!--<vue-numeric  
                                     class="form-control"
                                     currency="Bs." 
                                     separator="," 
@@ -193,7 +207,7 @@
                                     v-bind:precision="2"
                                     v-on:focus="selectAll"
                                     style="text-align:right">
-                                </vue-numeric>
+                                </vue-numeric>-->
                                 <span class="error" v-if="precioventa==''">Debe Ingresar el Precio de Venta</span>
                             </div>
                             <div class="form-group col-sm-4">
@@ -208,7 +222,11 @@
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Categoria:</strong>
-                                <Ajaxselect  v-if="clearSelected3"
+                                <select v-model="idcategoriaselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
+                                </select>
+                                <!--<Ajaxselect  v-if="clearSelected3"
                                     ruta="/categoria/selectcategoria?buscar=" @found="categorias" @cleaning="cleancategorias"
                                     resp_ruta="categorias"
                                     labels="nombre"
@@ -216,8 +234,8 @@
                                     idtabla="id"
                                     :id="idcategoriaselected"
                                     :clearable='true'>
-                                </Ajaxselect>
-                                <span class="error" v-if="idcategoria.length==0">Debe Seleccionar la Categoria</span>
+                                </Ajaxselect>-->
+                                <span class="error" v-if="idcategoriaselected==0">Debe Seleccionar la Categoria</span>
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Clasificación ABC:</strong>
@@ -331,16 +349,16 @@ import QrcodeVue from 'qrcode.vue'
                 iddispenser:'',
                 buscar:'',
                 idlineas:[],
-                idlineaselected:'',
+                idlineaselected:0,
                 clearSelected:1,
                 
                 cantidad:0,
                 nombre:'',
                 clearSelected2:1,
                 clearSelected1:1,
-                iddispenserselected:'',
+                iddispenserselected:0,
                 iddispenser:[],
-                idformafarmselected:'',
+                idformafarmselected:0,
                 idformafarm:[],
                 preciolista:0,
                 precioventa:0,
@@ -359,13 +377,17 @@ import QrcodeVue from 'qrcode.vue'
                 metodoselected:'A',
                 arrayMetodo:['A','B','C'],
                 idcategoria:[],
-                idcategoriaselected:'',
+                idcategoriaselected:0,
                 clearSelected3:1,
                 mostrardetalles:0,
 
                 //////qrcode
                 value: 'https://example.com',
                 size: 300,
+                lineas:[],
+                dispensers:[],
+                formafarms:[],
+                categorias:[]
 
 
             }
@@ -377,7 +399,7 @@ import QrcodeVue from 'qrcode.vue'
         computed:{
             sicompleto(){
                 let me=this;
-                if (me.nombre=='' || me.cantidad==0 || me.idlineas.length==0 || me.iddispenser.length==0 || me.idformafarm.length==0 || me.preciolista==0 || me.precioventa==0 || me.tiempopedidoselected==0 || me.idcategoria.length==0)
+                if (me.nombre=='' || me.cantidad==0 || me.idlineaselected==0 || me.iddispenserselected==0 || me.idformafarmselected==0 || me.preciolista==0 || me.precioventa==0 || me.tiempopedidoselected==0 || me.idcategoriaselected==0)
                     return false;
                 else
                     return true;
@@ -408,6 +430,61 @@ import QrcodeVue from 'qrcode.vue'
 
         },
         methods :{
+            listarLinea(){
+                let me=this;
+                var url='/linea/selectlinea2';
+                axios.get(url).then(function(response){
+                    console.log(response)
+                    var respuesta=response.data;
+                    me.lineas=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+
+            },
+            listarDispenser(){
+                let me=this;
+                var url='/dispenser/selectdispenser2';
+                axios.get(url).then(function(response){
+                    console.log(response)
+                    var respuesta=response.data;
+                    me.dispensers=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+
+            },
+            listarFormafarm(){
+                let me=this;
+                var url='/formafarm/selectformafarm2';
+                axios.get(url).then(function(response){
+                    console.log(response)
+                    var respuesta=response.data;
+                    me.formafarms=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+
+            },
+            listarCategorias(){
+                let me=this;
+                var url='/categoria/selectcategoria2';
+                axios.get(url).then(function(response){
+                    console.log(response)
+                    var respuesta=response.data;
+                    me.categorias=respuesta;
+                    
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
             onFileChange(e) {
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -439,7 +516,7 @@ import QrcodeVue from 'qrcode.vue'
             tiempo3(){
             this.clearSelected3=1;
             },
-            categorias(categorias){
+            /*categorias(categorias){
                 this.idcategoria=[];
                 for (const key in categorias) {
                     if (categorias.hasOwnProperty(key)) {
@@ -454,7 +531,8 @@ import QrcodeVue from 'qrcode.vue'
                 this.idcategoria=[];
                 this.idcategoriaelected='';
             
-            },
+            },*/
+            /*
             lineas(lineas){
                 this.idlineas=[];
                 for (const key in lineas) {
@@ -470,8 +548,8 @@ import QrcodeVue from 'qrcode.vue'
                 this.idlineas=[];
                 this.idlineaselected='';
             
-            },
-            dispensers(dispensers){
+            },*/
+            /*dispensers(dispensers){
                 this.iddispenser=[];
                 for (const key in dispensers) {
                     if (dispensers.hasOwnProperty(key)) {
@@ -486,7 +564,8 @@ import QrcodeVue from 'qrcode.vue'
                 this.iddispenser=[];
                 this.iddispenserselected='';
             
-            },
+            },*/
+            /*
             formafarm(formafarm){
                 this.idformafarm=[];
                 for (const key in formafarm) {
@@ -502,7 +581,7 @@ import QrcodeVue from 'qrcode.vue'
                 this.idformafarm=[];
                 this.idformafarmselected='';
             
-            },
+            },*/
             listarProducto(page){
                 let me=this;
                 var url='/producto?page='+page+'&buscar='+me.buscar;
@@ -527,9 +606,9 @@ import QrcodeVue from 'qrcode.vue'
                     'nombre':me.nombre,
                     'cod':me.idlineas[3],
                     'cantidad':me.cantidad,
-                    'idlinea':me.idlineas[1],
-                    'iddispenser':me.iddispenser[0],
-                    'idformafarm':me.idformafarm[0],
+                    'idlinea':me.idlineaselected,
+                    'iddispenser':me.iddispenserselected,
+                    'idformafarm':me.idformafarmselected,
                     'precio_lista':me.preciolista,
                     'precio_venta':me.precioventa,
                     'tiempo_pedido':me.tiempopedidoselected,
@@ -537,7 +616,7 @@ import QrcodeVue from 'qrcode.vue'
                     'dosificacione':me.dosificacione,
                     'principio_activo':me.principio,
                     'accion_terapeutica':me.accion,
-                    'idcategoria':me.idcategoria[0],
+                    'idcategoria':me.idcategoriaselected,
                     'imagen':me.image,
                     'metodoabc':me.metodoselected,
 
@@ -666,9 +745,9 @@ import QrcodeVue from 'qrcode.vue'
                     'id':me.idproducto,
                     'nombre':me.nombre,
                     'cantidad':me.cantidad,
-                    'idlinea':me.idlineas[1],
-                    'iddispenser':me.iddispenser[0],
-                    'idformafarm':me.idformafarm[0],
+                    'idlinea':me.idlineaselected,
+                    'iddispenser':me.iddispenserselected,
+                    'idformafarm':me.idformafarmselected,
                     'precio_lista':me.preciolista,
                     'precio_venta':me.precioventa,
                     'tiempo_pedido':me.tiempopedidoselected,
@@ -676,7 +755,7 @@ import QrcodeVue from 'qrcode.vue'
                     'dosificacione':me.dosificacione,
                     'principio_activo':me.principio,
                     'accion_terapeutica':me.accion,
-                    'idcategoria':me.idcategoria[0],
+                    'idcategoria':me.idcategoriaselected,
                     'metodoabc':me.metodoselected,
                     
                 }).then(function (response) {
@@ -781,21 +860,21 @@ import QrcodeVue from 'qrcode.vue'
                 me.nombre='';
                 me.cantidad='';
                 me.idlineas=[];
-                me.idlineaselected='';
+                me.idlineaselected=0;
                 me.clearSelected=0;
                 setTimeout(me.tiempo, 200); 
                 me.iddispenser=[];
-                me.iddispenserselected='';
+                me.iddispenserselected=0;
                 me.clearSelected1=0;
                 setTimeout(me.tiempo1, 200); 
                 me.idformafarm=[];
-                me.idformafarmselected='';
+                me.idformafarmselected=0;
                 me.clearSelected2=0;
                 setTimeout(me.tiempo2, 200); 
                 me.clearSelected3=0;
                 setTimeout(me.tiempo3, 200); 
                 me.idcategoria=[];
-                me.idcategoriaselected='';
+                me.idcategoriaselected=0;
                 me.preciolista=0;
                 me.precioventa=0;
                 me.tiempopedidoselected=0;
@@ -819,6 +898,10 @@ import QrcodeVue from 'qrcode.vue'
         },
         mounted() {
             this.listarProducto(1);
+            this.listarLinea();
+            this.listarDispenser();
+            this.listarFormafarm();
+            this.listarCategorias();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')

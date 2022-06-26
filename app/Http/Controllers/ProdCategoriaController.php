@@ -193,4 +193,14 @@ class ProdCategoriaController extends Controller
         return ['categorias' => $categoria];
 
     }
+    public function selectCategoria2(Request $request)
+    {
+        $categoria = Prod_Categoria::select('id','nombre')
+                                    ->where('activo',1)
+                                    ->orderby('nombre','asc')
+                                    ->get();
+        
+        return $categoria;
+
+    }
 }

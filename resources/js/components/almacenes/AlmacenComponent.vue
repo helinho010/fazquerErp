@@ -111,9 +111,12 @@
                     <div class="modal-body">
                         <form  enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
-                                <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproducto.length==0" class="error">(*)</span></strong>
+                                <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproductoselected==0" class="error">(*)</span></strong>
                                 <div class="col-md-9">
-                                    <Ajaxselect  v-if="clearSelected"
+                                    <select v-model="idproductoselected" class="form-control">
+                                     <option v-for="producto in productos" :key="producto.id" :value="producto.id" v-text="producto.cod"></option>
+                                    </select>
+                                   <!-- <Ajaxselect  v-if="clearSelected"
                                     ruta="/producto/selectproducto?buscar=" @found="productos" @cleaning="cleanproductos"
                                     resp_ruta="productos"
                                     labels="cod"
@@ -121,8 +124,8 @@
                                     idtabla="id"
                                     :id="idproductoselected"
                                     :clearable='true'>
-                                </Ajaxselect>
-                                <span  v-if="idproducto.length==0" class="error">Debe Ingresar el Nombre del producto</span>
+                                </Ajaxselect>-->
+                                <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -218,6 +221,7 @@ import QrcodeVue from 'qrcode.vue'
                 offset:3,
                 idproducto:[],
                 idproductoselected:'',
+                productos:[],
                 descripcion:'',
                 codigo:'',
                 correlativo:0,
@@ -262,6 +266,7 @@ import QrcodeVue from 'qrcode.vue'
                  //////qrcode
                 value: 'https://example.com',
                 size: 100,
+                productos:[]
                 
             }
 
@@ -273,14 +278,14 @@ import QrcodeVue from 'qrcode.vue'
             generarqr(){
                 let me=this;
                 me.codigo='';
-                if(me.idproducto.length!=0 && me.lote!='' && me.fecha_vencimiento!=me.fechaactual)
-                    return me.codigo=me.idproducto[3]+'|'+me.lote+'|'+ me.fecha_vencimiento+'|'+me.tipo_entrada;
+                if(me.idproductoselected!=0 && me.lote!='' && me.fecha_vencimiento!=me.fechaactual)
+                    return me.codigo=me.idproductoselected+'|'+me.lote+'|'+ me.fecha_vencimiento+'|'+me.tipo_entrada;
                 else
-                    return me.codigo;
+                    return me.codigo=me.idproductoselected+'|'+me.lote+'|'+ me.fecha_vencimiento+'|'+me.tipo_entrada;
             },
             sicompleto(){
                 let me=this;
-                if (me.idproducto.length!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
+                if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
                     return true;
                 else
                     return false;
@@ -374,6 +379,22 @@ import QrcodeVue from 'qrcode.vue'
             tiempo(){
             this.clearSelected=1;
             },
+            listarProductos(){
+                let me = this;
+                var url= '/producto/selectproducto2';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productos=respuesta;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                
+                
+
+
+            },
+            /*
             productos(productos){
                 this.idproducto=[];
                 for (const key in productos) {
@@ -389,7 +410,7 @@ import QrcodeVue from 'qrcode.vue'
                 this.idproducto=[];
                 this.idproductoselected='';
             
-            },
+            },*/
             listarProductosAlmacen(page){
                 let me=this;
                 //me.listarEstantes(me.sucursalselected);
@@ -427,7 +448,7 @@ import QrcodeVue from 'qrcode.vue'
                 let me = this;
                 axios.post('/almacen/registrar',{
                     'idsucursal':me.sucursalselected,
-                    'idproducto':me.idproducto[0],
+                    'idproducto':me.idproductoselected,
                     'idusuario':1,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
@@ -640,6 +661,7 @@ import QrcodeVue from 'qrcode.vue'
             this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
+            this.listarProductos();
             //console.log('Component mounted.')
         }
     }
