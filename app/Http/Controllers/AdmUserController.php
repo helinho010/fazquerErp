@@ -231,4 +231,10 @@ class AdmUserController extends Controller
         
 
     }
+
+    public function tiempoSessionUsuario()
+    {
+        return env('SESSION_LIFETIME');
+        //return auth()->user()->name;
+    }
 }

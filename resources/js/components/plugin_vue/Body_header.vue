@@ -15,13 +15,13 @@
             <a class="nav-link" href="#">
                 
                 <div class="text-center" style="width: 156px;">
-                    <span>Tu sesión expira en :</span> <strong id="timeout"></strong>
+                    <span>Tu sesión expira en :</span> <div id="timeout">{{tiempoSession}} seg.</div> 
                 </div>
             </a> 
         </li>
-        <li id="clockSession" class="nav-item dropdown navItem d-md-down-none" style="font-size: 26px;">
+        <!-- <li id="clockSession" class="nav-item dropdown navItem d-md-down-none" style="font-size: 26px;">
             <a class="nav-link spring" href="#"> <i class="icon-clock"></i> </a>
-        </li>
+        </li> -->
 
        <li class="nav-item dropdown navItem">
            
@@ -175,6 +175,7 @@ import Swal from 'sweetalert2';
                 nomsucursal:this.nomsucursal,
                 nomrol:this.nomrol,
                 arrayEmpleado:[],
+                tiempoSession:0,
             }
         },  
         methods : {  
@@ -190,6 +191,21 @@ import Swal from 'sweetalert2';
                 .catch(function(error){
                     console.log(error);
                 });
+            },
+
+            actualizarTiempoSessionUsuario(){
+                let me=this;
+                let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
+                axios.get(urlObtenerDatoTiempoSession).then(function(response){
+                        me.tiempoSession=parseInt(response.data,10)*60;
+                        console.log(me.tiempoSession);
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
+                setInterval(function() {
+                    me.tiempoSession=me.tiempoSession-1;                        
+                }, 1000);
             },
 
             logout(event){
@@ -229,6 +245,7 @@ import Swal from 'sweetalert2';
         }  ,
         mounted(){
             this.listarEmpleado();
+            this.actualizarTiempoSessionUsuario();         
             //console.log(this.menu);
         }
        

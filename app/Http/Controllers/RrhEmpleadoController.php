@@ -429,6 +429,5 @@ class RrhEmpleadoController extends Controller
         //dd($empleados);
         return $empleados;
     }
-
     
 }

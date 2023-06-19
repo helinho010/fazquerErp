@@ -79,7 +79,7 @@
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               Temporibus, expedita iusto veniam atque, magni tempora mollitia
               dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-              ab ipsum nisi dolorem modi. Quos?
+              ab ipsum nisi dolorem modi. Quos? **
             </p>
           </div>
     
@@ -100,17 +100,17 @@
                   <!-- Password input -->
                   <div class="form-outline mb-4">
                     <input type="password" id="form3Example4" class="form-control" id="password" name="password"/>
-                    <label class="form-label" for="form3Example4">Password</label>
+                    <label class="form-label" for="form3Example4">Contraseña</label>
                   </div>
                   
 
-                  @error('message')
+                    @error('message')
                     <p class="border" style="color:crimson">* {{ $message }}</p>    
                     @enderror
 
                     <div class="col">
                       <!-- Simple link -->
-                      <a href="{{ route('login.recpass') }}">Olvidaste el password?</a>
+                      <a href="{{ route('login.recpass') }}">Olvidaste el contraseña?</a>
                     </div>
                     <hr>
                   <!-- Checkbox -->
