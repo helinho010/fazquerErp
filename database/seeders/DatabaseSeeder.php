@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\Prod_Categoria;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Adm_Rubro;
+use App\Models\Rrh_Empleado;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -58,7 +61,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProdCategoriaSeeder::class);
         $this->call(ProdTipoDescuentSeeder::class);
 
-        
+        Adm_Rubro::factory(500)->create();
+        Rrh_Empleado::factory(5)->create();
     }
     protected function truncateTables(array $tables)
     {
