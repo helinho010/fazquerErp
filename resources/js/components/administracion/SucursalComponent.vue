@@ -281,6 +281,7 @@ import Swal from 'sweetalert2'
                 })
                 .catch(function(error){
                     console.log(error);
+                    //window.location.reload();
                 });
             },
             cambiarPagina(page){
@@ -290,9 +291,6 @@ import Swal from 'sweetalert2'
             },
             registrarSucursal(){
                 let me = this;
-                
-                
-
                 axios.post('/sucursal/registrar',{
                     'idrubro':me.idrubro,
                     'tipo':me.tipo,
@@ -411,12 +409,13 @@ import Swal from 'sweetalert2'
             actualizarSucursal(){
                // const Swal = require('sweetalert2')
                 let me =this;
+                console.log(me.telefono);
                 axios.put('/sucursal/actualizar',{
                     'idrubro':me.idrubro,
                     'id':me.idsucursal,
                     'nombre':me.nombre,
                     'razon_social':me.razonsocial,
-                    'telefono':me.telefono,
+                    'telefonos':me.telefono,
                     'nit':me.nit,
                     'direccion':me.direccion,
                     'tipo':me.tipo,
@@ -428,9 +427,7 @@ import Swal from 'sweetalert2'
                     }
                     // console.log(response)
                     else{
-                            Swal.fire('Actualizado Correctamente')
-
-                        
+                        Swal.fire('Actualizado Correctamente')   
                     } 
                     
                 }).catch(function (error) {
@@ -466,7 +463,7 @@ import Swal from 'sweetalert2'
                         me.tipoAccion=2;
                         me.tipo=data.tipo;
                         me.razonsocial=data.razon_social;
-                        me.telefono=data.telefono;
+                        me.telefono=data.telefonos;
                         me.nit=data.nit;
                         me.direccion=data.direccion;
                         me.ciudad=data.ciudad;

@@ -20802,7 +20802,7 @@ __webpack_require__.r(__webpack_exports__);
         } else me.matriz = 0; //console.log(me.arraySucursales);
 
       })["catch"](function (error) {
-        console.log(error);
+        console.log(error); //window.location.reload();
       });
     },
     cambiarPagina: function cambiarPagina(page) {
@@ -20908,12 +20908,13 @@ __webpack_require__.r(__webpack_exports__);
     actualizarSucursal: function actualizarSucursal() {
       // const Swal = require('sweetalert2')
       var me = this;
+      console.log(me.telefono);
       axios.put('/sucursal/actualizar', {
         'idrubro': me.idrubro,
         'id': me.idsucursal,
         'nombre': me.nombre,
         'razon_social': me.razonsocial,
-        'telefono': me.telefono,
+        'telefonos': me.telefono,
         'nit': me.nit,
         'direccion': me.direccion,
         'tipo': me.tipo,
@@ -20956,7 +20957,7 @@ __webpack_require__.r(__webpack_exports__);
             me.tipoAccion = 2;
             me.tipo = data.tipo;
             me.razonsocial = data.razon_social;
-            me.telefono = data.telefono;
+            me.telefono = data.telefonos;
             me.nit = data.nit;
             me.direccion = data.direccion;
             me.ciudad = data.ciudad;
