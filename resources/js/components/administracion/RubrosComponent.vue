@@ -361,6 +361,7 @@ import Swal from 'sweetalert2'
             },
             abrirModal(accion,data= []){
                 let me=this;
+                console.log(data.areamedica);
                 switch(accion){
                     case 'registrar':
                     {
@@ -380,7 +381,7 @@ import Swal from 'sweetalert2'
                         me.tituloModal='Actualizar Rubro'
                         me.nombre=data.nombre;
                         me.descripcion=data.descripcion;
-                        me.areamedica=data.areamedica;
+                        me.areamedica=(data.areamedica === 1);
                         me.classModal.openModal('registrar');
                         break;
                     }

@@ -20623,6 +20623,7 @@ __webpack_require__.r(__webpack_exports__);
     abrirModal: function abrirModal(accion) {
       var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
       var me = this;
+      console.log(data.areamedica);
 
       switch (accion) {
         case 'registrar':
@@ -20643,7 +20644,7 @@ __webpack_require__.r(__webpack_exports__);
             me.tituloModal = 'Actualizar Rubro';
             me.nombre = data.nombre;
             me.descripcion = data.descripcion;
-            me.areamedica = data.areamedica;
+            me.areamedica = data.areamedica === 1;
             me.classModal.openModal('registrar');
             break;
           }
@@ -22914,14 +22915,14 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       var urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
       axios.get(urlObtenerDatoTiempoSession).then(function (response) {
-        me.tiempoSession = parseInt(response.data, 10) * 60;
-        console.log(me.tiempoSession);
+        //me.tiempoSession=parseInt(response.data,10)*60;
+        //console.log(me.tiempoSession);
+        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
-      });
-      setInterval(function () {
-        me.tiempoSession = me.tiempoSession - 1;
-      }, 1000);
+      }); // setInterval(function() {
+      //     me.tiempoSession=me.tiempoSession-1;                        
+      // }, 1000);
     },
     logout: function logout(event) {
       //console.log('entralogout');

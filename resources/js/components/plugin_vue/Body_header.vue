@@ -197,15 +197,16 @@ import Swal from 'sweetalert2';
                 let me=this;
                 let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
                 axios.get(urlObtenerDatoTiempoSession).then(function(response){
-                        me.tiempoSession=parseInt(response.data,10)*60;
-                        console.log(me.tiempoSession);
+                        //me.tiempoSession=parseInt(response.data,10)*60;
+                        //console.log(me.tiempoSession);
+                        console.log(response.data);
                     })
                     .catch(function(error){
                         console.log(error);
                     });
-                setInterval(function() {
-                    me.tiempoSession=me.tiempoSession-1;                        
-                }, 1000);
+                // setInterval(function() {
+                //     me.tiempoSession=me.tiempoSession-1;                        
+                // }, 1000);
             },
 
             logout(event){
