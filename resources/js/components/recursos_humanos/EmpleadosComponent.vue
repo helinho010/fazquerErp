@@ -417,7 +417,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -549,6 +551,7 @@ import Swal from 'sweetalert2'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -598,6 +601,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarEmpleados();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -635,6 +639,7 @@ import Swal from 'sweetalert2'
                         me.listarEmpleados();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -684,6 +689,7 @@ import Swal from 'sweetalert2'
                         me.listarEmpleados();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -776,7 +782,7 @@ import Swal from 'sweetalert2'
                         me.listarEmpleados();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 
@@ -895,6 +901,7 @@ import Swal from 'sweetalert2'
                     me.abrirModal('registrar',arr);
                     
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -913,6 +920,7 @@ import Swal from 'sweetalert2'
                     me.abrirModal('registrar',arr);
                     
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -984,6 +992,7 @@ import Swal from 'sweetalert2'
                     me.arrayProfesion=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -995,6 +1004,7 @@ import Swal from 'sweetalert2'
                     me.arrayFormacion=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -1006,6 +1016,7 @@ import Swal from 'sweetalert2'
                     me.arrayCargo=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -1017,6 +1028,7 @@ import Swal from 'sweetalert2'
                     me.arrayDepto=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -1028,6 +1040,7 @@ import Swal from 'sweetalert2'
                     me.arrayCiudad=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -1041,6 +1054,7 @@ import Swal from 'sweetalert2'
                     me.nacionselected=respuesta.idboliviano;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -1052,6 +1066,7 @@ import Swal from 'sweetalert2'
                     me.arrayBancos=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },

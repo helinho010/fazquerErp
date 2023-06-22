@@ -165,6 +165,7 @@
 
 <script> 
 import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
     export default {
          props : ['user','nomsucursal','nomrol'],
 
@@ -189,6 +190,7 @@ import Swal from 'sweetalert2';
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -202,6 +204,7 @@ import Swal from 'sweetalert2';
                         console.log(response.data);
                     })
                     .catch(function(error){
+                        error401(error);
                         console.log(error);
                     });
                 // setInterval(function() {

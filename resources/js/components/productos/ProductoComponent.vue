@@ -323,7 +323,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //import Vue from 'vue'
 import VueNumeric from 'vue-numeric'
 import QrcodeVue from 'qrcode.vue'
@@ -440,6 +441,7 @@ import QrcodeVue from 'qrcode.vue'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -454,6 +456,7 @@ import QrcodeVue from 'qrcode.vue'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -468,6 +471,7 @@ import QrcodeVue from 'qrcode.vue'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -482,6 +486,7 @@ import QrcodeVue from 'qrcode.vue'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -592,6 +597,7 @@ import QrcodeVue from 'qrcode.vue'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -636,6 +642,7 @@ import QrcodeVue from 'qrcode.vue'
                     }
                     
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -673,6 +680,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.listarProducto(me.pagination.current_page);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -722,6 +730,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.listarProducto(me.pagination.current_page);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -768,7 +777,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.listarProducto(me.pagination.current_page);
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

@@ -128,7 +128,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -199,6 +200,7 @@ import Swal from 'sweetalert2'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -223,6 +225,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo(1);
                     }
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -260,6 +263,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo(me.pagination.current_page);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -309,6 +313,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo(me.pagination.current_page);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -343,7 +348,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo(me.pagination.current_page);
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

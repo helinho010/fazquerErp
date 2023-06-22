@@ -229,6 +229,7 @@ import Swal from 'sweetalert2'
                     me.arrayDescuentos=respuesta.descuentos.data;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -248,6 +249,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarDescuentos();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -285,6 +287,7 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -334,6 +337,7 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -370,7 +374,8 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
+                    console.log(error);
                 });
                 me.cerrarModal('registrar');
 

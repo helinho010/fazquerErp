@@ -176,7 +176,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -274,14 +275,11 @@ import Swal from 'sweetalert2'
                             me.matriz=0;
                     }
                     else
-                        me.matriz=0;
-
-                    
+                        me.matriz=0; 
                     //console.log(me.arraySucursales);
                 })
                 .catch(function(error){
-                    console.log(error);
-                    //window.location.reload();
+                    error401(error);
                 });
             },
             cambiarPagina(page){
@@ -303,6 +301,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarSucursales();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -340,6 +339,7 @@ import Swal from 'sweetalert2'
                         me.listarSucursales();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -390,6 +390,7 @@ import Swal from 'sweetalert2'
                         
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -431,7 +432,7 @@ import Swal from 'sweetalert2'
                     } 
                     
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 
@@ -503,6 +504,7 @@ import Swal from 'sweetalert2'
                     me.arrayRubros=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -521,7 +523,6 @@ import Swal from 'sweetalert2'
 <style scoped>
 .error{
     color: red;
-    font-size: 10px;
-    
+    font-size: 10px;  
 }
 </style>

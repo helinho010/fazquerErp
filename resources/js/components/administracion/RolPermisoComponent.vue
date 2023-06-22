@@ -237,10 +237,9 @@ import Swal from 'sweetalert2'
                     var respuesta=response.data;
                     console.log(respuesta);
                     me.arrayModulos=respuesta.modulos;
-                    
-                    
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -253,10 +252,9 @@ import Swal from 'sweetalert2'
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayRoles=respuesta.roles.data;
-                    
-                    
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -269,8 +267,6 @@ import Swal from 'sweetalert2'
                 let me = this;
                 let ventanas=me.ventanaseleccionados.toString();
                 let modul=me.seleccionados.toString();                
-                
-
                 axios.post('/role/registrar',{
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
@@ -280,6 +276,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarRoles();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -317,9 +314,9 @@ import Swal from 'sweetalert2'
                         me.listarRoles();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
-                    
                     
                 } else if (
                     /* Read more about handling dismissals below */
@@ -366,6 +363,7 @@ import Swal from 'sweetalert2'
                         me.listarRoles();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -401,7 +399,7 @@ import Swal from 'sweetalert2'
                         me.listarRoles();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

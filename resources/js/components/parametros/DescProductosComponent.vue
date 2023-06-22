@@ -241,7 +241,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -373,9 +374,9 @@ import Swal from 'sweetalert2'
                     me.fechax=me.fechahoy;
                 })
                 .catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
-                
                 
                 //me.fechafactura=me.fechaactual;
             },
@@ -405,6 +406,7 @@ import Swal from 'sweetalert2'
                     me.categorias=respuesta;
                 })
                 .catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
 
@@ -427,6 +429,7 @@ import Swal from 'sweetalert2'
                     me.arrayTipoDescuentos=respuesta.tipodescuentos;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -439,6 +442,7 @@ import Swal from 'sweetalert2'
                     me.arrayDescuentos=respuesta.descuentos.data;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -459,6 +463,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarDescuentos();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -496,6 +501,7 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -545,6 +551,7 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -581,7 +588,8 @@ import Swal from 'sweetalert2'
                         me.listarDescuentos();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
+                    console.log(error);
                 });
                 me.cerrarModal('registrar');
 

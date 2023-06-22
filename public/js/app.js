@@ -19727,6 +19727,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores.js */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -19809,6 +19811,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(respuesta);
         me.arrayModulos = respuesta.modulos;
       })["catch"](function (error) {
+        (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -19822,6 +19825,7 @@ __webpack_require__.r(__webpack_exports__);
           me.cerrarModal('registrar');
           me.listarModulos();
         })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
           console.log(error);
         });
       }
@@ -19835,6 +19839,7 @@ __webpack_require__.r(__webpack_exports__);
           me.cerrarModal('registrar');
           me.listarModulos();
         })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
           console.log(error);
         });
       }
@@ -19849,6 +19854,7 @@ __webpack_require__.r(__webpack_exports__);
           me.cerrarModal('registrar');
           me.listarModulos();
         })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
           console.log(error);
         });
       }
@@ -19901,6 +19907,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarModulos();
           })["catch"](function (error) {
+            (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -19962,6 +19969,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarModulos();
           })["catch"](function (error) {
+            (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -19989,7 +19997,9 @@ __webpack_require__.r(__webpack_exports__);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
             me.listarModulos();
           }
-        })["catch"](function (error) {});
+        })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        });
       }
 
       if (me.tipomodal == 'ventana') {
@@ -20004,7 +20014,9 @@ __webpack_require__.r(__webpack_exports__);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
             me.listarModulos();
           }
-        })["catch"](function (error) {});
+        })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        });
       }
 
       if (me.tipomodal == 'accion') {
@@ -20019,7 +20031,9 @@ __webpack_require__.r(__webpack_exports__);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
             me.listarModulos();
           }
-        })["catch"](function (error) {});
+        })["catch"](function (error) {
+          (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        });
       }
 
       me.cerrarModal('registrar');
@@ -20232,6 +20246,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(respuesta);
         me.arrayModulos = respuesta.modulos;
       })["catch"](function (error) {
+        error401(error);
         console.log(error);
       });
     },
@@ -20243,6 +20258,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayRoles = respuesta.roles.data;
       })["catch"](function (error) {
+        error401(error);
         console.log(error);
       });
     },
@@ -20264,6 +20280,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarRoles();
       })["catch"](function (error) {
+        error401(error);
         console.log(error);
       });
     },
@@ -20293,6 +20310,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarRoles();
           })["catch"](function (error) {
+            error401(error);
             console.log(error);
           });
         } else if (
@@ -20332,6 +20350,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarRoles();
           })["catch"](function (error) {
+            error401(error);
             console.log(error);
           });
         } else if (
@@ -20359,7 +20378,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarRoles();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        error401(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -20432,6 +20453,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores.js */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -20504,7 +20527,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayRubros = respuesta.rubros.data;
       })["catch"](function (error) {
-        console.log(error);
+        (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
       });
     },
     cambiarPagina: function cambiarPagina(page) {
@@ -20522,6 +20545,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarRubros();
       })["catch"](function (error) {
+        (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -20686,6 +20710,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -20802,7 +20828,7 @@ __webpack_require__.r(__webpack_exports__);
         } else me.matriz = 0; //console.log(me.arraySucursales);
 
       })["catch"](function (error) {
-        console.log(error); //window.location.reload();
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
       });
     },
     cambiarPagina: function cambiarPagina(page) {
@@ -20824,6 +20850,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarSucursales();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -20853,6 +20880,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarSucursales();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -20892,6 +20920,7 @@ __webpack_require__.r(__webpack_exports__);
             me.listarSucursales();
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -20926,7 +20955,9 @@ __webpack_require__.r(__webpack_exports__);
         else {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -20992,6 +21023,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayRubros = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     }
@@ -21019,6 +21051,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -21106,6 +21140,7 @@ __webpack_require__.r(__webpack_exports__);
         me.listarUserRolSuc();
         me.listarUsuarios();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21116,6 +21151,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayRolSucursal = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21127,6 +21163,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayUsuarios = respuesta.users.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21151,6 +21188,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarUsuarios();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21181,6 +21219,7 @@ __webpack_require__.r(__webpack_exports__);
             me.listarUserRolSuc();
             me.listarUsuarios();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21221,6 +21260,7 @@ __webpack_require__.r(__webpack_exports__);
             me.listarUserRolSuc();
             me.listarUsuarios();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21260,6 +21300,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarUsuarios();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21299,6 +21340,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarUsuarios();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21326,7 +21368,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarUsuarios();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -21394,6 +21438,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayEmpleado = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21446,7 +21491,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qrcode.vue */ "./node_modules/qrcode.vue/dist/qrcode.vue.browser.js");
 /* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qrcode_vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
  //Vue.use(VeeValidate);
@@ -21549,6 +21596,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayEstantes = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -21584,6 +21632,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.fechamin = me.fechaactual;
         me.fecha_vencimiento = me.fechaactual;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       }); //me.fechafactura=me.fechaactual;
     },
@@ -21597,6 +21646,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.productos = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -21628,6 +21678,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.pagination = respuesta.pagination;
         me.listarEstantes(me.sucursalselected);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -21638,6 +21689,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arraySucursals = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -21664,6 +21716,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.cerrarModal('registrar');
         me.listarProductosAlmacen(1);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -21693,6 +21746,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarProductosAlmacen(1);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21732,6 +21786,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarProductosAlmacen(1);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -21853,7 +21908,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
 //import * as plugin from '../../functions.js';
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -21948,6 +22005,7 @@ __webpack_require__.r(__webpack_exports__);
         me.letra = respuesta.letra;
         me.numletra = respuesta.numletra;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21969,6 +22027,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarEstantes();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -21998,6 +22057,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarEstantes();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -22037,6 +22097,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarEstantes();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -22063,7 +22124,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarEstantes();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -22122,6 +22185,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arraySucursal = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     }
@@ -22148,7 +22212,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
  //Vue.use(VeeValidate);
 
@@ -22294,6 +22360,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.fechahoy = me.fechaactual;
         me.fechax = me.fechahoy;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       }); //me.fechafactura=me.fechaactual;
     },
@@ -22323,6 +22390,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.categorias = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -22344,6 +22412,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         me.arrayTipoDescuentos = respuesta.tipodescuentos;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -22355,6 +22424,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.pagination = respuesta.pagination;
         me.arrayDescuentos = respuesta.descuentos.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -22375,6 +22445,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.cerrarModal('registrar');
         me.listarDescuentos();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -22404,6 +22475,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarDescuentos();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -22443,6 +22515,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarDescuentos();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -22471,7 +22544,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarDescuentos();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        console.log(error);
+      });
       me.cerrarModal('registrar');
     },
     listarDetalle: function listarDetalle() {
@@ -22702,6 +22778,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayDescuentos = respuesta.descuentos.data;
       })["catch"](function (error) {
+        error401(error);
         console.log(error);
       });
     },
@@ -22721,6 +22798,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarDescuentos();
       })["catch"](function (error) {
+        error401(error);
         console.log(error);
       });
     },
@@ -22750,6 +22828,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarDescuentos();
           })["catch"](function (error) {
+            error401(error);
             console.log(error);
           });
         } else if (
@@ -22789,6 +22868,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarDescuentos();
           })["catch"](function (error) {
+            error401(error);
             console.log(error);
           });
         } else if (
@@ -22817,7 +22897,10 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarDescuentos();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        error401(error);
+        console.log(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -22888,6 +22971,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['user', 'nomsucursal', 'nomrol'],
@@ -22909,6 +22994,7 @@ __webpack_require__.r(__webpack_exports__);
         me.arrayEmpleado = respuesta[0];
         console.log(me.arrayEmpleado);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -22920,6 +23006,7 @@ __webpack_require__.r(__webpack_exports__);
         //console.log(me.tiempoSession);
         console.log(response.data);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       }); // setInterval(function() {
       //     me.tiempoSession=me.tiempoSession-1;                        
@@ -22977,6 +23064,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23043,6 +23132,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayCategoria = respuesta.categoria.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23063,6 +23153,7 @@ __webpack_require__.r(__webpack_exports__);
           me.listarCategoria(1);
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23092,6 +23183,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarCategoria(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23131,6 +23223,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarCategoria(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23156,7 +23249,10 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarCategoria(me.pagination.current_page);
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        console.log(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -23218,6 +23314,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23284,6 +23382,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayDispenser = respuesta.dispenser.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23306,6 +23405,7 @@ __webpack_require__.r(__webpack_exports__);
           me.listarDispenser(me.pagination.current_page);
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23335,6 +23435,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarDispenser(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23374,6 +23475,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarDispenser(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23399,7 +23501,10 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarDispenser(me.pagination.current_page);
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        console.log(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -23461,6 +23566,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23527,6 +23634,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayFormaFarm = respuesta.formafarm.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23547,6 +23655,7 @@ __webpack_require__.r(__webpack_exports__);
           me.listarFormaFarm(1);
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23576,6 +23685,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarFormaFarm(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23615,6 +23725,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarFormaFarm(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23640,7 +23751,10 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarFormaFarm(me.pagination.current_page);
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        console.log(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -23702,6 +23816,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23783,6 +23899,7 @@ __webpack_require__.r(__webpack_exports__);
         me.arrayLineas = respuesta.lineas.data;
         me.correlativo = respuesta.maxcorrelativo[0].maximo; //console.log(me.arrayLineas);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23801,6 +23918,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarLineas();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -23830,6 +23948,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarLineas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23869,6 +23988,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarLineas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -23896,7 +24016,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarLineas();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -23964,11 +24086,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_numeric__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-numeric */ "./node_modules/vue-numeric/dist/vue-numeric.min.js");
-/* harmony import */ var vue_numeric__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_numeric__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! qrcode.vue */ "./node_modules/qrcode.vue/dist/qrcode.vue.browser.js");
-/* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(qrcode_vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+/* harmony import */ var vue_numeric__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-numeric */ "./node_modules/vue-numeric/dist/vue-numeric.min.js");
+/* harmony import */ var vue_numeric__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_numeric__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qrcode.vue */ "./node_modules/qrcode.vue/dist/qrcode.vue.browser.js");
+/* harmony import */ var qrcode_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(qrcode_vue__WEBPACK_IMPORTED_MODULE_3__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
  //import Vue from 'vue'
 
@@ -24018,7 +24142,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }]), _defineProperty(_ref, "tiempopedidoselected", 0), _defineProperty(_ref, "indicaciones", ''), _defineProperty(_ref, "dosificacion", ''), _defineProperty(_ref, "principio", ''), _defineProperty(_ref, "accion", ''), _defineProperty(_ref, "idproducto", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "imagen", ''), _defineProperty(_ref, "metodoselected", 'A'), _defineProperty(_ref, "arrayMetodo", ['A', 'B', 'C']), _defineProperty(_ref, "idcategoria", []), _defineProperty(_ref, "idcategoriaselected", 0), _defineProperty(_ref, "clearSelected3", 1), _defineProperty(_ref, "mostrardetalles", 0), _defineProperty(_ref, "value", 'https://example.com'), _defineProperty(_ref, "size", 300), _defineProperty(_ref, "lineas", []), _defineProperty(_ref, "dispensers", []), _defineProperty(_ref, "formafarms", []), _defineProperty(_ref, "categorias", []), _ref;
   },
   components: {
-    QrcodeVue: (qrcode_vue__WEBPACK_IMPORTED_MODULE_2___default())
+    QrcodeVue: (qrcode_vue__WEBPACK_IMPORTED_MODULE_3___default())
   },
   computed: {
     sicompleto: function sicompleto() {
@@ -24064,6 +24188,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.lineas = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24075,6 +24200,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.dispensers = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24086,6 +24212,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.formafarms = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24097,6 +24224,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.categorias = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24209,6 +24337,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.pagination = respuesta.pagination;
         me.arrayProducto = respuesta.producto.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24247,6 +24376,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           me.listarProducto(me.pagination.current_page);
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24276,6 +24406,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarProducto(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -24315,6 +24446,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarProducto(me.pagination.current_page);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -24353,7 +24485,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarProducto(me.pagination.current_page);
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -24495,6 +24629,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -24568,6 +24704,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayUorg = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24579,6 +24716,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayCargo = respuesta.cargo.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24598,6 +24736,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarCargo();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24627,6 +24766,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarCargo();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -24666,6 +24806,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarCargo();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -24694,7 +24835,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarCargo();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -24766,7 +24909,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
  //Vue.use(VeeValidate);
 
@@ -24884,6 +25029,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.pagination = respuesta.pagination;
         me.arrayEmpleados = respuesta.empleados.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24923,6 +25069,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.cerrarModal('registrar');
         me.listarEmpleados();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -24952,6 +25099,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarEmpleados();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -24991,6 +25139,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarEmpleados();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25068,7 +25217,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarEmpleados();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -25178,6 +25329,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         me.abrirModal('registrar', arr);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25194,6 +25346,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         me.abrirModal('registrar', arr);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25257,6 +25410,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayProfesion = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25267,6 +25421,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayFormacion = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25277,6 +25432,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayCargo = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25287,6 +25443,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayDepto = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25297,6 +25454,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayCiudad = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25309,6 +25467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.arrayNacion = respuesta.nacions;
         me.nacionselected = respuesta.idboliviano;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25319,6 +25478,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayBancos = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     }
@@ -25354,6 +25514,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -25424,6 +25586,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayNivelFormacion = respuesta.formacion.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25440,6 +25603,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarNivelFormacion();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25469,6 +25633,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarNivelFormacion();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25508,6 +25673,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarNivelFormacion();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25533,7 +25699,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarNivelFormacion();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -25595,6 +25763,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -25665,6 +25835,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayProfesion = respuesta.profesion.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25681,6 +25852,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarProfesion();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25710,6 +25882,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarProfesion();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25749,6 +25922,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarProfesion();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25774,7 +25948,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarProfesion();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -25836,6 +26012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -25907,6 +26085,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayUnidadOrg = respuesta.unidadorg.data;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25924,6 +26103,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarUnidadOrg();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -25953,6 +26133,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarUnidadOrg();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -25992,6 +26173,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarUnidadOrg();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26018,7 +26200,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarUnidadOrg();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -26082,6 +26266,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -26154,6 +26340,7 @@ __webpack_require__.r(__webpack_exports__);
         me.arrayAreas = respuesta.areas.data;
         me.correlativo = respuesta.maxcorrelativo[0].maximo; //console.log(me.arrayAreas);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26175,6 +26362,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarAreas();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26204,6 +26392,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarAreas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26243,6 +26432,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarAreas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26269,7 +26459,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarAreas();
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -26334,6 +26526,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -26440,6 +26634,7 @@ __webpack_require__.r(__webpack_exports__);
         me.fechahoy = me.fechaactual;
         if (valor == 1) me.listarVentas(1);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       }); //me.fechafactura=me.fechaactual;
     },
@@ -26455,6 +26650,7 @@ __webpack_require__.r(__webpack_exports__);
 
         me.sumatotal = Number(respuesta.sumatotal.toFixed(2)); //console.log(me.arrayVentas);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26489,6 +26685,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarVentas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26528,6 +26725,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarVentas();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26564,6 +26762,7 @@ __webpack_require__.r(__webpack_exports__);
 
               _me.classModal.openModal('detalle');
             })["catch"](function (error) {
+              (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
               console.log(error);
             });
             break;
@@ -26620,6 +26819,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -26699,6 +26900,7 @@ __webpack_require__.r(__webpack_exports__);
         me.arrayPrestacion = respuesta.prestaciones.data;
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26709,6 +26911,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayAreas = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26729,6 +26932,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarPrestaciones(1);
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -26758,6 +26962,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarPrestaciones(1);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26797,6 +27002,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarPrestaciones(1);
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -26824,7 +27030,9 @@ __webpack_require__.r(__webpack_exports__);
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
           me.listarPrestaciones(1);
         }
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
       me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
@@ -26894,7 +27102,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
  //import vSelect from 'vue-select';
 //Vue.component('v-select',vSelect);
@@ -27121,6 +27331,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.sumatotal = respuesta.sumatotal;
         me.restartotal();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27131,6 +27342,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayPrestaciones = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27144,6 +27356,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           me.arrayPresAutocomplete = respuesta;
           console.log(me.arrayPresAutocomplete);
         })["catch"](function (error) {
+          (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
           console.log(error);
         });
       }
@@ -27155,6 +27368,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayClientes = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27165,6 +27379,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.arrayDescuentos = respuesta;
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27189,6 +27404,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.preciofinal = 0;
         me.listarVenta();
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27224,6 +27440,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           setTimeout(me.tiempo, 100);
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27247,6 +27464,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           me.clienteselected = response.data;
         }
       })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -27279,6 +27497,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             ) */
             me.listarVenta();
           })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -29663,7 +29882,7 @@ var _hoisted_1 = {
   "class": "main"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<ol class=\"breadcrumb\" data-v-33624fa3><li class=\"breadcrumb-item\" data-v-33624fa3>Home</li><li class=\"breadcrumb-item\" data-v-33624fa3><a href=\"#\" data-v-33624fa3>Admin</a></li><li class=\"breadcrumb-item active\" data-v-33624fa3>Dashboard</li></ol>", 1);
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<ol class=\"breadcrumb\" data-v-33624fa3><li class=\"breadcrumb-item\" data-v-33624fa3>Home</li><li class=\"breadcrumb-item\" data-v-33624fa3><a href=\"#\" data-v-33624fa3>Admin</a></li><li class=\"breadcrumb-item active\" data-v-33624fa3>Usuarios</li></ol>", 1);
 
 var _hoisted_3 = {
   "class": "container-fluid"
@@ -41454,6 +41673,27 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/errores.js":
+/*!*********************************!*\
+  !*** ./resources/js/errores.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "error401": () => (/* binding */ error401)
+/* harmony export */ });
+function error401(err) {
+  if (err.response) {
+    if (err.response.status == 401 || err.response.status == 419) {
+      window.location.reload();
+    }
+  }
+}
 
 /***/ }),
 

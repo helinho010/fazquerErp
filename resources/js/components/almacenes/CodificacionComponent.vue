@@ -151,6 +151,7 @@
 <script>
 //import * as plugin from '../../functions.js';
 import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 
 //Vue.use(VeeValidate);
     export default {
@@ -249,6 +250,7 @@ import Swal from 'sweetalert2';
                     me.numletra=respuesta.numletra;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -270,6 +272,7 @@ import Swal from 'sweetalert2';
                     me.cerrarModal('registrar');
                     me.listarEstantes();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -307,6 +310,7 @@ import Swal from 'sweetalert2';
                         me.listarEstantes();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -356,6 +360,7 @@ import Swal from 'sweetalert2';
                         me.listarEstantes();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -390,7 +395,7 @@ import Swal from 'sweetalert2';
                         me.listarEstantes();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 
@@ -453,6 +458,7 @@ import Swal from 'sweetalert2';
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             }

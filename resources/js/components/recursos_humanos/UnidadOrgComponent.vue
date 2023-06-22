@@ -121,7 +121,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -197,6 +199,7 @@ import Swal from 'sweetalert2'
                     me.arrayUnidadOrg=respuesta.unidadorg.data;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -214,6 +217,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarUnidadOrg();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -251,6 +255,7 @@ import Swal from 'sweetalert2'
                         me.listarUnidadOrg();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -300,6 +305,7 @@ import Swal from 'sweetalert2'
                         me.listarUnidadOrg();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -334,7 +340,7 @@ import Swal from 'sweetalert2'
                         me.listarUnidadOrg();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

@@ -271,7 +271,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
+
 //import vSelect from 'vue-select';
 //Vue.component('v-select',vSelect);
 //Vue.use(VeeValidate);
@@ -553,6 +555,7 @@ import Swal from 'sweetalert2'
                     me.restartotal();
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -566,6 +569,7 @@ import Swal from 'sweetalert2'
                     me.arrayPrestaciones=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -581,6 +585,7 @@ import Swal from 'sweetalert2'
                     console.log(me.arrayPresAutocomplete);
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
                 }
@@ -595,6 +600,7 @@ import Swal from 'sweetalert2'
                     me.arrayClientes=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -606,6 +612,7 @@ import Swal from 'sweetalert2'
                     me.arrayDescuentos=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -631,6 +638,7 @@ import Swal from 'sweetalert2'
                     me.preciofinal=0;
                     me.listarVenta();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -672,6 +680,7 @@ import Swal from 'sweetalert2'
                          }
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
 
@@ -700,6 +709,7 @@ import Swal from 'sweetalert2'
                          }
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
 
@@ -736,6 +746,7 @@ import Swal from 'sweetalert2'
                         me.listarVenta();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     

@@ -115,6 +115,7 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -191,6 +192,7 @@ import Swal from 'sweetalert2'
                     me.arrayNivelFormacion=respuesta.formacion.data;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -210,6 +212,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarNivelFormacion();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -247,6 +250,7 @@ import Swal from 'sweetalert2'
                         me.listarNivelFormacion();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -296,6 +300,7 @@ import Swal from 'sweetalert2'
                         me.listarNivelFormacion();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -329,7 +334,7 @@ import Swal from 'sweetalert2'
                         me.listarNivelFormacion();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

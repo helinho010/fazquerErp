@@ -204,8 +204,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import QrcodeVue from 'qrcode.vue'
+import Swal from 'sweetalert2';
+import QrcodeVue from 'qrcode.vue';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -324,6 +325,7 @@ import QrcodeVue from 'qrcode.vue'
                     me.arrayEstantes=respuesta;
                 })
                 .catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
 
@@ -370,6 +372,7 @@ import QrcodeVue from 'qrcode.vue'
                     me.fecha_vencimiento=me.fechaactual;
                 })
                 .catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
                 
@@ -387,6 +390,7 @@ import QrcodeVue from 'qrcode.vue'
                     me.productos=respuesta;
                 })
                 .catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
                 
@@ -420,10 +424,10 @@ import QrcodeVue from 'qrcode.vue'
                     me.arrayAlmacen=respuesta.productos.data;
                     me.pagination=respuesta.pagination;
                     me.listarEstantes(me.sucursalselected);
-                    
-                    
+ 
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -436,6 +440,7 @@ import QrcodeVue from 'qrcode.vue'
                     me.arraySucursals=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -462,6 +467,7 @@ import QrcodeVue from 'qrcode.vue'
                     me.cerrarModal('registrar');
                     me.listarProductosAlmacen(1);
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -499,6 +505,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.listarProductosAlmacen(1);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -548,6 +555,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.listarProductosAlmacen(1);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     

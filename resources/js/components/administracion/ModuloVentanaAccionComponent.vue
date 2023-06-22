@@ -154,7 +154,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {error401} from '../../errores.js';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -267,10 +268,9 @@ import Swal from 'sweetalert2'
                     var respuesta=response.data;
                     console.log(respuesta);
                     me.arrayModulos=respuesta.modulos;
-                    
-                    
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -284,6 +284,7 @@ import Swal from 'sweetalert2'
                         me.cerrarModal('registrar');
                         me.listarModulos();
                     }).catch(function(error){
+                        error401(error);
                         console.log(error);
                     });
                 }
@@ -297,6 +298,7 @@ import Swal from 'sweetalert2'
                         me.cerrarModal('registrar');
                         me.listarModulos();
                     }).catch(function(error){
+                        error401(error);
                         console.log(error);
                     });
                 }
@@ -311,6 +313,7 @@ import Swal from 'sweetalert2'
                         me.cerrarModal('registrar');
                         me.listarModulos();
                     }).catch(function(error){
+                        error401(error);
                         console.log(error);
                     });
                 }
@@ -371,6 +374,7 @@ import Swal from 'sweetalert2'
                         me.listarModulos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -439,6 +443,7 @@ import Swal from 'sweetalert2'
                         me.listarModulos();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -474,7 +479,7 @@ import Swal from 'sweetalert2'
                             me.listarModulos();
                         } 
                     }).catch(function (error) {
-                    
+                        error401(error);
                     });
                 }
                 if(me.tipomodal=='ventana')
@@ -495,7 +500,7 @@ import Swal from 'sweetalert2'
                             me.listarModulos();
                         } 
                     }).catch(function (error) {
-                    
+                        error401(error);
                     });
                 }
                 if(me.tipomodal=='accion'){
@@ -515,7 +520,7 @@ import Swal from 'sweetalert2'
                             me.listarModulos();
                         } 
                     }).catch(function (error) {
-                    
+                        error401(error);
                     });
                 }
                 

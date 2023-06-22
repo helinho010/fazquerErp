@@ -150,6 +150,8 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { error401 } from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -237,6 +239,7 @@ import Swal from 'sweetalert2'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -249,6 +252,7 @@ import Swal from 'sweetalert2'
                     me.arrayAreas=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -269,6 +273,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarPrestaciones(1);
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -306,6 +311,7 @@ import Swal from 'sweetalert2'
                         me.listarPrestaciones(1);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -355,6 +361,7 @@ import Swal from 'sweetalert2'
                         me.listarPrestaciones(1);
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -390,7 +397,7 @@ import Swal from 'sweetalert2'
                         me.listarPrestaciones(1);
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);                   
                 });
                 me.cerrarModal('registrar');
 

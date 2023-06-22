@@ -144,7 +144,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -224,6 +226,7 @@ import Swal from 'sweetalert2'
                     me.arrayUorg=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -236,6 +239,7 @@ import Swal from 'sweetalert2'
                     me.arrayCargo=respuesta.cargo.data;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -246,9 +250,6 @@ import Swal from 'sweetalert2'
             },
             registrarCargo(){
                 let me = this;
-                
-                
-
                 axios.post('/cargo/registrar',{
                     'nombre':me.nombre,
                     'idunidadorganizacional':me.unidadorg,
@@ -258,6 +259,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarCargo();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -295,6 +297,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -344,6 +347,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -380,7 +384,7 @@ import Swal from 'sweetalert2'
                         me.listarCargo();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

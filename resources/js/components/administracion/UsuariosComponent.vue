@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Home</li>
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
+            <li class="breadcrumb-item active">Usuarios</li>
         </ol>
         <div class="container-fluid">
             <!-- Ejemplo de tabla Listado -->
@@ -258,7 +258,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -350,6 +351,7 @@ import Swal from 'sweetalert2'
                     me.listarUserRolSuc();
                     me.listarUsuarios();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -363,6 +365,7 @@ import Swal from 'sweetalert2'
                     me.arrayRolSucursal=respuesta;
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -372,11 +375,10 @@ import Swal from 'sweetalert2'
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    me.arrayUsuarios=respuesta.users.data;
-                    
-                    
+                    me.arrayUsuarios=respuesta.users.data;   
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -401,6 +403,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarUsuarios();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -440,6 +443,7 @@ import Swal from 'sweetalert2'
                         me.listarUsuarios();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -491,6 +495,7 @@ import Swal from 'sweetalert2'
                         me.listarUsuarios();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -540,6 +545,7 @@ import Swal from 'sweetalert2'
                         me.listarUsuarios();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -589,6 +595,7 @@ import Swal from 'sweetalert2'
                         me.listarUsuarios();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -624,7 +631,7 @@ import Swal from 'sweetalert2'
                         me.listarUsuarios();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 
@@ -699,6 +706,7 @@ import Swal from 'sweetalert2'
                     
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },  

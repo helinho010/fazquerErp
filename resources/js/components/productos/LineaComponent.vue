@@ -134,7 +134,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { error401 } from '../../errores';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -223,6 +224,7 @@ import Swal from 'sweetalert2'
                     //console.log(me.arrayLineas);
                 })
                 .catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },
@@ -244,6 +246,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarLineas();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
@@ -281,6 +284,7 @@ import Swal from 'sweetalert2'
                         me.listarLineas();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -330,6 +334,7 @@ import Swal from 'sweetalert2'
                         me.listarLineas();
                         
                     }).catch(function (error) {
+                        error401(error);
                         console.log(error);
                     });
                     
@@ -365,7 +370,7 @@ import Swal from 'sweetalert2'
                         me.listarLineas();
                     } 
                 }).catch(function (error) {
-                   
+                    error401(error);
                 });
                 me.cerrarModal('registrar');
 

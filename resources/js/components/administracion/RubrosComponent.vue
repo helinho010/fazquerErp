@@ -133,7 +133,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {error401} from '../../errores.js';
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -206,12 +207,10 @@ import Swal from 'sweetalert2'
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    me.arrayRubros=respuesta.rubros.data;
-                    
-                    
+                    me.arrayRubros=respuesta.rubros.data; 
                 })
                 .catch(function(error){
-                    console.log(error);
+                    error401(error);                    
                 });
             },
             cambiarPagina(page){
@@ -221,9 +220,6 @@ import Swal from 'sweetalert2'
             },
             registrarRubro(){
                 let me = this;
-                
-                
-
                 axios.post('/rubro/registrar',{
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
@@ -232,6 +228,7 @@ import Swal from 'sweetalert2'
                     me.cerrarModal('registrar');
                     me.listarRubros();
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
 
