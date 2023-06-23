@@ -141,7 +141,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="!siactualizar">
                                 <label class="col-md-2 form-control-label" for="text-input">Seleccionar Rol: <span  v-if="rol==0" class="error">(*)</span></label>
                                 <div class="col-md-4">
                                     <select name="" id="" v-model="rol" class="form-control">
@@ -615,6 +615,7 @@ import { error401 } from '../../errores';
             actualizarUsuario(){
                // const Swal = require('sweetalert2')
                 let me =this;
+                                
                 axios.put('/usuario/actualizar',{
                     'id':me.idusuario,
                     'cambiarpass':me.cambiarpass,
@@ -646,9 +647,13 @@ import { error401 } from '../../errores';
                         me.tituloModal='Registar Usuario'
                         me.tipoAccion=1;
                         me.nombre='';
+                        me.idempleado=0;
                         me.email='';
                         me.password='';
+                        me.rol=0;
+                        me.sucursal=0;
                         me.classModal.openModal('registrar');
+                        this.selectEmpleados();
                         break;
                     }
                     
@@ -662,6 +667,8 @@ import { error401 } from '../../errores';
                         me.nombre=data.nombre;
                         me.email=data.email;
                         me.password='';
+                        me.rol=data.rolsucursal[0].idrole;
+                        me.sucursal=data.rolsucursal[0].idsucursal;
                         me.classModal.openModal('registrar');
                         break;
                     }

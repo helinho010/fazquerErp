@@ -410,6 +410,15 @@ class RrhEmpleadoController extends Controller
     }
     public function selectNoUser(Request $request)
     {
+        /**
+         * Sql para la consulta
+         * select	rrh__empleados.`id`,
+         * concat(ifnull(`papellido`, " "), " ", ifnull(`sapellido`, " "), " ", rrh__empleados.`nombre`) as nomempleado,
+         * `codempleado` as name
+         * from
+         * 	rrh__empleados
+         * where `id` not in (select idempleado from users where activo = 1) 
+         */
         
         $raw2=DB::raw('concat(ifnull(papellido," ")," ",ifnull(sapellido," ")," ",rrh__empleados.nombre) as nomempleado');               
         $raw3=DB::raw('codempleado as name');
