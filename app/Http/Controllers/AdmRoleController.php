@@ -116,13 +116,25 @@ class AdmRoleController extends Controller
      */
     public function update(Request $request, Adm_Role $adm_Role)
     {
-        $role = Adm_Role::findOrFail($request->id);
+        // $role = new Adm_Role();
+        // $role->nombre=$request->nombre;
+        // $role->descripcion=$request->descripcion;
+        // $role->idmodulos=$request->idmodulos;
+        // $role->idventanas=$request->idventanas;
+        // $role->idacciones=$request->idacciones;
+        // $role->id_usuario_registra=auth()->user()->id;
+        // $role->save();
 
+        $role = Adm_Role::findOrFail($request->id);
         $role->nombre=$request->nombre;
         $role->descripcion=$request->descripcion;
-        $role->areamedica=$request->areamedica;
-        $role->id_usuario_modifica=auth()->user()->id;
+        $role->idmodulos=$request->idmodulos;
+        $role->idventanas=$request->idventanas;
+        //$role->idacciones=$request->idacciones;
+        $role->id_usuario_registra=auth()->user()->id;
         $role->save();
+                
+        return $request;
     }
 
     /**

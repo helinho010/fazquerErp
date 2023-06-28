@@ -20155,6 +20155,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _errores__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores */ "./resources/js/errores.js");
+
  //Vue.use(VeeValidate);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -20246,7 +20248,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(respuesta);
         me.arrayModulos = respuesta.modulos;
       })["catch"](function (error) {
-        error401(error);
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -20258,7 +20260,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayRoles = respuesta.roles.data;
       })["catch"](function (error) {
-        error401(error);
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -20280,7 +20282,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarRoles();
       })["catch"](function (error) {
-        error401(error);
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
     },
@@ -20310,7 +20312,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
             me.listarRoles();
           })["catch"](function (error) {
-            error401(error);
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -20350,7 +20352,7 @@ __webpack_require__.r(__webpack_exports__);
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarRoles();
           })["catch"](function (error) {
-            error401(error);
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
             console.log(error);
           });
         } else if (
@@ -20371,15 +20373,19 @@ __webpack_require__.r(__webpack_exports__);
         'id': me.idrole,
         'nombre': me.nombre,
         'descripcion': me.descripcion,
-        'areamedica': me.areamedica
+        'idmodulos': me.seleccionados.toString(),
+        'idventanas': me.ventanaseleccionados.toString()
       }).then(function (response) {
-        if (response.data.length) {} // console.log(response)
-        else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
+        console.log("//////////////////////////");
+
+        if (response.status == 200) {
           me.listarRoles();
+          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
+        } else {//   Swal.fire('Actualizado Correctamente')
+          //   me.listarRoles();
         }
       })["catch"](function (error) {
-        error401(error);
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
       });
       me.cerrarModal('registrar');
     },
@@ -20401,6 +20407,7 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'actualizar':
           {
+            console.log(data);
             me.idrole = data.id;
             me.tipoAccion = 2;
             me.tituloModal = 'Actualizar Role';

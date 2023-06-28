@@ -139,7 +139,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {error401} from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -387,23 +389,23 @@ import Swal from 'sweetalert2'
                     'id':me.idrole,
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
-                    'areamedica':me.areamedica
-                    
+                    'idmodulos':me.seleccionados.toString(),
+                    'idventanas':me.ventanaseleccionados.toString(),
                 }).then(function (response) {
-                    if(response.data.length){
+                    console.log("//////////////////////////");
+                    if(response.status == 200)
+                    {  
+                       me.listarRoles();
+                       Swal.fire('Actualizado Correctamente')
                     }
-                    // console.log(response)
                     else{
-                            Swal.fire('Actualizado Correctamente')
-
-                        me.listarRoles();
+                        //   Swal.fire('Actualizado Correctamente')
+                        //   me.listarRoles();
                     } 
                 }).catch(function (error) {
                     error401(error);
                 });
                 me.cerrarModal('registrar');
-
-
             },
             abrirModal(accion,data= []){
                 let me=this;
@@ -421,6 +423,7 @@ import Swal from 'sweetalert2'
                     
                     case 'actualizar':
                     {
+                        console.log(data);
                         me.idrole=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Role'
