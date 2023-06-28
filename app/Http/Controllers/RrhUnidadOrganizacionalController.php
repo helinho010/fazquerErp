@@ -135,7 +135,7 @@ class RrhUnidadOrganizacionalController extends Controller
     {
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
         $unidadorg->activo=0;
-        $unidadorg->id_usuario_modifica=auth()->user()->id;
+        //$unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 
@@ -143,7 +143,7 @@ class RrhUnidadOrganizacionalController extends Controller
     {
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
         $unidadorg->activo=1;
-        $unidadorg->id_usuario_modifica=auth()->user()->id;
+        //$unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 }
