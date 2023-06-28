@@ -93,6 +93,7 @@
                                 <div class="col-md-9">
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Unidad Organizacional" v-model="nombre" v-on:focus="selectAll" >
                                     <span  v-if="!sinombre" class="error">Debe Ingresar la Unidad Organizacional</span>
+                                    <span v-if="errorMensajeValidacion != '' && sinombre" class="error">{{errorMensajeValidacion}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -145,6 +146,7 @@ import { error401 } from '../../errores';
                 idnivelunidadorg:'',
                 buscar:'',
                 descripcion:'',
+                errorMensajeValidacion:'',
             }
 
         },
@@ -152,7 +154,10 @@ import { error401 } from '../../errores';
             sinombre(){
                 let me=this;
                 if(me.nombre!='')
+                {
+                    me.errorMensajeValidacion = '';
                     return true;
+                }   
                 else
                     return false;
             },
@@ -214,11 +219,15 @@ import { error401 } from '../../errores';
                     'nombre':me.nombre,
                     'descripcion':me.descripcion
                 }).then(function(response){
+                    me.errorMensajeValidacion ='';
                     me.cerrarModal('registrar');
                     me.listarUnidadOrg();
+                    Swal.fire('Registrado Correctamente');
                 }).catch(function(error){
                     error401(error);
-                    console.log(error);
+                    if (error.response.status == 422) {
+                        me.errorMensajeValidacion = '<<'+me.nombre + '>> ya existe en la base de datos';
+                    }
                 });
 
             },
@@ -329,29 +338,25 @@ import { error401 } from '../../errores';
                     'id':me.idnivelunidadorg,
                     'nombre':me.nombre,
                     'descripcion':me.descripcion
-                    
                 }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
-
-                        me.listarUnidadOrg();
-                    } 
+                    me.errorMensajeValidacion ='';
+                    me.cerrarModal('registrar');
+                    me.listarUnidadOrg();
+                    Swal.fire('Actualizado Correctamente'); 
                 }).catch(function (error) {
                     error401(error);
+                    if (error.response.status == 422) {
+                        me.errorMensajeValidacion = '<<'+me.nombre + '>> ya existe en la base de datos';
+                    }
                 });
-                me.cerrarModal('registrar');
-
-
+                //me.cerrarModal('registrar');
             },
             abrirModal(accion,data= []){
                 let me=this;
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar UnidadOrg'
+                        me.tituloModal='Registar Unidad Organizacional'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.descripcion='';
@@ -363,7 +368,7 @@ import { error401 } from '../../errores';
                     {
                         me.idnivelunidadorg=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar UnidadOrg'
+                        me.tituloModal='Actualizar Unidad Organizacional'
                         me.nombre=data.nombre;
                         me.descripcion=data.descripcion;
                         me.classModal.openModal('registrar');
@@ -378,6 +383,7 @@ import { error401 } from '../../errores';
                 me.classModal.closeModal(accion);
                 me.nombre='';
                 me.descripcion='';
+                me.errorMensajeValidacion='';
                 
             },
             selectAll: function (event) {

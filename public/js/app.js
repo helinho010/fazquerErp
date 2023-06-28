@@ -26047,13 +26047,18 @@ __webpack_require__.r(__webpack_exports__);
       tipoAccion: 1,
       idnivelunidadorg: '',
       buscar: '',
-      descripcion: ''
+      descripcion: '',
+      errorMensajeValidacion: ''
     };
   },
   computed: {
     sinombre: function sinombre() {
       var me = this;
-      if (me.nombre != '') return true;else return false;
+
+      if (me.nombre != '') {
+        me.errorMensajeValidacion = '';
+        return true;
+      } else return false;
     },
     sicompleto: function sicompleto() {
       var me = this;
@@ -26113,11 +26118,16 @@ __webpack_require__.r(__webpack_exports__);
         'nombre': me.nombre,
         'descripcion': me.descripcion
       }).then(function (response) {
+        me.errorMensajeValidacion = '';
         me.cerrarModal('registrar');
         me.listarUnidadOrg();
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Registrado Correctamente');
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
-        console.log(error);
+
+        if (error.response.status == 422) {
+          me.errorMensajeValidacion = '<<' + me.nombre + '>> ya existe en la base de datos';
+        }
       });
     },
     eliminarUnidadOrg: function eliminarUnidadOrg(idnivelunidadorg) {
@@ -26208,15 +26218,17 @@ __webpack_require__.r(__webpack_exports__);
         'nombre': me.nombre,
         'descripcion': me.descripcion
       }).then(function (response) {
-        if (response.data.length) {} // console.log(response)
-        else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
-          me.listarUnidadOrg();
-        }
+        me.errorMensajeValidacion = '';
+        me.cerrarModal('registrar');
+        me.listarUnidadOrg();
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
-      });
-      me.cerrarModal('registrar');
+
+        if (error.response.status == 422) {
+          me.errorMensajeValidacion = '<<' + me.nombre + '>> ya existe en la base de datos';
+        }
+      }); //me.cerrarModal('registrar');
     },
     abrirModal: function abrirModal(accion) {
       var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -26225,7 +26237,7 @@ __webpack_require__.r(__webpack_exports__);
       switch (accion) {
         case 'registrar':
           {
-            me.tituloModal = 'Registar UnidadOrg';
+            me.tituloModal = 'Registar Unidad Organizacional';
             me.tipoAccion = 1;
             me.nombre = '';
             me.descripcion = '';
@@ -26237,7 +26249,7 @@ __webpack_require__.r(__webpack_exports__);
           {
             me.idnivelunidadorg = data.id;
             me.tipoAccion = 2;
-            me.tituloModal = 'Actualizar UnidadOrg';
+            me.tituloModal = 'Actualizar Unidad Organizacional';
             me.nombre = data.nombre;
             me.descripcion = data.descripcion;
             me.classModal.openModal('registrar');
@@ -26250,6 +26262,7 @@ __webpack_require__.r(__webpack_exports__);
       me.classModal.closeModal(accion);
       me.nombre = '';
       me.descripcion = '';
+      me.errorMensajeValidacion = '';
     },
     selectAll: function selectAll(event) {
       setTimeout(function () {
@@ -39183,10 +39196,14 @@ var _hoisted_49 = {
   "class": "error"
 };
 var _hoisted_50 = {
+  key: 1,
+  "class": "error"
+};
+var _hoisted_51 = {
   "class": "form-group row"
 };
 
-var _hoisted_51 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_52 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "col-md-3 form-control-label",
     "for": "text-input"
@@ -39195,13 +39212,13 @@ var _hoisted_51 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_52 = {
+var _hoisted_53 = {
   "class": "col-md-9"
 };
-var _hoisted_53 = {
+var _hoisted_54 = {
   "class": "modal-footer"
 };
-var _hoisted_54 = ["disabled"];
+var _hoisted_55 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Breadcrumb "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ejemplo de tabla Listado "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -39298,7 +39315,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.nombre]]), !$options.sinombre ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_49, "Debe Ingresar la Unidad Organizacional")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.nombre]]), !$options.sinombre ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_49, "Debe Ingresar la Unidad Organizacional")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.errorMensajeValidacion != '' && $options.sinombre ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMensajeValidacion), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     id: "descripcion",
     name: "descripcion",
@@ -39312,7 +39331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.descripcion]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.descripcion]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     onClick: _cache[8] || (_cache[8] = function ($event) {
@@ -39328,7 +39347,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !$options.sicompleto
   }, "Guardar", 8
   /* PROPS */
-  , _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  , _hoisted_55)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     "class": "btn btn-primary",

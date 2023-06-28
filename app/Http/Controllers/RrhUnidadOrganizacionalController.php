@@ -48,20 +48,23 @@ class RrhUnidadOrganizacionalController extends Controller
      */
     public function store(Request $request)
     {
-        $validator=Validator::make($request->all(),['nombre'=>'unique:rrh__unidad_organizacionals']);
+        // $validator=Validator::make($request->all(),[
+        //     'nombre'=>'unique:rrh__unidad_organizacionals'
+        // ]);
 
-        //dd($validator->errors());
+        // //dd($validator->errors());
         
-        if($validator->fails())
-        {
-            return 'error';
-        }
-        
+        // if($validator->fails())
+        // {
+        //     return 'error';
+        // }
+        $validate=$request->validate([
+            'nombre'=>'required | unique:rrh__unidad_organizacionals'
+        ]);
         $unidadorg = new Rrh_UnidadOrganizacional();
-
         $unidadorg->nombre=$request->nombre;
         $unidadorg->descripcion=$request->descripcion;
-        $unidadorg->id_usuario_registra=auth()->user()->id;
+        //$unidadorg->id_usuario_registra=auth()->user()->id;
         $unidadorg->save();
     }
 
@@ -97,10 +100,16 @@ class RrhUnidadOrganizacionalController extends Controller
     public function update(Request $request, Rrh_UnidadOrganizacional $rrh_UnidadOrganizacional)
     {
         $unidadorg = Rrh_UnidadOrganizacional::findOrFail($request->id);
- 
+
+        if($unidadorg->nombre != $request->nombre)
+        {   
+            $validate=$request->validate([
+                'nombre'=>'required | unique:rrh__unidad_organizacionals'
+            ]);
+        }
         $unidadorg->nombre=$request->nombre;
         $unidadorg->descripcion=$request->descripcion;
-        $unidadorg->id_usuario_modifica=auth()->user()->id;
+        //$unidadorg->id_usuario_modifica=auth()->user()->id;
         $unidadorg->save();
     }
 
