@@ -53,7 +53,7 @@
                                         <button v-else type="button" class="btn btn-info btn-sm rounded" @click="activarempleado(empleado.id)" >
                                             <i class="icon-check"></i>
                                         </button> &nbsp;
-                                        <img v-if="empleado.foto" :src="'storage/'+ empleado.foto" class="rounded-circle fotosociomini">
+                                        <img v-if="empleado.foto" :src="'storage/'+ empleado.foto.substring(10)" class="rounded-circle fotosociomini">
                                         <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
 
                                     </div>
@@ -147,6 +147,7 @@
                                         <label>CI:<span  v-if="ci==''" class="error">(*)</span></label>
                                         <input type="number" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" >
                                         <span  v-if="ci==''" class="error">Debe Ingresar el CI del empleado</span>
+                                        <small style="color:darkmagenta" v-if="mensajeError != ''" class="error">{{ mensajeError }}</small>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -196,7 +197,8 @@
                                 </div>
                                 <div class="form-group" v-if="clearInputFile">
                                     <label for="">Fotografia:&nbsp; &nbsp;</label>
-                                    <input class="form-control rounded" type="file" @change="subirfoto" accept="image/*" id="img-empleado">
+                                    <input class="form-control rounded" type="file" @change="subirfoto" :v-model="foto" accept="image/*" id="img-empleado">
+                                    
                                 </div>
                                 <figure>
                                     <img width="100" height="100" :src="imagen" alt="">
@@ -264,8 +266,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-sm-6">
-                                        <label>Nit:<small class="text-muted">Si Corresponde</small></label>
-                                        <input type="text" id="nit" name="nit" class="form-control rounded" placeholder="Telefonos" v-model="nit" v-on:focus="selectAll" >
+                                        <label>Nit:<small class="text-muted"> Si Corresponde</small></label>
+                                        <input type="text" id="nit" name="nit" class="form-control rounded" placeholder="Nit" v-model="nit" v-on:focus="selectAll" >
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>Cargo:</label>
@@ -298,6 +300,7 @@
                                                     <option value="0" disabled>Seleccionar...</option>
                                                     <option v-for="bank in arrayBancos" :key="bank.id" :value="bank.id" v-text="bank.nombre"></option>
                                                 </select>
+                                                <span  v-if="bancoselected==0" class="error">Este campo es requerido</span>
                                             </div>
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-success btn-sm rounded" @click="abrirModal('regbanco')" style="padding-bottom: 7px;padding-top: 7px;">
@@ -310,6 +313,7 @@
                                     <div class="form-group col-sm-6">
                                         <strong>Nro de Cuenta: </strong>
                                         <input type="text" id="nrcuenta" name="nrcuenta" class="form-control rounded" placeholder="Numero de Cuenta" v-model="nrcuenta" v-on:focus="selectAll" >
+                                        <span  v-if="nrcuenta==''" class="error">El numero de cuenta es requerido</span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -325,11 +329,12 @@
                     </div>    
                     <div class="modal-footer justify-content-between"> 
                         <div>
-                            <small style="color:darkmagenta" v-if="!sicompleto">Debe Registrar los Datos Obligatorios</small>
+                            <small style="color:darkmagenta" v-if="!sicompleto">Debe Registrar los Datos Obligatorios{{ mensajeError }}</small>
+                            <small style="color:darkmagenta" v-if="mensajeError != ''">{{ mensajeError }}</small>
                         </div>
                         <div>
                             <button type="button" class="btn btn-secondary rounded"  @click="cerrarModal('registrar')" style="margin-right: 20px;">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto">Guardar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" :disabled="!sicompleto && mensajeError == ''">Guardar</button>
                             <!-- <button type="button" v-if="tipoAccion==1" class="btn btn-primary rounded" @click="registrarempleado()" >Guardar</button> -->
                             <button type="button" v-if="tipoAccion==2" class="btn btn-primary rounded" @click="actualizarempleado()" :disabled="!sicompleto">Actualizar</button>
                         </div>
@@ -484,11 +489,8 @@ import { error401 } from '../../errores';
                 nomciudad:'',
 
                 imagenminiatura:'',
-                clearInputFile:1
-                
-                
-
-
+                clearInputFile:1,
+                mensajeError:'',
             }
 
         },
@@ -547,8 +549,6 @@ import { error401 } from '../../errores';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayEmpleados=respuesta.empleados.data;
-                    
-                    
                 })
                 .catch(function(error){
                     error401(error);
@@ -573,7 +573,7 @@ import { error401 } from '../../errores';
                 formData.append('complementoci',me.complemento);
                 formData.append('iddepartamento',me.deptoselected);
                 formData.append('fechanacimiento',me.fechanacimiento);
-                formData.append('foto',me.foto);
+                formData.append('foto',me.foto); //<--------------------Foto
                 formData.append('estadocivil',me.estadocivil);
                 formData.append('idnacionalidad',me.nacionselected);
                 
@@ -594,14 +594,16 @@ import { error401 } from '../../errores';
                 
                 formData.append('obs',me.observaciones);
                 
-                
-                axios.post('/empleado/registrar',
-                    formData    
-                ).then(function(response){
+                axios.post('/empleado/registrar', formData, {headers : {'content-type': 'multipart/form-data'}})
+                .then(function(response){
                     me.cerrarModal('registrar');
                     me.listarEmpleados();
                 }).catch(function(error){
                     error401(error);
+                    if(error.response.status == 422)
+                    {
+                        me.mensajeError="El CI del Empleado ya registrardo";
+                    }
                     console.log(error);
                 });
 
@@ -838,32 +840,42 @@ import { error401 } from '../../errores';
                     {
                         me.idempleado=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar empleado'
+                        me.tituloModal='Actualizar empleado';
                         me.nombre=data.nombre;
+                        data.papellido=data.papellido===null ? '' : data.papellido;
                         me.papellido=data.papellido;
+                        data.sapellido = data.sapellido === null ? '' : data.sapellido;
                         me.sapellido=data.sapellido;
                         me.ci=data.ci;
+                        data.telefonos === null ? '' : data.telefonos;
                         me.telefono=data.telefonos;
                         me.formacion=data.idformacion;
                         me.profesion=data.idprofesion;
                         me.cargo=data.idcargo;
                         me.fechanacimiento=data.fechanacimiento;
+                        data.domicilio = data.domicilio === null ? '' : data.domicilio;
                         me.domicilio=data.domicilio;
                         me.ciudad=data.ciudad;
                         me.fechaingreso=data.fechaingreso;
                         me.sexo=data.sexo;
                         me.estadocivil=data.estadocivil;
+                        data.nrcuenta = data.nrcuenta === null ? '' : data.nrcuenta;
                         me.nrcuenta=data.nrcuenta;
                         me.fecharetiro=data.fecharetiro;
+                        data.obs = data.obs === null ? '' : data.obs;
                         me.observaciones=data.obs;
                         me.deptoselected=data.iddepartamento;
                         me.nacionselected=data.idnacionalidad;
                         me.ciudadselected=data.idciudad;
+                        data.complementoci= data.complementoci === null ? '' : data.complementoci;
                         me.complemento=data.complementoci;
                         me.celular=data.celular
+                        data.nit = data.nit === null ? '' :data.nit;
                         me.nit=data.nit
+                        data.idbanco = data.idbanco === null ? 0 : data.idbanco;
                         me.bancoselected=data.idbanco;
-                        me.imagenminiatura='storage/'+data.foto;
+                        data.foto = data.foto === null ? 'persona.png': data.foto.substring(10);
+                        me.imagenminiatura='storage/'+ data.foto;
                         me.classModal.openModal('registrar');
                         me.clearInputFile=0;
                         setTimeout(me.tiempo, 200);   
@@ -978,6 +990,7 @@ import { error401 } from '../../errores';
                         
                     }
                 }
+              me.mensajeError='';
             },
             selectAll: function (event) {
                 setTimeout(function () {

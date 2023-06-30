@@ -225,15 +225,19 @@ class RrhEmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->foto);
+        $validate=$request->validate([
+            'ci'=>'required | unique:rrh__empleados'
+        ]);
+        
         $empleado = new Rrh_Empleado();
-        //dd($request);
+
         if($request->hasFile('foto'))
         {
             $filename=$request->foto->getClientOriginalName();
             info($filename);
             $empleado->foto=$request->file('foto')->store('empleados');
         }
+        
         if(strlen($request->papellido)!=0){
             if(strlen($request->sapellido)!=0)
                 $codempleado=$request->ci."-".$request->nombre[0].$request->papellido[0].$request->sapellido[0];
@@ -279,6 +283,8 @@ class RrhEmpleadoController extends Controller
         $empleado->obs=$request->obs;
         $empleado->id_usuario_registra=auth()->user()->id;
         $empleado->save();
+
+        return $request;
         
     }
 

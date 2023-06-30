@@ -53,10 +53,10 @@
                    style="align-content: center; width: inherit;display: grid;    padding: 0 10px 0 10px;">
                    <b>{{usuario}}</b> </span>
                    
-               <img v-if="arrayEmpleado.foto" class="img-avatar" :src="'storage/'+ arrayEmpleado.foto" style="  margin: auto !important;"
+               <img v-if="arrayEmpleado.foto" class="img-avatar" :src="'storage/'+ arrayEmpleado.foto.substring(10)" style="  margin: auto !important;"
                    alt="eddyclarosc@gmail.com">
                 <img v-else src="img/avatars/persona.png"  class="img-avatar" style="  margin: auto !important;" >
-             
+
            </a>
            <div class="dropdown-menu dropdown-menu-right">
                <div class="dropdown-header text-center">
@@ -182,7 +182,7 @@ import { error401 } from '../../errores';
         methods : {  
             listarEmpleado(){
                 let me=this;
-                var url='/empleado/perfil/';
+                var url='/empleado/perfil';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.arrayEmpleado=respuesta[0];
