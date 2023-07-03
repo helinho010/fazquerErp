@@ -286,13 +286,14 @@ import { error401 } from '../../errores';
             },
             sicompleto(){
                 let me=this;
-                me.codigo=JSON.stringify(
-                    {
+                me.codigo=JSON.stringify({
                         idproducto:me.idproductoselected,
-                        cantidad: me.cantidad
-                        //,fechaVencimiento:me.fecha_vencimiento,estante:me.estanteselected,ubicacion:me.ubicacionSelected,registroSanitario:me.registrosanitario}
+                        cantidad: me.cantidad,
+                        fechaVencimiento:me.fecha_vencimiento,
+                        estante:me.estanteselected,
+                        ubicacion:me.ubicacionSelected,
+                        registroSanitario:me.registrosanitario
                     });
-
                     
                 if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
                 {
@@ -476,10 +477,9 @@ import { error401 } from '../../errores';
                     'registro_sanitario':me.registrosanitario,
                     'ubicacion_estante':me.codestante+'-'+me.ubicacionSelected
                 }).then(function(response){
-                    // Swal.fire('Registrado Correctamente')
-                    // me.cerrarModal('registrar');
-                    // me.listarProductosAlmacen(1);
-                    console.log(response);
+                    Swal.fire('Registrado Correctamente')
+                    me.cerrarModal('registrar');
+                    me.listarProductosAlmacen(1);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);

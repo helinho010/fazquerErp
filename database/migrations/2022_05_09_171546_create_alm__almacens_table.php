@@ -22,7 +22,7 @@ class CreateAlmAlmacensTable extends Migration
             $table->string('tipo_entrada',50)->default('Compra');
             $table->string('lote',100);
             $table->date('fecha_vencimiento');
-            $table->string('codigo',100)->nullable();
+            $table->string('codigo')->nullable();
             $table->string('registro_sanitario',100);
             $table->string('ubicacion_estante',20);
             $table->boolean('activo')->default(1);
