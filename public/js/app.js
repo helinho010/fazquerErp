@@ -21555,7 +21555,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       arraytipoentrada: ['Bonificacion', 'Compensacion', 'Compra', 'Devolucion', 'Donacion', 'Error de Registro', 'Permuta', 'Prestamo', 'Recuperacion', 'Reintegro', 'Reposicion', 'Sobrante', 'Traspaso'],
       //////qrcode
       value: 'https://example.com',
-      size: 100
+      size: 120
     }, "productos", []);
   },
   components: {
@@ -21569,7 +21569,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     sicompleto: function sicompleto() {
       var me = this;
-      if (me.idproductoselected != 0 && me.cantidad != 0 && me.fecha_vencimiento != '' && me.estanteselected != 0 && me.ubicacionSelected != 0 && me.lote != '' && me.codigo != '' && me.registrosanitario != '') return true;else return false;
+      me.codigo = JSON.stringify({
+        idproducto: me.idproductoselected,
+        cantidad: me.cantidad //,fechaVencimiento:me.fecha_vencimiento,estante:me.estanteselected,ubicacion:me.ubicacionSelected,registroSanitario:me.registrosanitario}
+
+      });
+
+      if (me.idproductoselected != 0 && me.cantidad != 0 && me.fecha_vencimiento != '' && me.estanteselected != 0 && me.ubicacionSelected != 0 && me.lote != '' && me.codigo != '' && me.registrosanitario != '') {
+        return true;
+      } else {
+        return false;
+      }
     },
     isActived: function isActived() {
       return this.pagination.current_page;
@@ -21725,9 +21735,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'registro_sanitario': me.registrosanitario,
         'ubicacion_estante': me.codestante + '-' + me.ubicacionSelected
       }).then(function (response) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Registrado Correctamente');
-        me.cerrarModal('registrar');
-        me.listarProductosAlmacen(1);
+        // Swal.fire('Registrado Correctamente')
+        // me.cerrarModal('registrar');
+        // me.listarProductosAlmacen(1);
+        console.log(response);
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
@@ -31403,7 +31414,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     level: "H"
   }, null, 8
   /* PROPS */
-  , ["value", "size"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"text\" class=\"form-control\" placeholder=\"Codigo\" v-model=\"codigo\" v-on:focus=\"selectAll\">\r\n                                    <span  v-if=\"codigo==''\" class=\"error\">Debe Ingresar el Codigo</span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_99, $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_100, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , ["value", "size"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"text\" class=\"form-control\" placeholder=\"Codigo\" v-model=\"codigo\" v-on:focus=\"selectAll\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<span  v-if=\"codigo==''\" class=\"error\">Debe Ingresar el Codigo</span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_99, $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_100, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control",
     placeholder: "Registro Sanitario",

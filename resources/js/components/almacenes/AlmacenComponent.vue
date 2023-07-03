@@ -176,8 +176,8 @@
                                 <div class="form-group col-sm-6 ">
                                     <strong>Codigo: </strong>
                                     <qrcode-vue :value="codigo" :size="size" level="H" />
-                                    <!-- <input type="text" class="form-control" placeholder="Codigo" v-model="codigo" v-on:focus="selectAll">
-                                    <span  v-if="codigo==''" class="error">Debe Ingresar el Codigo</span> -->
+                                    <!-- <input type="text" class="form-control" placeholder="Codigo" v-model="codigo" v-on:focus="selectAll"> -->
+                                    <!--<span  v-if="codigo==''" class="error">Debe Ingresar el Codigo</span> -->
                                 </div>
                                 <div class="form-group col-sm-6 ">
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
@@ -266,7 +266,7 @@ import { error401 } from '../../errores';
                 
                  //////qrcode
                 value: 'https://example.com',
-                size: 100,
+                size: 120,
                 productos:[]
                 
             }
@@ -286,10 +286,23 @@ import { error401 } from '../../errores';
             },
             sicompleto(){
                 let me=this;
+                me.codigo=JSON.stringify(
+                    {
+                        idproducto:me.idproductoselected,
+                        cantidad: me.cantidad
+                        //,fechaVencimiento:me.fecha_vencimiento,estante:me.estanteselected,ubicacion:me.ubicacionSelected,registroSanitario:me.registrosanitario}
+                    });
+
+                    
                 if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
+                    
             },
             isActived:function(){
                 return this.pagination.current_page;
@@ -463,9 +476,10 @@ import { error401 } from '../../errores';
                     'registro_sanitario':me.registrosanitario,
                     'ubicacion_estante':me.codestante+'-'+me.ubicacionSelected
                 }).then(function(response){
-                    Swal.fire('Registrado Correctamente')
-                    me.cerrarModal('registrar');
-                    me.listarProductosAlmacen(1);
+                    // Swal.fire('Registrado Correctamente')
+                    // me.cerrarModal('registrar');
+                    // me.listarProductosAlmacen(1);
+                    console.log(response);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);

@@ -132,6 +132,7 @@ class AlmAlmacenController extends Controller
         $almacen->ubicacion_estante=$request->ubicacion_estante;
         $almacen->id_usuario_registra=auth()->user()->id;
         $almacen->save();
+        //return $request;
     }
 
     /**
