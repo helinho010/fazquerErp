@@ -45,7 +45,7 @@ class SerPrestacionController extends Controller
                                                 ->orderby('ser__areas.codigo','asc')
                                                 ->orderby('ser__prestacions.codigo','asc')
                                             ->whereraw($sqls)
-                                            ->where('ser__prestacions.activo',1)
+                                            //->where('ser__prestacions.activo',1)
                                             ->paginate(20);
             }
         }
@@ -64,7 +64,7 @@ class SerPrestacionController extends Controller
                                                 )
                                         ->orderby('ser__areas.codigo','asc')
                                         ->orderby('ser__prestacions.codigo','asc')
-                                        ->where('ser__prestacions.activo',1)
+                                        //->where('ser__prestacions.activo',1)
                                         ->paginate(20);
         }
         

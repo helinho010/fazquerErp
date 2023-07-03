@@ -26957,6 +26957,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       var url = '/prestacion?page=' + page + '&buscar=' + me.buscar;
       axios.get(url).then(function (response) {
+        console.log(response);
         var respuesta = response.data;
         me.arrayPrestacion = respuesta.prestaciones.data;
         me.pagination = respuesta.pagination;

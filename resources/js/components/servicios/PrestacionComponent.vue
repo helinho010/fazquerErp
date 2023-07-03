@@ -233,6 +233,7 @@ import { error401 } from '../../errores';
                 let me=this;
                 var url='/prestacion?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function(response){
+                    console.log(response);
                     var respuesta=response.data;
                     me.arrayPrestacion=respuesta.prestaciones.data;
                     me.pagination=respuesta.pagination;
