@@ -37,7 +37,6 @@ class SerVentaController extends Controller
     public function store(Request $request)
     {
         $venta = new Ser_Venta();
-
         
         $venta->idprestacion=$request->idprestacion;
         $venta->iddescuento=$request->iddescuento;
@@ -49,6 +48,7 @@ class SerVentaController extends Controller
         else
             $venta->idsucursal=session('idsuc');
         $venta->save();
+        
     }
 
     /**

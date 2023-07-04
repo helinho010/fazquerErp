@@ -27464,6 +27464,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.prestacionselected = 0;
         me.descuentoSelected = 0;
         me.preciofinal = 0;
+        me.siprestacion = 0;
         me.listarVenta();
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
@@ -27484,7 +27485,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'efectivo': me.efectivo,
         'cambio': me.cambio
       }).then(function (response) {
-        //console.log(response);
+        console.log("///////////////");
+        console.log(response);
+
         if (response.data == 'correcto') {
           //console.log('correcto');
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Registrado Correctamente');
@@ -41037,7 +41040,7 @@ var _hoisted_15 = ["disabled"];
 var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "icon-check"
-  }, null, -1
+  }, " Add", -1
   /* HOISTED */
   );
 });
@@ -41151,7 +41154,7 @@ var _hoisted_41 = ["disabled"];
 
 var _hoisted_42 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon check"
+    "class": "icon-check"
   }, null, -1
   /* HOISTED */
   );

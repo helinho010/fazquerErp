@@ -74,7 +74,7 @@
                                     </select></td>
                             <td  style="text-align:right">{{preciofinal}} &nbsp;Bs.</td>
                             <td><button type="button" class="btn btn-info btn-sm" @click="agregarVenta()" :disabled="!siprestacion" >
-                                        <i class="icon-check"></i>
+                                        <i class="icon-check"> Add</i>
                                 </button>
                             </td>
                         </tr>
@@ -133,6 +133,7 @@
                                         :id="clienteselected"
                                         :clearable='true'>
                                     </Ajaxselect> -->
+
                                     <div class="col-md-1" style="padding-left: 0px;">
                                         <button type="button" class="btn btn-primary" @click="abrirModalClientes()" >
                                             <i class="icon-plus"></i>
@@ -140,7 +141,7 @@
                                     </div></th>
                                 <th style="text-align:center">
                                     <button type="submit" class="btn btn-success" @click="registrarVenta()" :disabled="arrayVentas.length==0 || !sicliente || !sicancelado">
-                                        <i class="icon check" ></i> Registrar Venta
+                                        <i class="icon-check" ></i> Registrar Venta
                                     </button>
                                 </th>
                             </tr>
@@ -360,9 +361,6 @@ import { error401 } from '../../errores';
                     return true                            
                 else
                     return false;
-
-
-
             },
             
             
@@ -623,6 +621,7 @@ import { error401 } from '../../errores';
             },
             agregarVenta(){
                 let me = this;
+                
                 axios.post('/ventas/registrar',{
                     'idprestacion':me.idprestaciones.id,
                     'iddescuento':me.descuentoSelected,
@@ -636,6 +635,7 @@ import { error401 } from '../../errores';
                     me.prestacionselected=0;
                     me.descuentoSelected=0;
                     me.preciofinal=0;
+                    me.siprestacion=0;
                     me.listarVenta();
                 }).catch(function(error){
                     error401(error);
@@ -645,7 +645,7 @@ import { error401 } from '../../errores';
             },
             registrarVenta(){
                 let me=this;
-                let idclient
+                let idclient;
                 /* if(me.idclientes.length>0)
                     idclient=me.idclientes.id;
                 else
@@ -660,7 +660,8 @@ import { error401 } from '../../errores';
 
                         
                     }).then(function (response) {
-                        //console.log(response);
+                        console.log("///////////////");
+                        console.log(response);
                         if(response.data=='correcto')
                         {
                             //console.log('correcto');

@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             'adm__ciudads',
             'adm__bancos',
             'prod__categorias',
-            'prod__tipo_descuentos'
+            'prod__tipo_descuentos',
+            'par__desc_servicios'
         ]);
         
         $this->call(AdmRubroSeeder::class);
@@ -57,6 +58,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmBancoSeeder::class);
         $this->call(ProdCategoriaSeeder::class);
         $this->call(ProdTipoDescuentSeeder::class);
+        $this->call(ParDescServiciosSeeder::class);
 
         
     }
