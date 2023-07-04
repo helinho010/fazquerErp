@@ -74,7 +74,7 @@
                                     </select></td>
                             <td  style="text-align:right">{{preciofinal}} &nbsp;Bs.</td>
                             <td><button type="button" class="btn btn-info btn-sm" @click="agregarVenta()" :disabled="!siprestacion" >
-                                        <i class="icon-check"> Add</i>
+                                        <i class="icon-check"> Add Venta</i>
                                 </button>
                             </td>
                         </tr>
@@ -136,7 +136,7 @@
 
                                     <div class="col-md-1" style="padding-left: 0px;">
                                         <button type="button" class="btn btn-primary" @click="abrirModalClientes()" >
-                                            <i class="icon-plus"></i>
+                                            <i class="icon-plus"> Add Cliente</i>
                                         </button>
                                     </div></th>
                                 <th style="text-align:center">
@@ -660,11 +660,11 @@ import { error401 } from '../../errores';
 
                         
                     }).then(function (response) {
-                        console.log("///////////////");
-                        console.log(response);
                         if(response.data=='correcto')
                         {
-                            //console.log('correcto');
+                            console.log("///////////////");
+                            console.log(response);
+
                             Swal.fire('Registrado Correctamente');
                             me.listarVenta();
                             me.arrayVentas=[];
@@ -676,6 +676,7 @@ import { error401 } from '../../errores';
                             me.preciofinal=0;
                             me.clearSelected=0;
                             me.clienteselected=0;
+                            me.sicliente = 0;
                             me.prestacionselected=0;
                             setTimeout(me.tiempo,100);
                          }
@@ -705,8 +706,8 @@ import { error401 } from '../../errores';
                             Swal.fire('Registrado Correctamente');
                             me.cerrarModalCliente();
                             me.selectClientes();
-                            
-                            me.clienteselected=response.data
+                            me.sicliente = 1;
+                            me.clienteselected=response.data;
                          }
                         
                     }).catch(function (error) {
