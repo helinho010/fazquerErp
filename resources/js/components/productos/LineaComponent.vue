@@ -392,7 +392,6 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        console.log(data);
                         me.idlinea=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Linea'

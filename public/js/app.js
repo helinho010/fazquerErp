@@ -24065,7 +24065,6 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'actualizar':
           {
-            console.log(data);
             me.idlinea = data.id;
             me.tipoAccion = 2;
             me.tituloModal = 'Actualizar Linea';
