@@ -392,12 +392,13 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
+                        console.log(data);
                         me.idlinea=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Linea'
                         me.nombre=data.nombre;
                         me.descripcion=data.descripcion;
-                        me.demora=data.demora;
+                        me.demora=data.tiempo_demora;
                         me.classModal.openModal('registrar');
                         break;
                     }
