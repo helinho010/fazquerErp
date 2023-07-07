@@ -226,7 +226,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarDescuento()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarDescuento()" :disabled="!sicompleto || !descuento>0">Guardar {{ !sicompleto }} {{ !descuento>0 }}</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarDescuento()">Actualizar</button>
                     </div>
                 </div>
@@ -331,14 +331,20 @@ import { error401 } from '../../errores';
             },
             sicompleto(){
                 let me=this;
-                if (me.nombre!='')
+                if (me.nomdescuento!='')
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -454,14 +460,19 @@ import { error401 } from '../../errores';
             registrarDescuento(){
                 let me = this;
                 axios.post('/proddescuento/registrar',{
-                    'nombre':me.nombre,
-                    'regla_descuento':me.regla_descuento,
+                    'nombre':me.nomdescuento,
+                    'monto_descuento':me.descuento,
                     'idtipodescuento':me.idtipodescuento,
                     'regla':me.regla,
-                    'aplica_a':me.aplica_a,
+                    'aplica_a':me.aplicaselected,
+                    'activo':1,
+                    'estado':1,
+                    'regla_descuento':me.regla_descuento,
+                    
                 }).then(function(response){
-                    me.cerrarModal('registrar');
-                    me.listarDescuentos();
+                    console.log(response);
+                    // me.cerrarModal('registrar');
+                    // me.listarDescuentos();
                 }).catch(function(error){
                     error401(error);
                     console.log(error);

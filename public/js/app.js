@@ -22342,7 +22342,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     sicompleto: function sicompleto() {
       var me = this;
-      if (me.nombre != '') return true;else return false;
+
+      if (me.nomdescuento != '') {
+        return true;
+      } else {
+        return false;
+      }
     },
     isActived: function isActived() {
       return this.pagination.current_page;
@@ -22462,14 +22467,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     registrarDescuento: function registrarDescuento() {
       var me = this;
       axios.post('/proddescuento/registrar', {
-        'nombre': me.nombre,
-        'regla_descuento': me.regla_descuento,
+        'nombre': me.nomdescuento,
+        'monto_descuento': me.descuento,
         'idtipodescuento': me.idtipodescuento,
         'regla': me.regla,
-        'aplica_a': me.aplica_a
+        'aplica_a': me.aplicaselected,
+        'activo': 1,
+        'estado': 1,
+        'regla_descuento': me.regla_descuento
       }).then(function (response) {
-        me.cerrarModal('registrar');
-        me.listarDescuentos();
+        console.log(response); // me.cerrarModal('registrar');
+        // me.listarDescuentos();
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
@@ -32807,9 +32815,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[27] || (_cache[27] = function ($event) {
       return $options.registrarDescuento();
     }),
-    disabled: !$options.sicompleto
-  }, "Guardar", 8
-  /* PROPS */
+    disabled: !$options.sicompleto || !$data.descuento > 0
+  }, "Guardar " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$options.sicompleto) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$data.descuento > 0), 9
+  /* TEXT, PROPS */
   , _hoisted_115)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
