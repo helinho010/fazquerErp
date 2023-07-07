@@ -84,6 +84,7 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -459,16 +460,52 @@ import { error401 } from '../../errores';
             },
             registrarDescuento(){
                 let me = this;
+                console.log(me.subcategoriaselected);
+                //me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite+"|"+me.idcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin+"|"+me.diaselected+"|"+me.repetir+"|"+me.fechax;
+                if (me.idtipodescuentoselected == 1) {
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.detalleselected;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.idcategoriaselected;
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (me.idtipodescuentoselected == 2) {
+                    me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite;                  
+                } else if (me.idtipodescuentoselected == 3){
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.diaselected+"|"+me.repetir;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechax;
+                            break;
+                        default:
+                            break;
+                    }
+                }else if (me.idtipodescuentoselected == 4){
+                    me.regla=me.subcategoriaselected;
+                }else{
+                    me.regla="";
+                }
+
                 axios.post('/proddescuento/registrar',{
                     'nombre':me.nomdescuento,
                     'monto_descuento':me.descuento,
-                    'idtipodescuento':me.idtipodescuento,
+                    'idtipodescuento':me.idtipodescuentoselected,
                     'regla':me.regla,
                     'aplica_a':me.aplicaselected,
                     'activo':1,
-                    'estado':1,
-                    'regla_descuento':me.regla_descuento,
-                    
+                    'estado':1,                    
                 }).then(function(response){
                     console.log(response);
                     // me.cerrarModal('registrar');

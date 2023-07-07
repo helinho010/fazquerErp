@@ -35,7 +35,8 @@ class ProdDescuentoController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        return Prod_Descuento::create(request()->input());
+        //return $request;
     }
 
     /**
