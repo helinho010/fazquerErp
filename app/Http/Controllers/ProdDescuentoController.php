@@ -35,7 +35,17 @@ class ProdDescuentoController extends Controller
      */
     public function store(Request $request)
     {
-        return Prod_Descuento::create(request()->input());
+        $nuevoDescuentoProducto=new Prod_Descuento();
+        $nuevoDescuentoProducto->nombre=$request->nombre;
+        $nuevoDescuentoProducto->monto_descuento=$request->monto_descuento;
+        $nuevoDescuentoProducto->idtipodescuento=$request->idtipodescuento;
+        $nuevoDescuentoProducto->regla=$request->regla;
+        $nuevoDescuentoProducto->aplica_a=$request->aplica_a;
+        $nuevoDescuentoProducto->activo=$request->activo;
+        $nuevoDescuentoProducto->estado=$request->estado;
+        $nuevoDescuentoProducto->id_usuario_registra=1;
+        $nuevoDescuentoProducto->save();
+        //return Prod_Descuento::create(request()->input());
         //return $request;
     }
 

@@ -218,7 +218,7 @@
                                     <strong>Aplica A:</strong>
                                     <select class="form-control" v-model="aplicaselected">
                                         <option disabled value="0">Seleccionar...</option>
-                                        <option v-for="aplica in arrayAplica" :key="aplica.id" v-text="aplica.valor" :value="aplica.valor"></option>
+                                        <option v-for="aplica in arrayAplica" :key="aplica.id" v-text="aplica.valor" :value="aplica.id"></option>
                                     </select>
                                 </div>
                                 
@@ -507,9 +507,8 @@ import { error401 } from '../../errores';
                     'activo':1,
                     'estado':1,                    
                 }).then(function(response){
-                    console.log(response);
-                    // me.cerrarModal('registrar');
-                    // me.listarDescuentos();
+                    me.cerrarModal('registrar');
+                    me.listarDescuentos(1);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
@@ -600,7 +599,7 @@ import { error401 } from '../../errores';
                         
                     }).catch(function (error) {
                         error401(error);
-                        console.log(error);
+                        console.log(error.data);
                     });
                     
                     
