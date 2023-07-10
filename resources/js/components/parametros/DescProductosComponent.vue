@@ -51,7 +51,7 @@
                                 </td>
                                 <td v-text="descuento.nombre"></td>
                                 <td v-text="descuento.monto_descuento"></td>
-                                <td v-text="descuento.descuento"></td>
+                                <td v-text="descuento.idtipodescuento"></td>
                                 <td v-text="descuento.regla"></td>
                                 <td v-text="descuento.aplica_a"></td>
                                 <td>
@@ -625,22 +625,60 @@ import { error401 } from '../../errores';
             actualizarDescuento(){
                // const Swal = require('sweetalert2')
                 let me =this;
+                if (me.idtipodescuentoselected == 1) {
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.detalleselected;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.idcategoriaselected;
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (me.idtipodescuentoselected == 2) {
+                    me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite;                  
+                } else if (me.idtipodescuentoselected == 3){
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.diaselected+"|"+me.repetir;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechax;
+                            break;
+                        default:
+                            break;
+                    }
+                }else if (me.idtipodescuentoselected == 4){
+                    me.regla=me.subcategoriaselected;
+                }else{
+                    me.regla="";
+                }
                 axios.put('/proddescuento/actualizar',{
                     'id':me.iddescuento,
                     'nombre':me.nombre,
-                    'regla_descuento':me.regla_descuento,
-                    'idtipodescuento':me.idtipodescuento,
-                    'regla':me.regla
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
+                    'monto_descuento':me.descuento,
+                    //'idtipodescuento':me.idtipodescuento,
+                    'idtipodescuento':me.idtipodescuentoselected,
+                    'regla':me.regla,
+                    'aplica_a':me.aplicaselected
 
-                        me.listarDescuentos();
-                    } 
+                }).then(function (response) {
+                    console.log(response);
+                    // if(response.data.length){
+                    // }
+                    // // console.log(response)
+                    // else{
+                    //         Swal.fire('Actualizado Correctamente')
+
+                    //     me.listarDescuentos();
+                    // } 
                 }).catch(function (error) {
                     error401(error);
                     console.log(error);
@@ -715,9 +753,6 @@ import { error401 } from '../../errores';
                         break;
                     }
 
-                        
-                        
-                
                     default:
                         break;
                 }
@@ -743,24 +778,27 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        console.log(data);
                         me.iddescuento=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Descuento';
                         me.nombre=data.nombre;
                         me.idtipodescuentoselected=data.idtipodescuento;
-                        me.subcategoriaselected=data.subcategoriaselected;
-                        me.detalleselected = data.detalleselected; 
-                        me.limite=data.limite;
-                        me.idcategoriaselected=data.idcategoriaselected;
-                        me.fechafin=data.fechafin;
-                        me.diaselected=data.diaselected;
-                        me.repetir=data.repetir;
-                        me.fechax=data.fechax;
-                        me.descuento=data.descuento;
-                        me.aplicaselected=data.aplicaselected;
-
-
+                        this.listarSubcategorias();
+                        this.listarDetalle();
+                        let auxArray=data.regla.split("|");
+                        // console.log(auxArray[0]);
+                        me.subcategoriaselected=auxArray[0];
+                        this.listarDetalle();
+                        me.detalleselected = auxArray[1]; 
+                        me.limite=auxArray[2];
+                        me.idcategoriaselected=auxArray[2];
+                        me.fechainicio=auxArray[1];
+                        me.fechafin=auxArray[2];
+                        me.diaselected=auxArray[1];
+                        me.repetir=auxArray[2];
+                        me.fechax=auxArray[1];
+                        me.descuento=data.monto_descuento;
+                        me.aplicaselected=data.aplica_a;
                         // me.regla_descuento=data.regla_descuento;
                         // me.idtipodescuento=data.idtipodescuento;
                         // me.regla=data.regla;

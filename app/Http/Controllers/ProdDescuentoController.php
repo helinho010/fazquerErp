@@ -42,7 +42,7 @@ class ProdDescuentoController extends Controller
             
             else
             {
-                $descuentoProductos= Prod_Descuento::selectRaw('nombre,monto_descuento,idtipodescuento,regla,aplica_a,estado,activo')
+                $descuentoProductos= Prod_Descuento::selectRaw('id,nombre,monto_descuento,idtipodescuento,regla,aplica_a,estado,activo')
                                                     ->orderby('nombre','asc')
                                                     ->paginate(20);
             }
@@ -125,7 +125,15 @@ class ProdDescuentoController extends Controller
      */
     public function update(Request $request, Prod_Descuento $prod_Descuento)
     {
-        //
+        $oldProducto= Prod_Descuento::find($request->id);
+        $oldProducto->nombre = $request->nombre;
+        $oldProducto->monto_descuento = $request->monto_descuento ;
+        $oldProducto->regla = $request->regla ;
+        $oldProducto->aplica_a = $request->aplica_a;
+        $oldProducto->id_usuario_registra = auth()->user()->id;
+        $oldProducto->save();
+        // return $oldProducto;
+        // return $request;
     }
 
     /**
