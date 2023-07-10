@@ -50,10 +50,10 @@
                                     </button>
                                 </td>
                                 <td v-text="descuento.nombre"></td>
-                                <td v-text="descuento.regla_descuento"></td>
-                                <td v-text="descuento.tipodescuento"></td>
-                                <td v-text="regla"></td>
-                                <td v-text="aplica_a"></td>
+                                <td v-text="descuento.monto_descuento"></td>
+                                <td v-text="descuento.descuento"></td>
+                                <td v-text="descuento.regla"></td>
+                                <td v-text="descuento.aplica_a"></td>
                                 <td>
                                     <div v-if="descuento.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -98,10 +98,10 @@
                     <div class="modal-body">
                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Descuento: <span  v-if="nomdescuento==''" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Descuento: <span  v-if="nombre==''" class="error">(*)</span></label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" placeholder="Nombre Descuento" v-model="nomdescuento" v-on:focus="selectAll" >
-                                    <span  v-if="nomdescuento==''" class="error">Debe Ingresar el Monto del descuento</span>
+                                    <input type="text" class="form-control" placeholder="Nombre Descuento" v-model="nombre" v-on:focus="selectAll" >
+                                    <span  v-if="nombre==''" class="error">Debe Ingresar el Monto del descuento</span>
                                 </div>
                             </div>
                             <div class="from-group row">
@@ -332,7 +332,7 @@ import { error401 } from '../../errores';
             },
             sicompleto(){
                 let me=this;
-                if (me.nomdescuento!='')
+                if (me.nombre!='')
                 {
                     return true;
                 }
@@ -443,7 +443,9 @@ import { error401 } from '../../errores';
             listarDescuentos(page){
                 let me=this;
                 var url='/proddescuento?page='+page+'&buscar='+me.buscar;
-                axios.get(url).then(function(response){
+                axios.get(url)
+                .then(function(response){
+                    console.log(response);
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayDescuentos=respuesta.descuentos.data;
@@ -499,14 +501,19 @@ import { error401 } from '../../errores';
                 }
 
                 axios.post('/proddescuento/registrar',{
-                    'nombre':me.nomdescuento,
+                    'nombre':me.nombre,
                     'monto_descuento':me.descuento,
                     'idtipodescuento':me.idtipodescuentoselected,
                     'regla':me.regla,
                     'aplica_a':me.aplicaselected,
                     'activo':1,
-                    'estado':1,                    
+                    'estado':0,                    
                 }).then(function(response){
+                    Swal.fire(
+                    'Almacenado Correctamente!',
+                    'Presione el boton ok para continuar!',
+                    'success'
+                    )
                     me.cerrarModal('registrar');
                     me.listarDescuentos(1);
                 }).catch(function(error){
@@ -724,7 +731,7 @@ import { error401 } from '../../errores';
                     {
                         //me.listarDescuentos();
                        
-                       me.tituloModal='Registar Descuento'
+                        me.tituloModal='Registar Descuento'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.regla_descuento='';
@@ -736,13 +743,27 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
+                        console.log(data);
                         me.iddescuento=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Descuento'
+                        me.tituloModal='Actualizar Descuento';
                         me.nombre=data.nombre;
-                        me.regla_descuento=data.regla_descuento;
-                        me.idtipodescuento=data.idtipodescuento;
-                        me.regla=data.regla;
+                        me.idtipodescuentoselected=data.idtipodescuento;
+                        me.subcategoriaselected=data.subcategoriaselected;
+                        me.detalleselected = data.detalleselected; 
+                        me.limite=data.limite;
+                        me.idcategoriaselected=data.idcategoriaselected;
+                        me.fechafin=data.fechafin;
+                        me.diaselected=data.diaselected;
+                        me.repetir=data.repetir;
+                        me.fechax=data.fechax;
+                        me.descuento=data.descuento;
+                        me.aplicaselected=data.aplicaselected;
+
+
+                        // me.regla_descuento=data.regla_descuento;
+                        // me.idtipodescuento=data.idtipodescuento;
+                        // me.regla=data.regla;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -772,7 +793,7 @@ import { error401 } from '../../errores';
             this.obtenerfecha();
             this.selectTipoDescuentos();
             this.listarCategorias();
-            //this.listarDescuentos(1);
+            this.listarDescuentos(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')

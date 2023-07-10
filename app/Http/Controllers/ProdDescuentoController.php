@@ -12,9 +12,54 @@ class ProdDescuentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        {
+            $buscararray=array();
+            if(!empty($request->buscar)){
+                $buscararray = explode(" ",$request->buscar);
+                //dd($buscararray);
+                $valor=sizeof($buscararray);
+                if($valor > 0)
+                {
+                    $sqls='';
+                    foreach($buscararray as $valor)
+                    {
+                        if(empty($sqls)){
+                            $sqls="(nombre like '%".$valor."%')" ;
+                        }
+                        else
+                        {
+                            $sqls.=" and (nombre like '%".$valor."%')" ;
+                        }
+        
+                    }
+                    $descuentoProductos= Prod_Descuento::orderby('nombre','asc')
+                                                ->whereraw($sqls)
+                                                ->paginate(20);
+                }
+            }
+            
+            else
+            {
+                $descuentoProductos= Prod_Descuento::selectRaw('nombre,monto_descuento,idtipodescuento,regla,aplica_a,estado,activo')
+                                                    ->orderby('nombre','asc')
+                                                    ->paginate(20);
+            }
+            
+            //$categoria = Prod_Descuento::all();
+            return ['pagination'=>[
+                'total'         =>    $descuentoProductos->total(),
+                'current_page'  =>    $descuentoProductos->currentPage(),
+                'per_page'      =>    $descuentoProductos->perPage(),
+                'last_page'     =>    $descuentoProductos->lastPage(),
+                'from'          =>    $descuentoProductos->firstItem(),
+                'to'            =>    $descuentoProductos->lastItem(),
+    
+            ] ,
+                    'descuentos'=>$descuentoProductos,
+                    ];
+        }
     }
 
     /**
@@ -43,7 +88,7 @@ class ProdDescuentoController extends Controller
         $nuevoDescuentoProducto->aplica_a=$request->aplica_a;
         $nuevoDescuentoProducto->activo=$request->activo;
         $nuevoDescuentoProducto->estado=$request->estado;
-        $nuevoDescuentoProducto->id_usuario_registra=1;
+        $nuevoDescuentoProducto->id_usuario_registra=auth()->user()->id;
         $nuevoDescuentoProducto->save();
         //return Prod_Descuento::create(request()->input());
         //return $request;
