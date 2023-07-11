@@ -198,18 +198,21 @@ import { error401 } from '../../errores';
             actualizarTiempoSessionUsuario(){
                 let me=this;
                 let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
-                axios.get(urlObtenerDatoTiempoSession).then(function(response){
-                        //me.tiempoSession=parseInt(response.data,10)*60;
-                        //console.log(me.tiempoSession);
+                axios.get(urlObtenerDatoTiempoSession)
+                    .then(function(response){
+                        me.tiempoSession=parseInt(response.data,10)*60;
+                        console.log("//////////////////////");
+                        console.log(me.tiempoSession);
                         console.log(response.data);
+                        console.log("/////////////////////");
                     })
                     .catch(function(error){
                         error401(error);
                         console.log(error);
                     });
-                // setInterval(function() {
-                //     me.tiempoSession=me.tiempoSession-1;                        
-                // }, 1000);
+                setInterval(function() {
+                    me.tiempoSession=me.tiempoSession-1;                        
+                }, 1000);
             },
 
             logout(event){
