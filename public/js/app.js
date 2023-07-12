@@ -22342,7 +22342,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     sicompleto: function sicompleto() {
       var me = this;
-      if (me.nombre != '') return true;else return false;
+
+      if (me.nombre != '') {
+        return true;
+      } else {
+        return false;
+      }
     },
     isActived: function isActived() {
       return this.pagination.current_page;
@@ -22446,6 +22451,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var me = this;
       var url = '/proddescuento?page=' + page + '&buscar=' + me.buscar;
       axios.get(url).then(function (response) {
+        console.log(response);
         var respuesta = response.data;
         me.pagination = respuesta.pagination;
         me.arrayDescuentos = respuesta.descuentos.data;
@@ -22461,15 +22467,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     registrarDescuento: function registrarDescuento() {
       var me = this;
+      console.log(me.subcategoriaselected); //me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite+"|"+me.idcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin+"|"+me.diaselected+"|"+me.repetir+"|"+me.fechax;
+
+      if (me.idtipodescuentoselected == 1) {
+        switch (me.subcategoriaselected) {
+          case me.arraySubCategorias[0]:
+            me.regla = me.subcategoriaselected + "|" + me.detalleselected;
+            break;
+
+          case me.arraySubCategorias[1]:
+            me.regla = me.subcategoriaselected;
+            break;
+
+          case me.arraySubCategorias[2]:
+            me.regla = me.subcategoriaselected + "|" + me.idcategoriaselected;
+            break;
+
+          default:
+            break;
+        }
+      } else if (me.idtipodescuentoselected == 2) {
+        me.regla = me.subcategoriaselected + "|" + me.detalleselected + "|" + me.limite;
+      } else if (me.idtipodescuentoselected == 3) {
+        switch (me.subcategoriaselected) {
+          case me.arraySubCategorias[0]:
+            me.regla = me.subcategoriaselected + "|" + me.diaselected + "|" + me.repetir;
+            break;
+
+          case me.arraySubCategorias[1]:
+            me.regla = me.subcategoriaselected + "|" + me.fechainicio + "|" + me.fechafin;
+            break;
+
+          case me.arraySubCategorias[2]:
+            me.regla = me.subcategoriaselected + "|" + me.fechax;
+            break;
+
+          default:
+            break;
+        }
+      } else if (me.idtipodescuentoselected == 4) {
+        me.regla = me.subcategoriaselected;
+      } else {
+        me.regla = "";
+      }
+
       axios.post('/proddescuento/registrar', {
         'nombre': me.nombre,
-        'regla_descuento': me.regla_descuento,
-        'idtipodescuento': me.idtipodescuento,
+        'monto_descuento': me.descuento,
+        'idtipodescuento': me.idtipodescuentoselected,
         'regla': me.regla,
-        'aplica_a': me.aplica_a
+        'aplica_a': me.aplicaselected,
+        'activo': 1,
+        'estado': 0
       }).then(function (response) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Almacenado Correctamente!', 'Presione el boton ok para continuar!', 'success');
         me.cerrarModal('registrar');
-        me.listarDescuentos();
+        me.listarDescuentos(1);
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
@@ -22542,7 +22595,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             me.listarDescuentos();
           })["catch"](function (error) {
             (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
-            console.log(error);
+            console.log(error.data);
           });
         } else if (
         /* Read more about handling dismissals below */
@@ -22558,18 +22611,65 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     actualizarDescuento: function actualizarDescuento() {
       // const Swal = require('sweetalert2')
       var me = this;
+
+      if (me.idtipodescuentoselected == 1) {
+        switch (me.subcategoriaselected) {
+          case me.arraySubCategorias[0]:
+            me.regla = me.subcategoriaselected + "|" + me.detalleselected;
+            break;
+
+          case me.arraySubCategorias[1]:
+            me.regla = me.subcategoriaselected;
+            break;
+
+          case me.arraySubCategorias[2]:
+            me.regla = me.subcategoriaselected + "|" + me.idcategoriaselected;
+            break;
+
+          default:
+            break;
+        }
+      } else if (me.idtipodescuentoselected == 2) {
+        me.regla = me.subcategoriaselected + "|" + me.detalleselected + "|" + me.limite;
+      } else if (me.idtipodescuentoselected == 3) {
+        switch (me.subcategoriaselected) {
+          case me.arraySubCategorias[0]:
+            me.regla = me.subcategoriaselected + "|" + me.diaselected + "|" + me.repetir;
+            break;
+
+          case me.arraySubCategorias[1]:
+            me.regla = me.subcategoriaselected + "|" + me.fechainicio + "|" + me.fechafin;
+            break;
+
+          case me.arraySubCategorias[2]:
+            me.regla = me.subcategoriaselected + "|" + me.fechax;
+            break;
+
+          default:
+            break;
+        }
+      } else if (me.idtipodescuentoselected == 4) {
+        me.regla = me.subcategoriaselected;
+      } else {
+        me.regla = "";
+      }
+
       axios.put('/proddescuento/actualizar', {
         'id': me.iddescuento,
         'nombre': me.nombre,
-        'regla_descuento': me.regla_descuento,
-        'idtipodescuento': me.idtipodescuento,
-        'regla': me.regla
+        'monto_descuento': me.descuento,
+        //'idtipodescuento':me.idtipodescuento,
+        'idtipodescuento': me.idtipodescuentoselected,
+        'regla': me.regla,
+        'aplica_a': me.aplicaselected
       }).then(function (response) {
-        if (response.data.length) {} // console.log(response)
-        else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente');
-          me.listarDescuentos();
-        }
+        console.log(response); // if(response.data.length){
+        // }
+        // // console.log(response)
+        // else{
+        //         Swal.fire('Actualizado Correctamente')
+        //     me.listarDescuentos();
+        // } 
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
@@ -22680,9 +22780,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             me.tipoAccion = 2;
             me.tituloModal = 'Actualizar Descuento';
             me.nombre = data.nombre;
-            me.regla_descuento = data.regla_descuento;
-            me.idtipodescuento = data.idtipodescuento;
-            me.regla = data.regla;
+            me.idtipodescuentoselected = data.idtipodescuento;
+            this.listarSubcategorias();
+            this.listarDetalle();
+            var auxArray = data.regla.split("|"); // console.log(auxArray[0]);
+
+            me.subcategoriaselected = auxArray[0];
+            this.listarDetalle();
+            me.detalleselected = auxArray[1];
+            me.limite = auxArray[2];
+            me.idcategoriaselected = auxArray[2];
+            me.fechainicio = auxArray[1];
+            me.fechafin = auxArray[2];
+            me.diaselected = auxArray[1];
+            me.repetir = auxArray[2];
+            me.fechax = auxArray[1];
+            me.descuento = data.monto_descuento;
+            me.aplicaselected = data.aplica_a; // me.regla_descuento=data.regla_descuento;
+            // me.idtipodescuento=data.idtipodescuento;
+            // me.regla=data.regla;
+
             me.classModal.openModal('registrar');
             break;
           }
@@ -22706,8 +22823,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.obtenerfecha();
     this.selectTipoDescuentos();
-    this.listarCategorias(); //this.listarDescuentos(1);
-
+    this.listarCategorias();
+    this.listarDescuentos(1);
     this.classModal = new _pl.Modals();
     this.classModal.addModal('registrar'); //console.log('Component mounted.')
   }
@@ -23028,15 +23145,18 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       var urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
       axios.get(urlObtenerDatoTiempoSession).then(function (response) {
-        //me.tiempoSession=parseInt(response.data,10)*60;
-        //console.log(me.tiempoSession);
+        me.tiempoSession = parseInt(response.data, 10) * 60;
+        console.log("//////////////////////");
+        console.log(me.tiempoSession);
         console.log(response.data);
+        console.log("/////////////////////");
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
-      }); // setInterval(function() {
-      //     me.tiempoSession=me.tiempoSession-1;                        
-      // }, 1000);
+      });
+      setInterval(function () {
+        me.tiempoSession = me.tiempoSession - 1;
+      }, 1000);
     },
     logout: function logout(event) {
       //console.log('entralogout');
@@ -32535,19 +32655,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8
     /* PROPS */
     , _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.regla_descuento)
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.monto_descuento)
     }, null, 8
     /* PROPS */
     , _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.tipodescuento)
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.idtipodescuento)
     }, null, 8
     /* PROPS */
     , _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.regla)
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.regla)
     }, null, 8
     /* PROPS */
     , _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.aplica_a)
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(descuento.aplica_a)
     }, null, 8
     /* PROPS */
     , _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [descuento.activo == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, _hoisted_37)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, _hoisted_40))])]);
@@ -32592,19 +32712,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.cerrarModal('registrar');
     })
-  }, _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_55, [_hoisted_56, $data.nomdescuento == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_55, [_hoisted_56, $data.nombre == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control",
     placeholder: "Nombre Descuento",
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.nomdescuento = $event;
+      return $data.nombre = $event;
     }),
     onFocus: _cache[8] || (_cache[8] = function () {
       return $options.selectAll && $options.selectAll.apply($options, arguments);
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.nomdescuento]]), $data.nomdescuento == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, "Debe Ingresar el Monto del descuento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.nombre]]), $data.nombre == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, "Debe Ingresar el Monto del descuento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
     onChange: _cache[9] || (_cache[9] = function ($event) {
       return $options.listarSubcategorias();
@@ -32786,7 +32906,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: aplica.id,
       textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(aplica.valor),
-      value: aplica.valor
+      value: aplica.id
     }, null, 8
     /* PROPS */
     , _hoisted_113);
@@ -32807,9 +32927,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[27] || (_cache[27] = function ($event) {
       return $options.registrarDescuento();
     }),
-    disabled: !$options.sicompleto
-  }, "Guardar", 8
-  /* PROPS */
+    disabled: !$options.sicompleto || !$data.descuento > 0
+  }, "Guardar " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$options.sicompleto) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$data.descuento > 0), 9
+  /* TEXT, PROPS */
   , _hoisted_115)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",

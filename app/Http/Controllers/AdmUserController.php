@@ -235,7 +235,8 @@ class AdmUserController extends Controller
     public function tiempoSessionUsuario()
     {
         //return env('SESSION_LIFETIME');
-        return session()->all();
-        //return auth()->user()->name;
+        //return session('lastActivityTime');
+        //return session()->all();
+        return auth()->user()->name;
     }
 }

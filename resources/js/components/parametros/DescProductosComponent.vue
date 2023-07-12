@@ -50,10 +50,10 @@
                                     </button>
                                 </td>
                                 <td v-text="descuento.nombre"></td>
-                                <td v-text="descuento.regla_descuento"></td>
-                                <td v-text="descuento.tipodescuento"></td>
-                                <td v-text="regla"></td>
-                                <td v-text="aplica_a"></td>
+                                <td v-text="descuento.monto_descuento"></td>
+                                <td v-text="descuento.idtipodescuento"></td>
+                                <td v-text="descuento.regla"></td>
+                                <td v-text="descuento.aplica_a"></td>
                                 <td>
                                     <div v-if="descuento.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -84,6 +84,7 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -97,10 +98,10 @@
                     <div class="modal-body">
                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Descuento: <span  v-if="nomdescuento==''" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Descuento: <span  v-if="nombre==''" class="error">(*)</span></label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" placeholder="Nombre Descuento" v-model="nomdescuento" v-on:focus="selectAll" >
-                                    <span  v-if="nomdescuento==''" class="error">Debe Ingresar el Monto del descuento</span>
+                                    <input type="text" class="form-control" placeholder="Nombre Descuento" v-model="nombre" v-on:focus="selectAll" >
+                                    <span  v-if="nombre==''" class="error">Debe Ingresar el Monto del descuento</span>
                                 </div>
                             </div>
                             <div class="from-group row">
@@ -217,7 +218,7 @@
                                     <strong>Aplica A:</strong>
                                     <select class="form-control" v-model="aplicaselected">
                                         <option disabled value="0">Seleccionar...</option>
-                                        <option v-for="aplica in arrayAplica" :key="aplica.id" v-text="aplica.valor" :value="aplica.valor"></option>
+                                        <option v-for="aplica in arrayAplica" :key="aplica.id" v-text="aplica.valor" :value="aplica.id"></option>
                                     </select>
                                 </div>
                                 
@@ -226,7 +227,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarDescuento()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarDescuento()" :disabled="!sicompleto || !descuento>0">Guardar {{ !sicompleto }} {{ !descuento>0 }}</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarDescuento()">Actualizar</button>
                     </div>
                 </div>
@@ -332,13 +333,19 @@ import { error401 } from '../../errores';
             sicompleto(){
                 let me=this;
                 if (me.nombre!='')
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -436,7 +443,9 @@ import { error401 } from '../../errores';
             listarDescuentos(page){
                 let me=this;
                 var url='/proddescuento?page='+page+'&buscar='+me.buscar;
-                axios.get(url).then(function(response){
+                axios.get(url)
+                .then(function(response){
+                    console.log(response);
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayDescuentos=respuesta.descuentos.data;
@@ -453,15 +462,60 @@ import { error401 } from '../../errores';
             },
             registrarDescuento(){
                 let me = this;
+                console.log(me.subcategoriaselected);
+                //me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite+"|"+me.idcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin+"|"+me.diaselected+"|"+me.repetir+"|"+me.fechax;
+                if (me.idtipodescuentoselected == 1) {
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.detalleselected;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.idcategoriaselected;
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (me.idtipodescuentoselected == 2) {
+                    me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite;                  
+                } else if (me.idtipodescuentoselected == 3){
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.diaselected+"|"+me.repetir;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechax;
+                            break;
+                        default:
+                            break;
+                    }
+                }else if (me.idtipodescuentoselected == 4){
+                    me.regla=me.subcategoriaselected;
+                }else{
+                    me.regla="";
+                }
+
                 axios.post('/proddescuento/registrar',{
                     'nombre':me.nombre,
-                    'regla_descuento':me.regla_descuento,
-                    'idtipodescuento':me.idtipodescuento,
+                    'monto_descuento':me.descuento,
+                    'idtipodescuento':me.idtipodescuentoselected,
                     'regla':me.regla,
-                    'aplica_a':me.aplica_a,
+                    'aplica_a':me.aplicaselected,
+                    'activo':1,
+                    'estado':0,                    
                 }).then(function(response){
+                    Swal.fire(
+                    'Almacenado Correctamente!',
+                    'Presione el boton ok para continuar!',
+                    'success'
+                    )
                     me.cerrarModal('registrar');
-                    me.listarDescuentos();
+                    me.listarDescuentos(1);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
@@ -552,7 +606,7 @@ import { error401 } from '../../errores';
                         
                     }).catch(function (error) {
                         error401(error);
-                        console.log(error);
+                        console.log(error.data);
                     });
                     
                     
@@ -571,22 +625,60 @@ import { error401 } from '../../errores';
             actualizarDescuento(){
                // const Swal = require('sweetalert2')
                 let me =this;
+                if (me.idtipodescuentoselected == 1) {
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.detalleselected;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.idcategoriaselected;
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (me.idtipodescuentoselected == 2) {
+                    me.regla=me.subcategoriaselected+"|"+me.detalleselected+"|"+me.limite;                  
+                } else if (me.idtipodescuentoselected == 3){
+                    switch (me.subcategoriaselected) {
+                        case me.arraySubCategorias[0]:
+                            me.regla=me.subcategoriaselected+"|"+me.diaselected+"|"+me.repetir;       
+                            break;
+                        case me.arraySubCategorias[1]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechainicio+"|"+me.fechafin;       
+                            break;
+                        case me.arraySubCategorias[2]:
+                            me.regla=me.subcategoriaselected+"|"+me.fechax;
+                            break;
+                        default:
+                            break;
+                    }
+                }else if (me.idtipodescuentoselected == 4){
+                    me.regla=me.subcategoriaselected;
+                }else{
+                    me.regla="";
+                }
                 axios.put('/proddescuento/actualizar',{
                     'id':me.iddescuento,
                     'nombre':me.nombre,
-                    'regla_descuento':me.regla_descuento,
-                    'idtipodescuento':me.idtipodescuento,
-                    'regla':me.regla
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
+                    'monto_descuento':me.descuento,
+                    //'idtipodescuento':me.idtipodescuento,
+                    'idtipodescuento':me.idtipodescuentoselected,
+                    'regla':me.regla,
+                    'aplica_a':me.aplicaselected
 
-                        me.listarDescuentos();
-                    } 
+                }).then(function (response) {
+                    console.log(response);
+                    // if(response.data.length){
+                    // }
+                    // // console.log(response)
+                    // else{
+                    //         Swal.fire('Actualizado Correctamente')
+
+                    //     me.listarDescuentos();
+                    // } 
                 }).catch(function (error) {
                     error401(error);
                     console.log(error);
@@ -661,9 +753,6 @@ import { error401 } from '../../errores';
                         break;
                     }
 
-                        
-                        
-                
                     default:
                         break;
                 }
@@ -677,7 +766,7 @@ import { error401 } from '../../errores';
                     {
                         //me.listarDescuentos();
                        
-                       me.tituloModal='Registar Descuento'
+                        me.tituloModal='Registar Descuento'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.regla_descuento='';
@@ -691,11 +780,28 @@ import { error401 } from '../../errores';
                     {
                         me.iddescuento=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Descuento'
+                        me.tituloModal='Actualizar Descuento';
                         me.nombre=data.nombre;
-                        me.regla_descuento=data.regla_descuento;
-                        me.idtipodescuento=data.idtipodescuento;
-                        me.regla=data.regla;
+                        me.idtipodescuentoselected=data.idtipodescuento;
+                        this.listarSubcategorias();
+                        this.listarDetalle();
+                        let auxArray=data.regla.split("|");
+                        // console.log(auxArray[0]);
+                        me.subcategoriaselected=auxArray[0];
+                        this.listarDetalle();
+                        me.detalleselected = auxArray[1]; 
+                        me.limite=auxArray[2];
+                        me.idcategoriaselected=auxArray[2];
+                        me.fechainicio=auxArray[1];
+                        me.fechafin=auxArray[2];
+                        me.diaselected=auxArray[1];
+                        me.repetir=auxArray[2];
+                        me.fechax=auxArray[1];
+                        me.descuento=data.monto_descuento;
+                        me.aplicaselected=data.aplica_a;
+                        // me.regla_descuento=data.regla_descuento;
+                        // me.idtipodescuento=data.idtipodescuento;
+                        // me.regla=data.regla;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -725,7 +831,7 @@ import { error401 } from '../../errores';
             this.obtenerfecha();
             this.selectTipoDescuentos();
             this.listarCategorias();
-            //this.listarDescuentos(1);
+            this.listarDescuentos(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
