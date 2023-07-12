@@ -57,10 +57,10 @@ class AdmVentanaModuloSeeder extends Seeder
 
 
         //productos 600
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'601','idmodulo'=>$prod->id,'nombre'=>'Lineas','template'=>'linea-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'601','idmodulo'=>$prod->id,'nombre'=>'Lineas y Marcas','template'=>'linea-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'602','idmodulo'=>$prod->id,'nombre'=>'Registro Producto','template'=>'producto-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'603','idmodulo'=>$prod->id,'nombre'=>'Dispenser','template'=>'dispenser-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'604','idmodulo'=>$prod->id,'nombre'=>'Forma Farmaceutica','template'=>'formafarm-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'603','idmodulo'=>$prod->id,'nombre'=>'Envases y Embalaje','template'=>'dispenser-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'604','idmodulo'=>$prod->id,'nombre'=>'Forma o Unid. Medida','template'=>'formafarm-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'605','idmodulo'=>$prod->id,'nombre'=>'Categorias','template'=>'categoria-component']);
     }
 }

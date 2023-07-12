@@ -31,7 +31,7 @@
                                 <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
-                                <th>Tiempo de Demora</th>
+                                <th>Plazo de Entrega</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -51,7 +51,7 @@
                                 <td v-text="linea.codigo"></td>
                                 <td v-text="linea.nombre"></td>
                                 <td v-text="linea.descripcion"></td>
-                                <td v-text="linea.tiempo_demora"></td>
+                                <td v-text="linea.tiempo_demora + ' dias'"></td>
                                 <td>
                                     <div v-if="linea.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -100,9 +100,9 @@
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Linea" v-model="nombre" v-on:focus="selectAll" >
                                     <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre de la Linea</span>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Tiempo de Demora <span  v-if="!sidemora" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Tiempo de Demora [dias] <span  v-if="!sidemora" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="number" id="demora" name="demora" class="form-control"  v-model="demora" v-on:focus="selectAll" style="text-align:right" >
                                     <span  v-if="!sidemora" class="error">Debe Ingresar el Tiempo de Demora</span>
@@ -235,9 +235,6 @@ import { error401 } from '../../errores';
             },
             registrarLinea(){
                 let me = this;
-                
-                
-
                 axios.post('/linea/registrar',{
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,

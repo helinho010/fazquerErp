@@ -75,7 +75,7 @@ class ProdLineaController extends Controller
      */
     public function store(Request $request)
     {
-        $letracodigo='P';
+        $letracodigo='L';
         $maxcorrelativo = Prod_Linea::select(DB::raw('max(correlativo) as maximo'))
                                 ->get()->toArray();
         //dd($maxcorrelativo);
