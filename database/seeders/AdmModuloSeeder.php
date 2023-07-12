@@ -15,11 +15,11 @@ class AdmModuloSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('adm__modulos')->insert(['nombre'=>'administración']);
-        DB::table('adm__modulos')->insert(['nombre'=>'recursos humanos']);
-        DB::table('adm__modulos')->insert(['nombre'=>'almacenes']);
-        DB::table('adm__modulos')->insert(['nombre'=>'servicios']);
-        DB::table('adm__modulos')->insert(['nombre'=>'parametros']);
-        DB::table('adm__modulos')->insert(['nombre'=>'productos']);
+        DB::table('adm__modulos')->insert(['nombre'=>'administración','nombre_icono'=>'fa fa-cog']);
+        DB::table('adm__modulos')->insert(['nombre'=>'recursos humanos','nombre_icono'=>'fa fa-handshake-o']);
+        DB::table('adm__modulos')->insert(['nombre'=>'almacenes','nombre_icono'=>'fa fa-archive']);
+        DB::table('adm__modulos')->insert(['nombre'=>'servicios','nombre_icono'=>'fa fa-list-alt']);
+        DB::table('adm__modulos')->insert(['nombre'=>'parametros','nombre_icono'=>'fa fa-sliders']);
+        DB::table('adm__modulos')->insert(['nombre'=>'productos','nombre_icono'=>'fa fa-product-hunt']);
     }
 }

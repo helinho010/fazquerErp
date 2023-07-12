@@ -12,13 +12,13 @@
             ?>
             @foreach ($vent['modulos'] as $item)
                 <li class="nav-item nav-dropdown menudown ">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> 
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="{{ $item->nombre_icono}}" style="color:white;"></i> 
                         <font color="turquoise" style="text-transform:capitalize">{{ $item->nombre }}</font>
                     </a>
                     <ul class="nav-dropdown-items">
                         @foreach($item->ventanas as $ventana)
                             <li @click="menu={{ $ventana->codventana }}" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-bag"></i>{{ $ventana->nombre }} </a>
+                                <a class="nav-link" href="#"><i class="fa fa-check"></i>{{ $ventana->nombre }} </a>
                             </li>
                         @endforeach
                     </ul>
