@@ -30,12 +30,13 @@
                                 <th>Opciones</th>
                                 <th>Codigo</th>
                                 <th>Tipo</th>
-                                <th>Rubro</th>
-                                <th>Razon Social</th>
-                                <th>Telefonos</th>
                                 <th>Nit</th>
+                                <th>Razon Social</th>
+                                <th>Nombre Comercial</th>
+                                <!-- <th>Rubro</th> -->
                                 <th>Direccion</th>
-                                <th>Ciudad</th>
+                                <th>Departamento</th>
+                                <th>Telefonos</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -53,13 +54,14 @@
                                     </button>
                                 </td>
                                 <td v-text="sucursal.cod"></td>
-                                <td v-text="sucursal.tipo"></td>
-                                <td v-text="sucursal.nomrubro"></td>
-                                <td v-text="sucursal.razon_social"></td>
-                                <td v-text="sucursal.telefonos"></td>
+                                <td v-text="sucursal.tipo == 'Casa_Matriz'? sucursal.tipo:sucursal.tipo + ' - ' +sucursal.correlativo"></td>
                                 <td v-text="sucursal.nit"></td>
+                                <td v-text="sucursal.razon_social"></td>
+                                <td v-text="sucursal.nombre_comercial"></td>
+                                <!-- <td v-text="sucursal.nomrubro"></td> -->
                                 <td v-text="sucursal.direccion"></td>
                                 <td v-text="sucursal.ciudad"></td>
+                                <td v-text="sucursal.telefonos"></td>
                                 <td>
                                     <div v-if="sucursal.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -126,7 +128,15 @@
                                     <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
                                 </div>
                             </div>
-                            
+                            <!-- Esto es para Nombre comercial -->
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="tex" id="nombrecomercial" name="nombrecomercial" class="form-control"  v-model="nombrecomercial" v-on:focus="selectAll"  >
+                                    <span  v-if="nombrecomercial==''" class="error">Debe Ingresar el Nombre Comercial</span>
+                                </div>
+                            </div>
+                            <!-- Fin nombre comercial -->
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono" class="error">(*)</span></label>
                                 <div class="col-md-9">
@@ -201,11 +211,12 @@ import { error401 } from '../../errores';
                 idsucursal:'',
                 buscar:'',
                 razonsocial:'',
+                nombrecomercial:'',
                 telefono:'',
                 ciudad:0,
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
-                                {'id':2,'valor':'El Alto'},
+                                {'id':2,'valor':'La Paz - El Alto'},
                                 {'id':3,'valor':'Santa Cruz'},
                                 {'id':4,'valor':'Cochabamba'},
                                 {'id':5,'valor':'Oruro'},
@@ -260,9 +271,9 @@ import { error401 } from '../../errores';
             listarSucursales(page){
                 let me=this;
                 var url='/sucursal?page='+page+'&buscar='+me.buscar;
-                axios.get(url).then(function(response){
+                axios.get(url)
+                .then(function(response){
                     var respuesta=response.data;
-                    //console.log(respuesta.sucursals);
                     me.pagination=respuesta.pagination;
                     //console.log(me.sucursals.data);
                     me.arraySucursales=respuesta.sucursales.data;
@@ -293,6 +304,7 @@ import { error401 } from '../../errores';
                     'idrubro':me.idrubro,
                     'tipo':me.tipo,
                     'razon_social':me.razonsocial,
+                    'nombre_comercial':me.nombrecomercial,
                     'telefonos':me.telefono,
                     'nit':me.nit,
                     'direccion':me.direccion,
@@ -308,7 +320,6 @@ import { error401 } from '../../errores';
             },
             eliminarSucursal(idsucursal){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -358,7 +369,6 @@ import { error401 } from '../../errores';
             },
             activarSucursal(idsucursal){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -410,12 +420,12 @@ import { error401 } from '../../errores';
             actualizarSucursal(){
                // const Swal = require('sweetalert2')
                 let me =this;
-                console.log(me.telefono);
                 axios.put('/sucursal/actualizar',{
                     'idrubro':me.idrubro,
                     'id':me.idsucursal,
                     'nombre':me.nombre,
                     'razon_social':me.razonsocial,
+                    'nombre_comercial':me.nombrecomercial,
                     'telefonos':me.telefono,
                     'nit':me.nit,
                     'direccion':me.direccion,
@@ -447,6 +457,7 @@ import { error401 } from '../../errores';
                         me.tipoAccion=1;
                         me.tipo=0;
                         me.razonsocial='';
+                        me.nombrecomercial='',
                         me.telefono='';
                         me.nit='';
                         me.direccion='';
@@ -464,6 +475,7 @@ import { error401 } from '../../errores';
                         me.tipoAccion=2;
                         me.tipo=data.tipo;
                         me.razonsocial=data.razon_social;
+                        me.nombrecomercial=data.nombre_comercial;
                         me.telefono=data.telefonos;
                         me.nit=data.nit;
                         me.direccion=data.direccion;

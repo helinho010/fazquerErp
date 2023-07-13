@@ -40,12 +40,14 @@ class AdmSucursalController extends Controller
                                                     'adm__sucursals.cod',
                                                     'correlativo',
                                                     'razon_social',
+                                                    'nombre_comercial',
                                                     'telefonos',
                                                     'nit',
                                                     'direccion',
                                                     'ciudad',
                                                     'adm__sucursals.activo')
-                                            ->orderby('razon_social','asc')
+                                            //->orderby('razon_social','asc')
+                                            ->orderby('correlativo','asc')
                                             ->whereraw($sqls)
                                             
                                             ->paginate(50);
@@ -62,13 +64,15 @@ class AdmSucursalController extends Controller
                                             'adm__sucursals.cod',
                                             'correlativo',
                                             'razon_social',
+                                            'nombre_comercial',
                                             'telefonos',
                                             'nit',
                                             'direccion',
                                             'ciudad',
                                             'adm__sucursals.activo')
                                     
-                                    ->orderby('razon_social','asc')
+                                    //->orderby('razon_social','asc')
+                                    ->orderby('correlativo','asc')
                                     ->paginate(50);
         }
         
@@ -133,6 +137,7 @@ class AdmSucursalController extends Controller
         $sucursal->cod=$codigo;
         $sucursal->correlativo=$correlativo;
         $sucursal->razon_social=$request->razon_social;
+        $sucursal->nombre_comercial=$request->nombre_comercial;
         $sucursal->telefonos=$request->telefonos;
         $sucursal->nit=$request->nit;
         $sucursal->direccion=$request->direccion;
@@ -177,6 +182,7 @@ class AdmSucursalController extends Controller
         $sucursal->idrubro=$request->idrubro;
         $sucursal->tipo=$request->tipo;
         $sucursal->razon_social=$request->razon_social;
+        $sucursal->nombre_comercial=$request->nombre_comercial;
         $sucursal->telefonos=$request->telefonos;
         $sucursal->nit=$request->nit;
         $sucursal->direccion=$request->direccion;
