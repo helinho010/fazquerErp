@@ -37,6 +37,7 @@ class AdmSessionController extends Controller
     {
         return view('auth.login');
     }
+
     public function recpass()
     {
         return view('auth.recpass');
@@ -83,6 +84,7 @@ class AdmSessionController extends Controller
         }
             
     }
+
     public function verEmail(Request $request)
     {
         //dd($request);
@@ -107,11 +109,13 @@ class AdmSessionController extends Controller
             return view('auth.recpass')->with('error','error');
             
     }
+
     public function resetpass(Request $request)
     {
         //dd($request);
         return view('auth.codigo');
     }
+
     public function actpass(Request $request)
     {
         //dd($request);
@@ -133,10 +137,6 @@ class AdmSessionController extends Controller
             $incorrecto='Incorrecto';
             return view('auth.codigo')->with('incorrecto',$incorrecto);            
         }
-            
-
-
-
         
     }
 
@@ -149,6 +149,7 @@ class AdmSessionController extends Controller
         Mail::to($email)->send(new PruebaMail($detalles));
         return "correcto";
     }
+
     public function sucursal(Request $request)
     {
         //$rawroles=DB::raw('concat(adm__roles.nombre," - ",adm__sucursals.razon_social) as rolsucursal');
@@ -170,6 +171,7 @@ class AdmSessionController extends Controller
         else
             return view('auth.sucursal')->with('sucursales',$sucursales);
     }
+    
     public function entrar(Request $request)
     {
         //dd($request->sucur);
@@ -248,11 +250,9 @@ class AdmSessionController extends Controller
         auth()->logout();
         return redirect()->to('/');
     }
-    public static function listarPermisos(){
-        //echo "hola";
-        
-        //dd($idventanas);
 
+    public static function listarPermisos()
+    {
         if(auth()->user()->name=='admin'){
             $modulos=Adm_Modulo::all();
             //dd($modulos);
@@ -275,22 +275,16 @@ class AdmSessionController extends Controller
             $idventanas=explode(",",$roles[0]->idventanas);
  
             $modulos=Adm_Modulo::wherein('id',$idmodulos)->get();
+
             foreach ($modulos as $value) {
                 $ventanas=Adm_VentanaModulo::wherein('id',$idventanas)->get();    
                 $value->ventanas=$ventanas;
             }
         }
 
-        
-
-
         return ['modulos'=>$modulos];
-
-
-
-        //dd($role);
-
     }
+
     public static function listarVentanas()
     {
         $ventanas =Adm_VentanaModulo::where('activo',1)->get();

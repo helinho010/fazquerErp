@@ -32962,8 +32962,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.registrarDescuento();
     }),
     disabled: !$options.sicompleto || !$data.descuento > 0
-  }, "Guardar " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$options.sicompleto) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(!$data.descuento > 0), 9
-  /* TEXT, PROPS */
+  }, "Guardar", 8
+  /* PROPS */
   , _hoisted_115)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
