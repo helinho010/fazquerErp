@@ -6,9 +6,8 @@
             </li>
 
             <?php use App\Http\Controllers\AdmSessionController;
-            $vent=AdmSessionController::listarPermisos();
-            //dd($vent);
-            
+                $vent=AdmSessionController::listarPermisos();            
+                //dd($vent);
             ?>
             @foreach ($vent['modulos'] as $item)
                 <li class="nav-item nav-dropdown menudown ">
@@ -17,9 +16,13 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         @foreach($item->ventanas as $ventana)
-                            <li @click="menu={{ $ventana->codventana }}" class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-check"></i>{{ $ventana->nombre }} </a>
-                            </li>
+                            {{-- {{$ventana->idmodulo}} --}}
+                            {{-- {{$item->id}} --}}
+                            @if ($ventana->idmodulo == $item->id)
+                                <li @click="menu={{ $ventana->codventana }}" class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fa fa-check"></i>{{ $ventana->nombre }} </a>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 </li>
