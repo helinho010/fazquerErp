@@ -197,21 +197,39 @@ import { error401 } from '../../errores';
 
             actualizarTiempoSessionUsuario(){
                 let me=this;
-                let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
+                let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/0';
                 axios.get(urlObtenerDatoTiempoSession)
-                    .then(function(response){
-                        me.tiempoSession=parseInt(response.data,10)*60;
-                        console.log("//////////////////////");
-                        console.log(me.tiempoSession);
-                        console.log(response.data);
-                        console.log("/////////////////////");
-                    })
-                    .catch(function(error){
-                        error401(error);
-                        console.log(error);
-                    });
-                setInterval(function() {
+                .then(function(response){
+                   me.tiempoSession=parseInt(response.data,10)*60;
+                   console.log("//////////////////////");
+                   console.log(me.tiempoSession);
+                   console.log(response.data);
+                   console.log("/////////////////////");
+                })
+                .catch(function(error){
+                   error401(error);
+                   console.log(error);
+                });
+                
+                let id = setInterval(function() {
                     me.tiempoSession=me.tiempoSession-1;                        
+                    if(me.tiempoSession == 0)
+                    {
+                        clearInterval(id);
+                        Swal.fire('Su session acaba de finalizar')
+                        .then(()=>{
+                            urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/1';
+                            axios.get(urlObtenerDatoTiempoSession)
+                            .then(function(response){
+                                console.log("Session terminada");
+                                window.location.href='/logout';
+                            })
+                            .catch(function(error){
+                                error401(error);
+                                console.log(error);
+                            });
+                        });
+                    }
                 }, 1000);
             },
 
