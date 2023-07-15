@@ -236,7 +236,8 @@ class AdmUserController extends Controller
     {
         if ($acccion == 0) 
         {
-            return env('SESSION_LIFETIME');
+            //return env('SESSION_LIFETIME');
+            return cookie('path');
         }
         else {
             return redirect("/logout");

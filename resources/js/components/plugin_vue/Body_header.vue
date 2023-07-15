@@ -165,9 +165,9 @@
 
 <script> 
 import Swal from 'sweetalert2';
-import { error401 } from '../../errores';
+import { error401} from '../../errores';
     export default {
-         props : ['user','nomsucursal','nomrol'],
+        props : ['user','nomsucursal','nomrol','tiempoSession'],
 
          
         data (){
@@ -203,10 +203,14 @@ import { error401 } from '../../errores';
                    me.tiempoSession=parseInt(response.data,10)*60;
                    console.log("//////////////////////");
                    console.log(me.tiempoSession);
-                   console.log(response.data);
+                   //console.log(response.data);
+                   let cookieExpire=response.data.split(";");
+                   console.log(localStorage.getItem('Path'));
                    console.log("/////////////////////");
                 })
                 .catch(function(error){
+                   console.log("huno un error y asigno el valor de 30 a la variable tiempoSession");
+                   me.tiempoSession=parseInt(30,10)*60; 
                    error401(error);
                    console.log(error);
                 });

@@ -134,6 +134,7 @@
 
 <script>
 import Swal from 'sweetalert2';
+import obj from '../plugin_vue/Body_header.vue';
 import {error401} from '../../errores.js';
 //Vue.use(VeeValidate);
     export default {
@@ -202,12 +203,13 @@ import {error401} from '../../errores.js';
         },
         methods :{
             listarRubros(page){
+                // obj.methods.actualizarTiempoSessionUsuario();    
                 let me=this;
                 var url='/rubro?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    me.arrayRubros=respuesta.rubros.data; 
+                    me.arrayRubros=respuesta.rubros.data;
                 })
                 .catch(function(error){
                     error401(error);                    
