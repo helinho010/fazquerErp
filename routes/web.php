@@ -158,7 +158,6 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/usuario/desactivar', [AdmUserController::class,'desactivar']);
     Route::put('/usuario/activar', [AdmUserController::class,'activar']);
     Route::get('/usuario/selectusuario',[AdmUserController::class,'selectUsuario']);
-    Route::get('/usuario/tiempoSessionRestante/{accion}',[AdmUserController::class,'tiempoSessionUsuario']);
 
 
     Route::get('/role',[AdmRoleController::class,'index']);
