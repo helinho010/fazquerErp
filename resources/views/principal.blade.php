@@ -53,9 +53,19 @@
 
     </div>
 
-    <footer class="app-footer">
-        <span><a href="http://www.puertodelrosario.com/">Puerto del Rosario</a> &copy; 2022</span>
-        <span class="ml-auto">Desarrollado por <a href="https://eddyclaros.github.io">EddyClaros</a></span>
+    <footer class="app-footer" style="text-align:center;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <span><!--a href="http://www.puertodelrosario.com/"-->Puerto del Rosario</a> &copy; {{date("Y")}}</span>
+                    <br>
+                    {{-- <span>La Paz - Bolivia</span> --}}
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+        {{-- <span class="ml-auto">Desarrollado por <a href="https://eddyclaros.github.io">EddyClaros</a></span> --}}
     </footer>
 
     
