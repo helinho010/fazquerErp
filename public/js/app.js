@@ -20460,7 +20460,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _errores_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errores.js */ "./resources/js/errores.js");
+/* harmony import */ var _plugin_vue_Body_header_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../plugin_vue/Body_header.vue */ "./resources/js/components/plugin_vue/Body_header.vue");
+/* harmony import */ var _errores_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../errores.js */ "./resources/js/errores.js");
+
 
  //Vue.use(VeeValidate);
 
@@ -20527,6 +20529,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     listarRubros: function listarRubros(page) {
+      // obj.methods.actualizarTiempoSessionUsuario();    
       var me = this;
       var url = '/rubro?page=' + page + '&buscar=' + me.buscar;
       axios.get(url).then(function (response) {
@@ -20534,7 +20537,7 @@ __webpack_require__.r(__webpack_exports__);
         me.pagination = respuesta.pagination;
         me.arrayRubros = respuesta.rubros.data;
       })["catch"](function (error) {
-        (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        (0,_errores_js__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
       });
     },
     cambiarPagina: function cambiarPagina(page) {
@@ -20552,7 +20555,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal('registrar');
         me.listarRubros();
       })["catch"](function (error) {
-        (0,_errores_js__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        (0,_errores_js__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
         console.log(error);
       });
     },
@@ -23118,7 +23121,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['user', 'nomsucursal', 'nomrol'],
+  props: ['user', 'nomsucursal', 'nomrol', 'tiempoSession'],
   data: function data() {
     return {
       usuario: this.user,
@@ -23143,19 +23146,37 @@ __webpack_require__.r(__webpack_exports__);
     },
     actualizarTiempoSessionUsuario: function actualizarTiempoSessionUsuario() {
       var me = this;
-      var urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante';
+      var urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/0';
       axios.get(urlObtenerDatoTiempoSession).then(function (response) {
         me.tiempoSession = parseInt(response.data, 10) * 60;
         console.log("//////////////////////");
-        console.log(me.tiempoSession);
-        console.log(response.data);
+        console.log(me.tiempoSession); //console.log(response.data);
+
+        var cookieExpire = response.data.split(";");
+        console.log(localStorage.getItem('Path'));
         console.log("/////////////////////");
       })["catch"](function (error) {
+        console.log("huno un error y asigno el valor de 30 a la variable tiempoSession");
+        me.tiempoSession = parseInt(30, 10) * 60;
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
-      setInterval(function () {
+      var id = setInterval(function () {
         me.tiempoSession = me.tiempoSession - 1;
+
+        if (me.tiempoSession == 0) {
+          clearInterval(id);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Su session acaba de finalizar').then(function () {
+            urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/1';
+            axios.get(urlObtenerDatoTiempoSession).then(function (response) {
+              console.log("Session terminada");
+              window.location.href = '/logout';
+            })["catch"](function (error) {
+              (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+              console.log(error);
+            });
+          });
+        }
       }, 1000);
     },
     logout: function logout(event) {

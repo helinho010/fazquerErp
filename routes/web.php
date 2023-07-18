@@ -96,7 +96,7 @@ Route::post('/login',[AdmSessionController::class,'store'])
     ->middleware('guest')
     ->name('login.store');
 Route::get('/logout',[AdmSessionController::class,'destroy'])
-->middleware('auth')
+    //->middleware('auth')
     ->name('login.destroy');
 
 Route::get('/registro',[AdmRegistroController::class,'create'])
@@ -158,7 +158,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/usuario/desactivar', [AdmUserController::class,'desactivar']);
     Route::put('/usuario/activar', [AdmUserController::class,'activar']);
     Route::get('/usuario/selectusuario',[AdmUserController::class,'selectUsuario']);
-    Route::get('/usuario/tiempoSessionRestante',[AdmUserController::class,'tiempoSessionUsuario']);
+    Route::get('/usuario/tiempoSessionRestante/{accion}',[AdmUserController::class,'tiempoSessionUsuario']);
 
 
     Route::get('/role',[AdmRoleController::class,'index']);
