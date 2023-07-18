@@ -15,7 +15,7 @@
             <a class="nav-link" href="#">
                 
                 <div class="text-center" style="width: 156px;">
-                    <span>Tu sesión expira en :</span> <div id="timeout">{{tiempoSession}} seg.</div> 
+                    <!-- <span>Tu sesión expira en :</span> <div id="timeout">{{tiempoSession}} seg.</div>  -->
                 </div>
             </a> 
         </li>
@@ -165,7 +165,7 @@
 
 <script> 
 import Swal from 'sweetalert2';
-import { error401} from '../../errores';
+import {error401} from '../../errores';
     export default {
         props : ['user','nomsucursal','nomrol','tiempoSession'],
 
@@ -193,48 +193,6 @@ import { error401} from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-            },
-
-            actualizarTiempoSessionUsuario(){
-                let me=this;
-                let urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/0';
-                axios.get(urlObtenerDatoTiempoSession)
-                .then(function(response){
-                   me.tiempoSession=parseInt(response.data,10)*60;
-                   console.log("//////////////////////");
-                   console.log(me.tiempoSession);
-                   //console.log(response.data);
-                   let cookieExpire=response.data.split(";");
-                   console.log(localStorage.getItem('Path'));
-                   console.log("/////////////////////");
-                })
-                .catch(function(error){
-                   console.log("huno un error y asigno el valor de 30 a la variable tiempoSession");
-                   me.tiempoSession=parseInt(30,10)*60; 
-                   error401(error);
-                   console.log(error);
-                });
-                
-                let id = setInterval(function() {
-                    me.tiempoSession=me.tiempoSession-1;                        
-                    if(me.tiempoSession == 0)
-                    {
-                        clearInterval(id);
-                        Swal.fire('Su session acaba de finalizar')
-                        .then(()=>{
-                            urlObtenerDatoTiempoSession = '/usuario/tiempoSessionRestante/1';
-                            axios.get(urlObtenerDatoTiempoSession)
-                            .then(function(response){
-                                console.log("Session terminada");
-                                window.location.href='/logout';
-                            })
-                            .catch(function(error){
-                                error401(error);
-                                console.log(error);
-                            });
-                        });
-                    }
-                }, 1000);
             },
 
             logout(event){
@@ -274,7 +232,7 @@ import { error401} from '../../errores';
         }  ,
         mounted(){
             this.listarEmpleado();
-            this.actualizarTiempoSessionUsuario();         
+            //this.actualizarTiempoSessionUsuario();         
             //console.log(this.menu);
         }
        

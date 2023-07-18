@@ -232,19 +232,4 @@ class AdmUserController extends Controller
 
     }
 
-    public function tiempoSessionUsuario(int $acccion)
-    {
-        if ($acccion == 0) 
-        {
-            //return env('SESSION_LIFETIME');
-            return cookie('path');
-        }
-        else {
-            return redirect("/logout");
-        }
-        
-        //return session('lastActivityTime');
-        //return session()->all();
-        //return auth()->user()->name;
-    }
 }
