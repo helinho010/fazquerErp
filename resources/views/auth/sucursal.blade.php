@@ -29,7 +29,6 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
-  
               <h3 class="mb-5">Seleccionar Sucursal</h3>
               <form action="" class="mt-4" method="POST">
                 @csrf
@@ -37,14 +36,10 @@
                     @foreach ($sucursales as $item)
                         <option value="{{ $item->id }}">{{ $item->nomsuc }}  - {{ $item->nomrole }}  </option>
                     @endforeach
-                    
                 </select>
                 <hr>
-                
                 <button type="submit" class="btn btn-primary btn-block mb-4">Seleccionar</button>
-            </form> 
-  
-             
+              </form> 
             </div>
           </div>
         </div>

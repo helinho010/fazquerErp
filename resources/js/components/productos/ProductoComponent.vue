@@ -140,20 +140,11 @@
 
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <strong>Dispenser:</strong>
+                                <strong>Envase Primario:</strong>
                                 <select v-model="iddispenserselected" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                 </select>
-                                <!--<Ajaxselect  v-if="clearSelected1"
-                                    ruta="/dispenser/selectdispenser?buscar=" @found="dispensers" @cleaning="cleandispensers"
-                                    resp_ruta="dispensers"
-                                    labels="nombre"
-                                    placeholder="Ingrese Texto..." 
-                                    idtabla="id"
-                                    :id="iddispenserselected"
-                                    :clearable='true'>
-                                </Ajaxselect>-->
                                 <span class="error" v-if="iddispenserselected==0">Debe Seleccionar el dispenser</span>
                             </div>
                             <div class="form-group col-sm-4">
@@ -167,20 +158,24 @@
                                     <option value="0">Seleccionar</option>
                                     <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
                                 </select>
-                                <!--<Ajaxselect  v-if="clearSelected2"
-                                    ruta="/formafarm/selectformafarm?buscar=" @found="formafarm" @cleaning="cleanformafarm"
-                                    resp_ruta="formafarm"
-                                    labels="nombre"
-                                    placeholder="Ingrese Texto..." 
-                                    idtabla="id"
-                                    :id="idformafarmselected"
-                                    :clearable='true'>
-                                </Ajaxselect>-->
                                 <span class="error" v-if="idformafarmselected==0">Debe Seleccionar la Forma Farmaceutica</span>
                             </div>
-
-                            
                         </div>
+                        <!-- <div class="row">
+                            <div class="form-group col-sm-4">
+                                <strong>Envase Secundario:</strong>
+                                <select v-model="iddispenserselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
+                                </select>
+                                <span class="error" v-if="iddispenserselected==0">Debe Seleccionar el dispenser</span>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <strong>Cantidad:</strong>
+                                <input type="text" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                            </div>
+                        </div> -->
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Precio de Lista:</strong>
