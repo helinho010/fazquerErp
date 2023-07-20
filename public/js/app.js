@@ -41459,7 +41459,7 @@ var _hoisted_85 = {
 };
 
 var _hoisted_86 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Apellido Paterno:", -1
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Primer Apellido:", -1
   /* HOISTED */
   );
 });
@@ -41476,7 +41476,7 @@ var _hoisted_89 = {
 };
 
 var _hoisted_90 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Apellido Materno", -1
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Segundo Apellido:", -1
   /* HOISTED */
   );
 });
@@ -41672,7 +41672,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: client.id,
       value: client.id,
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(client.nombre)
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)('Nombre: ' + client.nom + ' CI: ' + client.ci + ' Nit: ' + client.nit)
     }, null, 8
     /* PROPS */
     , _hoisted_36);

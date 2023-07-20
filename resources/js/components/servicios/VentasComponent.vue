@@ -121,7 +121,7 @@
                                 <th colspan="5" >Cliente:
                                     <select name="" id="" v-model="clienteselected" class="form-control" @change="selectCli()">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="client in arrayClientes" :key="client.id" :value="client.id" v-text="client.nombre"></option>
+                                        <option v-for="client in arrayClientes" :key="client.id" :value="client.id" v-text="'Nombre: '+client.nom +' CI: '+client.ci+' Nit: '+client.nit"></option>
                                     </select>
                                     
                                    <!--  <Ajaxselect  v-if="clearSelected1"
@@ -227,7 +227,7 @@
                                 <span class="error" v-if="nombre==''">Nombre de cliente no debe estar Vacio</span>
                             </div>
                             <div class="form-group col-sm-6">
-                                <strong>Apellido Paterno:</strong>
+                                <strong>Primer Apellido:</strong>
                                 <input type="text" class="form-control" v-model="papellido">
                                 <span class="error" v-if="papellido=='' && sapellido == '' ">Apellido no debe estar vacio</span>
                             </div>
@@ -235,7 +235,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <strong>Apellido Materno</strong>
+                                <strong>Segundo Apellido:</strong>
                                 <input type="text" class="form-control" v-model="sapellido">
                                 <span class="error" v-if="papellido=='' && sapellido == '' ">Apellido no debe estar vacio</span>
                             </div>

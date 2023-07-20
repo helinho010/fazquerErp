@@ -64,7 +64,7 @@ class ParClienteController extends Controller
     }
     public function selectCli(Request $request)  //AjaxSelect
     {
-        $raw=DB::raw(DB::raw('concat(if(ISNULL(papellido)=1," ",papellido)," ",if(ISNULL(sapellido)=1," ",sapellido)," ",nombre) as nom'));
+        $raw=DB::raw(DB::raw('concat(if(ISNULL(papellido)=1," ",papellido)," ",if(ISNULL(sapellido)=1," ",sapellido)," ",nombre) as nom,ci,nit'));
         $clientes = Par_Cliente::select($raw,'id','nombre')
                             ->where('activo',1)
                             ->orderby('papellido','asc')
