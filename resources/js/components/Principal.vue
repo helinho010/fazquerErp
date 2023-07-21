@@ -5,6 +5,5 @@
                <small class="text-muted">Puerto del Rosario</small>
            </h3>
        </div>
-       
     </main>
 </template>
