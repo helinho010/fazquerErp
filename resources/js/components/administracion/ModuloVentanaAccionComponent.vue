@@ -115,6 +115,12 @@
                                     <span  v-if="!simodulo" class="error">Debe Ingresar el Nombre del Modulo</span>
                                 </div>
                             </div>
+                            <div class="form-group row" v-if="tipomodal=='modulo'">
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre de Icono para el modulo</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="nomicono" name="nomicono" class="form-control" placeholder="Nombre del icono para el modulo ej: icon-bag" v-model="nombreicono" v-on:focus="selectAll" >
+                                </div>
+                            </div>
                             <div class="form-group row" v-if="tipomodal=='ventana'">
                                 <label class="col-md-3 form-control-label" for="text-input">Template vue <span  v-if="templatevue==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
@@ -161,13 +167,13 @@ import {error401} from '../../errores.js';
         data(){
             return{
                 modulo:'',
-                
                 arrayModulos:[],
                 tituloModal:'',
                 tipoAccion:1,
                 idmodulo:'',
                 buscar:'',
                 nombre:'',
+                nombreicono:'',
                 etiqueta:'Modulo:',
                 tipomodal:'modulo',
                 templatevue:'',
@@ -186,6 +192,13 @@ import {error401} from '../../errores.js';
                 else
                     return false;
             },
+            // simodulo(){
+            //     let me=this;
+            //     if(me.modulo!='')
+            //         return true;
+            //     else
+            //         return false;
+            // },
             
             sicompleto(){
                 let me=this;
@@ -276,10 +289,13 @@ import {error401} from '../../errores.js';
             },
             registrarModulo(){
                 let me = this;
+                console.log("//////////////////");
+                console.log(me)
                 if(me.tipomodal=='modulo')
                 {
                     axios.post('/modulo/registrar',{
                     'nombre':me.modulo,
+                    'nombre_icono':me.nombreicono,
                     }).then(function(response){
                         me.cerrarModal('registrar');
                         me.listarModulos();
@@ -533,7 +549,7 @@ import {error401} from '../../errores.js';
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Modulo'
+                        me.tituloModal='Registrar Modulo'
                         me.tipomodal='modulo';
                         me.tipoAccion=1;
                         me.modulo='';

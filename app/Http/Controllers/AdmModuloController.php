@@ -68,6 +68,7 @@ class AdmModuloController extends Controller
         $modulo = new Adm_Modulo();
 
         $modulo->nombre=$request->nombre;
+        $modulo->nombre_icono=$request->nombre_icono;
         $modulo->id_usuario_registra=auth()->user()->id;
         $modulo->save();
     }

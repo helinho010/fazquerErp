@@ -39,6 +39,7 @@ createApp ({
 
     //Parametros
     .component('descuentos-component',require('./components/parametros/ServiciosDescuentoscomponent.vue').default)
+    .component('descproductos-component', require('./components/parametros/DescProductosComponent.vue').default)
 
     //Productos
     .component('linea-component', require('./components/productos/LineaComponent.vue').default)
@@ -47,8 +48,7 @@ createApp ({
     .component('formafarm-component', require('./components/productos/FormaFarmaceuticaComponent.vue').default)
     .component('categoria-component', require('./components/productos/CategoriaComponent.vue').default)
 
-    .component('descproductos-component', require('./components/parametros/DescProductosComponent.vue').default)
-
+    //Almacen
     .component('codificacion-component', require('./components/almacenes/CodificacionComponent.vue').default)
     .component('almacen-component', require('./components/almacenes/AlmacenComponent.vue').default)
 
