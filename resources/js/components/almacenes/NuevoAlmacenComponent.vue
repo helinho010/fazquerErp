@@ -103,26 +103,30 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="alert alert-warning" role="alert">
+                            Todos los campos con (*) son requeridos
+                        </div>
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-2 form-control-label" for="text-input">Tipo <span  v-if="tipo==0" class="error">(*)</span></label>
-                                <div class="col-md-4">
-                                    <select name="" id="" v-model="tipo" class="form-control">
+                                <label class="col-md-3 form-control-label" for="text-input">
+                                    Asignar Sucursal
+                                </label>
+                                <div class="col-md-9">
+                                    <select name="" id="" v-model="sucursalSeleccionado" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-if="matriz!=1 || tipo=='Casa_Matriz'" value="Casa_Matriz">Casa Matriz</option>
-                                        <option value="Sucursal">Sucursal</option>
+                                        <option v-for="sucursal in arraySucursales" :key="sucursal.id" :value="sucursal.cod" v-text="sucursal.cod +' '+sucursal.razon_social+' '+sucursal.direccion"></option>
                                     </select>
                                 </div>
-                                <label class="col-md-2 form-control-label" for="text-input">Rubro <span  v-if="idrubro==0" class="error">(*)</span></label>
+                                <!-- <label class="col-md-2 form-control-label" for="text-input">Rubro <span  v-if="idrubro==0" class="error">(*)</span></label>
                                 <div class="col-md-4">
                                     <select name="" id="" v-model="idrubro" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-for="rubros in arrayRubros" :key="rubros.id" :value="rubros.id" v-text="rubros.nombre" ></option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="" name="" class="form-control"  v-model="razonsocial" v-on:focus="selectAll"  >
                                     <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
@@ -130,7 +134,7 @@
                             </div>
                             <!-- Esto es para Nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="nombrecomercial" name="nombrecomercial" class="form-control"  v-model="nombrecomercial" v-on:focus="selectAll"  >
                                     <span  v-if="nombrecomercial==''" class="error">Debe Ingresar el Nombre Comercial</span>
@@ -138,10 +142,10 @@
                             </div>
                             <!-- Fin nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Telefonos</label>
                                 <div class="col-md-9">
                                     <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-model="telefono" v-on:focus="selectAll">
-                                    <span  v-if="telefono==''" class="error">Debe Ingresar La Razon Social</span>                                </div>
+                                 </div>
                             </div>
                             <!-- <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit" class="error">(*)</span></label>
@@ -151,19 +155,30 @@
                                 </div>
                             </div> -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la Direccion" v-model="direccion" v-on:focus="selectAll">
                                     <span  v-if="direccion==''" class="error">Debe Ingresar la Direccion</span>                                
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Departamento <span  v-if="ciudad==0" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select name="" id="" v-model="ciudad" class="form-control">
+                                    <select name="" id="" v-model="departamento" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
                                     </select>
+                                    <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select v-model="ciudad" class="form-control rounded">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="ciudad in arrayCiudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
+                                    </select>
+                                    <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
                                 </div>
                             </div>
                             
@@ -213,22 +228,26 @@ import { error401 } from '../../errores';
                 razonsocial:'',
                 nombrecomercial:'',
                 telefono:'',
-                ciudad:0,
+                
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
-                                {'id':2,'valor':'La Paz - El Alto'},
-                                {'id':3,'valor':'Santa Cruz'},
-                                {'id':4,'valor':'Cochabamba'},
-                                {'id':5,'valor':'Oruro'},
-                                {'id':6,'valor':'Potosi'},
-                                {'id':7,'valor':'Sucre'},
-                                {'id':8,'valor':'Tarija'},
-                                {'id':9,'valor':'Pando'},
-                                {'id':10,'valor':'Beni'},
+                                {'id':2,'valor':'Santa Cruz'},
+                                {'id':3,'valor':'Cochabamba'},
+                                {'id':4,'valor':'Oruro'},
+                                {'id':5,'valor':'Potosi'},
+                                {'id':6,'valor':'Sucre'},
+                                {'id':7,'valor':'Tarija'},
+                                {'id':8,'valor':'Pando'},
+                                {'id':9,'valor':'Beni'},
                             ],
                 matriz:0,
                 arrayRubros:[],
-                idrubro:0
+                idrubro:0,
+                sucursalSeleccionado:0,
+                departamento:0,
+                ciudad:0,
+                arrayCiudad:[],
+                arrayDepto:[]
                 
             }
 
@@ -237,7 +256,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!=0)
+                if (me.razonsocial!='' && me.direccion!='' && me.departamento!=0 && me.ciudad!=0)
                     return true;
                 else
                     return false;
@@ -268,6 +287,30 @@ import { error401 } from '../../errores';
 
         },
         methods :{
+            selectDepartamentos(){
+                let me=this;
+                var url='/depto/selectdepto';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayDepto=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+            selectCiudades(){
+                let me=this;
+                var url='/ciudad/selectciudad';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayCiudad=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
             listarSucursales(page){
                 let me=this;
                 var url='/sucursal?page='+page+'&buscar='+me.buscar;
@@ -459,8 +502,9 @@ import { error401 } from '../../errores';
                         me.razonsocial='';
                         me.nombrecomercial='',
                         me.telefono='';
-                        me.nit='';
                         me.direccion='';
+                        me.sucursalSeleccionado=0;
+                        me.departamento=0;
                         me.ciudad=0;
                         me.idrubro=0;
                         me.classModal.openModal('registrar');
@@ -526,6 +570,8 @@ import { error401 } from '../../errores';
         mounted() {
             this.selectRubros();
             this.listarSucursales(1);
+            this.selectDepartamentos();
+            this.selectCiudades();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
