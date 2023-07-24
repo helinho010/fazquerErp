@@ -16,22 +16,36 @@ class CreateAlmAlmacensTable extends Migration
         Schema::create('alm__almacens', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('idsucursal')->unsigned();
-            $table->bigInteger('idproducto')->unsigned();
-            $table->bigInteger('idusuario');
-            $table->integer('cantidad')->unsigned();
-            $table->string('tipo_entrada',50)->default('Compra');
-            $table->string('lote',100);
-            $table->date('fecha_vencimiento');
-            $table->string('codigo')->nullable();
-            $table->string('registro_sanitario',100);
-            $table->string('ubicacion_estante',20);
-            $table->boolean('activo')->default(1);
-            $table->tinyInteger('estado')->default(1)->comment('1->');
-            $table->timestamps();
-            $table->foreign('idsucursal')->references('id')->on('adm__sucursals');
-            $table->foreign('idproducto')->references('id')->on('prod__productos');
+            /**
+             * Esto es de la anterior estructura
+            */
+            // $table->bigInteger('idproducto')->unsigned();
+            // $table->bigInteger('idusuario');
+            // $table->integer('cantidad')->unsigned();
+            // $table->string('tipo_entrada',50)->default('Compra');
+            // $table->string('lote',100);
+            // $table->date('fecha_vencimiento');
+            // $table->string('codigo')->nullable();
+            // $table->string('registro_sanitario',100);
+            // $table->string('ubicacion_estante',20);
+            // $table->boolean('activo')->default(1);
+            // $table->tinyInteger('estado')->default(1)->comment('1->');
+            // $table->timestamps();
+            // $table->foreign('idsucursal')->references('id')->on('adm__sucursals');
+            // $table->foreign('idproducto')->references('id')->on('prod__productos');
+            // $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
+            // $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
+            $table->string("codigo")->comment("Codigo que es asignado por el sistema");
+            $table->string("razon_social")->comment("Nombre del almacen");
+            $table->string("nombre_comercial")->comment("Nombre comercial del almacen");
+            $table->string("telefono")->comment("Telefonos de contacto del almacen");
+            $table->string("direccion")->comment("Direccion del almacen");
+            $table->string("departamento")->comment("Departamento donde recide el almacen");
+            $table->string("ciudad")->comment("Ciudad donde se encuentra el almacen");
+            $table->tinyInteger('estado')->default(1)->comment('1->activo, 0->inactivo');
+            $table->smallInteger('correlativo')->unsigned();
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
-            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('null->viene del seeder');
+            $table->timestamps();
         });
     }
 

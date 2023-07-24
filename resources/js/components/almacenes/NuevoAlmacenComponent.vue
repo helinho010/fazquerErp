@@ -343,22 +343,44 @@ import { error401 } from '../../errores';
             },
             registrarSucursal(){
                 let me = this;
-                axios.post('/sucursal/registrar',{
-                    'idrubro':me.idrubro,
-                    'tipo':me.tipo,
+                // axios.post('/sucursal/registrar',{
+                //     'idrubro':me.idrubro,
+                //     'tipo':me.tipo,
+                //     'razon_social':me.razonsocial,
+                //     'nombre_comercial':me.nombrecomercial,
+                //     'telefonos':me.telefono,
+                //     'nit':me.nit,
+                //     'direccion':me.direccion,
+                //     'ciudad':me.ciudad,
+                // }).then(function(response){
+                //     me.cerrarModal('registrar');
+                //     me.listarSucursales();
+                // }).catch(function(error){
+                //     error401(error);
+                //     console.log(error);
+                // });
+                axios.post('/almacen/registrar',{
+                    'idsucursal':me.idsucursal,
                     'razon_social':me.razonsocial,
                     'nombre_comercial':me.nombrecomercial,
-                    'telefonos':me.telefono,
-                    'nit':me.nit,
+                    'telefono':me.telefono,
                     'direccion':me.direccion,
+                    'departamento':me.departamento,
                     'ciudad':me.ciudad,
                 }).then(function(response){
                     me.cerrarModal('registrar');
+                    Swal.fire(
+                        'Almacen Registrado exitosamente',
+                        'Haga click en Ok',
+                        'success'
+                    )
                     me.listarSucursales();
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
                 });
+                console.log("//////////////////");
+                console.log(me);
 
             },
             eliminarSucursal(idsucursal){

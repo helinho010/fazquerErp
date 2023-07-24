@@ -119,18 +119,45 @@ class AlmAlmacenController extends Controller
      */
     public function store(Request $request)
     {
-        $almacen= new Alm_Almacen();
-        $almacen->idsucursal=$request->idsucursal;
-        $almacen->idproducto=$request->idproducto;
-        $almacen->idusuario=$request->idusuario;
-        $almacen->cantidad=$request->cantidad;
-        $almacen->tipo_entrada=$request->tipo_entrada;
-        $almacen->lote=$request->lote;
-        $almacen->fecha_vencimiento=$request->fecha_vencimiento;
-        $almacen->codigo=$request->codigo;
-        $almacen->registro_sanitario=$request->registro_sanitario;
-        $almacen->ubicacion_estante=$request->ubicacion_estante;
-        $almacen->id_usuario_registra=auth()->user()->id;
+        $letracodigo='ALM';
+        $maxcorrelativo = Alm_Almacen::select(DB::raw('max(correlativo) as maximo'))
+                                      ->get()->toArray();
+        $correlativo=$maxcorrelativo[0]['maximo'];
+        if(is_null($correlativo))
+            $correlativo=1;
+        else
+            $correlativo=$correlativo+1;
+
+        if($correlativo<10)
+            $codigo='00'.$correlativo;
+        else
+            if($correlativo<100)
+                $codigo='0'.$correlativo;
+                
+        
+        $codigo=$letracodigo.$codigo;
+
+        $almacen = new Alm_Almacen();
+        $almacen->idsucursal = $request->idsucursal;
+        // $almacen->idproducto=$request->idproducto;
+        // $almacen->idusuario=$request->idusuario;
+        // $almacen->cantidad=$request->cantidad;
+        // $almacen->tipo_entrada=$request->tipo_entrada;
+        // $almacen->lote=$request->lote;
+        // $almacen->fecha_vencimiento=$request->fecha_vencimiento;
+        // $almacen->codigo=$request->codigo;
+        // $almacen->registro_sanitario=$request->registro_sanitario;
+        // $almacen->ubicacion_estante=$request->ubicacion_estante;
+        $almacen->id_usuario_registra = auth()->user()->id;
+        $almacen->codigo = $codigo;
+        $almacen->razon_social = $request->razon_social;
+        $almacen->nombre_comercial = $request->nombre_comercial;
+        $almacen->telefono = $request->telefono;
+        $almacen->direccion = $request->direccion;
+        $almacen->departamento = $request->departamento;
+        $almacen->ciudad = $request->ciudad;
+        $almacen->estado = $request->estado;
+        $almacen->correlativo = $correlativo;
         $almacen->save();
         //return $request;
     }
