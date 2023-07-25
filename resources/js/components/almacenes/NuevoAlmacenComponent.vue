@@ -32,8 +32,6 @@
                                 <th>Razon Social</th>
                                 <th>Nombre Comercial</th>
                                 <th>Telefonos</th>
-                                <th>Nombre Comercial</th>
-                                <!-- <th>Rubro</th> -->
                                 <th>Direccion</th>
                                 <th>Departamento</th>
                                 <th>Ciudad</th>
@@ -41,26 +39,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="almacen in arrayAlmacen" :key="almacen.id">
+                            <tr v-for="almacen in arrayAlmacenes" :key="almacen.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',alamcen)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',almacen)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="sucursal.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarSucursal(almacen.id)" >
+                                    <button v-if="almacen.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarSucursal(almacen.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarSucursal(almacen.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="almacen.codsuc === NULL ? '': ' - '+almacen.codsuc + almacen.codigo"></td>
+                                <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td>
                                 <td v-text="almacen.razon_social"></td>
                                 <td v-text="almacen.nombre_comercial"></td>
                                 <td v-text="almacen.telefono"></td>
-                                <td v-text="almacen.nombre_comercial"></td>
-                                <!-- <td v-text="sucursal.nomrubro"></td> -->
                                 <td v-text="almacen.direccion"></td>
-                                <td v-text="almacen.ciudad"></td>
+                                <td v-text="almacen.departamento"></td>
+                                <td>
+                                    <div v-for="ciudad in arrayCiudad">
+                                        <div v-if="ciudad.id == almacen.ciudad">
+                                            {{ ciudad.abrev }}-{{ ciudad.nombre }}
+                                        </div>
+                                    </div> 
+                                </td>
                                 <td>
                                     <div v-if="almacen.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -161,7 +164,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Departamento <span  v-if="ciudad==0" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Departamento <span  v-if="departamento==0" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <select name="" id="" v-model="departamento" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
@@ -185,8 +188,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarSucursal()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarSucursal()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarAlmacen()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarAlmacen()">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -335,6 +338,7 @@ import { error401 } from '../../errores';
                     error401(error);
                 });
             },
+
             listarAlmacenes(page)
             {
                 let me=this;
@@ -344,19 +348,6 @@ import { error401 } from '../../errores';
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenes = respuesta.almacenes.data;
-                    console.log("/*/*/*/*/*/*/*/*/*/*/*/*/*/");
-                    console.log(me.arrayAlmacenes);
-                    // me.arraySucursales=respuesta.sucursales.data;
-                    // let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
-                    // if(resp!= undefined)
-                    // {
-                    //     if(resp.tipo=='Casa_Matriz')
-                    //         me.matriz=1;
-                    //     else
-                    //         me.matriz=0;
-                    // }
-                    // else
-                    //     me.matriz=0;
                 })
                 .catch(function(error){
                     error401(error);
@@ -369,24 +360,8 @@ import { error401 } from '../../errores';
                 me.listarAlmacenes(page);
             },
             
-            registrarSucursal(){
+            registrarAlmacen(){
                 let me = this;
-                // axios.post('/sucursal/registrar',{
-                //     'idrubro':me.idrubro,
-                //     'tipo':me.tipo,
-                //     'razon_social':me.razonsocial,
-                //     'nombre_comercial':me.nombrecomercial,
-                //     'telefonos':me.telefono,
-                //     'nit':me.nit,
-                //     'direccion':me.direccion,
-                //     'ciudad':me.ciudad,
-                // }).then(function(response){
-                //     me.cerrarModal('registrar');
-                //     me.listarSucursales();
-                // }).catch(function(error){
-                //     error401(error);
-                //     console.log(error);
-                // });
                 axios.post('/almacen/registrar',{
                     'idsucursal':me.sucursalSeleccionado,
                     'razon_social':me.razonsocial,
@@ -511,37 +486,37 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            actualizarSucursal(){
-               // const Swal = require('sweetalert2')
+            actualizarAlmacen(){
                 let me =this;
-                axios.put('/sucursal/actualizar',{
-                    'idrubro':me.idrubro,
-                    'id':me.idsucursal,
-                    'nombre':me.nombre,
-                    'razon_social':me.razonsocial,
-                    'nombre_comercial':me.nombrecomercial,
-                    'telefonos':me.telefono,
-                    'nit':me.nit,
-                    'direccion':me.direccion,
-                    'tipo':me.tipo,
-                    'ciudad':me.ciudad,
+                console.log("/////////////////////");
+                console.log(me);
 
-                }).then(function (response) {
-                    me.listarSucursales();
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                        Swal.fire('Actualizado Correctamente')   
-                    } 
+                // axios.put('/almacen/actualizar',{
+                //     'id':me.idsucursal,
+                //     'nombre':me.nombre,
+                //     'razon_social':me.razonsocial,
+                //     'nombre_comercial':me.nombrecomercial,
+                //     'telefonos':me.telefono,
+                //     'nit':me.nit,
+                //     'direccion':me.direccion,
+                //     'tipo':me.tipo,
+                //     'ciudad':me.ciudad,
+
+                // }).then(function (response) {
+                //     me.listarSucursales();
+                //     if(response.data.length){
+                //     }
+                //     // console.log(response)
+                //     else{
+                //         Swal.fire('Actualizado Correctamente')   
+                //     } 
                     
-                }).catch(function (error) {
-                    error401(error);
-                });
-                me.cerrarModal('registrar');
-
-
+                // }).catch(function (error) {
+                //     error401(error);
+                // });
+                // me.cerrarModal('registrar');
             },
+
             abrirModal(accion,data= []){
                 let me=this;
                 switch(accion){
@@ -564,18 +539,16 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        me.idsucursal=data.id;
+                        me.sucursalSeleccionado=data.idsucursal;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Sucursal'
-                        me.tipoAccion=2;
+                        me.tituloModal='Actualizar Datos del Almacen';
                         me.tipo=data.tipo;
                         me.razonsocial=data.razon_social;
                         me.nombrecomercial=data.nombre_comercial;
-                        me.telefono=data.telefonos;
-                        me.nit=data.nit;
+                        me.telefono=data.telefono;
                         me.direccion=data.direccion;
                         me.ciudad=data.ciudad;
-                        me.idrubro=data.idrubro;
+                        me.departamento=data.departamento;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -583,6 +556,7 @@ import { error401 } from '../../errores';
                 }
                 
             },
+
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
@@ -594,15 +568,15 @@ import { error401 } from '../../errores';
                 me.direccion='';
                 me.ciudad=0;
                 me.tipoAccion=1;
-                me.idrubro=0;
-                
-                
+                me.idrubro=0;                
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
-            },  
+            },
+
             selectRubros(){
                 let me=this;
                 var url='/rubro/selectrubro';
@@ -615,9 +589,8 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
-
-
         },
+
         mounted() {
             this.selectRubros();
             this.listarAlmacenes(1);
