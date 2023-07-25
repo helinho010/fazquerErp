@@ -88,17 +88,17 @@ class AlmAlmacenController extends Controller
                                         ->where('idsucursal',$request->idsucursal)
                                         ->paginate(40);
         }
-        return ['pagination'=>[
-            'total'         =>    $productos->total(),
-            'current_page'  =>    $productos->currentPage(),
-            'per_page'      =>    $productos->perPage(),
-            'last_page'     =>    $productos->lastPage(),
-            'from'          =>    $productos->firstItem(),
-            'to'            =>    $productos->lastItem(),
-
-        ] ,
-                'productos'=>$productos,
-            ];
+        return [
+                    'pagination'=>[
+                        'total'         =>    $productos->total(),
+                        'current_page'  =>    $productos->currentPage(),
+                        'per_page'      =>    $productos->perPage(),
+                        'last_page'     =>    $productos->lastPage(),
+                        'from'          =>    $productos->firstItem(),
+                        'to'            =>    $productos->lastItem(),
+                    ] ,
+                    'productos'=>$productos,
+               ];
     }
 
     /**

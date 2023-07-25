@@ -114,7 +114,7 @@
                                 <div class="col-md-9">
                                     <select name="" id="" v-model="sucursalSeleccionado" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="sucursal in arraySucursales" :key="sucursal.id" :value="sucursal.cod" v-text="sucursal.cod +' '+sucursal.razon_social+' '+sucursal.direccion"></option>
+                                        <option v-for="sucursal in arraySucursales" :key="sucursal.id" :value="sucursal.id" v-text="sucursal.cod +' '+sucursal.razon_social+' '+sucursal.direccion"></option>
                                     </select>
                                 </div>
                                 <!-- <label class="col-md-2 form-control-label" for="text-input">Rubro <span  v-if="idrubro==0" class="error">(*)</span></label>
@@ -329,8 +329,7 @@ import { error401 } from '../../errores';
                             me.matriz=0;
                     }
                     else
-                        me.matriz=0; 
-                    //console.log(me.arraySucursales);
+                        me.matriz=0;
                 })
                 .catch(function(error){
                     error401(error);
@@ -360,13 +359,15 @@ import { error401 } from '../../errores';
                 //     console.log(error);
                 // });
                 axios.post('/almacen/registrar',{
-                    'idsucursal':me.idsucursal,
+                    'idsucursal':me.sucursalSeleccionado,
                     'razon_social':me.razonsocial,
                     'nombre_comercial':me.nombrecomercial,
                     'telefono':me.telefono,
                     'direccion':me.direccion,
                     'departamento':me.departamento,
                     'ciudad':me.ciudad,
+                    'activo':1,
+                    'estado':1,
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     Swal.fire(

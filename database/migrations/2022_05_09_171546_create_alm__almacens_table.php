@@ -42,6 +42,7 @@ class CreateAlmAlmacensTable extends Migration
             $table->string("direccion")->comment("Direccion del almacen");
             $table->string("departamento")->comment("Departamento donde recide el almacen");
             $table->string("ciudad")->comment("Ciudad donde se encuentra el almacen");
+            $table->boolean('activo')->default(1);
             $table->tinyInteger('estado')->default(1)->comment('1->activo, 0->inactivo');
             $table->smallInteger('correlativo')->unsigned();
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
