@@ -28,42 +28,41 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Codigo</th>
-                                <th>Tipo</th>
-                                <th>Nit</th>
+                                <th>Alamcen</th>
                                 <th>Razon Social</th>
+                                <th>Nombre Comercial</th>
+                                <th>Telefonos</th>
                                 <th>Nombre Comercial</th>
                                 <!-- <th>Rubro</th> -->
                                 <th>Direccion</th>
                                 <th>Departamento</th>
-                                <th>Telefonos</th>
+                                <th>Ciudad</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="sucursal in arraySucursales" :key="sucursal.id">
+                            <tr v-for="almacen in arrayAlmacen" :key="almacen.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',sucursal)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',alamcen)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="sucursal.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarSucursal(sucursal.id)" >
+                                    <button v-if="sucursal.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarSucursal(almacen.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarSucursal(sucursal.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarSucursal(almacen.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="sucursal.cod"></td>
-                                <td v-text="sucursal.tipo == 'Casa_Matriz'? sucursal.tipo:sucursal.tipo + ' - ' +sucursal.correlativo"></td>
-                                <td v-text="sucursal.nit"></td>
-                                <td v-text="sucursal.razon_social"></td>
-                                <td v-text="sucursal.nombre_comercial"></td>
+                                <td v-text="almacen.codsuc === NULL ? '': ' - '+almacen.codsuc + almacen.codigo"></td>
+                                <td v-text="almacen.razon_social"></td>
+                                <td v-text="almacen.nombre_comercial"></td>
+                                <td v-text="almacen.telefono"></td>
+                                <td v-text="almacen.nombre_comercial"></td>
                                 <!-- <td v-text="sucursal.nomrubro"></td> -->
-                                <td v-text="sucursal.direccion"></td>
-                                <td v-text="sucursal.ciudad"></td>
-                                <td v-text="sucursal.telefonos"></td>
+                                <td v-text="almacen.direccion"></td>
+                                <td v-text="almacen.ciudad"></td>
                                 <td>
-                                    <div v-if="sucursal.activo==1">
+                                    <div v-if="almacen.activo==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
@@ -247,7 +246,8 @@ import { error401 } from '../../errores';
                 departamento:0,
                 ciudad:0,
                 arrayCiudad:[],
-                arrayDepto:[]
+                arrayDepto:[],
+                arrayAlmacenes:[]
                 
             }
 
@@ -335,11 +335,40 @@ import { error401 } from '../../errores';
                     error401(error);
                 });
             },
+            listarAlmacenes(page)
+            {
+                let me=this;
+                var url='/almacen?page='+page+'&buscar='+me.buscar;
+                axios.get(url)
+                .then(function(response){
+                    var respuesta = response.data;
+                    me.pagination = respuesta.pagination;
+                    me.arrayAlmacenes = respuesta.almacenes.data;
+                    console.log("/*/*/*/*/*/*/*/*/*/*/*/*/*/");
+                    console.log(me.arrayAlmacenes);
+                    // me.arraySucursales=respuesta.sucursales.data;
+                    // let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
+                    // if(resp!= undefined)
+                    // {
+                    //     if(resp.tipo=='Casa_Matriz')
+                    //         me.matriz=1;
+                    //     else
+                    //         me.matriz=0;
+                    // }
+                    // else
+                    //     me.matriz=0;
+                })
+                .catch(function(error){
+                    error401(error);
+                });
+            },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
-                me.listarSucursales(page);
+                me.listarAlmacenes(page);
             },
+            
             registrarSucursal(){
                 let me = this;
                 // axios.post('/sucursal/registrar',{
@@ -375,15 +404,14 @@ import { error401 } from '../../errores';
                         'Haga click en Ok',
                         'success'
                     )
+                    me.listarAlmacenes();
                     me.listarSucursales();
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
                 });
-                console.log("//////////////////");
-                console.log(me);
-
             },
+
             eliminarSucursal(idsucursal){
                 let me=this;
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -592,6 +620,7 @@ import { error401 } from '../../errores';
         },
         mounted() {
             this.selectRubros();
+            this.listarAlmacenes(1);
             this.listarSucursales(1);
             this.selectDepartamentos();
             this.selectCiudades();
