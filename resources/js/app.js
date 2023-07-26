@@ -51,8 +51,8 @@ createApp ({
     //Almacen
     .component('codificacion-component', require('./components/almacenes/CodificacionComponent.vue').default)
     .component('almacen-component', require('./components/almacenes/AlmacenComponent.vue').default)
-    //Esto es agregado por YO
     .component('nuevo-almacen-component', require('./components/almacenes/NuevoAlmacenComponent.vue').default)
+    
 
 
 

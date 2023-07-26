@@ -19,8 +19,8 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarSucursales(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarSucursales(1)"><i class="fa fa-search" ></i> Buscar</button>
+                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarAlmacenes(1)">
+                                <button type="submit" class="btn btn-primary" @click="listarAlmacenes(1)"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
                         </div>
                     </div>
@@ -44,10 +44,10 @@
                                     <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',almacen)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="almacen.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarSucursal(almacen.id)" >
+                                    <button v-if="almacen.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAlmacen(almacen.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarSucursal(almacen.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarAlamcen(almacen.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
@@ -248,6 +248,7 @@ import { error401 } from '../../errores';
                 sucursalSeleccionado:0,
                 departamento:0,
                 ciudad:0,
+                idalmacen:0,
                 arrayCiudad:[],
                 arrayDepto:[],
                 arrayAlmacenes:[]
@@ -387,7 +388,7 @@ import { error401 } from '../../errores';
                 });
             },
 
-            eliminarSucursal(idsucursal){
+            eliminarAlmacen(idalmacen){
                 let me=this;
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -407,8 +408,8 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/sucursal/desactivar',{
-                        'id': idsucursal
+                     axios.put('/almacen/desactivar',{
+                        'id': idalmacen
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -422,8 +423,6 @@ import { error401 } from '../../errores';
                         error401(error);
                         console.log(error);
                     });
-                    
-                    
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -436,7 +435,7 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            activarSucursal(idsucursal){
+            activarAlamcen(idalmacen){
                 let me=this;
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -445,7 +444,6 @@ import { error401 } from '../../errores';
                 },
                 buttonsStyling: false
                 })
-
                 swalWithBootstrapButtons.fire({
                 title: 'Esta Seguro de Activar?',
                 text: "Es una Activacion logica",
@@ -456,18 +454,15 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/sucursal/activar',{
-                        'id': idsucursal
+                     axios.put('/almacen/activar',{
+                        'id': idalmacen
                     }).then(function (response) {
-                        me.listarSucursales();
-                        
+                        me.listarAlmacenes();
                         swalWithBootstrapButtons.fire(
                             'Activado!',
                             'El registro a sido Activado Correctamente',
                             'success'
                         )
-                        
-                        
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
@@ -488,33 +483,26 @@ import { error401 } from '../../errores';
             },
             actualizarAlmacen(){
                 let me =this;
-                console.log("/////////////////////");
-                console.log(me);
-
-                // axios.put('/almacen/actualizar',{
-                //     'id':me.idsucursal,
-                //     'nombre':me.nombre,
-                //     'razon_social':me.razonsocial,
-                //     'nombre_comercial':me.nombrecomercial,
-                //     'telefonos':me.telefono,
-                //     'nit':me.nit,
-                //     'direccion':me.direccion,
-                //     'tipo':me.tipo,
-                //     'ciudad':me.ciudad,
-
-                // }).then(function (response) {
-                //     me.listarSucursales();
-                //     if(response.data.length){
-                //     }
-                //     // console.log(response)
-                //     else{
-                //         Swal.fire('Actualizado Correctamente')   
-                //     } 
-                    
-                // }).catch(function (error) {
-                //     error401(error);
-                // });
-                // me.cerrarModal('registrar');
+                axios.put('/almacen/actualizar',{
+                    'id':me.idalmacen,
+                    'idsucursal':me.sucursalSeleccionado,
+                    'razon_social':me.razonsocial,
+                    'nombre_comercial':me.nombrecomercial,
+                    'telefono':me.telefono,
+                    'direccion':me.direccion,
+                    'departamento':me.departamento,
+                    'ciudad':me.ciudad,
+                }).then(function (response) {
+                    me.listarAlmacenes();
+                    Swal.fire(
+                        'Actualizado Correctamente!',
+                        'El registro a sido actualizado Correctamente',
+                        'success'
+                    )
+                }).catch(function (error) {
+                    error401(error);
+                });
+                me.cerrarModal('registrar');
             },
 
             abrirModal(accion,data= []){
@@ -539,7 +527,7 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        me.sucursalSeleccionado=data.idsucursal;
+                        me.sucursalSeleccionado=data.idsucursal===null?0:data.idsucursal;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Datos del Almacen';
                         me.tipo=data.tipo;
@@ -549,6 +537,7 @@ import { error401 } from '../../errores';
                         me.direccion=data.direccion;
                         me.ciudad=data.ciudad;
                         me.departamento=data.departamento;
+                        me.idalmacen=data.id;
                         me.classModal.openModal('registrar');
                         break;
                     }

@@ -101,7 +101,55 @@ class AlmAlmacenController extends Controller
         //        ];
 
         if(!empty($request->buscar)){
-            return 'Sin datos';
+            // $buscararray = explode(" ",$request->buscar);
+            // $valor=sizeof($buscararray);
+            // if($valor > 0){
+            //     $sqls='';
+            //     foreach($buscararray as $valor)
+            //     {
+            //         if(empty($sqls)){
+            //             $sqls="(prod__productos.codigo like '%".$valor."%' 
+            //                     or prod__productos.nombre like '%".$valor."%' 
+            //                     or prod__dispensers.nombre like '%".$valor."%' 
+            //                     or prod__forma_farmaceuticas.nombre like '%".$valor."%' 
+            //                     or prod__categorias.nombre like '%".$valor."%' 
+            //                     or alm__almacens.codigo like '%".$valor."%' 
+            //                     or alm__almacens.lote like '%".$valor."%' 
+            //                     or alm__almacens.registro_sanitario like '%".$valor."%' )" ;
+            //         }
+            //         else
+            //         {
+            //             $sqls.=" and (prod__productos.codigo like '%".$valor."%' 
+            //                     or prod__productos.nombre like '%".$valor."%' 
+            //                     or prod__dispensers.nombre like '%".$valor."%' 
+            //                     or prod__forma_farmaceuticas.nombre like '%".$valor."%' 
+            //                     or prod__categorias.nombre like '%".$valor."%' 
+            //                     or alm__almacens.codigo like '%".$valor."%' 
+            //                     or alm__almacens.lote like '%".$valor."%' 
+            //                     or alm__almacens.registro_sanitario like '%".$valor."%' )" ;
+            //         }
+    
+            //     }
+            //     $productos= Alm_Almacen::join('prod__productos','prod__productos.id','alm__almacens.idproducto')
+            //                             ->join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
+            //                             ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
+            //                             ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
+            //                                 ->select($raw,
+            //                                         'alm__almacens.id as id',
+            //                                         'alm__almacens.cantidad',
+            //                                         'tipo_entrada',
+            //                                         'lote',
+            //                                         'fecha_vencimiento',
+            //                                         'alm__almacens.codigo',
+            //                                         'registro_sanitario',
+            //                                         'ubicacion_estante',
+            //                                         'alm__almacens.activo')
+            //                                 ->orderby('ubicacion_estante','asc')
+            //                                 ->where('idsucursal',$request->idsucursal)
+            //                                 ->whereraw($sqls)
+            //                                 ->paginate(40);
+            // }
+            return 'Sin datos en busqueda';
         }else {
             /**
              * select alm__almacens.id, adm__sucursals.cod, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, 
@@ -115,7 +163,7 @@ class AlmAlmacenController extends Controller
             $almacenes= DB::table('alm__almacens')
                         ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
                         ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, adm__sucursals.cod as codsuc, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, alm__almacens.telefono, alm__almacens.direccion, alm__almacens.departamento, alm__almacens.ciudad, alm__almacens.activo')
-                        ->where('alm__almacens.activo','=',1)
+                        //->where('alm__almacens.activo','=',1)
                         ->paginate(10);
             return [
                     'pagination'=>[
@@ -224,7 +272,16 @@ class AlmAlmacenController extends Controller
      */
     public function update(Request $request, Alm_Almacen $alm_Almacen)
     {
-        //
+        $updateAlamcen=Alm_Almacen::find($request->id);
+        $updateAlamcen->idsucursal = $request->idsucursal==null?0:$request->idsucursal;
+        $updateAlamcen->razon_social = $request->razon_social;
+        $updateAlamcen->nombre_comercial = $request->nombre_comercial;
+        $updateAlamcen->telefono = $request->telefono;
+        $updateAlamcen->direccion = $request->direccion;
+        $updateAlamcen->departamento = $request->departamento;
+        $updateAlamcen->ciudad = $request->ciudad;
+        $updateAlamcen->id_usuario_modifica=auth()->user()->id;
+        $updateAlamcen->save();        
     }
 
     /**
@@ -239,17 +296,27 @@ class AlmAlmacenController extends Controller
     }
     public function desactivar(Request $request)
     {
-        $producto = Alm_Almacen::findOrFail($request->id);
-        $producto->activo=0;
-        $producto->id_usuario_modifica=auth()->user()->id;
-        $producto->save();
+        // $producto = Alm_Almacen::findOrFail($request->id);
+        // $producto->activo=0;
+        // $producto->id_usuario_modifica=auth()->user()->id;
+        // $producto->save();
+
+        $updateAlamcen = Alm_Almacen::findOrFail($request->id);
+        $updateAlamcen->activo = 0;
+        $updateAlamcen->id_usuario_modifica=auth()->user()->id;
+        $updateAlamcen->save();
     }
 
     public function activar(Request $request)
     {
-        $producto = Alm_Almacen::findOrFail($request->id);
-        $producto->activo=1;
-        $producto->id_usuario_modifica=auth()->user()->id;
-        $producto->save();
+        // $producto = Alm_Almacen::findOrFail($request->id);
+        // $producto->activo=1;
+        // $producto->id_usuario_modifica=auth()->user()->id;
+        // $producto->save();
+
+        $updateAlamcen = Alm_Almacen::findOrFail($request->id);
+        $updateAlamcen->activo = 1;
+        $updateAlamcen->id_usuario_modifica=auth()->user()->id;
+        $updateAlamcen->save();
     }
 }

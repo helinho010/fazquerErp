@@ -45,7 +45,8 @@ class CreateAlmAlmacensTable extends Migration
             $table->boolean('activo')->default(1);
             $table->tinyInteger('estado')->default(1)->comment('1->activo, 0->inactivo');
             $table->smallInteger('correlativo')->unsigned();
-            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
+            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('identificador del usuario que esta modificando el almacen');
+            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('identificador del usuario que esta registrando el almacen');
             $table->timestamps();
         });
     }
