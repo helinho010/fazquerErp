@@ -303,6 +303,7 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+            
             selectCiudades(){
                 let me=this;
                 var url='/ciudad/selectciudad';
@@ -315,6 +316,7 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+
             listarSucursales(page){
                 let me=this;
                 var url='/sucursal?page='+page+'&buscar='+me.buscar;
