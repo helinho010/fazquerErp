@@ -32,20 +32,44 @@ class AdmSucursalController extends Controller
                     }
     
                 }
+                /**
+                 * select adm__sucursals.id,
+                 * 	      adm__rubros.id as idrubro,
+                 * 	      adm__rubros.nombre as nomrubro,
+                 *        adm__sucursals.tipo,
+                 *        adm__sucursals.cod,
+                 *        adm__sucursals.correlativo,
+                 *        adm__sucursals.razon_social,
+                 *        adm__sucursals.nombre_comercial,
+                 *        adm__sucursals.telefonos,
+                 *        adm__sucursals.nit,
+                 *        adm__sucursals.direccion,
+                 *        adm__sucursals.ciudad, 
+                 *        adm__sucursals.activo, 
+                 *        alm__almacens.codigo  as codalamcen
+                 * from adm__sucursals
+                 * join adm__rubros on adm__sucursals.idrubro = adm__rubros.id
+                 * join alm__almacens on adm__sucursals.id = alm__almacens.idsucursal
+                 */
+
+
                 $sucursales= Adm_Sucursal::join('adm__rubros','adm__rubros.id','adm__sucursals.idrubro')
+                                         ->leftJoin('alm__almacens','adm__sucursals.id','alm__almacens.idsucursal')
                                             ->select('adm__sucursals.id',
                                                     'adm__rubros.id as idrubro',
                                                     'adm__rubros.nombre as nomrubro',
                                                     'adm__sucursals.tipo',
                                                     'adm__sucursals.cod',
-                                                    'correlativo',
-                                                    'razon_social',
-                                                    'nombre_comercial',
-                                                    'telefonos',
-                                                    'nit',
-                                                    'direccion',
-                                                    'ciudad',
-                                                    'adm__sucursals.activo')
+                                                    'adm__sucursals.correlativo',
+                                                    'adm__sucursals.razon_social',
+                                                    'adm__sucursals.nombre_comercial',
+                                                    'adm__sucursals.telefonos',
+                                                    'adm__sucursals.nit',
+                                                    'adm__sucursals.direccion',
+                                                    'adm__sucursals.ciudad',
+                                                    'adm__sucursals.activo',
+                                                    DB::raw('alm__almacens.codigo  as codalamcen')
+                                                    )
                                             //->orderby('razon_social','asc')
                                             ->orderby('correlativo','asc')
                                             ->whereraw($sqls)
@@ -57,20 +81,22 @@ class AdmSucursalController extends Controller
         else
         {
             $sucursales= Adm_Sucursal::join('adm__rubros','adm__rubros.id','adm__sucursals.idrubro')
+                                     ->leftJoin('alm__almacens','adm__sucursals.id','alm__almacens.idsucursal')
                                     ->select('adm__sucursals.id',
                                             'adm__rubros.id as idrubro',
                                             'adm__rubros.nombre as nomrubro',
                                             'adm__sucursals.tipo',
                                             'adm__sucursals.cod',
-                                            'correlativo',
-                                            'razon_social',
-                                            'nombre_comercial',
-                                            'telefonos',
-                                            'nit',
-                                            'direccion',
-                                            'ciudad',
-                                            'adm__sucursals.activo')
-                                    
+                                            'adm__sucursals.correlativo',
+                                            'adm__sucursals.razon_social',
+                                            'adm__sucursals.nombre_comercial',
+                                            'adm__sucursals.telefonos',
+                                            'adm__sucursals.nit',
+                                            'adm__sucursals.direccion',
+                                            'adm__sucursals.ciudad',
+                                            'adm__sucursals.activo',
+                                            DB::raw('alm__almacens.codigo  as codalamcen')
+                                            )
                                     //->orderby('razon_social','asc')
                                     ->orderby('correlativo','asc')
                                     ->paginate(50);

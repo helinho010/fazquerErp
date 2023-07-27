@@ -54,7 +54,7 @@
                                     </button>
                                 </td>
                                 <td v-text="sucursal.cod"></td>
-                                <td v-text="sucursal.tipo == 'Casa_Matriz'? sucursal.tipo:sucursal.tipo + ' - ' +sucursal.correlativo"></td>
+                                <td v-text="sucursal.tipo == 'Casa_Matriz'? (sucursal.tipo + (sucursal.codalamcen==null?'':' -> '+sucursal.codalamcen)):(sucursal.tipo + ' - ' +sucursal.correlativo)+(sucursal.codalamcen==null?'':' -> '+sucursal.codalamcen)"></td>
                                 <td v-text="sucursal.nit"></td>
                                 <td v-text="sucursal.razon_social"></td>
                                 <td v-text="sucursal.nombre_comercial"></td>
@@ -275,7 +275,6 @@ import { error401 } from '../../errores';
                 .then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    //console.log(me.sucursals.data);
                     me.arraySucursales=respuesta.sucursales.data;
                     let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
                     if(resp!= undefined)
@@ -287,7 +286,6 @@ import { error401 } from '../../errores';
                     }
                     else
                         me.matriz=0; 
-                    //console.log(me.arraySucursales);
                 })
                 .catch(function(error){
                     error401(error);
