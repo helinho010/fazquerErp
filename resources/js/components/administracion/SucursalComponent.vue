@@ -158,6 +158,26 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Departamento <span  v-if="departamento==0" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select name="" id="" v-model="departamento" class="form-control">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
+                                    </select>
+                                    <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <select v-model="ciudad" class="form-control rounded">
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="ciudad in arrayCiudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
+                                    </select>
+                                    <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <select name="" id="" v-model="ciudad" class="form-control">
@@ -165,7 +185,7 @@
                                         <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             
                         </form>
                     </div>
@@ -213,6 +233,7 @@ import { error401 } from '../../errores';
                 razonsocial:'',
                 nombrecomercial:'',
                 telefono:'',
+                departamento:0,
                 ciudad:0,
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
@@ -501,11 +522,13 @@ import { error401 } from '../../errores';
                 
                 
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
             },  
+
             selectRubros(){
                 let me=this;
                 var url='/rubro/selectrubro';
@@ -519,11 +542,25 @@ import { error401 } from '../../errores';
                 });
             },
 
+            selectCiudades(){
+                let me=this;
+                var url='/ciudad/selectciudad';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayCiudad=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
 
         },
         mounted() {
             this.selectRubros();
             this.listarSucursales(1);
+            this.selectCiudades();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
