@@ -162,7 +162,7 @@
                                 <div class="col-md-9">
                                     <select name="" id="" v-model="departamento" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
+                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.id" v-text="ciud.valor"></option>
                                     </select>
                                     <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
                                 </div>
@@ -327,6 +327,7 @@ import { error401 } from '../../errores';
                     'telefonos':me.telefono,
                     'nit':me.nit,
                     'direccion':me.direccion,
+                    'departamento':me.departamento,
                     'ciudad':me.ciudad,
                 }).then(function(response){
                     me.cerrarModal('registrar');

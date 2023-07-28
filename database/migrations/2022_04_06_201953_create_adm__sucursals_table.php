@@ -23,6 +23,7 @@ class CreateAdmSucursalsTable extends Migration
             $table->string('telefonos',100)->nullable();
             $table->string('nit',50)->nullable();
             $table->string('direccion',250);
+            $table->string('departamento');
             $table->string('ciudad',100);
             $table->boolean('activo')->default(1);
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('null->viene del seeder');
