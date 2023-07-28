@@ -20841,8 +20841,6 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.pagination = respuesta.pagination;
         me.arraySucursales = respuesta.sucursales.data;
-        console.log("2222222222222222222222222222222222");
-        console.log(me);
         var resp = me.arraySucursales.find(function (element) {
           return element.tipo == 'Casa_Matriz';
         });
@@ -20958,8 +20956,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     actualizarSucursal: function actualizarSucursal() {
-      // const Swal = require('sweetalert2')
       var me = this;
+      console.log("2222222222222222222222");
+      console.log(me);
       axios.put('/sucursal/actualizar', {
         'idrubro': me.idrubro,
         'id': me.idsucursal,
@@ -20970,6 +20969,7 @@ __webpack_require__.r(__webpack_exports__);
         'nit': me.nit,
         'direccion': me.direccion,
         'tipo': me.tipo,
+        'departamento': me.departamento,
         'ciudad': me.ciudad
       }).then(function (response) {
         me.listarSucursales();
@@ -21015,6 +21015,7 @@ __webpack_require__.r(__webpack_exports__);
             me.telefono = data.telefonos;
             me.nit = data.nit;
             me.direccion = data.direccion;
+            me.departamento = data.departamento;
             me.ciudad = data.ciudad;
             me.idrubro = data.idrubro;
             me.classModal.openModal('registrar');
@@ -21575,6 +21576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       tipoAccion: 1,
       idalmacen: '',
       buscar: '',
+      codigointernacional: '',
       arrayAlmacen: [],
       sucursalselected: 0,
       precio: '',
@@ -21614,12 +21616,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         idproducto: me.idproductoselected,
         cantidad: me.cantidad,
         fechaVencimiento: me.fecha_vencimiento,
-        estante: me.estanteselected,
-        ubicacion: me.ubicacionSelected,
+        //estante:me.estanteselected,
+        //ubicacion:me.ubicacionSelected,
         registroSanitario: me.registrosanitario
-      });
+      }); //old if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
 
-      if (me.idproductoselected != 0 && me.cantidad != 0 && me.fecha_vencimiento != '' && me.estanteselected != 0 && me.ubicacionSelected != 0 && me.lote != '' && me.codigo != '' && me.registrosanitario != '') {
+      if (me.idproductoselected != 0 && me.cantidad != 0 && me.fecha_vencimiento != '' && me.estanteselected != 0 && me.lote != '' && me.codigo != '' && me.registrosanitario != '') {
         return true;
       } else {
         return false;
@@ -30518,11 +30520,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.departamento = $event;
     }),
     "class": "form-control"
-  }, [_hoisted_107, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayciudad, function (ciud) {
+  }, [_hoisted_107, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayDepartamentos, function (depto) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: ciud.id,
-      value: ciud.id,
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ciud.valor)
+      key: depto.id,
+      value: depto.id,
+      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(depto.nombre)
     }, null, 8
     /* PROPS */
     , _hoisted_108);
@@ -31730,95 +31732,76 @@ var _hoisted_79 = {
   "class": "form-group col-sm-4"
 };
 
-var _hoisted_80 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Seleccionar Estante: ");
+var _hoisted_80 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Lote: ");
 
 var _hoisted_81 = {
   key: 0,
   "class": "error"
 };
-
-var _hoisted_82 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "0"
-  }, "Seleccionar...", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_83 = ["value", "textContent"];
-var _hoisted_84 = {
+var _hoisted_82 = {
   key: 0,
   "class": "error"
 };
-var _hoisted_85 = {
+var _hoisted_83 = {
   "class": "form-group col-sm-4"
 };
 
-var _hoisted_86 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Seleccionar Ubicacion: ");
+var _hoisted_84 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Registro Sanitario:");
 
-var _hoisted_87 = {
+var _hoisted_85 = {
   key: 0,
   "class": "error"
 };
+var _hoisted_86 = {
+  key: 0,
+  "class": "error"
+};
+var _hoisted_87 = {
+  "class": "form-group col-sm-4"
+};
+var _hoisted_88 = {
+  "class": "col-md-3 form-control-label"
+};
 
-var _hoisted_88 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "0"
-  }, "Seleccionar...", -1
-  /* HOISTED */
-  );
-});
+var _hoisted_89 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Codigo Internacional:");
 
-var _hoisted_89 = ["value", "textContent"];
 var _hoisted_90 = {
   key: 0,
   "class": "error"
 };
 var _hoisted_91 = {
-  "class": "form-group col-sm-4"
-};
-
-var _hoisted_92 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Lote: ");
-
-var _hoisted_93 = {
   key: 0,
   "class": "error"
 };
-var _hoisted_94 = {
-  key: 0,
-  "class": "error"
-};
-var _hoisted_95 = {
+var _hoisted_92 = {
   "class": "row"
 };
-var _hoisted_96 = {
+var _hoisted_93 = {
   "class": "form-group col-sm-6"
 };
 
-var _hoisted_97 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_94 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Codigo: ", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_98 = {
-  "class": "form-group col-sm-6"
-};
+var _hoisted_95 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_99 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Registro Sanitario:");
+var _hoisted_96 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_100 = {
-  key: 0,
-  "class": "error"
-};
-var _hoisted_101 = {
-  key: 0,
-  "class": "error"
-};
-var _hoisted_102 = {
+var _hoisted_97 = {
   "class": "modal-footer"
 };
-var _hoisted_103 = ["disabled"];
+var _hoisted_98 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_qrcode_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("qrcode-vue");
 
@@ -32015,94 +31998,69 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8
   /* PROPS */
-  , _hoisted_76), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fecha_vencimiento]])]), $data.fecha_vencimiento == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, "Debe Ingresar la fecha de Vencimiento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_80, $data.estanteselected == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_81, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-      return $data.estanteselected = $event;
-    }),
-    "class": "form-control",
-    onChange: _cache[15] || (_cache[15] = function ($event) {
-      return $options.listarposicion($data.estanteselected);
-    })
-  }, [_hoisted_82, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayEstantes, function (estante) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: estante.id,
-      value: estante.id,
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(estante.codestante)
-    }, null, 8
-    /* PROPS */
-    , _hoisted_83);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.estanteselected]]), $data.estanteselected == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_84, "Debe seleccionar un Estante")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_86, $data.ubicacionSelected == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_87, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-      return $data.ubicacionSelected = $event;
-    }),
-    "class": "form-control"
-  }, [_hoisted_88, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayUbicacions, function (ubicacion) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: ubicacion,
-      value: ubicacion,
-      textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ubicacion)
-    }, null, 8
-    /* PROPS */
-    , _hoisted_89);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.ubicacionSelected]]), $data.ubicacionSelected == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_90, "Debe seleccionar la ubicacion")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_92, $data.lote == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_93, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , _hoisted_76), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fecha_vencimiento]])]), $data.fecha_vencimiento == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, "Debe Ingresar la fecha de Vencimiento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"form-group col-sm-4\">\n                                    <strong>Seleccionar Estante: <span  v-if=\"estanteselected==0\" class=\"error\">(*)</span></strong>\n                                    <select v-model=\"estanteselected\" class=\"form-control\" @change=\"listarposicion(estanteselected)\">\n                                        <option value=\"0\">Seleccionar...</option>\n                                        <option v-for=\"estante in arrayEstantes\" :key=\"estante.id\" :value=\"estante.id\" v-text=\"estante.codestante\"></option>\n                                    </select>\n                                    <span  v-if=\"estanteselected==0\" class=\"error\">Debe seleccionar un Estante</span>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"form-group col-sm-4\">\n                                    <strong>Seleccionar Ubicacion: <span  v-if=\"ubicacionSelected==0\" class=\"error\">(*)</span></strong>\n                                    <select v-model=\"ubicacionSelected\" class=\"form-control\">\n                                        <option value=\"0\">Seleccionar...</option>\n                                        <option v-for=\"ubicacion in arrayUbicacions\" :key=\"ubicacion\" :value=\"ubicacion\" v-text=\"ubicacion\"></option>\n                                    </select>\n                                    <span  v-if=\"ubicacionSelected==0\" class=\"error\">Debe seleccionar la ubicacion</span>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_80, $data.lote == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_81, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control",
     placeholder: "Lote",
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return $data.lote = $event;
     }),
-    onFocus: _cache[18] || (_cache[18] = function () {
+    onFocus: _cache[15] || (_cache[15] = function () {
       return $options.selectAll && $options.selectAll.apply($options, arguments);
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.lote]]), $data.lote == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_94, "Debe Ingresar el lote")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [_hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qrcode_vue, {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.lote]]), $data.lote == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_82, "Debe Ingresar el lote")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_84, $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_85, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    placeholder: "Registro Sanitario",
+    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+      return $data.registrosanitario = $event;
+    }),
+    onFocus: _cache[17] || (_cache[17] = function () {
+      return $options.selectAll && $options.selectAll.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.registrosanitario]]), $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_86, "Debe Ingresar el Registro Sanitario")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_88, [_hoisted_89, $data.codigointernacional == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_90, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    placeholder: "Codigo Internaciona",
+    "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+      return $data.codigointernacional = $event;
+    }),
+    onFocus: _cache[19] || (_cache[19] = function () {
+      return $options.selectAll && $options.selectAll.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.codigointernacional]]), $data.codigointernacional == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_91, "Debe Ingresar el Codigo Internacional")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [_hoisted_94, _hoisted_95, _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qrcode_vue, {
     value: $data.codigo,
     size: $data.size,
     level: "H"
   }, null, 8
   /* PROPS */
-  , ["value", "size"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"text\" class=\"form-control\" placeholder=\"Codigo\" v-model=\"codigo\" v-on:focus=\"selectAll\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<span  v-if=\"codigo==''\" class=\"error\">Debe Ingresar el Codigo</span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [_hoisted_99, $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_100, "(*)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
-    "class": "form-control",
-    placeholder: "Registro Sanitario",
-    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
-      return $data.registrosanitario = $event;
-    }),
-    onFocus: _cache[20] || (_cache[20] = function () {
-      return $options.selectAll && $options.selectAll.apply($options, arguments);
-    })
-  }, null, 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.registrosanitario]]), $data.registrosanitario == '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_101, "Debe Ingresar el Registro Sanitario")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["value", "size"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"text\" class=\"form-control\" placeholder=\"Codigo\" v-model=\"codigo\" v-on:focus=\"selectAll\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<span  v-if=\"codigo==''\" class=\"error\">Debe Ingresar el Codigo</span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"form-group col-sm-6 \">\n                                    <strong>Registro Sanitario:<span  v-if=\"registrosanitario==''\" class=\"error\">(*)</span></strong>\n                                    <input type=\"text\" class=\"form-control\" placeholder=\"Registro Sanitario\" v-model=\"registrosanitario\" v-on:focus=\"selectAll\">\n                                    <span  v-if=\"registrosanitario==''\" class=\"error\">Debe Ingresar el Registro Sanitario</span>\n                                </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
-    onClick: _cache[21] || (_cache[21] = function ($event) {
+    onClick: _cache[20] || (_cache[20] = function ($event) {
       return $options.cerrarModal('registrar');
     })
   }, "Cerrar"), $data.tipoAccion == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     "class": "btn btn-primary",
-    onClick: _cache[22] || (_cache[22] = function ($event) {
+    onClick: _cache[21] || (_cache[21] = function ($event) {
       return $options.registrarAlmacen();
     }),
     disabled: !$options.sicompleto
   }, "Guardar", 8
   /* PROPS */
-  , _hoisted_103)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  , _hoisted_98)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tipoAccion == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     type: "button",
     "class": "btn btn-primary",
-    onClick: _cache[23] || (_cache[23] = function ($event) {
+    onClick: _cache[22] || (_cache[22] = function ($event) {
       return _ctx.actualizarAlmacen();
     })
   }, "Actualizar")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-content ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.modal-dialog ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Fin del modal")]);

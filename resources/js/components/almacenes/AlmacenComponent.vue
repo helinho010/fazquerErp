@@ -150,40 +150,50 @@
                                 <span  v-if="fecha_vencimiento==''" class="error">Debe Ingresar la fecha de Vencimiento</span>
                             </div>
                             <div class="row">
-                                <div class="form-group col-sm-4">
+                                <!-- <div class="form-group col-sm-4">
                                     <strong>Seleccionar Estante: <span  v-if="estanteselected==0" class="error">(*)</span></strong>
                                     <select v-model="estanteselected" class="form-control" @change="listarposicion(estanteselected)">
                                         <option value="0">Seleccionar...</option>
                                         <option v-for="estante in arrayEstantes" :key="estante.id" :value="estante.id" v-text="estante.codestante"></option>
                                     </select>
                                     <span  v-if="estanteselected==0" class="error">Debe seleccionar un Estante</span>
-                                </div>
-                                <div class="form-group col-sm-4">
+                                </div> -->
+                                <!-- <div class="form-group col-sm-4">
                                     <strong>Seleccionar Ubicacion: <span  v-if="ubicacionSelected==0" class="error">(*)</span></strong>
                                     <select v-model="ubicacionSelected" class="form-control">
                                         <option value="0">Seleccionar...</option>
                                         <option v-for="ubicacion in arrayUbicacions" :key="ubicacion" :value="ubicacion" v-text="ubicacion"></option>
                                     </select>
                                     <span  v-if="ubicacionSelected==0" class="error">Debe seleccionar la ubicacion</span>
-                                </div>
+                                </div> -->
                                 <div class="form-group col-sm-4">
                                     <strong>Lote: <span  v-if="lote==''" class="error">(*)</span></strong>
                                     <input type="text" class="form-control" placeholder="Lote" v-model="lote" v-on:focus="selectAll">
                                     <span  v-if="lote==''" class="error">Debe Ingresar el lote</span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6 ">
-                                    <strong>Codigo: </strong>
-                                    <qrcode-vue :value="codigo" :size="size" level="H" />
-                                    <!-- <input type="text" class="form-control" placeholder="Codigo" v-model="codigo" v-on:focus="selectAll"> -->
-                                    <!--<span  v-if="codigo==''" class="error">Debe Ingresar el Codigo</span> -->
-                                </div>
-                                <div class="form-group col-sm-6 ">
+                                <div class="form-group col-sm-4">
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
                                     <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
                                     <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
                                 </div>
+                                <div class="form-group col-sm-4">
+                                    <strong class="col-md-3 form-control-label">Codigo Internacional:<span  v-if="codigointernacional==''" class="error">(*)</span></strong>
+                                    <input type="text" class="form-control" placeholder="Codigo Internaciona" v-model="codigointernacional" v-on:focus="selectAll">
+                                    <span  v-if="codigointernacional==''" class="error">Debe Ingresar el Codigo Internacional</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 ">
+                                    <strong>Codigo: </strong><br><br>
+                                    <qrcode-vue :value="codigo" :size="size" level="H" />
+                                    <!-- <input type="text" class="form-control" placeholder="Codigo" v-model="codigo" v-on:focus="selectAll"> -->
+                                    <!--<span  v-if="codigo==''" class="error">Debe Ingresar el Codigo</span> -->
+                                </div>
+                                <!-- <div class="form-group col-sm-6 ">
+                                    <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
+                                    <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
+                                    <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
+                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -231,7 +241,7 @@ import { error401 } from '../../errores';
                 tipoAccion:1,
                 idalmacen:'',
                 buscar:'',
-
+                codigointernacional:'',
                 arrayAlmacen:[],
                 sucursalselected:0,
                 precio:'',
@@ -290,12 +300,13 @@ import { error401 } from '../../errores';
                         idproducto:me.idproductoselected,
                         cantidad: me.cantidad,
                         fechaVencimiento:me.fecha_vencimiento,
-                        estante:me.estanteselected,
-                        ubicacion:me.ubicacionSelected,
+                        //estante:me.estanteselected,
+                        //ubicacion:me.ubicacionSelected,
                         registroSanitario:me.registrosanitario
                     });
                     
-                if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
+                //old if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
+                if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
                 {
                     return true;
                 }
