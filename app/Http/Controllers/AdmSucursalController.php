@@ -66,6 +66,7 @@ class AdmSucursalController extends Controller
                                                     'adm__sucursals.telefonos',
                                                     'adm__sucursals.nit',
                                                     'adm__sucursals.direccion',
+                                                    'adm__sucursals.departamento',
                                                     'adm__sucursals.ciudad',
                                                     'adm__sucursals.activo',
                                                     DB::raw('alm__almacens.codigo  as codalamcen')
@@ -93,6 +94,7 @@ class AdmSucursalController extends Controller
                                             'adm__sucursals.telefonos',
                                             'adm__sucursals.nit',
                                             'adm__sucursals.direccion',
+                                            'adm__sucursals.departamento',
                                             'adm__sucursals.ciudad',
                                             'adm__sucursals.activo',
                                             DB::raw('alm__almacens.codigo  as codalamcen')
@@ -158,16 +160,17 @@ class AdmSucursalController extends Controller
         
         
         $sucursal = new Adm_Sucursal();
-        $sucursal->idrubro=$request->idrubro;
-        $sucursal->tipo=$request->tipo;
-        $sucursal->cod=$codigo;
-        $sucursal->correlativo=$correlativo;
-        $sucursal->razon_social=$request->razon_social;
-        $sucursal->nombre_comercial=$request->nombre_comercial;
-        $sucursal->telefonos=$request->telefonos;
-        $sucursal->nit=$request->nit;
-        $sucursal->direccion=$request->direccion;
-        $sucursal->ciudad=$request->ciudad;
+        $sucursal->idrubro = $request->idrubro;
+        $sucursal->tipo = $request->tipo;
+        $sucursal->cod = $codigo;
+        $sucursal->correlativo = $correlativo;
+        $sucursal->razon_social = $request->razon_social;
+        $sucursal->nombre_comercial = $request->nombre_comercial;
+        $sucursal->telefonos = $request->telefonos;
+        $sucursal->nit = $request->nit;
+        $sucursal->direccion = $request->direccion;
+        $sucursal->departamento = $request->departamento;
+        $sucursal->ciudad = $request->ciudad;
         $sucursal->id_usuario_registra=auth()->user()->id;
         $sucursal->save();
     }
