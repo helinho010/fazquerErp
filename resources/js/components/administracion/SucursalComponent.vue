@@ -36,6 +36,7 @@
                                 <!-- <th>Rubro</th> -->
                                 <th>Direccion</th>
                                 <th>Departamento</th>
+                                <th>Ciudad</th>
                                 <th>Telefonos</th>
                                 <th>Estado</th>
                             </tr>
@@ -60,7 +61,20 @@
                                 <td v-text="sucursal.nombre_comercial"></td>
                                 <!-- <td v-text="sucursal.nomrubro"></td> -->
                                 <td v-text="sucursal.direccion"></td>
-                                <td v-text="sucursal.ciudad"></td>
+                                <td>
+                                    <div v-for="dpta in arrayDepartamentos">
+                                        <div v-if="dpta.id == sucursal.departamento">
+                                            {{ dpta.nombre }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div v-for="ciudad in arrayciudad">
+                                        <div v-if="ciudad.id == sucursal.ciudad">
+                                            {{ ciudad.nombre }}
+                                        </div>
+                                    </div>
+                                </td>
                                 <td v-text="sucursal.telefonos"></td>
                                 <td>
                                     <div v-if="sucursal.activo==1">
@@ -172,7 +186,7 @@
                                 <div class="col-md-9">
                                     <select v-model="ciudad" class="form-control rounded">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciudad in arrayCiudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
+                                        <option v-for="ciudad in arrayciudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
                                     </select>
                                     <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
                                 </div>
@@ -235,6 +249,7 @@ import { error401 } from '../../errores';
                 telefono:'',
                 departamento:0,
                 ciudad:0,
+                arrayDepartamentos:[],
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
                                 {'id':2,'valor':'La Paz - El Alto'},
@@ -297,6 +312,8 @@ import { error401 } from '../../errores';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arraySucursales=respuesta.sucursales.data;
+                    console.log("2222222222222222222222222222222222");
+                    console.log(me);
                     let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
                     if(resp!= undefined)
                     {
@@ -548,7 +565,7 @@ import { error401 } from '../../errores';
                 var url='/ciudad/selectciudad';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    me.arrayCiudad=respuesta;
+                    me.arrayciudad=respuesta;
                 })
                 .catch(function(error){
                     error401(error);
@@ -556,11 +573,26 @@ import { error401 } from '../../errores';
                 });
             },
 
+            selectDepartamentos(){
+                let me=this;
+                var url='/depto/selectdepto';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayDepartamentos=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+                
+            }
+
 
         },
         mounted() {
             this.selectRubros();
             this.listarSucursales(1);
+            this.selectDepartamentos();
             this.selectCiudades();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');

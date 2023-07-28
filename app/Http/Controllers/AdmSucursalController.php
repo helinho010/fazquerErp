@@ -66,6 +66,7 @@ class AdmSucursalController extends Controller
                                                     'adm__sucursals.telefonos',
                                                     'adm__sucursals.nit',
                                                     'adm__sucursals.direccion',
+                                                    'adm__sucursals.departamento',
                                                     'adm__sucursals.ciudad',
                                                     'adm__sucursals.activo',
                                                     DB::raw('alm__almacens.codigo  as codalamcen')
@@ -93,6 +94,7 @@ class AdmSucursalController extends Controller
                                             'adm__sucursals.telefonos',
                                             'adm__sucursals.nit',
                                             'adm__sucursals.direccion',
+                                            'adm__sucursals.departamento',
                                             'adm__sucursals.ciudad',
                                             'adm__sucursals.activo',
                                             DB::raw('alm__almacens.codigo  as codalamcen')
