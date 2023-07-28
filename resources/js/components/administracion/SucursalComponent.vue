@@ -176,7 +176,7 @@
                                 <div class="col-md-9">
                                     <select name="" id="" v-model="departamento" class="form-control">
                                         <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.id" v-text="ciud.valor"></option>
+                                        <option v-for="depto in arrayDepartamentos" :key="depto.id" :value="depto.id" v-text="depto.nombre"></option>
                                     </select>
                                     <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
                                 </div>
@@ -312,8 +312,6 @@ import { error401 } from '../../errores';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arraySucursales=respuesta.sucursales.data;
-                    console.log("2222222222222222222222222222222222");
-                    console.log(me);
                     let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
                     if(resp!= undefined)
                     {
@@ -455,8 +453,9 @@ import { error401 } from '../../errores';
                 })
             },
             actualizarSucursal(){
-               // const Swal = require('sweetalert2')
                 let me =this;
+                console.log("2222222222222222222222");
+                console.log(me);
                 axios.put('/sucursal/actualizar',{
                     'idrubro':me.idrubro,
                     'id':me.idsucursal,
@@ -467,6 +466,7 @@ import { error401 } from '../../errores';
                     'nit':me.nit,
                     'direccion':me.direccion,
                     'tipo':me.tipo,
+                    'departamento':me.departamento,
                     'ciudad':me.ciudad,
 
                 }).then(function (response) {
@@ -516,6 +516,7 @@ import { error401 } from '../../errores';
                         me.telefono=data.telefonos;
                         me.nit=data.nit;
                         me.direccion=data.direccion;
+                        me.departamento=data.departamento;
                         me.ciudad=data.ciudad;
                         me.idrubro=data.idrubro;
                         me.classModal.openModal('registrar');

@@ -215,6 +215,7 @@ class AdmSucursalController extends Controller
         $sucursal->telefonos=$request->telefonos;
         $sucursal->nit=$request->nit;
         $sucursal->direccion=$request->direccion;
+        $sucursal->departamento = $request->departamento;
         $sucursal->ciudad=$request->ciudad;
         $sucursal->id_usuario_modifica=auth()->user()->id;
         $sucursal->save();
