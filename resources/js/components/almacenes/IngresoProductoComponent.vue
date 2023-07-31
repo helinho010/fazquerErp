@@ -11,10 +11,10 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Entrada de Productos a Almacenes
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="sucursalselected==0">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="almacenselected==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo 
                     </button>
-                    <span  v-if="sucursalselected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar un Almacen</span>
+                    <span  v-if="almacenselected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar un Almacen</span>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -23,10 +23,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarProductosAlmacen(1,buscar)"
-                                    v-model="sucursalselected">
+                                <select class="form-control" @change="listarAlmacenes(1,buscar)"
+                                    v-model="almacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="sucursal in arraySucursals" :key="sucursal.id" :value="sucursal.id" v-text="sucursal.cod + ' ' + sucursal.nombre"></option>
+                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="almacen.codsuc+' -> '+almacen.codigo + ' ' +almacen.razon_social"></option>
                                 </select>                              
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarAlmacen()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnAlmacen()" :disabled="sicompleto">Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarAlmacen()">Actualizar</button>
                     </div>
                 </div>
@@ -244,7 +244,7 @@ import { error401 } from '../../errores';
                 buscar:'',
                 codigointernacional:'',
                 arrayAlmacen:[],
-                sucursalselected:0,
+                almacenselected:0,
                 precio:'',
                 clearSelected:1,
                 cantidad:0,
@@ -303,6 +303,7 @@ import { error401 } from '../../errores';
                         fechaVencimiento:me.fecha_vencimiento,
                         //estante:me.estanteselected,
                         //ubicacion:me.ubicacionSelected,
+                        codigointernacional:me.codigointernacional,
                         registroSanitario:me.registrosanitario
                     });
                     
@@ -446,23 +447,23 @@ import { error401 } from '../../errores';
                 this.idproductoselected='';
             
             },*/
-            listarProductosAlmacen(page){
+            listarAlmacenes(page){
                 let me=this;
                 //me.listarEstantes(me.sucursalselected);
-                var url='/almacen?page='+page+'&idsucursal='+me.sucursalselected+'&buscar='+me.buscar;
-                axios.get(url).then(function(response){
+                var url='/almacen?page='+page+'&idsucursal='+me.almacenselected+'&buscar='+me.buscar;
+                axios.get(url)
+                .then(function(response){
                     var respuesta=response.data;
-                    me.arrayAlmacen=respuesta.productos.data;
+                    me.arrayAlmacen=respuesta.almacenes.data;
                     me.pagination=respuesta.pagination;
-                    me.listarEstantes(me.sucursalselected);
- 
+                    me.listarEstantes(me.almacenselected);
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
-
             },
+
             selectSucursals(){
                 let me=this;
                 var url='/sucursal/selectsucursal';
@@ -475,34 +476,52 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
                 me.listarProductosAlmacen(page);
             },
-            registrarAlmacen(){
+
+            registrarProductoEnAlmacen(){
                 let me = this;
-                axios.post('/almacen/registrar',{
-                    'idsucursal':me.sucursalselected,
-                    'idproducto':me.idproductoselected,
-                    'idusuario':1,
+                // axios.post('/almacen/registrar',{
+                //     'idsucursal':me.sucursalselected,
+                //     'idproducto':me.idproductoselected,
+                //     'idusuario':1,
+                //     'cantidad':me.cantidad,
+                //     'tipo_entrada':me.tipo_entrada,
+                //     'lote':me.lote,
+                //     'fecha_vencimiento':me.fecha_vencimiento,
+                //     'codigo':me.codigo,
+                //     'registro_sanitario':me.registrosanitario,
+                //     'ubicacion_estante':me.codestante+'-'+me.ubicacionSelected
+                // }).then(function(response){
+                //     Swal.fire('Registrado Correctamente')
+                //     me.cerrarModal('registrar');
+                //     me.listarProductosAlmacen(1);
+                // }).catch(function(error){
+                //     error401(error);
+                //     console.log(error);
+                // });
+                console.log("000000000000000000000000000000000");
+                console.log(me);
+                axios.post('/almacen/ingreso-producto',{
+                    'id_prod_producto':me.idproductoselected,
+                    'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
-                    'lote':me.lote,
                     'fecha_vencimiento':me.fecha_vencimiento,
-                    'codigo':me.codigo,
+                    'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
-                    'ubicacion_estante':me.codestante+'-'+me.ubicacionSelected
+                    'codigo_internacional':me.codigointernacional, 
                 }).then(function(response){
-                    Swal.fire('Registrado Correctamente')
-                    me.cerrarModal('registrar');
-                    me.listarProductosAlmacen(1);
+                    console.log(response);
                 }).catch(function(error){
-                    error401(error);
                     console.log(error);
                 });
-
             },
+
             eliminarAlmacen(idalmacen){
                 let me=this;
                 //console.log("prueba");
@@ -630,19 +649,21 @@ import { error401 } from '../../errores';
             }, */
             abrirModal(accion,data= []){
                 let me=this;
-                me.listarEstantes(me.sucursalselected);
-                let respuesta=me.arraySucursals.find(element=>element.id==me.sucursalselected);
+                //me.listarEstantes(me.sucursalselected);
+                let respuesta=me.arrayAlmacen.find(element=>element.id==me.almacenselected);
+                console.log("1111111111111111111111111111");
+                console.log(respuesta);
                 switch(accion){
                     case 'registrar':
                     {
                         if(me.sucursalselected!=0)
                         {
-                            
-                            me.tituloModal='Registar Almacen para: '+ respuesta.nombre;
+                            me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.razon_social;
                             me.tipoAccion=1;
-                            me.nombre='';
-                            me.precio='';
-                            me.descripcion='';
+                            me.tipo_entrada='Compra';
+                            me.cantidad=0;
+                            me.lote='';
+                            me.registrosanitario='';
                             me.codigointernacional='';
                             me.classModal.openModal('registrar');
                         }
@@ -698,6 +719,8 @@ import { error401 } from '../../errores';
         },
         mounted() {
             this.obtenerfecha(1);
+            this.listarAlmacenes();
+
             this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');

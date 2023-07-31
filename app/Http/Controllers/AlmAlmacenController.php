@@ -330,11 +330,4 @@ class AlmAlmacenController extends Controller
         $updateAlamcen->id_usuario_modifica=auth()->user()->id;
         $updateAlamcen->save();
     }
-
-
-    public function ingreso_producto_store(Request $request)
-    {
-        
-    }
-
 }

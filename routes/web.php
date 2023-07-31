@@ -17,6 +17,7 @@ use App\Http\Controllers\AdmUserRoleSucursalController;
 use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\AlmAlmacenController;
 use App\Http\Controllers\AlmCodificacionController;
+use App\Http\Controllers\AlmIngresoProductoController;
 use App\Http\Controllers\ParClienteController;
 use App\Http\Controllers\ParDescServicioController;
 use App\Http\Controllers\ProdCategoriaController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\SerAreaController;
 use App\Http\Controllers\SerPrestacionController;
 use App\Http\Controllers\SerVentaController;
 use App\Http\Controllers\SerVentaMaestroController;
+use App\Models\Alm_IngresoProducto;
 
 /*
 |--------------------------------------------------------------------------
@@ -325,7 +327,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/almacen/activar', [AlmAlmacenController::class,'activar']);
     Route::get('/almacen/selectalmacen',[AlmAlmacenController::class,'selectAlmacen']);
     //Ingreso de productos al almacen
-    Route::post('/almacen/ingreso-producto', [AlmAlmacenController::class,'ingreso_producto_store']);
+    Route::post('/almacen/ingreso-producto', [AlmIngresoProductoController::class,'index']);
 
 
     Route::get('/tipodescuento/selecttipodescuento',[ProdTipoDescuentoController::class,'selectTipoDescuento']);
