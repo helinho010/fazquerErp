@@ -51,6 +51,7 @@ createApp ({
     //Almacen
     .component('codificacion-component', require('./components/almacenes/CodificacionComponent.vue').default)
     .component('almacen-component', require('./components/almacenes/AlmacenComponent.vue').default)
+    .component('ingreso-producto-component', require('./components/almacenes/IngresoProductoComponent.vue').default)
     .component('nuevo-almacen-component', require('./components/almacenes/NuevoAlmacenComponent.vue').default)
     
 
