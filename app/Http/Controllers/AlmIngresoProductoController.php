@@ -29,10 +29,22 @@ class AlmIngresoProductoController extends Controller
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
                               ->select(DB::raw('alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional, alm__ingreso_producto.activo ,alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo as codalmacen, alm__almacens.razon_social, alm__almacens.direccion,prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo as codproducto, prod__productos.nombre as nomproducto'))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
-                              ->get();
+                              ->paginate(10);
 
-        return $productosAlmacen;
-        //return $request;
+        //return $productosAlmacen;
+        return 
+            [
+                    'pagination'=>
+                        [
+                            'total'         =>    $productosAlmacen->total(),
+                            'current_page'  =>    $productosAlmacen->currentPage(),
+                            'per_page'      =>    $productosAlmacen->perPage(),
+                            'last_page'     =>    $productosAlmacen->lastPage(),
+                            'from'          =>    $productosAlmacen->firstItem(),
+                            'to'            =>    $productosAlmacen->lastItem(),
+                        ] ,
+                    'productosAlmacen'=>$productosAlmacen,
+            ];
     }
 
     /**
@@ -82,7 +94,17 @@ class AlmIngresoProductoController extends Controller
      */
     public function update(Request $request, Alm_IngresoProducto $alm_IngresoProducto)
     {
-        //
+        $actualizarProducto = Alm_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->id_prod_producto = $request->id_prod_producto;
+        $actualizarProducto->idalmacen = $request->idalmacen;
+        $actualizarProducto->cantidad = $request->cantidad;
+        $actualizarProducto->tipo_entrada = $request->tipo_entrada;
+        $actualizarProducto->fecha_vencimiento = $request->fecha_vencimiento;
+        $actualizarProducto->lote = $request->lote;
+        $actualizarProducto->registro_sanitario = $request->registro_sanitario;
+        $actualizarProducto->codigo_internacional = $request->codigo_internacional;
+        $actualizarProducto->id_usuario_registra=auth()->user()->id;
+        $actualizarProducto->save();
     }
 
     /**
@@ -91,5 +113,21 @@ class AlmIngresoProductoController extends Controller
     public function destroy(Alm_IngresoProducto $alm_IngresoProducto)
     {
         //
+    }
+
+    public function desactivar(Request $request)
+    {
+        $actualizarProducto = Alm_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->activo = 0;
+        $actualizarProducto->id_usuario_modifica=auth()->user()->id;
+        $actualizarProducto->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $actualizarProducto = Alm_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->activo = 1;
+        $actualizarProducto->id_usuario_modifica=auth()->user()->id;
+        $actualizarProducto->save();
     }
 }

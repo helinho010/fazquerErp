@@ -26,7 +26,7 @@
                                 <select class="form-control" @change="listarAlmacenes(1,buscar)"
                                     v-model="almacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="almacen.codsuc+' -> '+almacen.codigo + ' ' +almacen.razon_social"></option>
+                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.razon_social"></option>
                                 </select>                              
                             </div>
                         </div>
@@ -58,10 +58,10 @@
                                     <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="ingresoProducto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAlmacen(ingresoProducto.id)" >
+                                    <button v-if="ingresoProducto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoAlmacen(ingresoProducto.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarAlmacen(ingresoProducto.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarProductoAlmacen(ingresoProducto.id)">
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
@@ -205,7 +205,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnAlmacen()" :disabled="sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarAlmacen()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnAlmacen()">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -351,12 +351,16 @@ import { error401 } from '../../errores';
 
             listarProductosAlmacen(page){
                 let me = this;
-                let url='/almacen/ingreso-producto?page=1&idalmacen=1';
-                axios.get(url).then(function(response){
-                    me.arrayIngresoProducto = response.data;
-                }).catch(function(error){
-                    console.log(error);
-                });
+                if (me.almacenselected != 0 ) {
+                    let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
+                    axios.get(url).then(function(response){
+                        var respuesta = response.data;
+                        me.pagination = respuesta.pagination;
+                        me.arrayIngresoProducto = respuesta.productosAlmacen.data;
+                    }).catch(function(error){
+                        console.log(error);
+                    });   
+                }
             },
 
             listarEstantes(idsucursal){
@@ -466,6 +470,7 @@ import { error401 } from '../../errores';
                     me.arrayAlmacen=respuesta.almacenes.data;
                     me.pagination=respuesta.pagination;
                     me.listarEstantes(me.almacenselected);
+                    me.listarProductosAlmacen();
                 })
                 .catch(function(error){
                     error401(error);
@@ -513,8 +518,6 @@ import { error401 } from '../../errores';
                 //     error401(error);
                 //     console.log(error);
                 // });
-                console.log("000000000000000000000000000000000");
-                console.log(me);
                 axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
                     'idalmacen':me.almacenselected,
@@ -534,9 +537,8 @@ import { error401 } from '../../errores';
                 });
             },
 
-            eliminarAlmacen(idalmacen){
+            eliminarProductoAlmacen(idproductoalmacen){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -554,24 +556,22 @@ import { error401 } from '../../errores';
                 cancelButtonText: 'No, Cancelar',
                 reverseButtons: true
                 }).then((result) => {
+                
                 if (result.isConfirmed) {
-                     axios.put('/almacen/desactivar',{
-                        'id': idalmacen
+                     axios.put('/almacen/ingreso-producto/desactivar',{
+                        'id': idproductoalmacen
                     }).then(function (response) {
-                        
                         swalWithBootstrapButtons.fire(
                             'Desactivado!',
                             'El registro a sido desactivado Correctamente',
                             'success'
                         )
                         me.listarProductosAlmacen(1);
-                        
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
                     });
-                    
-                    
+                        
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -584,9 +584,8 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            activarAlmacen(idalmacen){
+            activarProductoAlmacen(idproductoalmacen){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -605,8 +604,8 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/almacen/activar',{
-                        'id': idalmacen
+                     axios.put('/almacen/ingreso-producto/activar',{
+                        'id': idproductoalmacen
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -615,7 +614,6 @@ import { error401 } from '../../errores';
                             'success'
                         )
                         me.listarProductosAlmacen(1);
-                        
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
@@ -634,31 +632,28 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            /* actualizarAlmacen(){
-               // const Swal = require('sweetalert2')
-                let me =this;
-                axios.put('/almacen/actualizar',{
-                    'id':me.idalmacen,
-                    'nombre':me.nombre,
-                    'precio':me.precio,
-                    'descripcion':me.descripcion,
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
 
-                        me.listarProductosAlmacen(1);
-                    } 
+            actualizarProductoEnAlmacen(){
+                let me =this;
+                axios.put('/almacen/ingreso-producto/actualizar',{
+                    'id':me.idproducto,
+                    'id_prod_producto':me.idproductoselected,
+                    'idalmacen':me.almacenselected,
+                    'cantidad':me.cantidad,
+                    'tipo_entrada':me.tipo_entrada,
+                    'fecha_vencimiento':me.fecha_vencimiento,
+                    'lote':me.lote,
+                    'registro_sanitario':me.registrosanitario,
+                    'codigo_internacional':me.codigointernacional,
+                }).then(function (response) {
+                    Swal.fire('Actualizado Correctamente')
+                    me.listarProductosAlmacen(1); 
                 }).catch(function (error) {
-                   
+                   console.log(error);
                 });
                 me.cerrarModal('registrar');
+            },
 
-
-            }, */
             abrirModal(accion,data= []){
                 let me=this;
                 //me.listarEstantes(me.sucursalselected);
@@ -670,6 +665,7 @@ import { error401 } from '../../errores';
                         {
                             me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.razon_social;
                             me.tipoAccion=1;
+                            me.idproductoselected=0;
                             me.tipo_entrada='Compra';
                             me.cantidad=0;
                             me.lote='';
@@ -681,18 +677,29 @@ import { error401 } from '../../errores';
                         {
                             Swal.fire('Debe Seleccionar un Sucursal')
                         }
-                        
                         break;
                     }
                     
                     case 'actualizar':
                     {
-                        me.idalmacen=data.id;
+                        me.tituloModal='Actualizar Almacen Para: '+ respuesta.sucursal
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Almacen para: '+ respuesta.sucursal
-                        me.nombre=data.nombre;
-                        me.precio=data.precio;
-                        me.descripcion=data.descripcion;
+                        me.idproducto = data.id;
+                        me.idproductoselected = data.idprodproducto;
+                        me.cantidad = data.cantidad;
+                        me.tipo_entrada = data.tipo_entrada;
+                        me.fecha_vencimiento = data.fecha_vencimiento;
+                        me.lote = data.lote;
+                        me.registrosanitario = data.registro_sanitario;
+                        me.codigointernacional = data.codigo_internacional;
+                        me.codigo = JSON.stringify
+                        ({
+                            idproducto:me.idproductoselected,
+                            cantidad: me.cantidad,
+                            fechaVencimiento:me.fecha_vencimiento,
+                            codigointernacional:me.codigointernacional,
+                            registroSanitario:me.registrosanitario
+                        });
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -729,6 +736,7 @@ import { error401 } from '../../errores';
         },
         mounted() {
             this.obtenerfecha(1);
+            this.listarProductosAlmacen(1);
             this.listarAlmacenes();
             this.selectSucursals();
             this.classModal = new _pl.Modals();
