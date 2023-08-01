@@ -119,6 +119,7 @@
                                 <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproductoselected==0" class="error">(*)</span></strong>
                                 <div class="col-md-9">
                                     <select v-model="idproductoselected" class="form-control">
+                                     <option value="0" disabled>Seleccionar...</option>
                                      <option v-for="producto in productos" :key="producto.id" :value="producto.id" v-text="producto.cod"></option>
                                     </select>
                                    <!-- <Ajaxselect  v-if="clearSelected"
