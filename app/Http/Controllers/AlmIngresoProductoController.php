@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alm_IngresoProducto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlmIngresoProductoController extends Controller
 {
@@ -12,26 +13,34 @@ class AlmIngresoProductoController extends Controller
      */
     public function index(Request $request)
     {
-        $nuevoProducto = new Alm_IngresoProducto();
-        $nuevoProducto->id_prod_producto=$request->id_prod_producto;
-        $nuevoProducto->idalmacen=1;
-        $nuevoProducto->cantidad=10;
-        $nuevoProducto->tipo_entrada="Compra";
-        $nuevoProducto->fecha_vencimiento=date("Y-m-d");
-        $nuevoProducto->lote='151515';
-        $nuevoProducto->registro_sanitario='1236123';
-        $nuevoProducto->codigo_internacional='3216582312';
-        $nuevoProducto->id_usuario_registra=auth()->user()->id;
-        $nuevoProducto->save();
-        return $request;
+        /**
+         * select
+         * alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional,
+         * alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.direccion,
+         * prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo, prod__productos.nombre
+         * from
+         * 	alm__ingreso_producto
+         * left join alm__almacens on alm__ingreso_producto.idalmacen  = alm__almacens.id 
+         * left join prod__productos on alm__ingreso_producto.id_prod_producto = prod__productos.id  
+         */
+
+        $productosAlmacen = DB::table('alm__ingreso_producto')
+                              ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
+                              ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
+                              ->select(DB::raw('alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional, alm__ingreso_producto.activo ,alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo as codalmacen, alm__almacens.razon_social, alm__almacens.direccion,prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo as codproducto, prod__productos.nombre as nomproducto'))    
+                              ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
+                              ->get();
+
+        return $productosAlmacen;
+        //return $request;
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return $request;
     }
 
     /**
@@ -39,7 +48,17 @@ class AlmIngresoProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nuevoProducto = new Alm_IngresoProducto();
+        $nuevoProducto->id_prod_producto = $request->id_prod_producto;
+        $nuevoProducto->idalmacen = $request->idalmacen;
+        $nuevoProducto->cantidad = $request->cantidad;
+        $nuevoProducto->tipo_entrada = $request->tipo_entrada;
+        $nuevoProducto->fecha_vencimiento = $request->fecha_vencimiento;
+        $nuevoProducto->lote = $request->lote;
+        $nuevoProducto->registro_sanitario = $request->registro_sanitario;
+        $nuevoProducto->codigo_internacional = $request->codigo_internacional;
+        $nuevoProducto->id_usuario_registra=auth()->user()->id;
+        $nuevoProducto->save();
     }
 
     /**

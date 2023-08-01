@@ -41,36 +41,40 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Usuario</th>
+                                <th>Almacen</th>
                                 <th>Producto</th>
                                 <th>Cantidad</th>
+                                <th>Tipo Entrada</th>
                                 <th>Fecha Vencimiento</th>
-                                <th>Estante</th>
                                 <th>Lote</th>
+                                <th>Registro Sanitario</th>
+                                <th>Codigo Internacional</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="almacen in arrayAlmacen" :key="almacen.id">
+                            <tr v-for="ingresoProducto in arrayIngresoProducto" :key="ingresoProducto.id">
                                 <td>
-                                    <!-- <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',almacen)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
                                         <i class="icon-pencil"></i>
-                                    </button> &nbsp; -->
-                                    <button v-if="almacen.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAlmacen(almacen.id)" >
+                                    </button> &nbsp;
+                                    <button v-if="ingresoProducto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarAlmacen(ingresoProducto.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarAlmacen(almacen.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarAlmacen(ingresoProducto.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td>Admin</td>
-                                <td v-text="almacen.codprod"></td>
-                                <td v-text="almacen.cantidad" style="text-align:right"></td>
-                                <td v-text="almacen.fecha_vencimiento"></td>
-                                <td v-text="almacen.ubicacion_estante"></td>
-                                <td v-text="almacen.lote"></td>
+                                <td v-text="ingresoProducto.codalmacen +' '+ ingresoProducto.razon_social"></td>
+                                <td v-text="ingresoProducto.codproducto+' '+ingresoProducto.nomproducto"></td>  
+                                <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
+                                <td v-text="ingresoProducto.tipo_entrada"></td>
+                                <td v-text="ingresoProducto.fecha_vencimiento"></td>
+                                <td v-text="ingresoProducto.lote"></td>
+                                <td v-text="ingresoProducto.registro_sanitario"></td>
+                                <td v-text="ingresoProducto.codigo_internacional"></td>
                                 <td>
-                                    <div v-if="almacen.activo==1">
+                                    <div v-if="ingresoProducto.activo==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
@@ -278,7 +282,8 @@ import { error401 } from '../../errores';
                  //////qrcode
                 value: 'https://example.com',
                 size: 120,
-                productos:[]
+                productos:[],
+                arrayIngresoProducto:[],
                 
             }
 
@@ -341,13 +346,18 @@ import { error401 } from '../../errores';
                 return pagesArray;
             },
 
-
         },
         methods :{
-            listarAlamcenes()
-            {
-                
-            }, 
+
+            listarProductosAlmacen(page){
+                let me = this;
+                let url='/almacen/ingreso-producto?page=1&idalmacen=1';
+                axios.get(url).then(function(response){
+                    me.arrayIngresoProducto = response.data;
+                }).catch(function(error){
+                    console.log(error);
+                });
+            },
 
             listarEstantes(idsucursal){
                 let me=this;
@@ -360,9 +370,8 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-
-
             },
+
             listarposicion(idestante){
                 let me=this;
                 let respuesta=me.arrayEstantes.find(element=>element.id==idestante);
@@ -394,6 +403,7 @@ import { error401 } from '../../errores';
                     }
                 }
             },
+
             obtenerfecha(){
                 let me = this;
                 var url= '/obtenerfecha';
@@ -411,9 +421,11 @@ import { error401 } from '../../errores';
                 
                 //me.fechafactura=me.fechaactual;
             },
+
             tiempo(){
-            this.clearSelected=1;
+                this.clearSelected=1;
             },
+
             listarProductos(){
                 let me = this;
                 var url= '/producto/selectproducto2';
@@ -425,11 +437,8 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                
-                
-
-
             },
+
             /*
             productos(productos){
                 this.idproducto=[];
@@ -506,7 +515,7 @@ import { error401 } from '../../errores';
                 // });
                 console.log("000000000000000000000000000000000");
                 console.log(me);
-                axios.post('/almacen/ingreso-producto',{
+                axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
@@ -517,6 +526,9 @@ import { error401 } from '../../errores';
                     'codigo_internacional':me.codigointernacional, 
                 }).then(function(response){
                     console.log(response);
+                    Swal.fire('Registrado Correctamente')
+                    me.cerrarModal('registrar');
+                    me.listarProductosAlmacen(1);
                 }).catch(function(error){
                     console.log(error);
                 });
@@ -651,8 +663,6 @@ import { error401 } from '../../errores';
                 let me=this;
                 //me.listarEstantes(me.sucursalselected);
                 let respuesta=me.arrayAlmacen.find(element=>element.id==me.almacenselected);
-                console.log("1111111111111111111111111111");
-                console.log(respuesta);
                 switch(accion){
                     case 'registrar':
                     {
@@ -720,7 +730,6 @@ import { error401 } from '../../errores';
         mounted() {
             this.obtenerfecha(1);
             this.listarAlmacenes();
-
             this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');

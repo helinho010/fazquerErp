@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('lote')->comment('Codigo que hace referecia a un grupo de un productos');
             $table->string('registro_sanitario')->comment('Codigo expedido por la autoridad sanitaria');
             $table->string('codigo_internacional')->comment('Codigo internacional o codigo de barras que tiene los productos');
+            $table->boolean('activo')->default(1)->comment('Estado del registro, 1 -> activo, 0 ->inactivo');
             $table->timestamps();
             $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('identificador del usuario que esta modificando el producto');
             $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('identificador del usuario que esta registrando el producto');
