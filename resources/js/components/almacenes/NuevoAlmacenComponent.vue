@@ -28,9 +28,9 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Alamcen</th>
-                                <th>Razon Social</th>
-                                <th>Nombre Comercial</th>
+                                <th>Codigo</th>
+                                <th>Sucursal</th>
+                                <th>Nombre Almacen</th>
                                 <th>Telefonos</th>
                                 <th>Direccion</th>
                                 <th>Departamento</th>
@@ -51,9 +51,10 @@
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td>
-                                <td v-text="almacen.razon_social"></td>
-                                <td v-text="almacen.nombre_comercial"></td>
+                                <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
+                                <td v-text="almacen.codigo"></td>
+                                <td>{{ almacen.razon_social }} <br> {{ almacen.tipo }} {{ almacen.tipo == 'Sucursal'? almacen.correlativo:'' }}</td>
+                                <td v-text="almacen.nombre_almacen"></td>
                                 <td v-text="almacen.telefono"></td>
                                 <td v-text="almacen.direccion"></td>
                                 <td v-text="almacen.departamento"></td>
@@ -119,27 +120,20 @@
                                         <option v-for="sucursal in arraySucursales" :key="sucursal.id" :value="sucursal.id" v-text="sucursal.cod +' '+sucursal.razon_social+' '+sucursal.direccion"></option>
                                     </select>
                                 </div>
-                                <!-- <label class="col-md-2 form-control-label" for="text-input">Rubro <span  v-if="idrubro==0" class="error">(*)</span></label>
-                                <div class="col-md-4">
-                                    <select name="" id="" v-model="idrubro" class="form-control">
-                                        <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="rubros in arrayRubros" :key="rubros.id" :value="rubros.id" v-text="rubros.nombre" ></option>
-                                    </select>
-                                </div> -->
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="" name="" class="form-control"  v-model="razonsocial" v-on:focus="selectAll"  >
                                     <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Esto es para Nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial==''" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Almacen <span  v-if="nombrealmacen==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="tex" id="nombrecomercial" name="nombrecomercial" class="form-control"  v-model="nombrecomercial" v-on:focus="selectAll"  >
-                                    <span  v-if="nombrecomercial==''" class="error">Debe Ingresar el Nombre Comercial</span>
+                                    <input type="tex" id="nombrealmacen" name="nombrealmacen" class="form-control"  v-model="nombrealmacen" v-on:focus="selectAll"  >
+                                    <span  v-if="nombrealmacen==''" class="error">Debe Ingresar el Nombre de Almacen</span>
                                 </div>
                             </div>
                             <!-- Fin nombre comercial -->
@@ -228,7 +222,7 @@ import { error401 } from '../../errores';
                 idsucursal:'',
                 buscar:'',
                 razonsocial:'',
-                nombrecomercial:'',
+                nombrealmacen:'',
                 telefono:'',
                 
                 arrayciudad:[
@@ -260,7 +254,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.razonsocial!='' && me.direccion!='' && me.departamento!=0 && me.ciudad!=0)
+                if (me.nombrealmacen!='' && me.direccion!='' && me.departamento!=0 && me.ciudad!=0)
                     return true;
                 else
                     return false;
@@ -349,6 +343,8 @@ import { error401 } from '../../errores';
                 axios.get(url)
                 .then(function(response){
                     var respuesta = response.data;
+                    console.log("//////////////////");
+                    console.log(respuesta);
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenes = respuesta.almacenes.data;
                 })
@@ -367,8 +363,7 @@ import { error401 } from '../../errores';
                 let me = this;
                 axios.post('/almacen/registrar',{
                     'idsucursal':me.sucursalSeleccionado,
-                    'razon_social':me.razonsocial,
-                    'nombre_comercial':me.nombrecomercial,
+                    'nombre_almacen':me.nombrealmacen,
                     'telefono':me.telefono,
                     'direccion':me.direccion,
                     'departamento':me.departamento,
@@ -488,8 +483,7 @@ import { error401 } from '../../errores';
                 axios.put('/almacen/actualizar',{
                     'id':me.idalmacen,
                     'idsucursal':me.sucursalSeleccionado,
-                    'razon_social':me.razonsocial,
-                    'nombre_comercial':me.nombrecomercial,
+                    'nombre_almacen':me.nombrealmacen,
                     'telefono':me.telefono,
                     'direccion':me.direccion,
                     'departamento':me.departamento,
@@ -515,8 +509,8 @@ import { error401 } from '../../errores';
                         me.tituloModal='Registar Nuevo Almacen'
                         me.tipoAccion=1;
                         me.tipo=0;
-                        me.razonsocial='';
-                        me.nombrecomercial='',
+                        me.nombrealmacen='';
+                        me.nombrealmacen='',
                         me.telefono='';
                         me.direccion='';
                         me.sucursalSeleccionado=0;
@@ -533,8 +527,7 @@ import { error401 } from '../../errores';
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Datos del Almacen';
                         me.tipo=data.tipo;
-                        me.razonsocial=data.razon_social;
-                        me.nombrecomercial=data.nombre_comercial;
+                        me.nombrealmacen=data.nombre_almacen;
                         me.telefono=data.telefono;
                         me.direccion=data.direccion;
                         me.ciudad=data.ciudad;
@@ -553,7 +546,7 @@ import { error401 } from '../../errores';
                 me.classModal.closeModal(accion);
                 me.tipoAccion=1;
                 me.tipo=0;
-                me.razonsocial='';
+                me.nombrealmacen='';
                 me.telefono='';
                 me.nit='';
                 me.direccion='';
