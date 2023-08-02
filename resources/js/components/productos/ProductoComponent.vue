@@ -17,14 +17,14 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <!--  si se agrega filtro
+                        <!--  si se agrega filtro -->
                         <div class="col-md-6">
-                            <label class="col-md-3 form-control-label" for="text-input">Linea: <span  v-if="!sicompleto" class="error">(*)</span></label>
+                            <label class="col-md-3 form-control-label" for="text-input">Almacen: <span  v-if="!sicompleto" class="error">(*)</span></label>
                             <div class="col-md-9">
                                 <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Prestacion" v-model="nombre" v-on:focus="selectAll">
                                 <span  v-if="!sicompleto" class="error">Debe Ingresar el Nombre de la Prestacion</span>
                             </div>
-                        </div> -->
+                        </div> 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarProducto(1)">
