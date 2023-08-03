@@ -140,9 +140,7 @@ class AdmSucursalController extends Controller
         $letracodigo='SU';
         $maxcorrelativo = Adm_Sucursal::select(DB::raw('max(correlativo) as maximo'))
                                 ->get()->toArray();
-        //dd($maxcorrelativo);
         $correlativo=$maxcorrelativo[0]['maximo'];
-        //dd($correlativo);
         if(is_null($correlativo))
             $correlativo=1;
         else

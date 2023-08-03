@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="" name="" class="form-control"  v-model="razonsocial" v-on:focus="selectAll"  >
                                     <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
@@ -144,7 +144,7 @@
                             </div>
                             <!-- Esto es para Nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="nombrecomercial" name="nombrecomercial" class="form-control"  v-model="nombrecomercial" v-on:focus="selectAll"  >
                                     <span  v-if="nombrecomercial==''" class="error">Debe Ingresar el Nombre Comercial</span>
@@ -152,20 +152,20 @@
                             </div>
                             <!-- Fin nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-model="telefono" v-on:focus="selectAll">
+                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
                                     <span  v-if="telefono==''" class="error">Debe Ingresar La Razon Social</span>                                </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-model="nit" v-on:focus="selectAll">
+                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-on:keypress.prevent="caracteresPermitidosNit" v-model="nit" v-on:focus="selectAll">
                                     <span  v-if="nit==''" class="error">Debe Ingresar el NIT</span>                                
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la Direccion" v-model="direccion" v-on:focus="selectAll">
                                     <span  v-if="direccion==''" class="error">Debe Ingresar la Direccion</span>                                
@@ -264,8 +264,8 @@ import { error401 } from '../../errores';
                             ],
                 matriz:0,
                 arrayRubros:[],
-                idrubro:0
-                
+                idrubro:0,
+                controlEnvio:1,                
             }
 
         },
@@ -273,7 +273,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!=0)
+                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!=0 && me.controlEnvio == 1)
                     return true;
                 else
                     return false;
@@ -304,6 +304,24 @@ import { error401 } from '../../errores';
 
         },
         methods :{
+
+            caracteresPermitidosTelefono(ex){
+                let me=this;
+                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.telefono = me.telefono+ex.key;
+                } 
+            },
+
+            caracteresPermitidosNit(ex){
+                console.log(ex.keyCode);
+                let me=this;
+                if(ex.keyCode==8 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.nit = me.nit+ex.key;
+                } 
+            },
+
             listarSucursales(page){
                 let me=this;
                 var url='/sucursal?page='+page+'&buscar='+me.buscar;
@@ -334,6 +352,7 @@ import { error401 } from '../../errores';
             },
             registrarSucursal(){
                 let me = this;
+                me.controlEnvio = 0;
                 axios.post('/sucursal/registrar',{
                     'idrubro':me.idrubro,
                     'tipo':me.tipo,
@@ -347,9 +366,11 @@ import { error401 } from '../../errores';
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarSucursales();
+                    me.controlEnvio=1;
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
+                    me.controlEnvio=1;
                 });
 
             },
@@ -454,8 +475,6 @@ import { error401 } from '../../errores';
             },
             actualizarSucursal(){
                 let me =this;
-                console.log("2222222222222222222222");
-                console.log(me);
                 axios.put('/sucursal/actualizar',{
                     'idrubro':me.idrubro,
                     'id':me.idsucursal,
@@ -498,6 +517,7 @@ import { error401 } from '../../errores';
                         me.telefono='';
                         me.nit='';
                         me.direccion='';
+                        me.departamento=0;
                         me.ciudad=0;
                         me.idrubro=0;
                         me.classModal.openModal('registrar');

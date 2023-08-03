@@ -140,7 +140,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Telefonos</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-model="telefono" v-on:focus="selectAll">
+                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
                                  </div>
                             </div>
                             <!-- <div class="form-group row">
@@ -285,6 +285,15 @@ import { error401 } from '../../errores';
 
         },
         methods :{
+
+            caracteresPermitidosTelefono(ex){
+                let me=this;
+                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.telefono = me.telefono+ex.key;
+                } 
+            },  
+
             selectDepartamentos(){
                 let me=this;
                 var url='/depto/selectdepto';
