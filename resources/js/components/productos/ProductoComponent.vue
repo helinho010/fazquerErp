@@ -149,7 +149,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Cantidad:</strong>
-                                <input type="text" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                <input type="number" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
                                 <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
                             </div>
                             <div class="form-group col-sm-4">

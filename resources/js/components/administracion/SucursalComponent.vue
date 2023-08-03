@@ -68,13 +68,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div v-for="ciudad in arrayciudad">
+                                <td v-text="sucursal.ciudad"></td>
+                                    <!-- <div v-for="ciudad in arrayciudad">
                                         <div v-if="ciudad.id == sucursal.ciudad">
                                             {{ ciudad.nombre }}
                                         </div>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td v-text="sucursal.telefonos"></td>
                                 <td>
                                     <div v-if="sucursal.activo==1">
@@ -181,7 +181,7 @@
                                     <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <select v-model="ciudad" class="form-control rounded">
@@ -190,17 +190,14 @@
                                     </select>
                                     <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
                                 </div>
-                            </div>
-                            <!-- <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <select name="" id="" v-model="ciudad" class="form-control">
-                                        <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
-                                    </select>
-                                </div>
                             </div> -->
-                            
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==''" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="tex" id="ciudad" name="ciudad" class="form-control" placeholder="Ingrese la ciudad" v-model="ciudad" v-on:focus="selectAll">
+                                    <span  v-if="ciudad==''" class="error">Debe Ingresar la Ciudad</span>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -248,7 +245,7 @@ import { error401 } from '../../errores';
                 nombrecomercial:'',
                 telefono:'',
                 departamento:0,
-                ciudad:0,
+                ciudad:'',
                 arrayDepartamentos:[],
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
@@ -273,7 +270,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!=0 && me.controlEnvio == 1)
+                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!='' && me.controlEnvio == 1)
                     return true;
                 else
                     return false;
@@ -314,9 +311,8 @@ import { error401 } from '../../errores';
             },
 
             caracteresPermitidosNit(ex){
-                console.log(ex.keyCode);
                 let me=this;
-                if(ex.keyCode==8 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                if(ex.keyCode==32 || ex.keyCode==8 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.nit = me.nit+ex.key;
                 } 
@@ -518,7 +514,7 @@ import { error401 } from '../../errores';
                         me.nit='';
                         me.direccion='';
                         me.departamento=0;
-                        me.ciudad=0;
+                        me.ciudad='';
                         me.idrubro=0;
                         me.classModal.openModal('registrar');
                         break;
@@ -555,7 +551,7 @@ import { error401 } from '../../errores';
                 me.telefono='';
                 me.nit='';
                 me.direccion='';
-                me.ciudad=0;
+                me.ciudad='';
                 me.tipoAccion=1;
                 me.idrubro=0;
                 
