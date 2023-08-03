@@ -68,13 +68,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div v-for="ciudad in arrayciudad">
+                                <td v-text="sucursal.ciudad"></td>
+                                    <!-- <div v-for="ciudad in arrayciudad">
                                         <div v-if="ciudad.id == sucursal.ciudad">
                                             {{ ciudad.nombre }}
                                         </div>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td v-text="sucursal.telefonos"></td>
                                 <td>
                                     <div v-if="sucursal.activo==1">
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="" name="" class="form-control"  v-model="razonsocial" v-on:focus="selectAll"  >
                                     <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
@@ -144,7 +144,7 @@
                             </div>
                             <!-- Esto es para Nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre Comercial <span  v-if="nombrecomercial==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="tex" id="nombrecomercial" name="nombrecomercial" class="form-control"  v-model="nombrecomercial" v-on:focus="selectAll"  >
                                     <span  v-if="nombrecomercial==''" class="error">Debe Ingresar el Nombre Comercial</span>
@@ -152,20 +152,20 @@
                             </div>
                             <!-- Fin nombre comercial -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-model="telefono" v-on:focus="selectAll">
+                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
                                     <span  v-if="telefono==''" class="error">Debe Ingresar La Razon Social</span>                                </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-model="nit" v-on:focus="selectAll">
+                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-on:keypress.prevent="caracteresPermitidosNit" v-model="nit" v-on:focus="selectAll">
                                     <span  v-if="nit==''" class="error">Debe Ingresar el NIT</span>                                
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la Direccion" v-model="direccion" v-on:focus="selectAll">
                                     <span  v-if="direccion==''" class="error">Debe Ingresar la Direccion</span>                                
@@ -181,7 +181,7 @@
                                     <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <select v-model="ciudad" class="form-control rounded">
@@ -190,17 +190,14 @@
                                     </select>
                                     <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
                                 </div>
-                            </div>
-                            <!-- <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <select name="" id="" v-model="ciudad" class="form-control">
-                                        <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
-                                    </select>
-                                </div>
                             </div> -->
-                            
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==''" class="error">(*)</span></label>
+                                <div class="col-md-9">
+                                    <input type="tex" id="ciudad" name="ciudad" class="form-control" placeholder="Ingrese la ciudad" v-model="ciudad" v-on:focus="selectAll">
+                                    <span  v-if="ciudad==''" class="error">Debe Ingresar la Ciudad</span>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -248,7 +245,7 @@ import { error401 } from '../../errores';
                 nombrecomercial:'',
                 telefono:'',
                 departamento:0,
-                ciudad:0,
+                ciudad:'',
                 arrayDepartamentos:[],
                 arrayciudad:[
                                 {'id':1,'valor':'La Paz'},
@@ -264,8 +261,8 @@ import { error401 } from '../../errores';
                             ],
                 matriz:0,
                 arrayRubros:[],
-                idrubro:0
-                
+                idrubro:0,
+                controlEnvio:1,                
             }
 
         },
@@ -273,7 +270,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!=0)
+                if (me.tipo!=0 && me.razonsocial!='' && me.telefono!='' && me.nit!='' && me.direccion!='' && me.ciudad!='' && me.controlEnvio == 1)
                     return true;
                 else
                     return false;
@@ -304,6 +301,23 @@ import { error401 } from '../../errores';
 
         },
         methods :{
+
+            caracteresPermitidosTelefono(ex){
+                let me=this;
+                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.telefono = me.telefono+ex.key;
+                } 
+            },
+
+            caracteresPermitidosNit(ex){
+                let me=this;
+                if(ex.keyCode==32 || ex.keyCode==8 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.nit = me.nit+ex.key;
+                } 
+            },
+
             listarSucursales(page){
                 let me=this;
                 var url='/sucursal?page='+page+'&buscar='+me.buscar;
@@ -334,6 +348,7 @@ import { error401 } from '../../errores';
             },
             registrarSucursal(){
                 let me = this;
+                me.controlEnvio = 0;
                 axios.post('/sucursal/registrar',{
                     'idrubro':me.idrubro,
                     'tipo':me.tipo,
@@ -347,9 +362,11 @@ import { error401 } from '../../errores';
                 }).then(function(response){
                     me.cerrarModal('registrar');
                     me.listarSucursales();
+                    me.controlEnvio=1;
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
+                    me.controlEnvio=1;
                 });
 
             },
@@ -454,8 +471,6 @@ import { error401 } from '../../errores';
             },
             actualizarSucursal(){
                 let me =this;
-                console.log("2222222222222222222222");
-                console.log(me);
                 axios.put('/sucursal/actualizar',{
                     'idrubro':me.idrubro,
                     'id':me.idsucursal,
@@ -498,7 +513,8 @@ import { error401 } from '../../errores';
                         me.telefono='';
                         me.nit='';
                         me.direccion='';
-                        me.ciudad=0;
+                        me.departamento=0;
+                        me.ciudad='';
                         me.idrubro=0;
                         me.classModal.openModal('registrar');
                         break;
@@ -535,7 +551,7 @@ import { error401 } from '../../errores';
                 me.telefono='';
                 me.nit='';
                 me.direccion='';
-                me.ciudad=0;
+                me.ciudad='';
                 me.tipoAccion=1;
                 me.idrubro=0;
                 

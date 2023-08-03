@@ -110,17 +110,15 @@ class AlmAlmacenController extends Controller
                 {
                     if(empty($sqls)){
                         $sqls="(alm__almacens.codigo like '%".$valor."%' 
-                                or alm__almacens.razon_social like '%".$valor."%' 
-                                or alm__almacens.nombre_comercial like '%".$valor."%' 
+                                or alm__almacens.nombre_almacen like '%".$valor."%' 
                                 or alm__almacens.telefono like '%".$valor."%' 
                                 or alm__almacens.direccion like '%".$valor."%' 
                                 or alm__almacens.departamento like '%".$valor."%')" ;
                     }
                     else
                     {
-                        $sqls.="and (alm__almacens.codigo like '%".$valor."%' 
-                                or alm__almacens.razon_social like '%".$valor."%' 
-                                or alm__almacens.nombre_comercial like '%".$valor."%' 
+                        $sqls.="and (alm__almacens.codigo like '%".$valor."%'  
+                                or alm__almacens.nombre_almacen like '%".$valor."%' 
                                 or alm__almacens.telefono like '%".$valor."%' 
                                 or alm__almacens.direccion like '%".$valor."%' 
                                 or alm__almacens.departamento like '%".$valor."%')" ;
@@ -129,21 +127,30 @@ class AlmAlmacenController extends Controller
                 }
 
                 /**
-                 * select alm__almacens.id, adm__sucursals.cod, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, 
-                 * alm__almacens.telefono, alm__almacens.direccion, alm__almacens.departamento, alm__almacens.ciudad, alm__almacens.activo
+                 * select alm__almacens.id, adm__sucursals.id as idsucursal, 
+                 *        adm__sucursals.cod as codsuc, adm__sucursals.razon_social,
+                 *        adm__sucursals.tipo, adm__sucursals.correlativo,
+                 *        alm__almacens.codigo, alm__almacens.nombre_alamcen, 
+                 *        alm__almacens.telefono, alm__almacens.direccion, 
+                 *        alm__almacens.departamento, alm__almacens.ciudad, 
+                 *        alm__almacens.activo
                  * from alm__almacens
-                 * left join adm__sucursals
-                 * on alm__almacens.idsucursal = adm__sucursals.id
+                 * left join adm__sucursals on alm__almacens.idsucursal = adm__sucursals.id
                  * where alm__almacens.codigo like '%$valor%'
-                 *    or alm__almacens.razon_social  like '%$valor%' 
-                 *    or alm__almacens.nombre_comercial  like '%$valor%'
+                 *    or alm__almacens.nombre_almacen  like '%$valor%'
                  *    or alm__almacens.telefono  like '%$valor%'
                  *    or alm__almacens.direccion  like '%$valor%'
                  *    or alm__almacens.departamento  like '%$valor%'
                  */
                 $almacenes= DB::table('alm__almacens')
                         ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
-                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, adm__sucursals.cod as codsuc, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, alm__almacens.telefono, alm__almacens.direccion, alm__almacens.departamento, alm__almacens.ciudad, alm__almacens.activo')
+                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, 
+                                     adm__sucursals.cod as codsuc, adm__sucursals.razon_social,
+                                     adm__sucursals.tipo, adm__sucursals.correlativo,
+                                     alm__almacens.codigo, alm__almacens.nombre_almacen, 
+                                     alm__almacens.telefono, alm__almacens.direccion, 
+                                     alm__almacens.departamento, alm__almacens.ciudad, 
+                                     alm__almacens.activo')
                         ->whereraw($sqls)
                         ->paginate(15);
             }
@@ -163,17 +170,29 @@ class AlmAlmacenController extends Controller
             ];
         }else {
             /**
-             * select alm__almacens.id, adm__sucursals.cod, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, 
-             *        alm__almacens.telefono, alm__almacens.direccion, alm__almacens.departamento, alm__almacens.ciudad, alm__almacens.activo
+             * select alm__almacens.id, adm__sucursals.id as idsucursal, 
+             *        adm__sucursals.cod as codsuc, 
+             *        alm__almacens.codigo, adm__sucursals.razon_social,
+             *        adm__sucursals.tipo, adm__sucursals.correlativo,
+             *        alm__almacens.nombre_almacen, 
+             *        alm__almacens.telefono, alm__almacens.direccion, 
+             *        alm__almacens.departamento, alm__almacens.ciudad, 
+             *        alm__almacens.activo
              * from alm__almacens
-             * left join adm__sucursals
-             * on alm__almacens.idsucursal = adm__sucursals.id
+             * left join adm__sucursals on alm__almacens.idsucursal = adm__sucursals.id
              * where alm__almacens.activo = 1
              * 
              */
             $almacenes= DB::table('alm__almacens')
                         ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
-                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, adm__sucursals.cod as codsuc, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.nombre_comercial, alm__almacens.telefono, alm__almacens.direccion, alm__almacens.departamento, alm__almacens.ciudad, alm__almacens.activo')
+                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, 
+                                     adm__sucursals.cod as codsuc, 
+                                     alm__almacens.codigo, adm__sucursals.razon_social,
+                                     adm__sucursals.tipo, adm__sucursals.correlativo,
+                                     alm__almacens.nombre_almacen, 
+                                     alm__almacens.telefono, alm__almacens.direccion, 
+                                     alm__almacens.departamento, alm__almacens.ciudad, 
+                                     alm__almacens.activo')
                         //->where('alm__almacens.activo','=',1)
                         ->paginate(10);
             return [
@@ -240,8 +259,7 @@ class AlmAlmacenController extends Controller
         // $almacen->ubicacion_estante=$request->ubicacion_estante;
         $almacen->id_usuario_registra = auth()->user()->id;
         $almacen->codigo = $codigo;
-        $almacen->razon_social = $request->razon_social;
-        $almacen->nombre_comercial = $request->nombre_comercial;
+        $almacen->nombre_almacen = $request->nombre_almacen;
         $almacen->telefono = $request->telefono;
         $almacen->direccion = $request->direccion;
         $almacen->departamento = $request->departamento;
@@ -285,8 +303,7 @@ class AlmAlmacenController extends Controller
     {
         $updateAlamcen=Alm_Almacen::find($request->id);
         $updateAlamcen->idsucursal = $request->idsucursal==null?0:$request->idsucursal;
-        $updateAlamcen->razon_social = $request->razon_social;
-        $updateAlamcen->nombre_comercial = $request->nombre_comercial;
+        $updateAlamcen->nombre_almacen = $request->nombre_almacen;
         $updateAlamcen->telefono = $request->telefono;
         $updateAlamcen->direccion = $request->direccion;
         $updateAlamcen->departamento = $request->departamento;
