@@ -110,7 +110,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Linea:</strong>
@@ -134,10 +133,145 @@
                                 <input type="text" class="form-control" v-model="nombre" placeholder="Nombre del Producto">
                                 <span class="error" v-if="nombre.length==0">Debe Ingresar Nombre del Producto</span>
                             </div>
-                            
-                            
                         </div>
-
+                            <!-- tab para los envases del producto -->
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="pills-envase-primario-tab" data-toggle="pill" href="#pills-envase-primario" role="tab" aria-controls="pills-home" aria-selected="true">Envase Primario</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="pills-envase-secundario-tab" data-toggle="pill" href="#pills-envase-secundario" role="tab" aria-controls="pills-profile" aria-selected="false">Envase Secundario</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="pills-envase-terciario-tab" data-toggle="pill" href="#pills-envase-terciario" role="tab" aria-controls="pills-contact" aria-selected="false">Envase Terciario</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-envase-primario" role="tabpanel" aria-labelledby="pills-envase-primario-tab">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Primer Apellido:</label>
+                                                <input type="text" id="papellido" name="papellido" class="form-control rounded" placeholder="Primer Apellido" v-model="papellido" v-on:focus="selectAll" >
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Segundo Apellido:</label>
+                                                <input type="text" id="sapellido" name="sapellido" class="form-control rounded" placeholder="Segundo Apellido" v-model="sapellido" v-on:focus="selectAll" >
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Nombres:<span  v-if="nombre==''" class="error">(*)</span></label>
+                                                <input type="text" id="nombre" name="nombre" class="form-control rounded" placeholder="Nombres" v-model="nombre" v-on:focus="selectAll" >
+                                                <span  v-if="nombre==''" class="error">Debe Ingresar el Nombre del empleado</span>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>CI:<span  v-if="ci==''" class="error">(*)</span></label>
+                                                <input type="number" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" >
+                                                <span  v-if="ci==''" class="error">Debe Ingresar el CI del empleado</span>
+                                                <small style="color:darkmagenta" v-if="mensajeError != ''" class="error">{{ mensajeError }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Complemento: <small class="text-muted">Opcional</small></label>
+                                                <input type="text" id="complemento" name="complemento" class="form-control rounded" placeholder="Complemento" v-model="complemento" v-on:focus="selectAll" >
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Expedido en: <small class="text-muted">Departamento</small> <span  v-if="deptoselected==0" class="error">(*)</span></label>
+                                                <select v-model="deptoselected" class="form-control rounded">
+                                                    <option value="0" disabled>Seleccionar...</option>
+                                                    <option v-for="depto in arrayDepto" :key="depto.id" :value="depto.id" v-text="depto.nombre"></option>
+                                                </select>
+                                                <span  v-if="deptoselected==0" class="error">Debe Ingresar departamento </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-envase-secundario" role="tabpanel" aria-labelledby="pills-envase-secundario-tab">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Direccion Domicilio:<span  v-if="domicilio==''" class="error">(*)</span></label>
+                                                <input type="text" id="domicilio" name="domicilio" class="form-control rounded" placeholder="Domicilio" v-model="domicilio" v-on:focus="selectAll" >
+                                                <span  v-if="domicilio==''" class="error">Debe Ingresar el Domicilio del empleado</span>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Ciudad:<span  v-if="ciudadselected==0" class="error">(*)</span></label>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-10" style="padding-right: 0px;">
+                                                        <select v-model="ciudadselected" class="form-control rounded">
+                                                            <option value="0" disabled>Seleccionar...</option>
+                                                            <option v-for="ciud in arrayCiudad" :key="ciud.id" :value="ciud.id" v-text="ciud.abrev+'-'+ciud.nombre"></option>
+                                                        </select>
+                                                        <span class="error" v-if="ciudadselected==0">Debe ingresar la Ciudad</span>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn btn-success btn-sm rounded" @click="abrirModal('regciudad')" style="padding-bottom: 7px;padding-top: 7px;">
+                                                            +
+                                                        </button>        
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Telefono Fijo:</label>
+                                                <input type="text" id="telefono" name="telefono" class="form-control rounded" placeholder="Telefonos" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll" >
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Celular:<span  v-if="celular==''" class="error">(*)</span></label>
+                                                <input type="text" id="celular" name="celular" class="form-control rounded" placeholder="Celular" v-on:keypress.prevent="caracteresPermitidosCelular" v-model="celular" v-on:focus="selectAll" >
+                                                <span  v-if="celular==''" class="error">Debe Ingresar Num. Cel.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-envase-terciario" role="tabpanel" aria-labelledby="pills-envase-terciario-tab">
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Grado Academico:</label>
+                                                <select v-model="formacion" class="form-control rounded">
+                                                    <option value="0" disabled>Seleccionar...</option>
+                                                    <option v-for="forma in arrayFormacion" :key="forma.id" :value="forma.id" v-text="forma.nombre"></option>
+                                                </select>
+                                                <span class="error" v-if="formacion==0">Debe ingresar la Formacion</span>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Profesion:</label>
+                                                <select v-model="profesion" class="form-control rounded">
+                                                    <option value="0" disabled>Seleccionar...</option>
+                                                    <option v-for="prof in arrayProfesion" :key="prof.id" :value="prof.id" v-text="prof.nombre"></option>
+                                                </select>
+                                                <span class="error" v-if="profesion==0">Debe ingresar la Profesion</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Nit:<small class="text-muted"> Si Corresponde</small></label>
+                                                <input type="text" id="nit" name="nit" class="form-control rounded" placeholder="Nit" v-on:keypress.prevent="caracteresPermitidosNit" v-model="nit" v-on:focus="selectAll" >
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Cargo:</label>
+                                                <select v-model="cargo" class="form-control rounded">
+                                                    <option value="0" disabled>Seleccionar...</option>
+                                                    <option v-for="carg in arrayCargo" :key="carg.id" :value="carg.id" v-text="carg.nombre"></option>
+                                                </select>
+                                                <span class="error" v-if="cargo==0">Debe ingresar el Cargo</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label>Fecha Ingreso: <span  v-if="fechaingreso==''" class="error">(*)</span></label>
+                                                <input type="date" id="fechaingreso" name="fechaingreso" class="form-control rounded" v-model="fechaingreso">
+                                                <span  v-if="fechaingreso==''" class="error">Debe Ingresar la fecha de ingreso del empleado</span>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Fecha Retiro: </label>
+                                                <input type="date" id="fecharetiro" name="fecharetiro" class="form-control rounded" v-model="fecharetiro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- Fin tab para los envases del producto -->
                         <div class="row">
                             <div class="form-group col-sm-4">
                                 <strong>Envase Primario:</strong>
