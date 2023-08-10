@@ -160,7 +160,7 @@
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
                                                 <input type="number" class="form-control" v-model="cantidadPrimario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <span class="error" v-if="cantidadPrimario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
@@ -371,7 +371,7 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="precioventa==''">Debe Ingresar el Precio de Venta</span>
+                                                <span class="error" v-if="precioventaterciario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Tiempo de Pedido:</strong>
@@ -501,7 +501,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()" >Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProducto()">Actualizar</button>
                     </div>
                 </div>
@@ -862,7 +862,7 @@ import QrcodeVue from 'qrcode.vue'
             registrarProducto(){
                 let me = this;
                 axios.post('/producto/registrar',{
-                    'nombre':me.nombre,
+                    /*'nombre':me.nombre,
                     'cod':me.idlineas[3],
                     'cantidad':me.cantidad,
                     'idlinea':me.idlineaselected,
@@ -878,7 +878,44 @@ import QrcodeVue from 'qrcode.vue'
                     'idcategoria':me.idcategoriaselected,
                     'imagen':me.image,
                     'metodoabc':me.metodoselected,
-
+                    idlineaselected:0,*/
+                    
+                    cod:me.idlineas[3],
+                    nombre:me.nombre,
+                    iddispenserselectedprimario:me.iddispenserselectedprimario,
+                    cantidadPrimario:me.cantidadPrimario,
+                    idformafarmselectedPrimario:me.cantidadPrimario,
+                    preciolistaprimario:me.preciolistaprimario,
+                    precioventaprimario:me.precioventaprimario,
+                    tiempopedidoselectedprimario:me.tiempopedidoselectedprimario,
+                    metodoselectedprimario:me.metodoselectedprimario,
+                    tiendaprimario:me.tiendaprimario,
+                    almacenprimario:me.almacenprimario,
+                    iddispenserselectedsecundario:me.iddispenserselectedsecundario,
+                    cantidadsecundario:me.cantidadsecundario,
+                    idformafarmselectedsecundario:me.idformafarmselectedsecundario,
+                    preciolistasecundario:me.preciolistasecundario,
+                    precioventasecundario:me.precioventasecundario,
+                    tiempopedidoselectedsecundario:me.tiempopedidoselectedsecundario,
+                    metodoselectedsecundario:me.metodoselectedsecundario,
+                    tiendasecundario:me.tiendasecundario,
+                    almacensecundario:me.almacensecundario,
+                    iddispenserselectedterciario:me.iddispenserselectedterciario,
+                    cantidadterciario:me.cantidadterciario,
+                    idformafarmselectedterciario:me.idformafarmselectedterciario,
+                    preciolistaterciario:me.preciolistaterciario,
+                    precioventaterciario:me.precioventaterciario,
+                    tiempopedidoselectedterciario:me.tiempopedidoselectedterciario,
+                    metodoselectedterciario:me.metodoselectedterciario,
+                    tiendaterciario:me.tiendaterciario,
+                    almacenterciario:me.almacenterciario,
+                    idcategoriaselected:me.idcategoriaselected,
+                    mostrardetalles:me.mostrardetalles,
+                    indicaciones:me.indicaciones,
+                    dosificacion:me.dosificacion,
+                    principio:me.principio,
+                    accion:me.accion,
+                    foto:me.foto,
 
                 }).then(function(response){
                     console.log(response);

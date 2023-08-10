@@ -148,60 +148,61 @@ class ProdProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $maxcorrelativo = Prod_Producto::select(DB::raw('max(correlativo) as maximo'))
-                                ->where('idlinea',$request->idlinea)
-                                ->get()->toArray();
+        // $maxcorrelativo = Prod_Producto::select(DB::raw('max(correlativo) as maximo'))
+        //                         ->where('idlinea',$request->idlinea)
+        //                         ->get()->toArray();
 
-        //dd($maxcorrelativo);
-        $correlativo=$maxcorrelativo[0]['maximo'];
-        //dd($correlativo);
-        if(is_null($correlativo))
-            $correlativo=1;
-        else
-            $correlativo=$correlativo+1;
+        // //dd($maxcorrelativo);
+        // $correlativo=$maxcorrelativo[0]['maximo'];
+        // //dd($correlativo);
+        // if(is_null($correlativo))
+        //     $correlativo=1;
+        // else
+        //     $correlativo=$correlativo+1;
 
-        if($correlativo<10)
-            $codigo='000'.$correlativo;
-        else
-            if($correlativo<100)
-                $codigo='00'.$correlativo;
-            else
-                if($correlativo<1000)
-                    $codigo='0';
-                else
-                    $codigo=$correlativo;
+        // if($correlativo<10)
+        //     $codigo='000'.$correlativo;
+        // else
+        //     if($correlativo<100)
+        //         $codigo='00'.$correlativo;
+        //     else
+        //         if($correlativo<1000)
+        //             $codigo='0';
+        //         else
+        //             $codigo=$correlativo;
         
-        $codigo=$request->codigolinea.$codigo;
+        // $codigo=$request->codigolinea.$codigo;
 
-        $var = Str::random(32);
-        $var.='.jpg'; 
-        $value = substr($request->imagen, strpos($request->imagen, ',') + 1); 
-        $value = base64_decode($value); 
-        Storage::put('app/public/producto/'.$var, $value);
+        // $var = Str::random(32);
+        // $var.='.jpg'; 
+        // $value = substr($request->imagen, strpos($request->imagen, ',') + 1); 
+        // $value = base64_decode($value); 
+        // Storage::put('app/public/producto/'.$var, $value);
  
 
-        $producto = new Prod_Producto();
+        // $producto = new Prod_Producto();
 
         
-        $producto->idlinea=$request->idlinea;
-        $producto->codigo=$request->cod.$codigo;
-        $producto->correlativo=$correlativo;
-        $producto->nombre=$request->nombre;
-        $producto->iddispenser=$request->iddispenser;
-        $producto->cantidad=$request->cantidad;
-        $producto->idformafarm=$request->idformafarm;
-        $producto->indicaciones=$request->indicaciones;
-        $producto->dosificacion=$request->dosificacion;
-        $producto->accion_terapeutica=$request->accion_terapeutica;
-        $producto->principio_activo=$request->principio_activo;
-        $producto->imagen=$var;
-        $producto->tiempo_pedido=$request->tiempo_pedido;
-        $producto->precio_lista=$request->precio_lista;
-        $producto->precio_venta=$request->precio_venta;
-        $producto->idcategoria=$request->idcategoria;
-        $producto->metodoabc=$request->metodoabc;
-        $producto->id_usuario_registra=auth()->user()->id;
-        $producto->save();
+        // $producto->idlinea=$request->idlinea;
+        // $producto->codigo=$request->cod.$codigo;
+        // $producto->correlativo=$correlativo;
+        // $producto->nombre=$request->nombre;
+        // $producto->iddispenser=$request->iddispenser;
+        // $producto->cantidad=$request->cantidad;
+        // $producto->idformafarm=$request->idformafarm;
+        // $producto->indicaciones=$request->indicaciones;
+        // $producto->dosificacion=$request->dosificacion;
+        // $producto->accion_terapeutica=$request->accion_terapeutica;
+        // $producto->principio_activo=$request->principio_activo;
+        // $producto->imagen=$var;
+        // $producto->tiempo_pedido=$request->tiempo_pedido;
+        // $producto->precio_lista=$request->precio_lista;
+        // $producto->precio_venta=$request->precio_venta;
+        // $producto->idcategoria=$request->idcategoria;
+        // $producto->metodoabc=$request->metodoabc;
+        // $producto->id_usuario_registra=auth()->user()->id;
+        // $producto->save();
+        return $request;
     }
 
     /**
