@@ -110,7 +110,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row" style="margin-bottom: 30px;">
                             <div class="form-group col-sm-4">
                                 <strong>Linea:</strong>
                                 <select v-model="idlineaselected" class="form-control">
@@ -151,7 +151,7 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Envase Primario:</strong>
-                                                <select v-model="iddispenserselected" class="form-control">
+                                                <select v-model="iddispenserselectedprimario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                                 </select>
@@ -159,23 +159,23 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="number" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <input type="number" class="form-control" v-model="cantidadPrimario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
                                                 <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselected" class="form-control">
+                                                <select v-model="idformafarmselectedPrimario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="idformafarmselected==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <span class="error" v-if="idformafarmselectedprimario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolista" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="preciolistaprimario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -185,11 +185,11 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="preciolista==0">Debe Ingresar el Precio de Lista</span>
+                                                <span class="error" v-if="preciolistaprimario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventa" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -199,34 +199,34 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="precioventa==''">Debe Ingresar el Precio de Venta</span>
+                                                <span class="error" v-if="precioventaprimario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Tiempo de Pedido:</strong>
-                                                <select v-model="tiempopedidoselected" class="form-control">
+                                                <select v-model="tiempopedidoselectedprimario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
                                                 </select>
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <span class="error" v-if="tiempopedidoselectedprimario==0">Debe ingresar Cantidad</span>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Clasificación ABC:</strong>
-                                                <select v-model="metodoselected" class="form-control">
+                                                <select v-model="metodoselectedprimario" class="form-control">
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
                                             <div class="form-check col-sm-4 mt-4 pl-5">
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="tiendaprimario" id="defaultChecktiendaprimario">
+                                                    <label class="form-check-label" for="defaultChecktiendaprimario">
                                                         Tienda
                                                     </label>
                                                 </div>
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="almacenprimario" id="defaultCheck1almacen">
+                                                    <label class="form-check-label" for="defaultCheck1almacen">
                                                         Almacen
                                                     </label>
                                                 </div>
@@ -237,31 +237,31 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Envase Secundario:</strong>
-                                                <select v-model="iddispenserselected" class="form-control">
+                                                <select v-model="iddispenserselectedsecundario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="iddispenserselected==0">Debe Seleccionar el dispenser</span>
+                                                <span class="error" v-if="iddispenserselectedsecundario==0">Debe Seleccionar el dispenser</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="number" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <input type="number" class="form-control" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselected" class="form-control">
+                                                <select v-model="idformafarmselectedsecundario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="idformafarmselected==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <span class="error" v-if="idformafarmselectedsecundario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolista" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -271,11 +271,11 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="preciolista==0">Debe Ingresar el Precio de Lista</span>
+                                                <span class="error" v-if="preciolistasecundario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventa" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -285,34 +285,34 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="precioventa==''">Debe Ingresar el Precio de Venta</span>
+                                                <span class="error" v-if="precioventasecundario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Tiempo de Pedido:</strong>
-                                                <select v-model="tiempopedidoselected" class="form-control">
+                                                <select v-model="tiempopedidoselectedsecundario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
                                                 </select>
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <span class="error" v-if="tiempopedidoselectedsecundario==0">Debe ingresar Cantidad</span>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Clasificación ABC:</strong>
-                                                <select v-model="metodoselected" class="form-control">
+                                                <select v-model="metodoselectedsecundario" class="form-control">
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
                                             <div class="form-check col-sm-4 mt-4 pl-5">
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="tiendasecundario" id="defaultCheck1secundariotiendasecundario">
+                                                    <label class="form-check-label" for="defaultCheck1secundariotiendasecundario">
                                                         Tienda
                                                     </label>
                                                 </div>
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="almacensecundario" id="defaultCheck1almacensecundario">
+                                                    <label class="form-check-label" for="defaultCheck1almacensecundario">
                                                         Almacen
                                                     </label>
                                                 </div>
@@ -323,31 +323,31 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Envase Terceario:</strong>
-                                                <select v-model="iddispenserselected" class="form-control">
+                                                <select v-model="iddispenserselectedterciario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="iddispenserselected==0">Debe Seleccionar el dispenser</span>
+                                                <span class="error" v-if="iddispenserselectedterciario==0">Debe Seleccionar el dispenser</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="number" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <input type="number" class="form-control" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselected" class="form-control">
+                                                <select v-model="idformafarmselectedterciario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="idformafarmselected==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <span class="error" v-if="idformafarmselectedterciario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolista" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -357,11 +357,11 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="preciolista==0">Debe Ingresar el Precio de Lista</span>
+                                                <span class="error" v-if="preciolistaterciario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventa" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="number" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
                                                 <!--<vue-numeric  
                                                     class="form-control"
                                                     currency="Bs." 
@@ -375,30 +375,30 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Tiempo de Pedido:</strong>
-                                                <select v-model="tiempopedidoselected" class="form-control">
+                                                <select v-model="tiempopedidoselectedterciario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
                                                 </select>
-                                                <span class="error" v-if="cantidad==''">Debe ingresar Cantidad</span>
+                                                <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Clasificación ABC:</strong>
-                                                <select v-model="metodoselected" class="form-control">
+                                                <select v-model="metodoselectedterciario" class="form-control">
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
                                             <div class="form-check col-sm-4 mt-4 pl-5">
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="tiendaterciario" id="defaultCheck1tiendaterciario">
+                                                    <label class="form-check-label" for="defaultCheck1tiendaterciario">
                                                         Tienda
                                                     </label>
                                                 </div>
                                                 <div>
-                                                    <input class="form-check-input" type="checkbox" v-model="mostrardetalles" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
+                                                    <input class="form-check-input" type="checkbox" v-model="almacenterciario" id="defaultCheck1almacenterciario">
+                                                    <label class="form-check-label" for="defaultCheck1almacenterciario">
                                                         Almacen
                                                     </label>
                                                 </div>
@@ -408,7 +408,7 @@
                                 </div>
                             <!-- Fin tab para los envases del producto -->
                         
-                        <div class="row">
+                        <div class="row" style="margin-top: 50px;">
                             <div class="form-group col-sm-4">
                                 <strong>Categoria:</strong>
                                 <select v-model="idcategoriaselected" class="form-control">
@@ -479,10 +479,19 @@
                         </div> -->
                         <!--  -->
 
-                        <div v-if="tipoAccion==1">
+                        <!-- <div v-if="tipoAccion==1">
                             <h4>Seleccionar Imagen</h4>
                             <input type="file" @change="onFileChange" accept="image/x-png,image/jpeg">
+                        </div> -->
+
+                        <div class="form-group" v-if="clearInputFile">
+                            <label for="">Imagen:&nbsp; &nbsp;</label>
+                            <input class="form-control rounded" type="file" @change="subirfoto" :v-model="foto" accept="image/*" id="img-empleado">                
                         </div>
+                        <figure>
+                            <img width="100" height="100" :src="imagen" alt="">
+                        </figure>
+
                         <!-- <div v-else>
                             <img :src="'storage/producto/'+imagen"  width="200px"/>
                             <img src="storage/producto/wT4pdk3MYitkDQAzA0B1Yq8kVjXMyn0l.jpg" alt="">
@@ -531,40 +540,82 @@ import QrcodeVue from 'qrcode.vue'
                 arrayProducto:[],
                 tituloModal:'',
                 tipoAccion:1,
-                iddispenser:'',
+                //iddispenser:'',
                 buscar:'',
                 idlineas:[],
-                idlineaselected:0,
+                //idlineaselected:0,
                 clearSelected:1,
                 
-                cantidad:0,
+                //cantidad:0,
                 nombre:'',
                 clearSelected2:1,
                 clearSelected1:1,
-                iddispenserselected:0,
+                //iddispenserselected:0,
                 iddispenser:[],
-                idformafarmselected:0,
+                //idformafarmselected:0,
                 idformafarm:[],
-                preciolista:0,
-                precioventa:0,
+                //preciolista:0,
+                //precioventa:0,
                 tiempopedido:[{'id':1,'dato':'1 mes'},
                                 {'id':3,'dato':'3 meses'},
                                 {'id':6,'dato':'6 meses'},
                                 {'id':12,'dato':'12 meses'}],
-                tiempopedidoselected:0,
+                //tiempopedidoselected:0,
+                //indicaciones:'',
+                //dosificacion:'',
+                //principio:'',
+                accion:'',
+                idproducto:'',
+                //image:'',
+                //imagen:'',
+                metodoselected:'A',
+                arrayMetodo:['A','B','C'],
+                idcategoria:[],
+                //idcategoriaselected:0,
+                clearSelected3:1,
+                mostrardetalles:0,
+                clearInputFile:1,
+                foto:'',
+                imagenminiatura:'',
+
+                ////// a qui comiienza las nuevas variables
+                idlineaselected:0,
+                nombre:'',
+                iddispenserselectedprimario:0,
+                cantidadPrimario:0,
+                idformafarmselectedPrimario:0,
+                preciolistaprimario:0,
+                precioventaprimario:0,
+                tiempopedidoselectedprimario:0,
+                metodoselectedprimario:0,
+                tiendaprimario:0,
+                almacenprimario:0,
+                iddispenserselectedsecundario:0,
+                cantidadsecundario:0,
+                idformafarmselectedsecundario:0,
+                preciolistasecundario:0,
+                precioventasecundario:0,
+                tiempopedidoselectedsecundario:0,
+                metodoselectedsecundario:0,
+                tiendasecundario:0,
+                almacensecundario:0,
+                iddispenserselectedterciario:0,
+                cantidadterciario:0,
+                idformafarmselectedterciario:0,
+                preciolistaterciario:0,
+                precioventaterciario:0,
+                tiempopedidoselectedterciario:0,
+                metodoselectedterciario:0,
+                tiendaterciario:0,
+                almacenterciario:0,
+                idcategoriaselected:0,
+                mostrardetalles:0,
                 indicaciones:'',
                 dosificacion:'',
                 principio:'',
                 accion:'',
-                idproducto:'',
-                image:'',
-                imagen:'',
-                metodoselected:'A',
-                arrayMetodo:['A','B','C'],
-                idcategoria:[],
-                idcategoriaselected:0,
-                clearSelected3:1,
-                mostrardetalles:0,
+                foto:'',
+
 
                 //////qrcode
                 value: 'https://example.com',
@@ -574,7 +625,6 @@ import QrcodeVue from 'qrcode.vue'
                 formafarms:[],
                 categorias:[]
 
-
             }
 
         },
@@ -582,6 +632,10 @@ import QrcodeVue from 'qrcode.vue'
             QrcodeVue,
         },
         computed:{
+            imagen(){
+                return this.imagenminiatura;
+            },
+
             sicompleto(){
                 let me=this;
                 if (me.nombre=='' || me.cantidad==0 || me.idlineaselected==0 || me.iddispenserselected==0 || me.idformafarmselected==0 || me.preciolista==0 || me.precioventa==0 || me.tiempopedidoselected==0 || me.idcategoriaselected==0)
@@ -615,6 +669,21 @@ import QrcodeVue from 'qrcode.vue'
 
         },
         methods :{
+            subirfoto(event){
+                let me=this;
+                me.foto=event.target.files[0];
+                console.log(me.foto);
+                me.cargarImagen();
+            },
+
+            cargarImagen(){
+                let reader = new FileReader();
+                reader.onload=(e)=>{
+                    this.imagenminiatura=e.target.result;
+                }
+                reader.readAsDataURL(this.foto);
+            },
+
             listarLinea(){
                 let me=this;
                 var url='/linea/selectlinea2';
