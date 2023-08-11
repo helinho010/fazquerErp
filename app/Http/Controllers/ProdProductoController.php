@@ -202,6 +202,12 @@ class ProdProductoController extends Controller
         // $producto->metodoabc=$request->metodoabc;
         // $producto->id_usuario_registra=auth()->user()->id;
         // $producto->save();
+        if($request->hasFile('foto'))
+        {
+            $filename=$request->foto->getClientOriginalName();
+            info($filename);
+            //$empleado->foto=$request->file('foto')->store('empleados');
+        }
         return $request;
     }
 
