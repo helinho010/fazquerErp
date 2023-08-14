@@ -102,10 +102,10 @@
                                 </div>
                             </div>                            
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Tiempo de Demora [dias] <span  v-if="!sidemora" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Plazo de Entrega <span  v-if="!sidemora" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="number" id="demora" name="demora" class="form-control"  v-model="demora" v-on:focus="selectAll" style="text-align:right" >
-                                    <span  v-if="!sidemora" class="error">Debe Ingresar el Tiempo de Demora</span>
+                                    <input type="number" id="demora" name="demora" class="form-control"  v-model="demora" v-on:focus="selectAll" style="padding-left: 15px;" >
+                                    <span  v-if="!sidemora" class="error">Debe Ingresar el Plazo de Entrega</span>
                                 </div>
                             </div>
                             
@@ -428,9 +428,9 @@ import { error401 } from '../../errores';
     }
 </script>
 <style scoped>
-.error{
+.error
+{
     color: red;
-    font-size: 10px;
-    
+    font-size: 10px;    
 }
 </style>

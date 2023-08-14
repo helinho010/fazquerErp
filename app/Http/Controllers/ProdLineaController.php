@@ -87,12 +87,12 @@ class ProdLineaController extends Controller
             $correlativo=$correlativo+1;
 
         if($correlativo<10)
-            $codigo='100'.$correlativo;
+            $codigo='00'.$correlativo;
         else
-            if($correlativo<100)
-                $codigo='10'.$correlativo;
+            if($correlativo >=10 && $correlativo<=99)
+                $codigo='0'.$correlativo;
             else
-                $codigo='1'.$correlativo;
+                $codigo=$correlativo;
         
         $codigo=$letracodigo.$codigo;
         
@@ -213,16 +213,11 @@ class ProdLineaController extends Controller
     }
     public function selectLinea2(Request $request)
     {
-        
-        $raw=DB::raw(DB::raw('concat(codigo," ",nombre) as cod'));
-       
+        $raw=DB::raw(DB::raw('concat(codigo," ",nombre) as cod'));  
         $lineas = Prod_Linea::select($raw,'id','nombre','codigo')
                             ->where('activo',1)
                             ->orderby('codigo','asc')
                             ->get();
-            
-              
-       
         return $lineas;
     }
 }

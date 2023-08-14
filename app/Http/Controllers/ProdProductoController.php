@@ -152,9 +152,7 @@ class ProdProductoController extends Controller
                                 ->where('idlinea',$request->idlinea)
                                 ->get()->toArray();
 
-        //dd($maxcorrelativo);
         $correlativo=$maxcorrelativo[0]['maximo'];
-        //dd($correlativo);
         if(is_null($correlativo))
             $correlativo=1;
         else
@@ -183,24 +181,75 @@ class ProdProductoController extends Controller
         $producto = new Prod_Producto();
 
         
-        $producto->idlinea=$request->idlinea;
-        $producto->codigo=$request->cod.$codigo;
-        $producto->correlativo=$correlativo;
-        $producto->nombre=$request->nombre;
-        $producto->iddispenser=$request->iddispenser;
-        $producto->cantidad=$request->cantidad;
-        $producto->idformafarm=$request->idformafarm;
-        $producto->indicaciones=$request->indicaciones;
-        $producto->dosificacion=$request->dosificacion;
-        $producto->accion_terapeutica=$request->accion_terapeutica;
-        $producto->principio_activo=$request->principio_activo;
-        $producto->imagen=$var;
-        $producto->tiempo_pedido=$request->tiempo_pedido;
-        $producto->precio_lista=$request->precio_lista;
-        $producto->precio_venta=$request->precio_venta;
-        $producto->idcategoria=$request->idcategoria;
-        $producto->metodoabc=$request->metodoabc;
-        $producto->id_usuario_registra=auth()->user()->id;
+        // $producto->idlinea=$request->idlinea;
+        // $producto->codigo=$request->cod.$codigo;
+        // $producto->correlativo=$correlativo;
+        // $producto->nombre=$request->nombre;
+        // $producto->iddispenser=$request->iddispenser;
+        // $producto->cantidad=$request->cantidad;
+        // $producto->idformafarm=$request->idformafarm;
+        // $producto->indicaciones=$request->indicaciones;
+        // $producto->dosificacion=$request->dosificacion;
+        // $producto->accion_terapeutica=$request->accion_terapeutica;
+        // $producto->principio_activo=$request->principio_activo;
+        // $producto->imagen=$var;
+        // $producto->tiempo_pedido=$request->tiempo_pedido;
+        // $producto->precio_lista=$request->precio_lista;
+        // $producto->precio_venta=$request->precio_venta;
+        // $producto->idcategoria=$request->idcategoria;
+        // $producto->metodoabc=$request->metodoabc;
+        // $producto->id_usuario_registra=auth()->user()->id;
+        // $producto->save();
+
+        if($request->hasFile('foto'))
+        {
+            $filename=$request->foto->getClientOriginalName();
+            info($filename);
+            $producto->foto=$request->file('foto')->store('producto');
+        }
+
+        $producto->codigo = $codigo;
+        $producto->idlinea = $request->idlineaselected;
+        $producto->nombre = $request->nombre;
+        $producto->correlativo = $correlativo;
+        $producto->iddispenserprimario = $request->iddispenserselectedprimario;
+        $producto->cantidadprimario = $request->cantidadPrimario;
+        $producto->idformafarmaceuticaprimario = $request->idformafarmselectedPrimario;
+        $producto->preciolistaprimario = $request->preciolistaprimario;
+        $producto->precioventaprimario = $request->precioventaprimario;
+        $producto->tiempopedidoprimario = $request->tiempopedidoselectedprimario;
+        $producto->metodoabcprimario = $request->metodoselectedprimario;
+        $producto->tiendaprimario = $request->tiendaprimario;
+        $producto->almacenprimario = $request->almacenprimario;
+        $producto->iddispensersecundario = $request->iddispenserselectedsecundario;
+        $producto->cantidadsecundario = $request->cantidadsecundario;
+        $producto->idformafarmaceuticasecundario = $request->idformafarmselectedsecundario;
+        $producto->preciolistasecundario = $request->preciolistasecundario;
+        $producto->precioventasecundario = $request->precioventasecundario;
+        $producto->tiempopedidosecundario = $request->tiempopedidoselectedsecundario;
+        $producto->metodoabcsecundario = $request->metodoselectedsecundario;
+        $producto->tiendasecundario = $request->tiendasecundario;
+        $producto->almacensecundario = $request->almacensecundario;
+        $producto->iddispenserterciario = $request->iddispenserselectedterciario;
+        $producto->cantidadterciario = $request->cantidadterciario;
+        $producto->idformafarmaceuticaterciario = $request->idformafarmselectedterciario;
+        $producto->preciolistaterciario = $request->preciolistaterciario;
+        $producto->precioventaterciario = $request->precioventaterciario;
+        $producto->tiempopedidoterciario = $request->tiempopedidoselectedterciario;
+        $producto->metodoabcterciario = $request->metodoselectedterciario;
+        $producto->tiendaterciario = $request->tiendaterciario;
+        $producto->almacenterciario = $request->almacenterciario;
+        $producto->idcategoria = $request->idcategoriaselected;
+        $producto->indicaciones = $request->indicaciones;
+        $producto->dosificacion = $request->dosificacion;
+        $producto->principio = $request->principio;
+        $producto->accion = $request->accion;
+        $producto->foto = $var;
+        $producto->codigointernacional = $request->codigointernacional;
+        $producto->estado = 1;
+        $producto->activo = 1;
+        $producto->id_usuario_registra = 1;
+        $producto->id_usuario_modifica = 1;
         $producto->save();
     }
 
