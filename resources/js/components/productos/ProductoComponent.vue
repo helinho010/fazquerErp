@@ -18,13 +18,13 @@
                 <div class="card-body">
                     <div class="form-group row">
                         <!--  si se agrega filtro -->
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label class="col-md-3 form-control-label" for="text-input">Almacen: <span  v-if="!sicompleto" class="error">(*)</span></label>
                             <div class="col-md-9">
                                 <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Prestacion" v-model="nombre" v-on:focus="selectAll">
                                 <span  v-if="!sicompleto" class="error">Debe Ingresar el Nombre de la Prestacion</span>
                             </div>
-                        </div> 
+                        </div>  -->
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarProducto(1)">
@@ -44,7 +44,7 @@
                                 <th>Precio Lista</th>
                                 <th>Precio Venta</th>
                                 <th>Metodo</th>
-                                <th>Categoria</th>
+                                <th>Codigo Internacional</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -61,16 +61,16 @@
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="producto.nombrelinea"></td>
-                                <td v-text="producto.codproducto"></td>
-                                <td v-text="producto.nombreproducto"></td>
-                                <td>{{ producto.nombredispenser}} - {{producto.cantidad}} <br /> {{producto.nombreformafarm }}</td>
-                                <td v-text="producto.tiempo_pedido"></td>
-                                <td v-text="producto.precio_lista"></td>
-                                <td v-text="producto.precio_venta"></td>
+                                <td v-text="producto.nomlinea"></td>
+                                <td v-text="producto.codprod"></td>
+                                <td v-text="producto.nomprod"></td>
+                                <td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td>
+                                <td >{{ producto.tiempopedidoprimario }} meses</td>
+                                <td v-text="producto.preciolistaprimario"></td>
+                                <td v-text="producto.precioventaprimario"></td>
                                 
-                                <td v-text="producto.metodoabc"></td>
-                                <td v-text="producto.nombrecategoria"></td>
+                                <td v-text="producto.metodoabcprimario"></td>
+                                <td v-text="producto.codigointernacional"></td>
                                 <td>
                                     <div v-if="producto.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -677,10 +677,7 @@ import QrcodeVue from 'qrcode.vue'
                 var url='/linea/selectlinea2';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    console.log("++++++++++++++++++++");
-                    console.log(respuesta);
                     me.lineas=respuesta;
-                    
                 })
                 .catch(function(error){
                     error401(error);
@@ -692,10 +689,8 @@ import QrcodeVue from 'qrcode.vue'
                 let me=this;
                 var url='/dispenser/selectdispenser2';
                 axios.get(url).then(function(response){
-                    console.log(response)
                     var respuesta=response.data;
                     me.dispensers=respuesta;
-                    
                 })
                 .catch(function(error){
                     error401(error);
@@ -707,10 +702,8 @@ import QrcodeVue from 'qrcode.vue'
                 let me=this;
                 var url='/formafarm/selectformafarm2';
                 axios.get(url).then(function(response){
-                    console.log(response)
                     var respuesta=response.data;
                     me.formafarms=respuesta;
-                    
                 })
                 .catch(function(error){
                     error401(error);
@@ -722,7 +715,6 @@ import QrcodeVue from 'qrcode.vue'
                 let me=this;
                 var url='/categoria/selectcategoria2';
                 axios.get(url).then(function(response){
-                    console.log(response)
                     var respuesta=response.data;
                     me.categorias=respuesta;
                     
@@ -834,15 +826,14 @@ import QrcodeVue from 'qrcode.vue'
                 var url='/producto?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
+                    console.log("1111111111111111111111111");
+                    console.log(respuesta.producto.data);
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
-                    console.log("******************");
-                    console.log(response.data);
-                    
                 })
                 .catch(function(error){
                     error401(error);
-                    console.log(error);
+                    console.log(error.response);
                 });
             },
             cambiarPagina(page){
@@ -852,6 +843,8 @@ import QrcodeVue from 'qrcode.vue'
             },
             registrarProducto(){
                 let me = this;
+                console.log("///////////////////////////////////");
+                console.log(me);
                 let formData = new FormData();
                 formData.append('foto', me.foto);
                 formData.append('idlineaselected', me.idlineaselected);
@@ -913,14 +906,14 @@ import QrcodeVue from 'qrcode.vue'
                     idlineaselected:0,*/
                 // })
                 .then(function(response){
-                    console.log(response);
+                    console.log("@@@@@@@@@@@@@@");
+                    console.log(response.data);
                     if(response.data=='error')
                     {
                         Swal.fire('El registro ya existe','Debe introducir uno diferente');
                     }
                     else
                     {
-                        
                         Swal.fire('Registrado Correctamente');
                         me.cerrarModal('registrar');
                         me.listarProducto(me.pagination.current_page);

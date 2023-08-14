@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+//use App\Models\Prod_Categoria;
 use App\Models\Prod_Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,37 +83,56 @@ class ProdProductoController extends Controller
         
         else
         {
-            $producto= Prod_Producto::join('prod__lineas','prod__lineas.id','prod__productos.idlinea')
-                                        ->join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
-                                        ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
-                                        ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
-                                        ->select('prod__lineas.nombre as nombrelinea',
-                                                    'prod__dispensers.nombre as nombredispenser',
-                                                    'prod__forma_farmaceuticas.nombre as nombreformafarm',
-                                                    'prod__categorias.nombre as nombrecategoria',
-                                                    'prod__productos.codigo as codproducto',
-                                                    'prod__productos.nombre as nombreproducto',
-                                                    'prod__productos.id as idproducto',
-                                                    'cantidad',
-                                                    'indicaciones',
-                                                    'dosificacion',
-                                                    'accion_terapeutica',
-                                                    'principio_activo',
-                                                    'imagen',
-                                                    'tiempo_pedido',
-                                                    'precio_lista',
-                                                    'precio_venta',
-                                                    'prod__productos.estado',
-                                                    'prod__productos.activo',
-                                                    'prod__productos.id as id',
-                                                    'iddispenser',
-                                                    'idformafarm',
-                                                    'idlinea',
-                                                    'idcategoria',
-                                                    'metodoabc')
-                                        ->where('prod__productos.estado',1)
-                                        ->orderby('prod__productos.nombre','asc')
-                                        ->paginate(30);
+            // $producto= Prod_Producto::join('prod__lineas','prod__lineas.id','prod__productos.idlinea')
+            //                             ->join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
+            //                             ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
+            //                             ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
+            //                             ->select('prod__lineas.nombre as nombrelinea',
+            //                                         'prod__dispensers.nombre as nombredispenser',
+            //                                         'prod__forma_farmaceuticas.nombre as nombreformafarm',
+            //                                         'prod__categorias.nombre as nombrecategoria',
+            //                                         'prod__productos.codigo as codproducto',
+            //                                         'prod__productos.nombre as nombreproducto',
+            //                                         'prod__productos.id as idproducto',
+            //                                         'cantidad',
+            //                                         'indicaciones',
+            //                                         'dosificacion',
+            //                                         'accion_terapeutica',
+            //                                         'principio_activo',
+            //                                         'imagen',
+            //                                         'tiempo_pedido',
+            //                                         'precio_lista',
+            //                                         'precio_venta',
+            //                                         'prod__productos.estado',
+            //                                         'prod__productos.activo',
+            //                                         'prod__productos.id as id',
+            //                                         'iddispenser',
+            //                                         'idformafarm',
+            //                                         'idlinea',
+            //                                         'idcategoria',
+            //                                         'metodoabc')
+            //                             ->where('prod__productos.estado',1)
+            //                             ->orderby('prod__productos.nombre','asc')
+            //                             ->paginate(30);
+            $producto = Prod_Producto::join('prod__lineas','prod__lineas.id','prod__productos.idlinea')
+                                      ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
+                                      ->select(DB::raw('prod__productos.codigo as codprod,
+                                      prod__productos.nombre as nomprod,
+                                      prod__productos.preciolistaterciario,
+                                      prod__productos.iddispenserprimario as idenvase,
+                                      prod__productos.cantidadprimario,
+                                      prod__productos.idformafarmaceuticaprimario,
+                                      prod__productos.preciolistaprimario,
+                                      prod__productos.precioventaprimario,
+                                      prod__productos.codigointernacional,
+                                      prod__productos.idformafarmaceuticaprimario, 
+                                      prod__productos.metodoabcprimario,
+                                      prod__productos.tiempopedidoprimario,
+                                      prod__lineas.nombre as nomlinea,
+                                      prod__lineas.codigo as codlinea'))
+                                      ->where('prod__productos.estado',1)
+                                      ->orderby('prod__productos.nombre','asc')
+                                      ->paginate(30);
         }
         
         //$producto = Prod_Producto::all();
