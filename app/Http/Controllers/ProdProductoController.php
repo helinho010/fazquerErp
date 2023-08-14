@@ -148,39 +148,37 @@ class ProdProductoController extends Controller
      */
     public function store(Request $request)
     {
-        // $maxcorrelativo = Prod_Producto::select(DB::raw('max(correlativo) as maximo'))
-        //                         ->where('idlinea',$request->idlinea)
-        //                         ->get()->toArray();
+        $maxcorrelativo = Prod_Producto::select(DB::raw('max(correlativo) as maximo'))
+                                ->where('idlinea',$request->idlinea)
+                                ->get()->toArray();
 
-        // //dd($maxcorrelativo);
-        // $correlativo=$maxcorrelativo[0]['maximo'];
-        // //dd($correlativo);
-        // if(is_null($correlativo))
-        //     $correlativo=1;
-        // else
-        //     $correlativo=$correlativo+1;
+        $correlativo=$maxcorrelativo[0]['maximo'];
+        if(is_null($correlativo))
+            $correlativo=1;
+        else
+            $correlativo=$correlativo+1;
 
-        // if($correlativo<10)
-        //     $codigo='000'.$correlativo;
-        // else
-        //     if($correlativo<100)
-        //         $codigo='00'.$correlativo;
-        //     else
-        //         if($correlativo<1000)
-        //             $codigo='0';
-        //         else
-        //             $codigo=$correlativo;
+        if($correlativo<10)
+            $codigo='000'.$correlativo;
+        else
+            if($correlativo<100)
+                $codigo='00'.$correlativo;
+            else
+                if($correlativo<1000)
+                    $codigo='0';
+                else
+                    $codigo=$correlativo;
         
-        // $codigo=$request->codigolinea.$codigo;
+        $codigo=$request->codigolinea.$codigo;
 
-        // $var = Str::random(32);
-        // $var.='.jpg'; 
-        // $value = substr($request->imagen, strpos($request->imagen, ',') + 1); 
-        // $value = base64_decode($value); 
-        // Storage::put('app/public/producto/'.$var, $value);
+        $var = Str::random(32);
+        $var.='.jpg'; 
+        $value = substr($request->imagen, strpos($request->imagen, ',') + 1); 
+        $value = base64_decode($value); 
+        Storage::put('app/public/producto/'.$var, $value);
  
 
-        // $producto = new Prod_Producto();
+        $producto = new Prod_Producto();
 
         
         // $producto->idlinea=$request->idlinea;
@@ -202,13 +200,57 @@ class ProdProductoController extends Controller
         // $producto->metodoabc=$request->metodoabc;
         // $producto->id_usuario_registra=auth()->user()->id;
         // $producto->save();
+
         if($request->hasFile('foto'))
         {
             $filename=$request->foto->getClientOriginalName();
             info($filename);
-            //$empleado->foto=$request->file('foto')->store('empleados');
+            $producto->foto=$request->file('foto')->store('producto');
         }
-        return $request;
+
+        $producto->codigo = $codigo;
+        $producto->idlinea = $request->idlineaselected;
+        $producto->nombre = $request->nombre;
+        $producto->correlativo = $correlativo;
+        $producto->iddispenserprimario = $request->iddispenserselectedprimario;
+        $producto->cantidadprimario = $request->cantidadPrimario;
+        $producto->idformafarmaceuticaprimario = $request->idformafarmselectedPrimario;
+        $producto->preciolistaprimario = $request->preciolistaprimario;
+        $producto->precioventaprimario = $request->precioventaprimario;
+        $producto->tiempopedidoprimario = $request->tiempopedidoselectedprimario;
+        $producto->metodoabcprimario = $request->metodoselectedprimario;
+        $producto->tiendaprimario = $request->tiendaprimario;
+        $producto->almacenprimario = $request->almacenprimario;
+        $producto->iddispensersecundario = $request->iddispenserselectedsecundario;
+        $producto->cantidadsecundario = $request->cantidadsecundario;
+        $producto->idformafarmaceuticasecundario = $request->idformafarmselectedsecundario;
+        $producto->preciolistasecundario = $request->preciolistasecundario;
+        $producto->precioventasecundario = $request->precioventasecundario;
+        $producto->tiempopedidosecundario = $request->tiempopedidoselectedsecundario;
+        $producto->metodoabcsecundario = $request->metodoselectedsecundario;
+        $producto->tiendasecundario = $request->tiendasecundario;
+        $producto->almacensecundario = $request->almacensecundario;
+        $producto->iddispenserterciario = $request->iddispenserselectedterciario;
+        $producto->cantidadterciario = $request->cantidadterciario;
+        $producto->idformafarmaceuticaterciario = $request->idformafarmselectedterciario;
+        $producto->preciolistaterciario = $request->preciolistaterciario;
+        $producto->precioventaterciario = $request->precioventaterciario;
+        $producto->tiempopedidoterciario = $request->tiempopedidoselectedterciario;
+        $producto->metodoabcterciario = $request->metodoselectedterciario;
+        $producto->tiendaterciario = $request->tiendaterciario;
+        $producto->almacenterciario = $request->almacenterciario;
+        $producto->idcategoria = $request->idcategoriaselected;
+        $producto->indicaciones = $request->indicaciones;
+        $producto->dosificacion = $request->dosificacion;
+        $producto->principio = $request->principio;
+        $producto->accion = $request->accion;
+        $producto->foto = $var;
+        $producto->codigointernacional = $request->codigointernacional;
+        $producto->estado = 1;
+        $producto->activo = 1;
+        $producto->id_usuario_registra = 1;
+        $producto->id_usuario_modifica = 1;
+        $producto->save();
     }
 
     /**
