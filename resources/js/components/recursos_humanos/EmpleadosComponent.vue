@@ -240,7 +240,7 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>Celular:<span  v-if="celular==''" class="error">(*)</span></label>
-                                        <input type="text" id="celular" name="celular" class="form-control rounded" placeholder="Celular" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="celular" v-on:focus="selectAll" >
+                                        <input type="text" id="celular" name="celular" class="form-control rounded" placeholder="Celular" v-on:keypress.prevent="caracteresPermitidosCelular" v-model="celular" v-on:focus="selectAll" >
                                         <span  v-if="celular==''" class="error">Debe Ingresar Num. Cel.</span>
                                     </div>
                                 </div>
@@ -325,7 +325,7 @@
                                 
                             </div>
                         </div>
-                        </form>
+                      </form>
                     </div>    
                     <div class="modal-footer justify-content-between"> 
                         <div>
@@ -535,6 +535,14 @@ import { error401 } from '../../errores';
                 if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.telefono = me.telefono+ex.key;
+                } 
+            },
+
+            caracteresPermitidosCelular(ex){
+                let me=this;
+                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.celular = me.celular+ex.key;
                 } 
             },
 
