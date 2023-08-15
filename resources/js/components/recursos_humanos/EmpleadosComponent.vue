@@ -557,7 +557,6 @@ import { error401 } from '../../errores';
             subirfoto(event){
                 let me=this;
                 me.foto=event.target.files[0];
-                console.log(me.foto);
                 me.cargarImagen();
             },
             cargarImagen(){
@@ -1016,7 +1015,9 @@ import { error401 } from '../../errores';
                     }
                 }
               me.mensajeError='';
+              me.listarEmpleados();
             },
+            
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()

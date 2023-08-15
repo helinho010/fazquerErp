@@ -60,6 +60,8 @@
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
                                         <i class="icon-check"></i>
                                     </button>
+                                    <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(8)" class="rounded-circle fotosociomini">
+                                    <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
                                 </td>
                                 <td v-text="producto.nomlinea"></td>
                                 <td v-text="producto.codprod"></td>
@@ -473,7 +475,7 @@
 
                         <div class="form-group" v-if="clearInputFile">
                             <label for="">Imagen:&nbsp; &nbsp;</label>
-                            <input class="form-control rounded" type="file" @change="subirfoto" :v-model="foto" accept="image/*" id="img-empleado">    
+                            <input class="form-control rounded" type="file" @change="subirfoto" :v-model="foto" accept="image/*" id="imgproducto">    
                         </div>
                         <figure>
                             <img width="100" height="100" :src="imagen" alt="">
@@ -554,7 +556,7 @@ import QrcodeVue from 'qrcode.vue'
                 accion:'',
                 idproducto:'',
                 //image:'',
-                imagen:'',
+                //imagen:'',
                 metodoselected:'A',
                 arrayMetodo:['A','B','C'],
                 idcategoria:[],
@@ -620,6 +622,7 @@ import QrcodeVue from 'qrcode.vue'
             QrcodeVue,
         },
         computed:{
+            
             imagen(){
                 return this.imagenminiatura;
             },
@@ -660,7 +663,6 @@ import QrcodeVue from 'qrcode.vue'
             subirfoto(event){
                 let me=this;
                 me.foto=event.target.files[0];
-                console.log(me.foto);
                 me.cargarImagen();
             },
 
@@ -826,14 +828,14 @@ import QrcodeVue from 'qrcode.vue'
                 var url='/producto?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    console.log("1111111111111111111111111");
                     console.log(respuesta.producto.data);
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
                 })
                 .catch(function(error){
                     error401(error);
-                    console.log(error.response);
+                    console.log("1111111111111111111111111");
+                    console.log(error);
                 });
             },
             cambiarPagina(page){
@@ -843,8 +845,6 @@ import QrcodeVue from 'qrcode.vue'
             },
             registrarProducto(){
                 let me = this;
-                console.log("///////////////////////////////////");
-                console.log(me);
                 let formData = new FormData();
                 formData.append('foto', me.foto);
                 formData.append('idlineaselected', me.idlineaselected);
@@ -916,7 +916,8 @@ import QrcodeVue from 'qrcode.vue'
                     {
                         Swal.fire('Registrado Correctamente');
                         me.cerrarModal('registrar');
-                        me.listarProducto(me.pagination.current_page);
+                        // me.listarProducto(me.pagination.current_page);
+                        me.listarProducto(1);
                     }
                     
                 }).catch(function(error){
@@ -1027,70 +1028,126 @@ import QrcodeVue from 'qrcode.vue'
             },
             actualizarProducto(){
                // const Swal = require('sweetalert2')
-                let me =this;
-                axios.put('/producto/actualizar',{
-                    'id':me.idproducto,
-                    'nombre':me.nombre,
-                    'cantidad':me.cantidad,
-                    'idlinea':me.idlineaselected,
-                    'iddispenser':me.iddispenserselected,
-                    'idformafarm':me.idformafarmselected,
-                    'precio_lista':me.preciolista,
-                    'precio_venta':me.precioventa,
-                    'tiempo_pedido':me.tiempopedidoselected,
-                    'indicaciones':me.indicaciones,
-                    'dosificacione':me.dosificacione,
-                    'principio_activo':me.principio,
-                    'accion_terapeutica':me.accion,
-                    'idcategoria':me.idcategoriaselected,
-                    'metodoabc':me.metodoselected,
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
+                // let me =this;
+                // axios.put('/producto/actualizar',{
+                    // 'id':me.idproducto,
+                    // 'nombre':me.nombre,
+                    // 'cantidad':me.cantidad,
+                    // 'idlinea':me.idlineaselected,
+                    // 'iddispenser':me.iddispenserselected,
+                    // 'idformafarm':me.idformafarmselected,
+                    // 'precio_lista':me.preciolista,
+                    // 'precio_venta':me.precioventa,
+                    // 'tiempo_pedido':me.tiempopedidoselected,
+                    // 'indicaciones':me.indicaciones,
+                    // 'dosificacione':me.dosificacione,
+                    // 'principio_activo':me.principio,
+                    // 'accion_terapeutica':me.accion,
+                    // 'idcategoria':me.idcategoriaselected,
+                    // 'metodoabc':me.metodoselected,
 
+                let me = this;
+                let formData = new FormData();
+                formData.append('id', me.id);
+                formData.append('foto', me.foto);
+                formData.append('idlineaselected', me.idlineaselected);
+                formData.append('nombre',me.nombre);
+                formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
+                formData.append('cantidadPrimario',me.cantidadprimario);
+                formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
+                formData.append('preciolistaprimario',me.preciolistaprimario);
+                formData.append('precioventaprimario',me.precioventaprimario);
+                formData.append('tiempopedidoselectedprimario',me.tiempopedidoselectedprimario);
+                formData.append('metodoselectedprimario',me.metodoselectedprimario);
+                formData.append('tiendaprimario',me.tiendaprimario==true?1:0);
+                formData.append('almacenprimario',me.almacenprimario==true?1:0);
+                formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
+                formData.append('cantidadsecundario',me.cantidadsecundario);
+                formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
+                formData.append('preciolistasecundario',me.preciolistasecundario);
+                formData.append('precioventasecundario',me.precioventasecundario);
+                formData.append('tiempopedidoselectedsecundario',me.tiempopedidoselectedsecundario);
+                formData.append('metodoselectedsecundario',me.metodoselectedsecundario);
+                formData.append('tiendasecundario',me.tiendasecundario==true?1:0);
+                formData.append('almacensecundario',me.almacensecundario==true?1:0);
+                formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
+                formData.append('cantidadterciario',me.cantidadterciario);
+                formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
+                formData.append('preciolistaterciario',me.preciolistaterciario);
+                formData.append('precioventaterciario',me.precioventaterciario);
+                formData.append('tiempopedidoselectedterciario',me.tiempopedidoselectedterciario);
+                formData.append('metodoselectedterciario',me.metodoselectedterciario);
+                formData.append('tiendaterciario',me.tiendaterciario==true?1:0);
+                formData.append('almacenterciario',me.almacenterciario==true?1:0);
+                formData.append('idcategoriaselected',me.idcategoriaselected);
+                formData.append('codigointernacional',me.codigointernacional);
+                formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
+                formData.append('indicaciones',me.indicaciones);
+                formData.append('dosificacion',me.dosificacion);
+                formData.append('principio',me.principio);
+                formData.append('accion',me.accion);
+
+                axios.post('/producto/registrar', formData, {headers : {'content-type': 'multipart/form-data'}})
+                .then(function (response) {
+                    if(response.data.length)
+                    {}
+                    else
+                    {
+                        Swal.fire('Actualizado Correctamente')
                         me.listarProducto(me.pagination.current_page);
                     } 
                 }).catch(function (error) {
                     error401(error);
                 });
                 me.cerrarModal('registrar');
-
-
             },
+
             abrirModal(accion,data= []){
                 let me=this;
-                console.log('@@@@@@@@@');
-                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
                         me.removeImage;
                         me.tituloModal='Registar Producto'
-                        me.nombre='';
-                        me.cantidad='';
-                        me.clearSelected=0;
-                        setTimeout(me.tiempo, 200); 
-                        me.clearSelected1=0;
-                        setTimeout(me.tiempo1, 200); 
-                        me.clearSelected2=0;
-                        setTimeout(me.tiempo2, 200);
-                        me.clearSelected3=0;
-                        setTimeout(me.tiempo3, 200); 
-                        me.preciolista=0;
-                        me.precioventa=0;
-                        me.tiempopedidoselected=0;
-                        me.indicaciones='';
-                        me.dosificacione='';
-                        me.principio='';
-                        me.accion='';
-                        me.tipoAccion=1;
-                        me.image='';
-                        me.imagen='';
-                        me.metodoselected='A';
+                        me.nombre = '';
+                        me.iddispenserselectedprimario = 0;
+                        me.cantidadprimario = 0;
+                        me.idformafarmselectedprimario = 0;
+                        me.preciolistaprimario = 0;
+                        me.precioventaprimario = 0;
+                        me.tiempopedidoselectedprimario = 0;
+                        me.metodoselectedprimario = 'A';
+                        me.tiendaprimario = false;
+                        me.almacenprimario = false;
+                        me.iddispenserselectedsecundario = 0;
+                        me.cantidadsecundario = 0;
+                        me.idformafarmselectedsecundario = 0;
+                        me.preciolistasecundario = 0;
+                        me.precioventasecundario = 0;
+                        me.tiempopedidoselectedsecundario = 0;
+                        me.metodoselectedsecundario = 'A';
+                        me.tiendasecundario = false;
+                        me.almacensecundario = false;
+                        me.iddispenserselectedterciario = 0;
+                        me.cantidadterciario = 0;
+                        me.idformafarmselectedterciario = 0;
+                        me.preciolistaterciario = 0;
+                        me.precioventaterciario = 0;
+                        me.tiempopedidoselectedterciario = 0;
+                        me.metodoselectedterciario = 'A';
+                        me.tiendaterciario = false;
+                        me.almacenterciario = false;
+                        me.mostrardetalles = false;
+                        me.idcategoriaselected = 0;
+                        me.indicaciones = '';
+                        me.dosificacion = '';
+                        me.principio = '';
+                        me.accion = '';
+                        me.foto = '';
+                        me.imagen = '';
+                        me.imagenminiatura = '';
+                        document.getElementById('imgproducto').value = '';
+                        me.codigointernacional = '';
 
                         me.classModal.openModal('registrar');
                         break;
@@ -1098,24 +1155,25 @@ import QrcodeVue from 'qrcode.vue'
                     
                     case 'actualizar':
                     {
+                        
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Producto: ' + data.codprod
+                        me.tituloModal='Actualizar Producto: ' + data.codprod;
                         
-                        me.clearSelected=0;
-                        setTimeout(me.tiempo, 200); 
-                        me.idlineaselected=data.idlinea;
+                        // me.clearSelected=0;
+                        // setTimeout(me.tiempo, 200); 
+                        // me.idlineaselected=data.idlinea;
 
-                        me.clearSelected1=0;
-                        setTimeout(me.tiempo1, 200);
-                        me.iddispenserselected=data.iddispenser; 
+                        // me.clearSelected1=0;
+                        // setTimeout(me.tiempo1, 200);
+                        // me.iddispenserselected=data.iddispenser; 
                         
-                        me.clearSelected2=0;
-                        setTimeout(me.tiempo2, 200); 
-                        me.idformafarmselected=data.idformafarm
+                        // me.clearSelected2=0;
+                        // setTimeout(me.tiempo2, 200); 
+                        // me.idformafarmselected=data.idformafarm
 
-                        me.clearSelected3=0;
-                        setTimeout(me.tiempo3, 200); 
-                        me.idcategoriaselected=data.idcategoria
+                        // me.clearSelected3=0;
+                        // setTimeout(me.tiempo3, 200); 
+                        // me.idcategoriaselected=data.idcategoria
 
 
                         // me.idproducto=data.idproducto;
@@ -1138,10 +1196,10 @@ import QrcodeVue from 'qrcode.vue'
                         // me.image='';
                         // me.metodoselected=data.metodoabc;
 
-                        
-                        me.codigo = data.codprod;
+                        me.id = data.id;
+                        //me.codigo = data.codprod;
                         me.nombre = data.nomprod;
-                        me.idlinea = data.idlinea;
+                        me.idlineaselected = data.idlinea;
                         me.iddispenserselectedprimario = data.idenvaseprimario;
                         me.cantidadprimario = data.cantidadprimario;
                         me.idformafarmselectedprimario = data.idformafarmaceuticaprimario;
@@ -1175,10 +1233,9 @@ import QrcodeVue from 'qrcode.vue'
                         me.dosificacion = data.dosificacion;
                         me.principio = data.principio;
                         me.accion = data.accion;
-                        me.imagen = data.foto;
+                        data.foto = data.foto === null ? 'persona.png': data.foto.substring(8);
+                        me.imagenminiatura = 'imgproductos/'+ data.foto;
                         me.codigointernacional = data.codigointernacional;
-                        me.estado = data.estado;
-                        me.activo = data.activo;
 
                         me.classModal.openModal('registrar');
                         break;
@@ -1187,6 +1244,7 @@ import QrcodeVue from 'qrcode.vue'
                 }
                 
             },
+
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
@@ -1195,32 +1253,33 @@ import QrcodeVue from 'qrcode.vue'
                 me.idlineas=[];
                 me.idlineaselected=0;
                 me.clearSelected=0;
-                setTimeout(me.tiempo, 200); 
+                // setTimeout(me.tiempo, 200); 
                 me.iddispenser=[];
                 me.iddispenserselected=0;
                 me.clearSelected1=0;
-                setTimeout(me.tiempo1, 200); 
+                // setTimeout(me.tiempo1, 200); 
                 me.idformafarm=[];
                 me.idformafarmselected=0;
                 me.clearSelected2=0;
-                setTimeout(me.tiempo2, 200); 
+                // setTimeout(me.tiempo2, 200); 
                 me.clearSelected3=0;
-                setTimeout(me.tiempo3, 200); 
-                me.idcategoria=[];
+                // setTimeout(me.tiempo3, 200); 
+                 me.idcategoria=[];
                 me.idcategoriaselected=0;
                 me.preciolista=0;
                 me.precioventa=0;
                 me.tiempopedidoselected=0;
                 me.indicaciones='';
-                me.dosificacione='';
+                // me.dosificacione='';
                 me.principio='';
                 me.accion='';
                 me.tipoAccion=1;
-                me.image='';
+                // me.image='';
                 me.imagen='';
-                me.metodoselected='A'
-                
+                me.metodoselected='A';
+                me.listarProducto();  
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
@@ -1253,4 +1312,10 @@ img {
   display: block;
   margin-bottom: 10px;
 }
+.fotosociomini{
+	     display: inline-block;
+        border:#efefef 1px solid;
+        filter:drop-shadow(1px 0px 2px #333);
+        width:35px;
+    }
 </style>
