@@ -33,11 +33,11 @@ class CreateProdProductosTable extends Migration
             // $table->decimal('precio_venta');
             // $table->string('metodoabc',2);
             
-            $table->string('codigo')->comment('a');
+            $table->string('codigo')->comment('Identificar unico del producto registrado');
             $table->unsignedBigInteger('idlinea')->comment("Identificador que hace referencia a la tabla prod__lineas");
-            $table->string('nombre')->comment('a');
+            $table->string('nombre')->comment('nombre del producto que se le dio al momento de crearlo');
             $table->bigInteger('correlativo')->unsigned();
-            $table->bigInteger('iddispenserprimario')->comment('a');
+            $table->bigInteger('iddispenserprimario')->comment('Identificador del envase primario que hace referencia a la tabla prod__dispensers');
             $table->string('cantidadprimario')->comment('a');
             $table->bigInteger('idformafarmaceuticaprimario')->comment('a');
             $table->decimal('preciolistaprimario')->comment('a');
