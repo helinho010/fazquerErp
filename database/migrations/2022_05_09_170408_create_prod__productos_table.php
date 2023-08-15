@@ -71,6 +71,7 @@ class CreateProdProductosTable extends Migration
             $table->string('accion')->nullable()->comment('a');
             $table->string('foto')->nullable()->comment('a');
             $table->string('codigointernacional')->nullable()->comment('a');
+            $table->bigInteger('mostrardetalles')->comment('a');
         
             $table->tinyInteger('estado')->default(1)->comment('1->');
             $table->boolean('activo')->default(1);
