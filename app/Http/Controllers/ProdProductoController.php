@@ -118,18 +118,50 @@ class ProdProductoController extends Controller
                                       ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
                                       ->select(DB::raw('prod__productos.codigo as codprod,
                                       prod__productos.nombre as nomprod,
-                                      prod__productos.preciolistaterciario,
-                                      prod__productos.iddispenserprimario as idenvase,
-                                      prod__productos.cantidadprimario,
-                                      prod__productos.idformafarmaceuticaprimario,
+                                      prod__productos.idlinea,
                                       prod__productos.preciolistaprimario,
+                                      prod__productos.preciolistasecundario,
+                                      prod__productos.preciolistaterciario,
+                                      prod__productos.iddispenserprimario as idenvaseprimario,
+                                      prod__productos.iddispensersecundario as idenvasesecundario,
+                                      prod__productos.iddispenserterciario  as idenvasetercirio,
+                                      prod__productos.cantidadprimario,
+                                      prod__productos.cantidadsecundario,
+                                      prod__productos.cantidadterciario,
+                                      prod__productos.idformafarmaceuticaprimario,
+                                      prod__productos.idformafarmaceuticasecundario,
+                                      prod__productos.idformafarmaceuticaterciario,
                                       prod__productos.precioventaprimario,
+                                      prod__productos.precioventasecundario,
+                                      prod__productos.precioventaterciario,
                                       prod__productos.codigointernacional,
-                                      prod__productos.idformafarmaceuticaprimario, 
+                                      prod__productos.idformafarmaceuticaprimario,
+                                      prod__productos.idformafarmaceuticasecundario,
+                                      prod__productos.idformafarmaceuticaterciario,
                                       prod__productos.metodoabcprimario,
+                                      prod__productos.metodoabcsecundario,
+                                      prod__productos.metodoabcterciario,
                                       prod__productos.tiempopedidoprimario,
+                                      prod__productos.tiempopedidosecundario,
+                                      prod__productos.tiempopedidoterciario,
+                                      prod__productos.tiendaprimario,
+                                      prod__productos.tiendasecundario,
+                                      prod__productos.tiendaterciario,
+                                      prod__productos.almacenprimario,
+                                      prod__productos.almacensecundario,
+                                      prod__productos.almacenterciario,
+                                      prod__productos.indicaciones, 
+                                      prod__productos.dosificacion,
+                                      prod__productos.principio,
+                                      prod__productos.accion,
+                                      prod__productos.foto,
+                                      prod__productos.mostrardetalles,
+                                      prod__productos.estado,
+                                      prod__productos.activo,
                                       prod__lineas.nombre as nomlinea,
-                                      prod__lineas.codigo as codlinea'))
+                                      prod__lineas.codigo as codlinea,
+                                      prod__categorias.nombre as nomcateg,
+                                      prod__categorias.id as idcateg'))
                                       ->where('prod__productos.estado',1)
                                       ->orderby('prod__productos.nombre','asc')
                                       ->paginate(30);
@@ -234,7 +266,7 @@ class ProdProductoController extends Controller
         $producto->correlativo = $correlativo;
         $producto->iddispenserprimario = $request->iddispenserselectedprimario;
         $producto->cantidadprimario = $request->cantidadPrimario;
-        $producto->idformafarmaceuticaprimario = $request->idformafarmselectedPrimario;
+        $producto->idformafarmaceuticaprimario = $request->idformafarmselectedprimario;
         $producto->preciolistaprimario = $request->preciolistaprimario;
         $producto->precioventaprimario = $request->precioventaprimario;
         $producto->tiempopedidoprimario = $request->tiempopedidoselectedprimario;
@@ -265,6 +297,7 @@ class ProdProductoController extends Controller
         $producto->principio = $request->principio;
         $producto->accion = $request->accion;
         $producto->foto = $var;
+        $producto->mostrardetalles = $request->mostrardetalles;
         $producto->codigointernacional = $request->codigointernacional;
         $producto->estado = 1;
         $producto->activo = 1;

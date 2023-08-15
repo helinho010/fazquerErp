@@ -159,16 +159,16 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" v-model="cantidadPrimario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidadPrimario==''">Debe ingresar Cantidad</span>
+                                                <input type="text" class="form-control" v-model="cantidadprimario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <span class="error" v-if="cantidadprimario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselectedPrimario" class="form-control">
+                                                <select v-model="idformafarmselectedprimario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="idformafarmselectedPrimario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <span class="error" v-if="idformafarmselectedprimario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
@@ -560,7 +560,7 @@ import QrcodeVue from 'qrcode.vue'
                 idcategoria:[],
                 //idcategoriaselected:0,
                 clearSelected3:1,
-                mostrardetalles:0,
+                //mostrardetalles:0,
                 clearInputFile:1,
                 foto:'',
                 imagenminiatura:'',
@@ -569,8 +569,8 @@ import QrcodeVue from 'qrcode.vue'
                 idlineaselected:0,
                 nombre:'',
                 iddispenserselectedprimario:0,
-                cantidadPrimario:0,
-                idformafarmselectedPrimario:0,
+                cantidadprimario:0,
+                idformafarmselectedprimario:0,
                 preciolistaprimario:0,
                 precioventaprimario:0,
                 tiempopedidoselectedprimario:0,
@@ -851,8 +851,8 @@ import QrcodeVue from 'qrcode.vue'
                 formData.append('codigolinea','L001');
                 formData.append('nombre',me.nombre);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
-                formData.append('cantidadPrimario',me.cantidadPrimario);
-                formData.append('idformafarmselectedPrimario',me.cantidadPrimario);
+                formData.append('cantidadPrimario',me.cantidadprimario);
+                formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
                 formData.append('preciolistaprimario',me.preciolistaprimario);
                 formData.append('precioventaprimario',me.precioventaprimario);
                 formData.append('tiempopedidoselectedprimario',me.tiempopedidoselectedprimario);
@@ -879,7 +879,7 @@ import QrcodeVue from 'qrcode.vue'
                 formData.append('almacenterciario',me.almacenterciario==true?1:0);
                 formData.append('idcategoriaselected',me.idcategoriaselected);
                 formData.append('codigointernacional',me.codigointernacional);
-                // formData.append('mostrardetalles',me.mostrardetalles);
+                formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
                 formData.append('indicaciones',me.indicaciones);
                 formData.append('dosificacion',me.dosificacion);
                 formData.append('principio',me.principio);
@@ -1063,6 +1063,8 @@ import QrcodeVue from 'qrcode.vue'
             },
             abrirModal(accion,data= []){
                 let me=this;
+                console.log('@@@@@@@@@');
+                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
@@ -1097,15 +1099,12 @@ import QrcodeVue from 'qrcode.vue'
                     case 'actualizar':
                     {
                         me.tipoAccion=2;
-                        me.idproducto=data.idproducto;
-                        me.tituloModal='Actualizar Producto: ' + data.codproducto
-                        me.nombre=data.nombreproducto;
-                        me.cantidad=data.cantidad;
+                        me.tituloModal='Actualizar Producto: ' + data.codprod
                         
                         me.clearSelected=0;
                         setTimeout(me.tiempo, 200); 
                         me.idlineaselected=data.idlinea;
-                        
+
                         me.clearSelected1=0;
                         setTimeout(me.tiempo1, 200);
                         me.iddispenserselected=data.iddispenser; 
@@ -1118,22 +1117,69 @@ import QrcodeVue from 'qrcode.vue'
                         setTimeout(me.tiempo3, 200); 
                         me.idcategoriaselected=data.idcategoria
 
-                        me.idlineas=[0,data.idlinea];
-                        me.iddispenser=[data.iddispenser];
-                        me.idformafarm=[data.idformafarm];
-                        me.idcategoria=[data.idcategoria];
-                        me.preciolista=data.precio_lista;
-                        me.precioventa=data.precio_venta;
-                        me.tiempopedidoselected=data.tiempo_pedido;
-                        me.indicaciones=data.indicaciones;
-                        me.dosificacione=data.dosificacione;
-                        me.principio=data.principio_activo;
-                        me.accion=data.accion_terapeutica;
-                        me.tipoAccion=2;
-                        me.imagen=data.imagen;
-                        me.removeImage;
-                        me.image='';
-                        me.metodoselected=data.metodoabc;
+
+                        // me.idproducto=data.idproducto;
+                        // me.nombre=data.nombreproducto;
+                        // me.cantidad=data.cantidad;                      
+                        // me.idlineas=[0,data.idlinea];
+                        // me.iddispenser=[data.iddispenser];
+                        // me.idformafarm=[data.idformafarm];
+                        // me.idcategoria=[data.idcategoria];
+                        // me.preciolista=data.precio_lista;
+                        // me.precioventa=data.precio_venta;
+                        // me.tiempopedidoselected=data.tiempo_pedido;
+                        // me.indicaciones=data.indicaciones;
+                        // me.dosificacione=data.dosificacione;
+                        // me.principio=data.principio_activo;
+                        // me.accion=data.accion_terapeutica;
+                        // me.tipoAccion=2;
+                        // me.imagen=data.imagen;
+                        // me.removeImage;
+                        // me.image='';
+                        // me.metodoselected=data.metodoabc;
+
+                        
+                        me.codigo = data.codprod;
+                        me.nombre = data.nomprod;
+                        me.idlinea = data.idlinea;
+                        me.iddispenserselectedprimario = data.idenvaseprimario;
+                        me.cantidadprimario = data.cantidadprimario;
+                        me.idformafarmselectedprimario = data.idformafarmaceuticaprimario;
+                        me.preciolistaprimario = data.preciolistaprimario;
+                        me.precioventaprimario = data.precioventaprimario;
+                        me.tiempopedidoselectedprimario = data.tiempopedidoprimario;
+                        me.metodoselectedprimario = data.metodoabcprimario;
+                        me.tiendaprimario = data.tiendaprimario==1?true:false;
+                        me.almacenprimario = data.almacenprimario==1?true:false;
+                        me.iddispenserselectedsecundario = data.idenvasesecundario;
+                        me.cantidadsecundario = data.cantidadsecundario;
+                        me.idformafarmselectedsecundario = data.idformafarmaceuticasecundario;
+                        me.preciolistasecundario = data.preciolistasecundario;
+                        me.precioventasecundario = data.precioventasecundario;
+                        me.tiempopedidoselectedsecundario = data.tiempopedidosecundario;
+                        me.metodoselectedsecundario = data.metodoabcsecundario;
+                        me.tiendasecundario = data.tiendasecundario==1?true:false;
+                        me.almacensecundario = data.almacensecundario==1?true:false;
+                        me.iddispenserselectedterciario = data.idenvasetercirio;
+                        me.cantidadterciario = data.cantidadterciario;
+                        me.idformafarmselectedterciario = data.idformafarmaceuticaterciario;
+                        me.preciolistaterciario = data.preciolistaterciario;
+                        me.precioventaterciario = data.precioventaterciario;
+                        me.tiempopedidoselectedterciario = data.tiempopedidoterciario;
+                        me.metodoselectedterciario = data.metodoabcterciario;
+                        me.tiendaterciario = data.tiendaterciario==1?true:false;
+                        me.almacenterciario = data.almacenterciario==1?true:false;
+                        me.mostrardetalles = data.mostrardetalles==1?true:false;
+                        me.idcategoriaselected = data.idcateg;
+                        me.indicaciones = data.indicaciones;
+                        me.dosificacion = data.dosificacion;
+                        me.principio = data.principio;
+                        me.accion = data.accion;
+                        me.imagen = data.foto;
+                        me.codigointernacional = data.codigointernacional;
+                        me.estado = data.estado;
+                        me.activo = data.activo;
+
                         me.classModal.openModal('registrar');
                         break;
                     }
