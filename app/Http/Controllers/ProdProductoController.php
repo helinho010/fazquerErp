@@ -202,7 +202,7 @@ class ProdProductoController extends Controller
     public function store(Request $request)
     {
         $maxcorrelativo = Prod_Producto::select(DB::raw('max(correlativo) as maximo'))
-                                ->where('idlinea',$request->idlinea)
+                                //->where('idlinea',$request->idlinea)
                                 ->get()->toArray();
 
         $correlativo=$maxcorrelativo[0]['maximo'];

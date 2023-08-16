@@ -276,6 +276,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/linea/activar', [ProdLineaController::class,'activar']);
     Route::get('/linea/selectlinea',[ProdLineaController::class,'selectLinea']);
     Route::get('/linea/selectlinea2',[ProdLineaController::class,'selectLinea2']);
+    Route::get('/linea/codigolinea',[ProdLineaController::class,'returnCodigoLiniea']);
 
     Route::get('/producto',[ProdProductoController::class,'index']);
     Route::post('/producto/registrar', [ProdProductoController::class,'store']);
