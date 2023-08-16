@@ -279,7 +279,7 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::get('/producto',[ProdProductoController::class,'index']);
     Route::post('/producto/registrar', [ProdProductoController::class,'store']);
-    Route::put('/producto/actualizar', [ProdProductoController::class,'update']);
+    Route::post('/producto/actualizar', [ProdProductoController::class,'update']);
     Route::put('/producto/desactivar', [ProdProductoController::class,'desactivar']);
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);

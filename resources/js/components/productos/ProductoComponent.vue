@@ -60,10 +60,10 @@
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
                                         <i class="icon-check"></i>
                                     </button>
-                                    <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(8)" class="rounded-circle fotosociomini">
-                                    <img v-else src="img/avatars/persona.png"  class="rounded-circle fotosociomini" >
+                                    <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
+                                    <img v-else src="img/avatars/persona.png"  class="rounded fotosociomini" >
                                 </td>
-                                <td v-text="producto.nomlinea"></td>
+                                <td >{{ producto.nomlinea }} - {{ producto.codlinea }} </td>
                                 <td v-text="producto.codprod"></td>
                                 <td v-text="producto.nomprod"></td>
                                 <td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td>
@@ -119,15 +119,6 @@
                                     <option value="0">Seleccionar</option>
                                     <option v-for="linea in lineas" :key="linea.id" :value="linea.id" v-text="linea.cod"></option>
                                 </select>
-                                <!--<Ajaxselect  v-if="clearSelected"
-                                    ruta="/linea/selectlinea?buscar=" @found="lineas" @cleaning="cleanlineas"
-                                    resp_ruta="lineas"
-                                    labels="cod"
-                                    placeholder="Ingrese Texto..." 
-                                    idtabla="id"
-                                    :id="idlineaselected"
-                                    :clearable='true'>
-                                </Ajaxselect>-->
                                 <span class="error" v-if="idlineaselected==0">Debe Seleccionar la Linea</span>
                             </div>
                             <div class="form-group col-sm-8">
@@ -508,12 +499,13 @@
 import Swal from 'sweetalert2';
 import { error401 } from '../../errores';
 //import Vue from 'vue'
-import VueNumeric from 'vue-numeric'
-import QrcodeVue from 'qrcode.vue'
+import VueNumeric from 'vue-numeric';
+import QrcodeVue from 'qrcode.vue';
 
 //Vue.use(VueNumeric)
 //Vue.use(VeeValidate);
     export default {
+
         data(){
             return{
                 pagination:{
@@ -605,7 +597,7 @@ import QrcodeVue from 'qrcode.vue'
                 principio:'',
                 accion:'',
                 foto:'',
-
+                codigolinea:'L10101',
 
                 //////qrcode
                 value: 'https://example.com',
@@ -843,87 +835,90 @@ import QrcodeVue from 'qrcode.vue'
                 me.pagination.current_page = page;
                 me.listarProducto(page);
             },
+
             registrarProducto(){
                 let me = this;
-                let formData = new FormData();
-                formData.append('foto', me.foto);
-                formData.append('idlineaselected', me.idlineaselected);
-                formData.append('codigolinea','L001');
-                formData.append('nombre',me.nombre);
-                formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
-                formData.append('cantidadPrimario',me.cantidadprimario);
-                formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
-                formData.append('preciolistaprimario',me.preciolistaprimario);
-                formData.append('precioventaprimario',me.precioventaprimario);
-                formData.append('tiempopedidoselectedprimario',me.tiempopedidoselectedprimario);
-                formData.append('metodoselectedprimario',me.metodoselectedprimario);
-                formData.append('tiendaprimario',me.tiendaprimario==true?1:0);
-                formData.append('almacenprimario',me.almacenprimario==true?1:0);
-                formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
-                formData.append('cantidadsecundario',me.cantidadsecundario);
-                formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
-                formData.append('preciolistasecundario',me.preciolistasecundario);
-                formData.append('precioventasecundario',me.precioventasecundario);
-                formData.append('tiempopedidoselectedsecundario',me.tiempopedidoselectedsecundario);
-                formData.append('metodoselectedsecundario',me.metodoselectedsecundario);
-                formData.append('tiendasecundario',me.tiendasecundario==true?1:0);
-                formData.append('almacensecundario',me.almacensecundario==true?1:0);
-                formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
-                formData.append('cantidadterciario',me.cantidadterciario);
-                formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
-                formData.append('preciolistaterciario',me.preciolistaterciario);
-                formData.append('precioventaterciario',me.precioventaterciario);
-                formData.append('tiempopedidoselectedterciario',me.tiempopedidoselectedterciario);
-                formData.append('metodoselectedterciario',me.metodoselectedterciario);
-                formData.append('tiendaterciario',me.tiendaterciario==true?1:0);
-                formData.append('almacenterciario',me.almacenterciario==true?1:0);
-                formData.append('idcategoriaselected',me.idcategoriaselected);
-                formData.append('codigointernacional',me.codigointernacional);
-                formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
-                formData.append('indicaciones',me.indicaciones);
-                formData.append('dosificacion',me.dosificacion);
-                formData.append('principio',me.principio);
-                formData.append('accion',me.accion);
+                console.log("//////////////////////////////////");
+                console.log();
+                // let formData = new FormData();
+                // formData.append('foto', me.foto);
+                // formData.append('idlineaselected', me.idlineaselected);
+                // formData.append('codigolinea','L001');
+                // formData.append('nombre',me.nombre);
+                // formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
+                // formData.append('cantidadPrimario',me.cantidadprimario);
+                // formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
+                // formData.append('preciolistaprimario',me.preciolistaprimario);
+                // formData.append('precioventaprimario',me.precioventaprimario);
+                // formData.append('tiempopedidoselectedprimario',me.tiempopedidoselectedprimario);
+                // formData.append('metodoselectedprimario',me.metodoselectedprimario);
+                // formData.append('tiendaprimario',me.tiendaprimario==true?1:0);
+                // formData.append('almacenprimario',me.almacenprimario==true?1:0);
+                // formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
+                // formData.append('cantidadsecundario',me.cantidadsecundario);
+                // formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
+                // formData.append('preciolistasecundario',me.preciolistasecundario);
+                // formData.append('precioventasecundario',me.precioventasecundario);
+                // formData.append('tiempopedidoselectedsecundario',me.tiempopedidoselectedsecundario);
+                // formData.append('metodoselectedsecundario',me.metodoselectedsecundario);
+                // formData.append('tiendasecundario',me.tiendasecundario==true?1:0);
+                // formData.append('almacensecundario',me.almacensecundario==true?1:0);
+                // formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
+                // formData.append('cantidadterciario',me.cantidadterciario);
+                // formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
+                // formData.append('preciolistaterciario',me.preciolistaterciario);
+                // formData.append('precioventaterciario',me.precioventaterciario);
+                // formData.append('tiempopedidoselectedterciario',me.tiempopedidoselectedterciario);
+                // formData.append('metodoselectedterciario',me.metodoselectedterciario);
+                // formData.append('tiendaterciario',me.tiendaterciario==true?1:0);
+                // formData.append('almacenterciario',me.almacenterciario==true?1:0);
+                // formData.append('idcategoriaselected',me.idcategoriaselected);
+                // formData.append('codigointernacional',me.codigointernacional);
+                // formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
+                // formData.append('indicaciones',me.indicaciones);
+                // formData.append('dosificacion',me.dosificacion);
+                // formData.append('principio',me.principio);
+                // formData.append('accion',me.accion);
 
-                axios.post('/producto/registrar', formData, {headers : {'content-type': 'multipart/form-data'}})
-                // axios.post('/producto/registrar',formData,{
-                    /*'nombre':me.nombre,
-                    'cod':me.idlineas[3],
-                    'cantidad':me.cantidad,
-                    'idlinea':me.idlineaselected,
-                    'iddispenser':me.iddispenserselected,
-                    'idformafarm':me.idformafarmselected,
-                    'precio_lista':me.preciolista,
-                    'precio_venta':me.precioventa,
-                    'tiempo_pedido':me.tiempopedidoselected,
-                    'indicaciones':me.indicaciones,
-                    'dosificacione':me.dosificacione,
-                    'principio_activo':me.principio,
-                    'accion_terapeutica':me.accion,
-                    'idcategoria':me.idcategoriaselected,
-                    'imagen':me.image,
-                    'metodoabc':me.metodoselected,
-                    idlineaselected:0,*/
-                // })
-                .then(function(response){
-                    console.log("@@@@@@@@@@@@@@");
-                    console.log(response.data);
-                    if(response.data=='error')
-                    {
-                        Swal.fire('El registro ya existe','Debe introducir uno diferente');
-                    }
-                    else
-                    {
-                        Swal.fire('Registrado Correctamente');
-                        me.cerrarModal('registrar');
-                        // me.listarProducto(me.pagination.current_page);
-                        me.listarProducto(1);
-                    }
+                // axios.post('/producto/registrar', formData, {headers : {'content-type': 'multipart/form-data'}})
+                // // axios.post('/producto/registrar',formData,{
+                //     /*'nombre':me.nombre,
+                //     'cod':me.idlineas[3],
+                //     'cantidad':me.cantidad,
+                //     'idlinea':me.idlineaselected,
+                //     'iddispenser':me.iddispenserselected,
+                //     'idformafarm':me.idformafarmselected,
+                //     'precio_lista':me.preciolista,
+                //     'precio_venta':me.precioventa,
+                //     'tiempo_pedido':me.tiempopedidoselected,
+                //     'indicaciones':me.indicaciones,
+                //     'dosificacione':me.dosificacione,
+                //     'principio_activo':me.principio,
+                //     'accion_terapeutica':me.accion,
+                //     'idcategoria':me.idcategoriaselected,
+                //     'imagen':me.image,
+                //     'metodoabc':me.metodoselected,
+                //     idlineaselected:0,*/
+                // // })
+                // .then(function(response){
+                //     console.log("@@@@@@@@@@@@@@");
+                //     console.log(response.data);
+                //     if(response.data=='error')
+                //     {
+                //         Swal.fire('El registro ya existe','Debe introducir uno diferente');
+                //     }
+                //     else
+                //     {
+                //         Swal.fire('Registrado Correctamente');
+                //         me.cerrarModal('registrar');
+                //         // me.listarProducto(me.pagination.current_page);
+                //         me.listarProducto(1);
+                //     }
                     
-                }).catch(function(error){
-                    error401(error);
-                    console.log(error);
-                });
+                // }).catch(function(error){
+                //     error401(error);
+                //     console.log(error);
+                // });
 
             },
             eliminarProducto(idproducto){
@@ -1087,7 +1082,7 @@ import QrcodeVue from 'qrcode.vue'
                 formData.append('principio',me.principio);
                 formData.append('accion',me.accion);
 
-                axios.post('/producto/registrar', formData, {headers : {'content-type': 'multipart/form-data'}})
+                axios.post('/producto/actualizar', formData, {headers : {'content-type': 'multipart/form-data'}})
                 .then(function (response) {
                     if(response.data.length)
                     {}
@@ -1158,44 +1153,6 @@ import QrcodeVue from 'qrcode.vue'
                         
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Producto: ' + data.codprod;
-                        
-                        // me.clearSelected=0;
-                        // setTimeout(me.tiempo, 200); 
-                        // me.idlineaselected=data.idlinea;
-
-                        // me.clearSelected1=0;
-                        // setTimeout(me.tiempo1, 200);
-                        // me.iddispenserselected=data.iddispenser; 
-                        
-                        // me.clearSelected2=0;
-                        // setTimeout(me.tiempo2, 200); 
-                        // me.idformafarmselected=data.idformafarm
-
-                        // me.clearSelected3=0;
-                        // setTimeout(me.tiempo3, 200); 
-                        // me.idcategoriaselected=data.idcategoria
-
-
-                        // me.idproducto=data.idproducto;
-                        // me.nombre=data.nombreproducto;
-                        // me.cantidad=data.cantidad;                      
-                        // me.idlineas=[0,data.idlinea];
-                        // me.iddispenser=[data.iddispenser];
-                        // me.idformafarm=[data.idformafarm];
-                        // me.idcategoria=[data.idcategoria];
-                        // me.preciolista=data.precio_lista;
-                        // me.precioventa=data.precio_venta;
-                        // me.tiempopedidoselected=data.tiempo_pedido;
-                        // me.indicaciones=data.indicaciones;
-                        // me.dosificacione=data.dosificacione;
-                        // me.principio=data.principio_activo;
-                        // me.accion=data.accion_terapeutica;
-                        // me.tipoAccion=2;
-                        // me.imagen=data.imagen;
-                        // me.removeImage;
-                        // me.image='';
-                        // me.metodoselected=data.metodoabc;
-
                         me.id = data.id;
                         //me.codigo = data.codprod;
                         me.nombre = data.nomprod;
@@ -1238,6 +1195,7 @@ import QrcodeVue from 'qrcode.vue'
                         me.codigointernacional = data.codigointernacional;
 
                         me.classModal.openModal('registrar');
+                        
                         break;
                     }
 
@@ -1310,12 +1268,13 @@ img {
   width: 30%;
   margin: auto;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  margin-left: 7px;
 }
 .fotosociomini{
-	     display: inline-block;
+	    display: inline-block;
         border:#efefef 1px solid;
         filter:drop-shadow(1px 0px 2px #333);
-        width:35px;
+        width:32px;
     }
 </style>

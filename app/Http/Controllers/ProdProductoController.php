@@ -233,27 +233,6 @@ class ProdProductoController extends Controller
 
         $producto = new Prod_Producto();
 
-        
-        // $producto->idlinea=$request->idlinea;
-        // $producto->codigo=$request->cod.$codigo;
-        // $producto->correlativo=$correlativo;
-        // $producto->nombre=$request->nombre;
-        // $producto->iddispenser=$request->iddispenser;
-        // $producto->cantidad=$request->cantidad;
-        // $producto->idformafarm=$request->idformafarm;
-        // $producto->indicaciones=$request->indicaciones;
-        // $producto->dosificacion=$request->dosificacion;
-        // $producto->accion_terapeutica=$request->accion_terapeutica;
-        // $producto->principio_activo=$request->principio_activo;
-        // $producto->imagen=$var;
-        // $producto->tiempo_pedido=$request->tiempo_pedido;
-        // $producto->precio_lista=$request->precio_lista;
-        // $producto->precio_venta=$request->precio_venta;
-        // $producto->idcategoria=$request->idcategoria;
-        // $producto->metodoabc=$request->metodoabc;
-        // $producto->id_usuario_registra=auth()->user()->id;
-        // $producto->save();
-
         if($request->hasFile('foto'))
         {
             $filename=$request->foto->getClientOriginalName();
@@ -302,8 +281,7 @@ class ProdProductoController extends Controller
         $producto->codigointernacional = $request->codigointernacional;
         $producto->estado = 1;
         $producto->activo = 1;
-        $producto->id_usuario_registra = 1;
-        $producto->id_usuario_modifica = 1;
+        $producto->id_usuario_registra = auth()->user()->id;
         $producto->save();
     }
 
@@ -336,27 +314,10 @@ class ProdProductoController extends Controller
      * @param  \App\Models\Prod_Producto  $prod_Producto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prod_Producto $prod_Producto)
+    public function update(Request $request)
     {
         $producto = Prod_Producto::findOrFail($request->id);
 
-        // $producto->idlinea=$request->idlinea;
-        // $producto->nombre=$request->nombre;
-        // $producto->iddispenser=$request->iddispenser;
-        // $producto->cantidad=$request->cantidad;
-        // $producto->idformafarm=$request->idformafarm;
-        // $producto->indicaciones=$request->indicaciones;
-        // $producto->dosificacion=$request->dosificacion;
-        // $producto->accion_terapeutica=$request->accion_terapeutica;
-        // $producto->principio_activo=$request->principio_activo;
-        // $producto->imagen=$request->imagen;
-        // $producto->tiempo_pedido=$request->tiempo_pedido;
-        // $producto->precio_lista=$request->precio_lista;
-        // $producto->precio_venta=$request->precio_venta;
-        // $producto->metodoabc=$request->metodoabc;
-        // $producto->idcategoria=$request->idcategoria;
-        // $producto->id_usuario_modifica=auth()->user()->id;
-        // $producto->save();
         if($request->hasFile('foto'))
         {
             $filename=$request->foto->getClientOriginalName();
@@ -400,8 +361,7 @@ class ProdProductoController extends Controller
         $producto->accion = $request->accion;
         $producto->mostrardetalles = $request->mostrardetalles;
         $producto->codigointernacional = $request->codigointernacional;
-        $producto->id_usuario_registra = 1;
-        $producto->id_usuario_modifica = 1;
+        $producto->id_usuario_modifica = auth()->user()->id;
         $producto->save();
     }
 
@@ -430,6 +390,8 @@ class ProdProductoController extends Controller
         $producto->id_usuario_modifica=auth()->user()->id;
         $producto->save();
     }
+
+
     public function selectProducto(Request $request)
     {
         $buscararray = array(); 
