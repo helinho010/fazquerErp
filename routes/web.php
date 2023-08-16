@@ -276,10 +276,11 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/linea/activar', [ProdLineaController::class,'activar']);
     Route::get('/linea/selectlinea',[ProdLineaController::class,'selectLinea']);
     Route::get('/linea/selectlinea2',[ProdLineaController::class,'selectLinea2']);
+    Route::get('/linea/codigolinea',[ProdLineaController::class,'returnCodigoLiniea']);
 
     Route::get('/producto',[ProdProductoController::class,'index']);
     Route::post('/producto/registrar', [ProdProductoController::class,'store']);
-    Route::put('/producto/actualizar', [ProdProductoController::class,'update']);
+    Route::post('/producto/actualizar', [ProdProductoController::class,'update']);
     Route::put('/producto/desactivar', [ProdProductoController::class,'desactivar']);
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
