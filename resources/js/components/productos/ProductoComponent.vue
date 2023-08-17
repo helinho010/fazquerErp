@@ -115,7 +115,7 @@
                         <div class="row" style="margin-bottom: 30px;">
                             <div class="form-group col-sm-4">
                                 <strong>Linea:</strong>
-                                <select v-model="idlineaselected" class="form-control">
+                                <select v-model="idlineaselected" @change="getCodigoLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     <option v-for="linea in lineas" :key="linea.id" :value="linea.id" v-text="linea.cod"></option>
                                 </select>
@@ -157,11 +157,16 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselectedprimario" class="form-control">
-                                                    <option value="0">Seleccionar</option>
-                                                    <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
-                                                </select>
-                                                <span class="error" v-if="idformafarmselectedprimario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <div class="row">
+                                                    <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticaprimario"></div>
+                                                    <div class="col-sm-10" v-if="checkformafarmaceuticaprimario">
+                                                        <select v-model="idformafarmselectedprimario" class="form-control">
+                                                            <option value="0">Seleccionar</option>
+                                                            <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <span class="error" v-if="checkformafarmaceuticaprimario && idformafarmselectedprimario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
@@ -243,11 +248,16 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselectedsecundario" class="form-control">
-                                                    <option value="0">Seleccionar</option>
-                                                    <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
-                                                </select>
-                                                <span class="error" v-if="idformafarmselectedsecundario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <div class="row">
+                                                    <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticasecundario"></div>
+                                                    <div class="col-sm-10" v-if="checkformafarmaceuticasecundario">
+                                                        <select v-model="idformafarmselectedsecundario" class="form-control">
+                                                            <option value="0">Seleccionar</option>
+                                                            <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <span class="error" v-if="checkformafarmaceuticasecundario && idformafarmselectedsecundario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
@@ -329,11 +339,16 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma Farmaceutica:</strong>
-                                                <select v-model="idformafarmselectedterciario" class="form-control">
-                                                    <option value="0">Seleccionar</option>
-                                                    <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
-                                                </select>
-                                                <span class="error" v-if="idformafarmselectedterciario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <div class="row">
+                                                    <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticaterciario"></div>
+                                                    <div class="col-sm-10" v-if="checkformafarmaceuticaterciario">
+                                                        <select v-model="idformafarmselectedterciario" class="form-control">
+                                                            <option value="0">Seleccionar</option>
+                                                            <option v-for="formafarm in formafarms" :key="formafarm.id" :value="formafarm.id" v-text="formafarm.nombre"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <span class="error" v-if="checkformafarmaceuticaterciario && idformafarmselectedterciario==0">Debe Seleccionar la Forma Farmaceutica</span>
                                             </div>
                                         </div>
 
@@ -565,6 +580,7 @@ import QrcodeVue from 'qrcode.vue';
                 iddispenserselectedprimario:0,
                 cantidadprimario:0,
                 idformafarmselectedprimario:0,
+                checkformafarmaceuticaprimario:false,
                 preciolistaprimario:0,
                 precioventaprimario:0,
                 tiempopedidoselectedprimario:0,
@@ -574,6 +590,7 @@ import QrcodeVue from 'qrcode.vue';
                 iddispenserselectedsecundario:0,
                 cantidadsecundario:0,
                 idformafarmselectedsecundario:0,
+                checkformafarmaceuticasecundario:false,
                 preciolistasecundario:0,
                 precioventasecundario:0,
                 tiempopedidoselectedsecundario:0,
@@ -583,6 +600,7 @@ import QrcodeVue from 'qrcode.vue';
                 iddispenserselectedterciario:0,
                 cantidadterciario:0,
                 idformafarmselectedterciario:0,
+                checkformafarmaceuticaterciario:false,
                 preciolistaterciario:0,
                 precioventaterciario:0,
                 tiempopedidoselectedterciario:0,
@@ -597,7 +615,7 @@ import QrcodeVue from 'qrcode.vue';
                 principio:'',
                 accion:'',
                 foto:'',
-                codigolinea:'L10101',
+                codigolinea:'L',
 
                 //////qrcode
                 value: 'https://example.com',
@@ -680,12 +698,14 @@ import QrcodeVue from 'qrcode.vue';
 
             },
 
-            getCodigoLinea(idlinea){
+            getCodigoLinea(){
                 let me = this;
-                axios.get('/linea/codigolinea?id='+idlinea)
+                axios.get('/linea/codigolinea?id='+me.idlineaselected)
                 .then(function(response){
                     var respuesta=response.data;
                     me.codigolinea = respuesta[0].codigo;
+                    console.log("///////////////////////");
+                    console.log(me.codigolinea);
                 })
                 .catch(function(error){
                     error401(error);
@@ -836,6 +856,9 @@ import QrcodeVue from 'qrcode.vue';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
+                    console.log("&&&&&&&&&&&&&&&&&");
+                    console.log(me.arrayProducto);
+                    console.log("&&&&&&&&&&&&&&&&&");
                 })
                 .catch(function(error){
                     error401(error);
@@ -850,7 +873,6 @@ import QrcodeVue from 'qrcode.vue';
 
             registrarProducto(){
                 let me = this;
-                me.getCodigoLinea(me.idlineaselected);
                 let formData = new FormData();
                 formData.append('foto', me.foto);
                 formData.append('idlineaselected', me.idlineaselected);
@@ -858,6 +880,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('nombre',me.nombre);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
+                formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);
                 formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
                 formData.append('preciolistaprimario',me.preciolistaprimario);
                 formData.append('precioventaprimario',me.precioventaprimario);
@@ -867,6 +890,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('almacenprimario',me.almacenprimario==true?1:0);
                 formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
                 formData.append('cantidadsecundario',me.cantidadsecundario);
+                formData.append('checkformafarmaceuticasecundario',me.checkformafarmaceuticasecundario==true?1:0);
                 formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
                 formData.append('preciolistasecundario',me.preciolistasecundario);
                 formData.append('precioventasecundario',me.precioventasecundario);
@@ -876,6 +900,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('almacensecundario',me.almacensecundario==true?1:0);
                 formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
                 formData.append('cantidadterciario',me.cantidadterciario);
+                formData.append('checkformafarmaceuticaterciario',me.checkformafarmaceuticaterciario==true?1:0);
                 formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
                 formData.append('preciolistaterciario',me.preciolistaterciario);
                 formData.append('precioventaterciario',me.precioventaterciario);
@@ -1058,6 +1083,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('nombre',me.nombre);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
+                formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);
                 formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
                 formData.append('preciolistaprimario',me.preciolistaprimario);
                 formData.append('precioventaprimario',me.precioventaprimario);
@@ -1067,6 +1093,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('almacenprimario',me.almacenprimario==true?1:0);
                 formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
                 formData.append('cantidadsecundario',me.cantidadsecundario);
+                formData.append('checkformafarmaceuticasecundario',me.checkformafarmaceuticasecundario==true?1:0);
                 formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
                 formData.append('preciolistasecundario',me.preciolistasecundario);
                 formData.append('precioventasecundario',me.precioventasecundario);
@@ -1076,6 +1103,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('almacensecundario',me.almacensecundario==true?1:0);
                 formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
                 formData.append('cantidadterciario',me.cantidadterciario);
+                formData.append('checkformafarmaceuticaterciario',me.checkformafarmaceuticaterciario==true?1:0);
                 formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
                 formData.append('preciolistaterciario',me.preciolistaterciario);
                 formData.append('precioventaterciario',me.precioventaterciario);
@@ -1108,6 +1136,8 @@ import QrcodeVue from 'qrcode.vue';
 
             abrirModal(accion,data= []){
                 let me=this;
+                console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
@@ -1116,6 +1146,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.nombre = '';
                         me.iddispenserselectedprimario = 0;
                         me.cantidadprimario = 0;
+                        me.checkformafarmaceuticaprimario = false;
                         me.idformafarmselectedprimario = 0;
                         me.preciolistaprimario = 0;
                         me.precioventaprimario = 0;
@@ -1125,6 +1156,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.almacenprimario = false;
                         me.iddispenserselectedsecundario = 0;
                         me.cantidadsecundario = 0;
+                        me.checkformafarmaceuticasecundario = false;
                         me.idformafarmselectedsecundario = 0;
                         me.preciolistasecundario = 0;
                         me.precioventasecundario = 0;
@@ -1134,6 +1166,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.almacensecundario = false;
                         me.iddispenserselectedterciario = 0;
                         me.cantidadterciario = 0;
+                        me.checkformafarmaceuticaterciario = false;
                         me.idformafarmselectedterciario = 0;
                         me.preciolistaterciario = 0;
                         me.precioventaterciario = 0;
@@ -1148,7 +1181,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.principio = '';
                         me.accion = '';
                         me.foto = '';
-                        me.imagen = '';
+                        //me.imagen = '';
                         me.imagenminiatura = '';
                         document.getElementById('imgproducto').value = '';
                         me.codigointernacional = '';
@@ -1159,7 +1192,8 @@ import QrcodeVue from 'qrcode.vue';
                     
                     case 'actualizar':
                     {
-                        
+                        console.log("------------------------------------");
+                        console.log(data);
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Producto: ' + data.codprod;
                         me.id = data.id;
@@ -1168,6 +1202,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.idlineaselected = data.idlinea;
                         me.iddispenserselectedprimario = data.idenvaseprimario;
                         me.cantidadprimario = data.cantidadprimario;
+                        me.checkformafarmaceuticaprimario = data.checkformafarmaceuticaprimario==1?true:false;
                         me.idformafarmselectedprimario = data.idformafarmaceuticaprimario;
                         me.preciolistaprimario = data.preciolistaprimario;
                         me.precioventaprimario = data.precioventaprimario;
@@ -1177,6 +1212,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.almacenprimario = data.almacenprimario==1?true:false;
                         me.iddispenserselectedsecundario = data.idenvasesecundario;
                         me.cantidadsecundario = data.cantidadsecundario;
+                        me.checkformafarmaceuticasecundario = data.checkformafarmaceuticasecundario==1?true:false;
                         me.idformafarmselectedsecundario = data.idformafarmaceuticasecundario;
                         me.preciolistasecundario = data.preciolistasecundario;
                         me.precioventasecundario = data.precioventasecundario;
@@ -1186,6 +1222,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.almacensecundario = data.almacensecundario==1?true:false;
                         me.iddispenserselectedterciario = data.idenvasetercirio;
                         me.cantidadterciario = data.cantidadterciario;
+                        me.checkformafarmaceuticaterciario = data.checkformafarmaceuticaterciario==1?true:false;
                         me.idformafarmselectedterciario = data.idformafarmaceuticaterciario;
                         me.preciolistaterciario = data.preciolistaterciario;
                         me.precioventaterciario = data.precioventaterciario;
