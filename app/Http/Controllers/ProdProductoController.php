@@ -246,6 +246,7 @@ class ProdProductoController extends Controller
         $producto->correlativo = $correlativo;
         $producto->iddispenserprimario = $request->iddispenserselectedprimario;
         $producto->cantidadprimario = $request->cantidadPrimario;
+        $producto->checkformafarmaceuticaprimario = $request->checkformafarmaceuticaprimario;
         $producto->idformafarmaceuticaprimario = $request->idformafarmselectedprimario;
         $producto->preciolistaprimario = $request->preciolistaprimario;
         $producto->precioventaprimario = $request->precioventaprimario;
@@ -255,6 +256,7 @@ class ProdProductoController extends Controller
         $producto->almacenprimario = $request->almacenprimario;
         $producto->iddispensersecundario = $request->iddispenserselectedsecundario;
         $producto->cantidadsecundario = $request->cantidadsecundario;
+        $producto->checkformafarmaceuticasecundario = $request->checkformafarmaceuticasecundario;
         $producto->idformafarmaceuticasecundario = $request->idformafarmselectedsecundario;
         $producto->preciolistasecundario = $request->preciolistasecundario;
         $producto->precioventasecundario = $request->precioventasecundario;
@@ -264,6 +266,7 @@ class ProdProductoController extends Controller
         $producto->almacensecundario = $request->almacensecundario;
         $producto->iddispenserterciario = $request->iddispenserselectedterciario;
         $producto->cantidadterciario = $request->cantidadterciario;
+        $producto->checkformafarmaceuticaterciario = $request->checkformafarmaceuticaterciario;
         $producto->idformafarmaceuticaterciario = $request->idformafarmselectedterciario;
         $producto->preciolistaterciario = $request->preciolistaterciario;
         $producto->precioventaterciario = $request->precioventaterciario;
