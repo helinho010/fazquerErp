@@ -129,6 +129,9 @@ class ProdProductoController extends Controller
                                       prod__productos.cantidadprimario,
                                       prod__productos.cantidadsecundario,
                                       prod__productos.cantidadterciario,
+                                      prod__productos.checkformafarmaceuticaprimario,
+	                                  prod__productos.checkformafarmaceuticasecundario,
+	                                  prod__productos.checkformafarmaceuticaterciario,
                                       prod__productos.idformafarmaceuticaprimario,
                                       prod__productos.idformafarmaceuticasecundario,
                                       prod__productos.idformafarmaceuticaterciario,
@@ -332,6 +335,7 @@ class ProdProductoController extends Controller
         $producto->nombre = $request->nombre;
         $producto->iddispenserprimario = $request->iddispenserselectedprimario;
         $producto->cantidadprimario = $request->cantidadPrimario;
+        $producto->checkformafarmaceuticaprimario = $request->checkformafarmaceuticaprimario;
         $producto->idformafarmaceuticaprimario = $request->idformafarmselectedprimario;
         $producto->preciolistaprimario = $request->preciolistaprimario;
         $producto->precioventaprimario = $request->precioventaprimario;
@@ -341,6 +345,7 @@ class ProdProductoController extends Controller
         $producto->almacenprimario = $request->almacenprimario;
         $producto->iddispensersecundario = $request->iddispenserselectedsecundario;
         $producto->cantidadsecundario = $request->cantidadsecundario;
+        $producto->checkformafarmaceuticasecundario = $request->checkformafarmaceuticasecundario;
         $producto->idformafarmaceuticasecundario = $request->idformafarmselectedsecundario;
         $producto->preciolistasecundario = $request->preciolistasecundario;
         $producto->precioventasecundario = $request->precioventasecundario;
@@ -350,6 +355,7 @@ class ProdProductoController extends Controller
         $producto->almacensecundario = $request->almacensecundario;
         $producto->iddispenserterciario = $request->iddispenserselectedterciario;
         $producto->cantidadterciario = $request->cantidadterciario;
+        $producto->checkformafarmaceuticaterciario = $request->checkformafarmaceuticaterciario;
         $producto->idformafarmaceuticaterciario = $request->idformafarmselectedterciario;
         $producto->preciolistaterciario = $request->preciolistaterciario;
         $producto->precioventaterciario = $request->precioventaterciario;

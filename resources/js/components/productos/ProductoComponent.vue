@@ -858,6 +858,7 @@ import QrcodeVue from 'qrcode.vue';
                     me.arrayProducto=respuesta.producto.data;
                     console.log("&&&&&&&&&&&&&&&&&");
                     console.log(me.arrayProducto);
+                    console.log("&&&&&&&&&&&&&&&&&");
                 })
                 .catch(function(error){
                     error401(error);
@@ -1191,7 +1192,8 @@ import QrcodeVue from 'qrcode.vue';
                     
                     case 'actualizar':
                     {
-                        
+                        console.log("------------------------------------");
+                        console.log(data);
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Producto: ' + data.codprod;
                         me.id = data.id;
