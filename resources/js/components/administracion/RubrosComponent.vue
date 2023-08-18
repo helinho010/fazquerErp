@@ -107,9 +107,11 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="areamedica">Rubro Pertenece al Area Medica? </label>
-                                <div class="col-md-9">
-                                    <input type="checkbox"  class="form-control"  v-model="areamedica" name="areamedica" checked  >
+                                <div class="col-md-3">
+                                    <label class="form-control-label" for="areamedica">La Actividad o Rubro tiene productos perecederos? </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="checkbox"   v-model="areamedica" name="areamedica" checked  >
                                 </div>
                             </div>
                             
@@ -364,7 +366,7 @@ import {error401} from '../../errores.js';
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Rubro'
+                        me.tituloModal='Registar Actividad o Rubro'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.descripcion='';
