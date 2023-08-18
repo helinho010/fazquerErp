@@ -880,7 +880,8 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('nombre',me.nombre);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
-                formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);
+                formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);        
+                formData.append('idformafarmselectedprimario',me.checkformafarmaceuticaprimario==true?me.idformafarmselectedprimario:0);
                 formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
                 formData.append('preciolistaprimario',me.preciolistaprimario);
                 formData.append('precioventaprimario',me.precioventaprimario);
@@ -888,26 +889,29 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('metodoselectedprimario',me.metodoselectedprimario);
                 formData.append('tiendaprimario',me.tiendaprimario==true?1:0);
                 formData.append('almacenprimario',me.almacenprimario==true?1:0);
+
                 formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
                 formData.append('cantidadsecundario',me.cantidadsecundario);
                 formData.append('checkformafarmaceuticasecundario',me.checkformafarmaceuticasecundario==true?1:0);
-                formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
+                formData.append('idformafarmselectedsecundario',me.checkformafarmaceuticasecundario==true?me.idformafarmselectedsecundario:0);
                 formData.append('preciolistasecundario',me.preciolistasecundario);
                 formData.append('precioventasecundario',me.precioventasecundario);
                 formData.append('tiempopedidoselectedsecundario',me.tiempopedidoselectedsecundario);
                 formData.append('metodoselectedsecundario',me.metodoselectedsecundario);
                 formData.append('tiendasecundario',me.tiendasecundario==true?1:0);
                 formData.append('almacensecundario',me.almacensecundario==true?1:0);
+
                 formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
                 formData.append('cantidadterciario',me.cantidadterciario);
                 formData.append('checkformafarmaceuticaterciario',me.checkformafarmaceuticaterciario==true?1:0);
-                formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
+                formData.append('idformafarmselectedterciario',me.checkformafarmaceuticaterciario==true?me.idformafarmselectedterciario:0);
                 formData.append('preciolistaterciario',me.preciolistaterciario);
                 formData.append('precioventaterciario',me.precioventaterciario);
                 formData.append('tiempopedidoselectedterciario',me.tiempopedidoselectedterciario);
                 formData.append('metodoselectedterciario',me.metodoselectedterciario);
                 formData.append('tiendaterciario',me.tiendaterciario==true?1:0);
                 formData.append('almacenterciario',me.almacenterciario==true?1:0);
+                
                 formData.append('idcategoriaselected',me.idcategoriaselected);
                 formData.append('codigointernacional',me.codigointernacional);
                 formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
@@ -1056,25 +1060,6 @@ import QrcodeVue from 'qrcode.vue';
                 })
             },
             actualizarProducto(){
-               // const Swal = require('sweetalert2')
-                // let me =this;
-                // axios.put('/producto/actualizar',{
-                    // 'id':me.idproducto,
-                    // 'nombre':me.nombre,
-                    // 'cantidad':me.cantidad,
-                    // 'idlinea':me.idlineaselected,
-                    // 'iddispenser':me.iddispenserselected,
-                    // 'idformafarm':me.idformafarmselected,
-                    // 'precio_lista':me.preciolista,
-                    // 'precio_venta':me.precioventa,
-                    // 'tiempo_pedido':me.tiempopedidoselected,
-                    // 'indicaciones':me.indicaciones,
-                    // 'dosificacione':me.dosificacione,
-                    // 'principio_activo':me.principio,
-                    // 'accion_terapeutica':me.accion,
-                    // 'idcategoria':me.idcategoriaselected,
-                    // 'metodoabc':me.metodoselected,
-
                 let me = this;
                 let formData = new FormData();
                 formData.append('id', me.id);
@@ -1084,33 +1069,36 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
                 formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);
-                formData.append('idformafarmselectedprimario',me.idformafarmselectedprimario);
+                formData.append('idformafarmselectedprimario',me.checkformafarmaceuticaprimario==true?me.idformafarmselectedprimario:0);
                 formData.append('preciolistaprimario',me.preciolistaprimario);
                 formData.append('precioventaprimario',me.precioventaprimario);
                 formData.append('tiempopedidoselectedprimario',me.tiempopedidoselectedprimario);
                 formData.append('metodoselectedprimario',me.metodoselectedprimario);
                 formData.append('tiendaprimario',me.tiendaprimario==true?1:0);
                 formData.append('almacenprimario',me.almacenprimario==true?1:0);
+
                 formData.append('iddispenserselectedsecundario',me.iddispenserselectedsecundario);
                 formData.append('cantidadsecundario',me.cantidadsecundario);
                 formData.append('checkformafarmaceuticasecundario',me.checkformafarmaceuticasecundario==true?1:0);
-                formData.append('idformafarmselectedsecundario',me.idformafarmselectedsecundario);
+                formData.append('idformafarmselectedsecundario',me.checkformafarmaceuticasecundario==true?me.idformafarmselectedsecundario:0);
                 formData.append('preciolistasecundario',me.preciolistasecundario);
                 formData.append('precioventasecundario',me.precioventasecundario);
                 formData.append('tiempopedidoselectedsecundario',me.tiempopedidoselectedsecundario);
                 formData.append('metodoselectedsecundario',me.metodoselectedsecundario);
                 formData.append('tiendasecundario',me.tiendasecundario==true?1:0);
                 formData.append('almacensecundario',me.almacensecundario==true?1:0);
+
                 formData.append('iddispenserselectedterciario',me.iddispenserselectedterciario);
                 formData.append('cantidadterciario',me.cantidadterciario);
                 formData.append('checkformafarmaceuticaterciario',me.checkformafarmaceuticaterciario==true?1:0);
-                formData.append('idformafarmselectedterciario',me.idformafarmselectedterciario);
+                formData.append('idformafarmselectedterciario',me.checkformafarmaceuticaterciario==true?me.idformafarmselectedterciario:0);
                 formData.append('preciolistaterciario',me.preciolistaterciario);
                 formData.append('precioventaterciario',me.precioventaterciario);
                 formData.append('tiempopedidoselectedterciario',me.tiempopedidoselectedterciario);
                 formData.append('metodoselectedterciario',me.metodoselectedterciario);
                 formData.append('tiendaterciario',me.tiendaterciario==true?1:0);
                 formData.append('almacenterciario',me.almacenterciario==true?1:0);
+
                 formData.append('idcategoriaselected',me.idcategoriaselected);
                 formData.append('codigointernacional',me.codigointernacional);
                 formData.append('mostrardetalles',me.mostrardetalles==true?1:0);
@@ -1136,8 +1124,6 @@ import QrcodeVue from 'qrcode.vue';
 
             abrirModal(accion,data= []){
                 let me=this;
-                console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
