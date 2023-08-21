@@ -39,7 +39,7 @@
                                 <th>Linea</th>
                                 <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Presentacion</th>
+                                <!--th>Presentacion</th-->
                                 <th>Tiempo Pedido</th>
                                 <th>Precio Lista</th>
                                 <th>Precio Venta</th>
@@ -63,10 +63,14 @@
                                     <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
                                     <img v-else src="img/avatars/persona.png"  class="rounded fotosociomini" >
                                 </td>
-                                <td >{{ producto.nomlinea }} - {{ producto.codlinea }} </td>
+                                <td >{{ producto.nomlinea }}</td>
                                 <td v-text="producto.codprod"></td>
-                                <td v-text="producto.nomprod"></td>
-                                <td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td>
+                                <td id="nombre-prducto">
+                                    {{ producto.nomprod }} -> 
+                                    <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} -> {{ producto.cantidadprimario }} -> </div></div>
+                                    <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"> {{ formafar.nombre }} </div> </div>
+                                </td>
+                                <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
                                 <td >{{ producto.tiempopedidoprimario }} meses</td>
                                 <td v-text="producto.preciolistaprimario"></td>
                                 <td v-text="producto.precioventaprimario"></td>
@@ -690,6 +694,8 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.lineas=respuesta;
+                    console.log("------------------");
+                    console.log(me.lineas);
                 })
                 .catch(function(error){
                     error401(error);
@@ -719,6 +725,8 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.dispensers=respuesta;
+                    console.log("-------------- 2 ");
+                    console.log(me.dispensers);
                 })
                 .catch(function(error){
                     error401(error);
@@ -732,6 +740,8 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.formafarms=respuesta;
+                    console.log("333333333");
+                    console.log(me.formafarms);
                 })
                 .catch(function(error){
                     error401(error);
@@ -857,7 +867,7 @@ import QrcodeVue from 'qrcode.vue';
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
                     console.log("&&&&&&&&&&&&&&&&&");
-                    console.log(me.arrayProducto);
+                    console.log(response);
                     console.log("&&&&&&&&&&&&&&&&&");
                 })
                 .catch(function(error){
@@ -1308,5 +1318,11 @@ img {
         border:#efefef 1px solid;
         filter:drop-shadow(1px 0px 2px #333);
         width:32px;
-    }
+}
+
+#nombre-prducto > div 
+{
+    display: inline-block;
+}
+
 </style>

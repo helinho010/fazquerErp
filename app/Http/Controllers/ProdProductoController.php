@@ -169,20 +169,35 @@ class ProdProductoController extends Controller
                                       ->where('prod__productos.estado',1)
                                       ->orderby('prod__productos.nombre','asc')
                                       ->paginate(30);
+            
+            $arrayDeIdenvasePrimario=array();
+            $arrayDeFormaUnidadMedida=array();
+            foreach ($producto as $key => $value) 
+            {
+                array_push($arrayDeIdenvasePrimario,$value->idenvaseprimario);
+            }
+            foreach ($producto as $key => $value) {
+                array_push($arrayDeFormaUnidadMedida,$value->idformafarmaceuticaprimario);
+            }
+
         }
         
         //$producto = Prod_Producto::all();
-        return ['pagination'=>[
-            'total'         =>    $producto->total(),
-            'current_page'  =>    $producto->currentPage(),
-            'per_page'      =>    $producto->perPage(),
-            'last_page'     =>    $producto->lastPage(),
-            'from'          =>    $producto->firstItem(),
-            'to'            =>    $producto->lastItem(),
-
-        ] ,
-                'producto'=>$producto,
-                ];
+        return [
+                    'pagination'=>
+                    [
+                        'total'         =>    $producto->total(),
+                        'current_page'  =>    $producto->currentPage(),
+                        'per_page'      =>    $producto->perPage(),
+                        'last_page'     =>    $producto->lastPage(),
+                        'from'          =>    $producto->firstItem(),
+                        'to'            =>    $producto->lastItem(),
+                    ] ,
+                        
+                    'producto'=>$producto,
+                    'envaseprimario'=>$arrayDeIdenvasePrimario,
+                    'formaunidadmeida'=>$arrayDeFormaUnidadMedida,
+               ];
     }
 
 
@@ -215,15 +230,18 @@ class ProdProductoController extends Controller
             $correlativo=$correlativo+1;
 
         if($correlativo<10)
-            $codigo='000'.$correlativo;
+            $codigo='00'.$correlativo;
         else
             if($correlativo<100)
-                $codigo='00'.$correlativo;
+                $codigo='0'.$correlativo;
             else
-                if($correlativo<1000)
-                    $codigo='0';
-                else
+            {
+                //if($correlativo<1000)
+                //    $codigo='0';
+                //else
                     $codigo=$correlativo;
+            }
+                
         
         $codigo=$request->codigolinea.$codigo;
 
