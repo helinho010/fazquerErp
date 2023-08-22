@@ -66,9 +66,17 @@
                                 <td >{{ producto.nomlinea }}</td>
                                 <td v-text="producto.codprod"></td>
                                 <td id="nombre-prducto">
-                                    {{ producto.nomprod }} -> 
-                                    <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} -> {{ producto.cantidadprimario }} -> </div></div>
-                                    <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"> {{ formafar.nombre }} </div> </div>
+                                    <div style="background: #e9db8e;">
+                                        <div>{{ producto.nomprod }} -> </div>
+                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} -> {{ producto.cantidadprimario }}</div></div>
+                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"> -> {{ formafar.nombre }} </div></div>
+                                    </div> <br><br>
+                                    <div style="background: #72cc86;">
+                                        <span> <b>Nombre Producto:</b> {{ producto.nomprod }}</span> <br>
+                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> <b>Envase Primario:</b> {{ dispenser.nombre }}</div></div> <br>
+                                        <b>Cantidad:</b> {{ producto.cantidadprimario }} <br>
+                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"><b>Forma o Unidad de Medida:</b> {{ formafar.nombre }} </div></div> <br>
+                                    </div>
                                 </td>
                                 <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
                                 <td >{{ producto.tiempopedidoprimario }} meses</td>
@@ -160,7 +168,7 @@
                                                 <span class="error" v-if="cantidadprimario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Forma Farmaceutica:</strong>
+                                                <strong>Forma o Unid. de Medida:</strong>
                                                 <div class="row">
                                                     <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticaprimario"></div>
                                                     <div class="col-sm-10" v-if="checkformafarmaceuticaprimario">
@@ -204,7 +212,7 @@
                                                 <span class="error" v-if="precioventaprimario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Tiempo de Pedido:</strong>
+                                                <strong>Ciclo de Pedido:</strong>
                                                 <select v-model="tiempopedidoselectedprimario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
@@ -251,7 +259,7 @@
                                                 <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Forma Farmaceutica:</strong>
+                                                <strong>Forma o Unid. de Medida</strong>
                                                 <div class="row">
                                                     <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticasecundario"></div>
                                                     <div class="col-sm-10" v-if="checkformafarmaceuticasecundario">
@@ -295,7 +303,7 @@
                                                 <span class="error" v-if="precioventasecundario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Tiempo de Pedido:</strong>
+                                                <strong>Ciclo de Pedido:</strong>
                                                 <select v-model="tiempopedidoselectedsecundario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
@@ -342,7 +350,7 @@
                                                 <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Forma Farmaceutica:</strong>
+                                                <strong>Forma o Unid. de Medida</strong>
                                                 <div class="row">
                                                     <div class="col-sm-2"><input type="checkbox" v-model="checkformafarmaceuticaterciario"></div>
                                                     <div class="col-sm-10" v-if="checkformafarmaceuticaterciario">
@@ -368,7 +376,7 @@
                                                 <span class="error" v-if="precioventaterciario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
-                                                <strong>Tiempo de Pedido:</strong>
+                                                <strong>Ciclo de Pedido:</strong>
                                                 <select v-model="tiempopedidoselectedterciario" class="form-control">
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
@@ -1320,7 +1328,7 @@ img {
         width:32px;
 }
 
-#nombre-prducto > div 
+#nombre-prducto > div > div
 {
     display: inline-block;
 }
