@@ -66,17 +66,11 @@
                                 <td >{{ producto.nomlinea }}</td>
                                 <td v-text="producto.codprod"></td>
                                 <td id="nombre-prducto">
-                                    <div style="background: #e9db8e;">
-                                        <div>{{ producto.nomprod }} -> </div>
-                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} -> {{ producto.cantidadprimario }}</div></div>
-                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"> -> {{ formafar.nombre }} </div></div>
+                                    <div>
+                                        {{ producto.nomprod }} 
+                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} {{ producto.cantidadprimario }} </div></div>
+                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario">&nbsp;{{ formafar.nombre }} </div></div>
                                     </div> <br><br>
-                                    <div style="background: #72cc86;">
-                                        <span> <b>Nombre Producto:</b> {{ producto.nomprod }}</span> <br>
-                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> <b>Envase Primario:</b> {{ dispenser.nombre }}</div></div> <br>
-                                        <b>Cantidad:</b> {{ producto.cantidadprimario }} <br>
-                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario"><b>Forma o Unidad de Medida:</b> {{ formafar.nombre }} </div></div> <br>
-                                    </div>
                                 </td>
                                 <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
                                 <td >{{ producto.tiempopedidoprimario }} meses</td>
