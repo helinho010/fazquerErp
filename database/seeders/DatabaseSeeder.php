@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmCiudadSeeder::class);
         $this->call(AdmBancoSeeder::class);
         $this->call(ProdCategoriaSeeder::class);
+        $this->call(ProdFormaUnidadMedidaSeeder::class);
         $this->call(ProdTipoDescuentSeeder::class);
         $this->call(ParDescServiciosSeeder::class);
 
