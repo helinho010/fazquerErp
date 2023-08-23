@@ -61,7 +61,7 @@
                                         <i class="icon-check"></i>
                                     </button>
                                     <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
-                                    <img v-else src="img/avatars/persona.png"  class="rounded fotosociomini" >
+                                    <img v-else src="img/avatars/noimagen.png"  class="rounded fotosociomini" >
                                 </td>
                                 <td >{{ producto.nomlinea }}</td>
                                 <td v-text="producto.codprod"></td>
