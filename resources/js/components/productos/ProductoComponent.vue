@@ -68,7 +68,7 @@
                                 <td id="nombre-prducto">
                                     <div>
                                         {{ producto.nomprod }} 
-                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} {{ producto.cantidadprimario }} </div></div>
+                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} X {{ producto.cantidadprimario }} </div></div>
                                         <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario">&nbsp;{{ formafar.nombre }} </div></div>
                                     </div> <br><br>
                                 </td>
@@ -189,21 +189,10 @@
                                                     v-on:focus="selectAll"
                                                     style="text-align:right">
                                                 </vue-numeric>-->
-                                                <span class="error" v-if="preciolistaprimario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
                                                 <input type="number" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <!--<vue-numeric  
-                                                    class="form-control"
-                                                    currency="Bs." 
-                                                    separator="," 
-                                                    v-model="precioventa"
-                                                    v-bind:precision="2"
-                                                    v-on:focus="selectAll"
-                                                    style="text-align:right">
-                                                </vue-numeric>-->
-                                                <span class="error" v-if="precioventaprimario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -221,17 +210,17 @@
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
-                                            <div class="form-check col-sm-4 mt-4 pl-5">
+                                            <div class="form-check col-sm-5 mt-4 pl-5">
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="tiendaprimario" id="defaultChecktiendaprimario">
                                                     <label class="form-check-label" for="defaultChecktiendaprimario">
-                                                        Tienda
-                                                    </label>
+                                                        Tienda <span class="error" v-if="!seleccinoTiendaAlmacenPrimario">(Debe seleccionar Tienda o Almacen)</span>
+                                                    </label> 
                                                 </div>
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="almacenprimario" id="defaultCheck1almacen">
                                                     <label class="form-check-label" for="defaultCheck1almacen">
-                                                        Almacen
+                                                        Almacen <span class="error" v-if="!seleccinoTiendaAlmacenPrimario">(Debe seleccionar Tienda o Almacen)</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -271,30 +260,10 @@
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
                                                 <input type="number" class="form-control" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <!--<vue-numeric  
-                                                    class="form-control"
-                                                    currency="Bs." 
-                                                    separator="," 
-                                                    v-model="preciolista"
-                                                    v-bind:precision="2"
-                                                    v-on:focus="selectAll"
-                                                    style="text-align:right">
-                                                </vue-numeric>-->
-                                                <span class="error" v-if="preciolistasecundario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
                                                 <input type="number" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <!--<vue-numeric  
-                                                    class="form-control"
-                                                    currency="Bs." 
-                                                    separator="," 
-                                                    v-model="precioventa"
-                                                    v-bind:precision="2"
-                                                    v-on:focus="selectAll"
-                                                    style="text-align:right">
-                                                </vue-numeric>-->
-                                                <span class="error" v-if="precioventasecundario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -312,17 +281,17 @@
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
-                                            <div class="form-check col-sm-4 mt-4 pl-5">
+                                            <div class="form-check col-sm-5 mt-4 pl-5">
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="tiendasecundario" id="defaultCheck1secundariotiendasecundario">
                                                     <label class="form-check-label" for="defaultCheck1secundariotiendasecundario">
-                                                        Tienda
+                                                        Tienda <span class="error" v-if="!seleccinoTiendaAlmacenSecundario">(Debe seleccionar Tienda o Almacen)</span>
                                                     </label>
                                                 </div>
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="almacensecundario" id="defaultCheck1almacensecundario">
                                                     <label class="form-check-label" for="defaultCheck1almacensecundario">
-                                                        Almacen
+                                                        Almacen <span class="error" v-if="!seleccinoTiendaAlmacenSecundario">(Debe seleccionar Tienda o Almacen)</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -336,12 +305,12 @@
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="iddispenserselectedterciario==0">Debe Seleccionar un Envase</span>
+                                                <!-- <span class="error" v-if="iddispenserselectedterciario==0">Debe Seleccionar un Envase</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
                                                 <input type="text" class="form-control" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span>
+                                                <!-- <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma o Unid. de Medida</strong>
@@ -354,7 +323,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <span class="error" v-if="checkformafarmaceuticaterciario && idformafarmselectedterciario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <!-- <span class="error" v-if="checkformafarmaceuticaterciario && idformafarmselectedterciario==0">Debe Seleccionar la Forma Farmaceutica</span> -->
                                             </div>
                                         </div>
 
@@ -362,12 +331,10 @@
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
                                                 <input type="number" class="form-control" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <span class="error" v-if="preciolistaterciario==0">Debe Ingresar el Precio de Lista</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
                                                 <input type="number" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <span class="error" v-if="precioventaterciario==''">Debe Ingresar el Precio de Venta</span>
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -375,7 +342,7 @@
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
                                                 </select>
-                                                <span class="error" v-if="tiempopedidoselectedterciario==0">Debe seleccionar un tiempo de pedido</span>
+                                                <!-- <span class="error" v-if="tiempopedidoselectedterciario==0">Debe seleccionar un tiempo de pedido</span> -->
                                             </div>
                                         </div>
                                         <div class="row">
@@ -426,6 +393,7 @@
                             <div class="form-group col-sm-5">
                                 <strong>Codigo Internacional:</strong>
                                 <input type="text" class="form-control" v-model="codigointernacional" placeholder="Introduzca Codigo Internacional">
+                                <span class="error" v-if="codigointernacional==''">Debe seleccionar el tiempo de pedido</span>
                             </div>
                             
                             <div class="form-check col-sm-3 mt-4 pl-5">
@@ -460,31 +428,6 @@
                             </div>
                         </div>
 
-                       <!--  <div class="form-group row">
-                            <strong class="col-md-3 " for="text-input">Dosificacion: </strong>
-                            <div class="col-md-9">
-                                <textarea class="form-control" maxlength="255" style="resize: none;" v-model="dosificacion" placeholder="Ninguno"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <strong class="col-md-3 " for="text-input">Principio Activo: </strong>
-                            <div class="col-md-9">
-                                <textarea class="form-control" maxlength="255" style="resize: none;" v-model="principio" placeholder="Ninguno"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <strong class="col-md-3 " for="text-input">Accion Terapeutica: </strong>
-                            <div class="col-md-9">
-                                <textarea class="form-control" maxlength="255" style="resize: none;" v-model="accion" placeholder="Ninguno"></textarea>
-                            </div>
-                        </div> -->
-                        <!--  -->
-
-                        <!-- <div v-if="tipoAccion==1">
-                            <h4>Seleccionar Imagen</h4>
-                            <input type="file" @change="onFileChange" accept="image/x-png,image/jpeg">
-                        </div> -->
-
                         <div class="form-group" v-if="clearInputFile">
                             <label for="">Imagen:&nbsp; &nbsp;</label>
                             <input class="form-control rounded" type="file" @change="subirfoto" :v-model="foto" accept="image/*" id="imgproducto">    
@@ -492,17 +435,10 @@
                         <figure>
                             <img width="100" height="100" :src="imagen" alt="">
                         </figure>
-
-                        <!-- <div v-else>
-                            <img :src="'storage/producto/'+imagen"  width="200px"/>
-                            <img src="storage/producto/wT4pdk3MYitkDQAzA0B1Yq8kVjXMyn0l.jpg" alt="">
-                             <img  src="storage/producto/default.png" class="rounded-circle fotosociomini" alt="Cinque Terre" >
-                            <button @click="removeImage">Cambiar Imagen</button>
-                        </div> -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()" >Guardar</button>
+                        <button type="button" class="btn btn-secondary" @click="cerrarModal('registrar')">Cerrar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()" :disabled="!sicompleto">Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProducto()">Actualizar</button>
                     </div>
                 </div>
@@ -638,6 +574,28 @@ import QrcodeVue from 'qrcode.vue';
             QrcodeVue,
         },
         computed:{
+
+            seleccinoTiendaAlmacenPrimario()
+            {
+                if( (this.tiendaprimario == false && this.almacenprimario == true) ||
+                    (this.tiendaprimario == true && this.almacenprimario == false))
+                {
+                    return true;
+                }else {
+                    return false;
+                }   
+            },
+
+            seleccinoTiendaAlmacenSecundario()
+            {
+                if( (this.tiendasecundario == false && this.almacensecundario == true) ||
+                    (this.tiendasecundario == true && this.almacensecundario == false))
+                {
+                    return true;
+                }else {
+                    return false;
+                }   
+            },
             
             imagen(){
                 return this.imagenminiatura;
@@ -645,14 +603,32 @@ import QrcodeVue from 'qrcode.vue';
 
             sicompleto(){
                 let me=this;
-                if (me.nombre=='' || me.cantidad==0 || me.idlineaselected==0 || me.iddispenserselected==0 || me.idformafarmselected==0 || me.preciolista==0 || me.precioventa==0 || me.tiempopedidoselected==0 || me.idcategoriaselected==0)
+                if (me.idlineaselected == 0 || 
+                    me.nombre == '' || 
+
+                    me.iddispenserselectedprimario == 0 || 
+                    me.cantidadprimario == 0 || 
+                    (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
+                    me.tiempopedidoselectedprimario==0 ||
+                    
+                    me.iddispenserselectedsecundario == 0 || 
+                    me.cantidadsecundario == 0 || 
+                    (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
+                    me.tiempopedidoselectedsecundario==0 ||
+                    me.idcategoriaselected == 0 ||
+                    me.codigointernacional == '' ||
+                    !me.seleccinoTiendaAlmacenPrimario ||
+                    !me.seleccinoTiendaAlmacenSecundario
+                    )
                     return false;
                 else
                     return true;
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -696,8 +672,6 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.lineas=respuesta;
-                    console.log("------------------");
-                    console.log(me.lineas);
                 })
                 .catch(function(error){
                     error401(error);
@@ -712,8 +686,6 @@ import QrcodeVue from 'qrcode.vue';
                 .then(function(response){
                     var respuesta=response.data;
                     me.codigolinea = respuesta[0].codigo;
-                    console.log("///////////////////////");
-                    console.log(me.codigolinea);
                 })
                 .catch(function(error){
                     error401(error);
@@ -727,8 +699,6 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.dispensers=respuesta;
-                    console.log("-------------- 2 ");
-                    console.log(me.dispensers);
                 })
                 .catch(function(error){
                     error401(error);
@@ -742,8 +712,6 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.formafarms=respuesta;
-                    console.log("333333333");
-                    console.log(me.formafarms);
                 })
                 .catch(function(error){
                     error401(error);
@@ -868,9 +836,6 @@ import QrcodeVue from 'qrcode.vue';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
-                    console.log("&&&&&&&&&&&&&&&&&");
-                    console.log(response);
-                    console.log("&&&&&&&&&&&&&&&&&");
                 })
                 .catch(function(error){
                     error401(error);
@@ -973,7 +938,6 @@ import QrcodeVue from 'qrcode.vue';
             },
             eliminarProducto(idproducto){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -1023,7 +987,6 @@ import QrcodeVue from 'qrcode.vue';
             },
             activarProducto(idproducto){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -1126,8 +1089,8 @@ import QrcodeVue from 'qrcode.vue';
                     else
                     {
                         Swal.fire('Actualizado Correctamente')
-                        me.listarProducto(me.pagination.current_page);
                     } 
+                    me.listarProducto(me.pagination.current_page);
                 }).catch(function (error) {
                     error401(error);
                 });
@@ -1190,8 +1153,6 @@ import QrcodeVue from 'qrcode.vue';
                     
                     case 'actualizar':
                     {
-                        console.log("------------------------------------");
-                        console.log(data);
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Producto: ' + data.codprod;
                         me.id = data.id;
