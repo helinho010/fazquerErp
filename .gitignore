@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/imgproductos
 /vendor
 .env
 .env.backup
