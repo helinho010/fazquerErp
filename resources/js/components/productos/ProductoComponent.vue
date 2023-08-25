@@ -439,7 +439,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="cerrarModal('registrar')">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProducto()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProducto()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -447,8 +447,6 @@
             <!-- /.modal-dialog -->
         </div>
         <!--Fin del modal-->
-        
-        
     </main>
 </template>
 
