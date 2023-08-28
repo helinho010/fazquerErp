@@ -25500,35 +25500,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       formData.append('idcategoriaselected', me.idcategoriaselected);
       formData.append('codigointernacional', me.codigointernacional);
       formData.append('mostrardetalles', me.mostrardetalles == true ? 1 : 0);
-      formData.append('indicaciones', me.indicaciones);
-      formData.append('dosificacion', me.dosificacion);
-      formData.append('principio', me.principio);
-      formData.append('accion', me.accion);
+      formData.append('indicaciones', me.mostrardetalles == true ? me.indicaciones : '');
+      formData.append('dosificacion', me.mostrardetalles == true ? me.dosificacion : '');
+      formData.append('principio', me.mostrardetalles == true ? me.principio : '');
+      formData.append('accion', me.mostrardetalles == true ? me.accion : '');
       axios.post('/producto/registrar', formData, {
         headers: {
           'content-type': 'multipart/form-data'
         }
-      }) // axios.post('/producto/registrar',formData,{
-
-      /*'nombre':me.nombre,
-      'cod':me.idlineas[3],
-      'cantidad':me.cantidad,
-      'idlinea':me.idlineaselected,
-      'iddispenser':me.iddispenserselected,
-      'idformafarm':me.idformafarmselected,
-      'precio_lista':me.preciolista,
-      'precio_venta':me.precioventa,
-      'tiempo_pedido':me.tiempopedidoselected,
-      'indicaciones':me.indicaciones,
-      'dosificacione':me.dosificacione,
-      'principio_activo':me.principio,
-      'accion_terapeutica':me.accion,
-      'idcategoria':me.idcategoriaselected,
-      'imagen':me.image,
-      'metodoabc':me.metodoselected,
-      idlineaselected:0,*/
-      // })
-      .then(function (response) {
+      }).then(function (response) {
         if (response.data == 'error') {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('El registro ya existe', 'Debe introducir uno diferente');
         } else {
@@ -25660,10 +25640,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       formData.append('idcategoriaselected', me.idcategoriaselected);
       formData.append('codigointernacional', me.codigointernacional);
       formData.append('mostrardetalles', me.mostrardetalles == true ? 1 : 0);
-      formData.append('indicaciones', me.indicaciones);
-      formData.append('dosificacion', me.dosificacion);
-      formData.append('principio', me.principio);
-      formData.append('accion', me.accion);
+      formData.append('indicaciones', me.mostrardetalles == true ? me.indicaciones : '');
+      formData.append('dosificacion', me.mostrardetalles == true ? me.dosificacion : '');
+      formData.append('principio', me.mostrardetalles == true ? me.principio : '');
+      formData.append('accion', me.mostrardetalles == true ? me.accion : '');
       axios.post('/producto/actualizar', formData, {
         headers: {
           'content-type': 'multipart/form-data'
