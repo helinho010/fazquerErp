@@ -127,10 +127,18 @@
                                 </select>
                                 <span class="error" v-if="idlineaselected==0">Debe Seleccionar la Linea</span>
                             </div>
-                            <div class="form-group col-sm-8">
+                            <div class="form-group col-sm-4">
                                 <strong>Producto:</strong>
                                 <input type="text" class="form-control" v-model="nombre" placeholder="Nombre del Producto">
                                 <span class="error" v-if="nombre.length==0">Debe Ingresar Nombre del Producto</span>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <strong>Rubro:</strong>
+                                <select v-model="idrubroselected" @change="listarrubro()" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                </select>
+                                <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
                             </div>
                         </div>
                             <!-- tab para los envases del producto -->
@@ -517,6 +525,7 @@ import QrcodeVue from 'qrcode.vue';
                 ////// a qui comiienza las nuevas variables
                 idlineaselected:0,
                 nombre:'',
+                idrubroselected:0,
                 iddispenserselectedprimario:0,
                 cantidadprimario:0,
                 idformafarmselectedprimario:0,
@@ -561,6 +570,7 @@ import QrcodeVue from 'qrcode.vue';
                 value: 'https://example.com',
                 size: 300,
                 lineas:[],
+                rubros:[],
                 dispensers:[],
                 formafarms:[],
                 categorias:[]
@@ -662,6 +672,21 @@ import QrcodeVue from 'qrcode.vue';
                     this.imagenminiatura=e.target.result;
                 }
                 reader.readAsDataURL(this.foto);
+            },
+
+            listarrubro(){
+                let me=this;
+                var url='/rubro/selectrubro';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.rubros=respuesta;
+                    console.log("//////////////////");
+                    console.log(me.rubros);
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
             },
 
             listarLinea(){
@@ -853,6 +878,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('idlineaselected', me.idlineaselected);
                 formData.append('codigolinea',me.codigolinea);
                 formData.append('nombre',me.nombre);
+                formData.append('idrubro',me.idrubroselected);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
                 formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);        
@@ -1020,6 +1046,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('foto', me.foto);
                 formData.append('idlineaselected', me.idlineaselected);
                 formData.append('nombre',me.nombre);
+                formData.append('idrubro',me.idrubroselected);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
                 formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);
@@ -1084,6 +1111,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.removeImage;
                         me.tituloModal='Registar Producto'
                         me.nombre = '';
+                        me.idrubroselected = 0;
                         me.iddispenserselectedprimario = 0;
                         me.cantidadprimario = 0;
                         me.checkformafarmaceuticaprimario = false;
@@ -1137,6 +1165,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.id = data.id;
                         //me.codigo = data.codprod;
                         me.nombre = data.nomprod;
+                        me.idrubroselected = data.idrubro;
                         me.idlineaselected = data.idlinea;
                         me.iddispenserselectedprimario = data.idenvaseprimario;
                         me.cantidadprimario = data.cantidadprimario;
@@ -1233,6 +1262,7 @@ import QrcodeVue from 'qrcode.vue';
         mounted() {
             this.listarProducto(1);
             this.listarLinea();
+            this.listarrubro();
             this.listarDispenser();
             this.listarFormafarm();
             this.listarCategorias();

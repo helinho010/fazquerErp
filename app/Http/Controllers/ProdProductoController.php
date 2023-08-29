@@ -101,9 +101,12 @@ class ProdProductoController extends Controller
 
                 $producto = $producto = Prod_Producto::join('prod__lineas','prod__lineas.id','prod__productos.idlinea')
                                                     ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
+                                                    ->join('adm__rubros','adm__rubros.id','prod__productos.idrubro')
                                                     ->select(DB::raw('prod__productos.id,
                                                     prod__productos.codigo as codprod,
                                                     prod__productos.nombre as nomprod,
+                                                    prod__productos.idrubro,
+	                                                adm__rubros.nombre as nomrubro,
                                                     prod__productos.idlinea,
                                                     prod__productos.preciolistaprimario,
                                                     prod__productos.preciolistasecundario,
@@ -163,9 +166,12 @@ class ProdProductoController extends Controller
         {
             $producto = Prod_Producto::join('prod__lineas','prod__lineas.id','prod__productos.idlinea')
                                       ->join('prod__categorias','prod__categorias.id','prod__productos.idcategoria')
+                                      ->join('adm__rubros','adm__rubros.id','prod__productos.idrubro')
                                       ->select(DB::raw('prod__productos.id,
                                       prod__productos.codigo as codprod,
                                       prod__productos.nombre as nomprod,
+                                      prod__productos.idrubro,
+	                                  adm__rubros.nombre as nomrubro,
                                       prod__productos.idlinea,
                                       prod__productos.preciolistaprimario,
                                       prod__productos.preciolistasecundario,
@@ -310,6 +316,7 @@ class ProdProductoController extends Controller
         $producto->codigo = $codigo;
         $producto->idlinea = $request->idlineaselected;
         $producto->nombre = $request->nombre;
+        $producto->idrubro = $request->idrubro;
         $producto->correlativo = $correlativo;
         $producto->iddispenserprimario = $request->iddispenserselectedprimario;
         $producto->cantidadprimario = $request->cantidadPrimario;
