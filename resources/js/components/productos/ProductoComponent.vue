@@ -17,15 +17,16 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <!--  si se agrega filtro -->
-                        <!-- <div class="col-md-6">
-                            <label class="col-md-3 form-control-label" for="text-input">Almacen: <span  v-if="!sicompleto" class="error">(*)</span></label>
-                            <div class="col-md-9">
-                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Prestacion" v-model="nombre" v-on:focus="selectAll">
-                                <span  v-if="!sicompleto" class="error">Debe Ingresar el Nombre de la Prestacion</span>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <label class="form-control-label" style="margin-top:auto;">Seleccione Rubro:</label> 
+                                <select v-model="idrubrofiltro" @change="listarProducto()" class="form-control" style="margin-left:8px;">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                </select>
                             </div>
-                        </div>  -->
-                        <div class="col-md-6">
+                        </div> 
+                        <div class="col-md-6" v-if="idrubrofiltro != 0">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarProducto(1)">
                                 <button type="submit" class="btn btn-primary" @click="listarProducto(1)"><i class="fa fa-search" ></i> Buscar</button>
@@ -526,6 +527,7 @@ import QrcodeVue from 'qrcode.vue';
                 idlineaselected:0,
                 nombre:'',
                 idrubroselected:0,
+                idrubrofiltro:0,
                 iddispenserselectedprimario:0,
                 cantidadprimario:0,
                 idformafarmselectedprimario:0,
