@@ -155,6 +155,7 @@ class ProdProductoController extends Controller
                                                     prod__categorias.nombre as nomcateg,
                                                     prod__categorias.id as idcateg'))
                                                     ->where('prod__productos.estado',1)
+                                                    ->where('adm__rubros.id',$request->idrubro)
                                                     ->orderby('prod__productos.nombre','asc')
                                                     ->whereraw($sqls)
                                                     ->paginate(30);
@@ -220,6 +221,7 @@ class ProdProductoController extends Controller
                                       prod__categorias.nombre as nomcateg,
                                       prod__categorias.id as idcateg'))
                                       ->where('prod__productos.estado',1)
+                                      ->where('adm__rubros.id',$request->idrubro)
                                       ->orderby('prod__productos.nombre','asc')
                                       ->paginate(30);
             
@@ -404,6 +406,7 @@ class ProdProductoController extends Controller
 
         $producto->idlinea = $request->idlineaselected;
         $producto->nombre = $request->nombre;
+        $producto->idrubro = $request->idrubro;
         $producto->iddispenserprimario = $request->iddispenserselectedprimario;
         $producto->cantidadprimario = $request->cantidadPrimario;
         $producto->checkformafarmaceuticaprimario = $request->checkformafarmaceuticaprimario;

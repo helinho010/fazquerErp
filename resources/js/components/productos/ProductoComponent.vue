@@ -135,7 +135,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <strong>Rubro:</strong>
-                                <select v-model="idrubroselected" @change="listarrubro()" class="form-control">
+                                <select v-model="idrubroselected" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
                                 </select>
@@ -682,8 +682,6 @@ import QrcodeVue from 'qrcode.vue';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.rubros=respuesta;
-                    console.log("//////////////////");
-                    console.log(me.rubros);
                 })
                 .catch(function(error){
                     error401(error);
@@ -854,9 +852,10 @@ import QrcodeVue from 'qrcode.vue';
                 this.idformafarmselected='';
             
             },*/
+
             listarProducto(page){
                 let me=this;
-                var url='/producto?page='+page+'&buscar='+me.buscar;
+                var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
@@ -867,6 +866,7 @@ import QrcodeVue from 'qrcode.vue';
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
@@ -1262,7 +1262,7 @@ import QrcodeVue from 'qrcode.vue';
 
         },
         mounted() {
-            this.listarProducto(1);
+            //this.listarProducto(1);
             this.listarLinea();
             this.listarrubro();
             this.listarDispenser();
