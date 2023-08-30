@@ -168,13 +168,14 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==0" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <select v-model="ciudad" class="form-control rounded">
+                                    <!-- <select v-model="ciudad" class="form-control rounded">
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-for="ciudad in arrayCiudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
-                                    </select>
-                                    <span  v-if="ciudad==0" class="error">Debe seleccionar una Ciudad</span>
+                                    </select> -->
+                                    <input type="tex" id="ciudad" name="ciudad" class="form-control" placeholder="Ingrese la ciudad" v-model="ciudad" v-on:focus="selectAll">
+                                    <span  v-if="ciudad==''" class="error">Debe Ingresar la Ciudad</span>
                                 </div>
                             </div>
                             
@@ -241,7 +242,7 @@ import { error401 } from '../../errores';
                 idrubro:0,
                 sucursalSeleccionado:0,
                 departamento:0,
-                ciudad:0,
+                ciudad:'',
                 idalmacen:0,
                 arrayCiudad:[],
                 arrayDepto:[],
@@ -254,7 +255,7 @@ import { error401 } from '../../errores';
             
             sicompleto(){
                 let me=this;
-                if (me.nombrealmacen!='' && me.direccion!='' && me.departamento!=0 && me.ciudad!=0)
+                if (me.nombrealmacen!='' && me.direccion!='' && me.departamento!=0 && me.ciudad!='')
                     return true;
                 else
                     return false;
@@ -524,7 +525,7 @@ import { error401 } from '../../errores';
                         me.direccion='';
                         me.sucursalSeleccionado=0;
                         me.departamento=0;
-                        me.ciudad=0;
+                        me.ciudad='';
                         me.idrubro=0;
                         me.classModal.openModal('registrar');
                         break;

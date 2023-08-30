@@ -23,8 +23,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarAlmacenes(1,buscar)"
-                                    v-model="almacenselected">
+                                <select class="form-control" @change="listarAlmacenes(1,buscar)" v-model="almacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
                                     <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.razon_social"></option>
                                 </select>                              
@@ -181,11 +180,6 @@
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
                                     <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
                                     <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <strong class="col-md-3 form-control-label">Codigo Internacional:<span  v-if="codigointernacional==''" class="error">(*)</span></strong>
-                                    <input type="text" class="form-control" placeholder="Codigo Internaciona" v-model="codigointernacional" v-on:focus="selectAll">
-                                    <span  v-if="codigointernacional==''" class="error">Debe Ingresar el Codigo Internacional</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -461,6 +455,7 @@ import { error401 } from '../../errores';
                 this.idproductoselected='';
             
             },*/
+            
             listarAlmacenes(page){
                 let me=this;
                 //me.listarEstantes(me.sucursalselected);
@@ -477,6 +472,8 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
+                
+                console.log("Esto quiero ver imprimir en la consola: "+me.almacenselected);
             },
 
             selectSucursals(){
@@ -534,6 +531,7 @@ import { error401 } from '../../errores';
                     me.cerrarModal('registrar');
                     me.listarProductosAlmacen(1);
                 }).catch(function(error){
+                    error401(error);
                     console.log(error);
                 });
             },

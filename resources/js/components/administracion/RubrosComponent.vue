@@ -30,7 +30,7 @@
                                 <th>Opciones</th>
                                 <th>Nombre</th>
                                 <th>Descripcion</th>
-                                <th>Pertenece al Area Medica</th>
+                                <th>Productos Perecederos</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
