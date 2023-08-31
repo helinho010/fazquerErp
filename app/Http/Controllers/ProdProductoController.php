@@ -533,17 +533,43 @@ class ProdProductoController extends Controller
 
     }
     function selectProducto2(Request $request){
-        $raw=DB::raw(DB::raw('concat(prod__productos.codigo," ",prod__productos.nombre," ",prod__dispensers.nombre," ",prod__productos.cantidad," ",prod__forma_farmaceuticas.nombre) as cod'));
-        $productos = Prod_Producto::join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
-                                                ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
-                                                ->select('prod__productos.id as id' ,
-                                                            $raw,
-                                                            'prod__productos.nombre as nombre',
-                                                            'prod__productos.codigo')
-                                                ->where('prod__productos.activo',1)
-                                                ->orderby('prod__productos.nombre','asc')
-                                                ->get();
+        // $raw=DB::raw(DB::raw('concat(prod__productos.codigo," ",prod__productos.nombre," ",prod__dispensers.nombre," ",prod__productos.cantidad," ",prod__forma_farmaceuticas.nombre) as cod'));
+        // $productos = Prod_Producto::join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
+        //                                         ->join('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarm')
+        //                                         ->select('prod__productos.id as id' ,
+        //                                                     $raw,
+        //                                                     'prod__productos.nombre as nombre',
+        //                                                     'prod__productos.codigo')
+        //                                         ->where('prod__productos.activo',1)
+        //                                         ->orderby('prod__productos.nombre','asc')
+        //                                         ->get();
+        
+        $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," ",ifnull(prod__productos.cantidadprimario,"")," ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
+        $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceuticaprimario')
+                                    ->leftJoin('prod__dispensers','prod__dispensers.id','prod__productos.iddispenserprimario')
+                                    ->leftJoin('adm__rubros','adm__rubros.id','prod__productos.idrubro')
+                                    ->select(DB::raw('prod__productos.id,
+                                            prod__productos.codigo,
+                                            prod__productos.nombre, 
+                                            prod__productos.idformafarmaceuticaprimario,
+                                            prod__productos.cantidadprimario, 
+                                            prod__forma_farmaceuticas.nombre as nomformafarmaceutica,
+                                            prod__dispensers.id as idenvase,
+                                            prod__dispensers.nombre as nomenvase,
+                                            adm__rubros.id,
+                                            adm__rubros.nombre as nomrubro,
+                                            adm__rubros.areamedica'),
+                                            $raw
+                                        )
+                                        ->where('prod__productos.activo',1)
+                                        ->orderby('prod__productos.nombre','asc')
+                                        ->get();
+        
         return $productos;
+    }
 
+    public function selectProductoPerecedero (Request $request)
+    {
+        return $request;
     }
 }

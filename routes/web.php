@@ -285,6 +285,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
     Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
+    Route::get('/producto/selectproductoperecedero',[ProdProductoController::class,'selectProductoPerecedero']);
+
 
     Route::get('/dispenser',[ProdDispenserController::class,'index']);
     Route::post('/dispenser/registrar', [ProdDispenserController::class,'store']);
@@ -327,6 +329,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/almacen/desactivar', [AlmAlmacenController::class,'desactivar']);
     Route::put('/almacen/activar', [AlmAlmacenController::class,'activar']);
     Route::get('/almacen/selectalmacen',[AlmAlmacenController::class,'selectAlmacen']);
+
     //Ingreso de productos al almacen
     Route::get('/almacen/ingreso-producto',[AlmIngresoProductoController::class,'index']);
     Route::post('/almacen/ingreso-producto/registrar', [AlmIngresoProductoController::class,'store']);

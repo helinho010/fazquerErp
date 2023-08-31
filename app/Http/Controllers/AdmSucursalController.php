@@ -244,7 +244,7 @@ class AdmSucursalController extends Controller
         $sucursal->id_usuario_modifica=auth()->user()->id;
         $sucursal->save();
     }
-    public function selectSucursal()
+    public function selectSucursal(Request $request)
     {
         // $sucursales=Adm_Sucursal::select('id','cod','tipo','razon_social as nombre')
         //                         ->where('activo',1)
@@ -265,6 +265,8 @@ class AdmSucursalController extends Controller
                                 ->where('adm__sucursals.activo',1)
                                 ->orderBy('adm__sucursals.cod', 'asc')
                                 ->get();
+               
         return $sucursales;
     }
+
 }

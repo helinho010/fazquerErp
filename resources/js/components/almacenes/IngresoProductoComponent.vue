@@ -117,7 +117,7 @@
                             <div class="form-group row">
                                 <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproductoselected==0" class="error">(*)</span></strong>
                                 <div class="col-md-9">
-                                    <select v-model="idproductoselected" class="form-control">
+                                    <select v-model="idproductoselected" @change="perecedero()" class="form-control">
                                      <option value="0" disabled>Seleccionar...</option>
                                      <option v-for="producto in productos" :key="producto.id" :value="producto.id" v-text="producto.cod"></option>
                                     </select>
@@ -145,7 +145,7 @@
                                     <option v-for="tipo in arraytipoentrada" :key="tipo" :value="tipo" v-text="tipo"></option>
                                 </select>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4" v-if="productoperecedero == 1">
                                     <strong>Fecha de Vencimiento: <span  v-if="fecha_vencimiento==''" class="error">(*)</span></strong>
                                     <input type="date"
                                     :min="fechamin"
@@ -176,7 +176,7 @@
                                     <input type="text" class="form-control" placeholder="Lote" v-model="lote" v-on:focus="selectAll">
                                     <span  v-if="lote==''" class="error">Debe Ingresar el lote</span>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-4" v-if="productoperecedero == 1">
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
                                     <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
                                     <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
@@ -260,6 +260,7 @@ import { error401 } from '../../errores';
                 ubicacionSelected:0,
                 lote:'',
                 registrosanitario:'',
+                productoperecedero:0,
                 arraytipoentrada:['Bonificacion',
                                     'Compensacion',
                                     'Compra',
@@ -438,6 +439,21 @@ import { error401 } from '../../errores';
                 });
             },
 
+            perecedero(){
+                let me = this;
+                var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productos=respuesta;
+                    console.log('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
             /*
             productos(productos){
                 this.idproducto=[];
@@ -472,7 +488,6 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                
                 console.log("Esto quiero ver imprimir en la consola: "+me.almacenselected);
             },
 
