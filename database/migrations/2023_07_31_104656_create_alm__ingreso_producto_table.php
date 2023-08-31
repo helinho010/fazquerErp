@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('idalmacen')->comment('Identificar que relaciona la tabla alamcen con la tabla ingreso de productos');
             $table->integer('cantidad')->comment('Cantidad de productos que esta ingresando al almacen');
             $table->string('tipo_entrada')->comment('Es la manera en que el producto esta ingresando, ya sea por compra, cambio, devolucion, donacion, etc');
-            $table->date('fecha_vencimiento')->comment('fecha de vencimiento del producto');
+            $table->date('fecha_vencimiento')->nullable()->comment('fecha de vencimiento del producto');
             $table->string('lote')->comment('Codigo que hace referecia a un grupo de un productos');
-            $table->string('registro_sanitario')->comment('Codigo expedido por la autoridad sanitaria');
+            $table->string('registro_sanitario')->nullable()->comment('Codigo expedido por la autoridad sanitaria');
             $table->string('codigo_internacional')->comment('Codigo internacional o codigo de barras que tiene los productos');
             $table->boolean('activo')->default(1)->comment('Estado del registro, 1 -> activo, 0 ->inactivo');
             $table->timestamps();

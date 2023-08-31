@@ -25,7 +25,7 @@
                             <div class="input-group">
                                 <select class="form-control" @change="listarAlmacenes(1,buscar)" v-model="almacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.razon_social"></option>
+                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.nombre_almacen"></option>
                                 </select>                              
                             </div>
                         </div>
@@ -47,7 +47,6 @@
                                 <th>Fecha Vencimiento</th>
                                 <th>Lote</th>
                                 <th>Registro Sanitario</th>
-                                <th>Codigo Internacional</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -64,14 +63,13 @@
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="ingresoProducto.codalmacen +' '+ ingresoProducto.razon_social"></td>
+                                <td v-text="ingresoProducto.codalmacen +' '+ ingresoProducto.nombre_almacen"></td>
                                 <td v-text="ingresoProducto.codproducto+' '+ingresoProducto.nomproducto"></td>  
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.tipo_entrada"></td>
                                 <td v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-text="ingresoProducto.registro_sanitario"></td>
-                                <td v-text="ingresoProducto.codigo_internacional"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -119,7 +117,7 @@
                                 <div class="col-md-9">
                                     <select v-model="idproductoselected" @change="perecedero()" class="form-control">
                                      <option value="0" disabled>Seleccionar...</option>
-                                     <option v-for="producto in productos" :key="producto.id" :value="producto.id" v-text="producto.cod"></option>
+                                     <option v-for="producto in productos" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option>
                                     </select>
                                    <!-- <Ajaxselect  v-if="clearSelected"
                                     ruta="/producto/selectproducto?buscar=" @found="productos" @cleaning="cleanproductos"
@@ -145,14 +143,11 @@
                                     <option v-for="tipo in arraytipoentrada" :key="tipo" :value="tipo" v-text="tipo"></option>
                                 </select>
                                 </div>
-                                <div class="form-group col-sm-4" v-if="productoperecedero == 1">
-                                    <strong>Fecha de Vencimiento: <span  v-if="fecha_vencimiento==''" class="error">(*)</span></strong>
-                                    <input type="date"
-                                    :min="fechamin"
-                                    class="form-control" 
-                                    v-model="fecha_vencimiento" >
+                                <div class="form-group col-sm-4">
+                                    <strong>Lote: <span  v-if="lote==''" class="error">(*)</span></strong>
+                                    <input type="text" class="form-control" placeholder="Lote" v-model="lote" v-on:focus="selectAll">
+                                    <span  v-if="lote==''" class="error">Debe Ingresar el lote</span>
                                 </div>
-                                <span  v-if="fecha_vencimiento==''" class="error">Debe Ingresar la fecha de Vencimiento</span>
                             </div>
                             <div class="row">
                                 <!-- <div class="form-group col-sm-4">
@@ -171,11 +166,12 @@
                                     </select>
                                     <span  v-if="ubicacionSelected==0" class="error">Debe seleccionar la ubicacion</span>
                                 </div> -->
-                                <div class="form-group col-sm-4">
-                                    <strong>Lote: <span  v-if="lote==''" class="error">(*)</span></strong>
-                                    <input type="text" class="form-control" placeholder="Lote" v-model="lote" v-on:focus="selectAll">
-                                    <span  v-if="lote==''" class="error">Debe Ingresar el lote</span>
+                                <div class="form-group col-sm-4" v-if="productoperecedero == 1">
+                                    <strong>Fecha de Vencimiento: <span  v-if="fecha_vencimiento==''" class="error">(*)</span></strong>
+                                    <input type="date" :min="fechamin" class="form-control" v-model="fecha_vencimiento">
+                                    <span  v-if="fecha_vencimiento==''" class="error">Debe Ingresar la fecha de Vencimiento</span>
                                 </div>
+                                
                                 <div class="form-group col-sm-4" v-if="productoperecedero == 1">
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
                                     <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
@@ -199,8 +195,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnAlmacen()" :disabled="sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnAlmacen()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnAlmacen()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnAlmacen()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -304,21 +300,32 @@ import { error401 } from '../../errores';
                         fechaVencimiento:me.fecha_vencimiento,
                         //estante:me.estanteselected,
                         //ubicacion:me.ubicacionSelected,
-                        codigointernacional:me.codigointernacional,
+                        //codigointernacional:me.codigointernacional,
                         registroSanitario:me.registrosanitario
                     });
-                    
-                //old if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.ubicacionSelected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
-                if (me.idproductoselected!=0 && me.cantidad!=0 && me.fecha_vencimiento!='' && me.estanteselected!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='')
+                
+                if(me.productoperecedero == 0)
                 {
-                    return true;
+                    if (me.idproductoselected!=0 && me.cantidad!=0 && me.lote!='' && me.codigo!='' )
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }else{
+                    if(me.idproductoselected!=0 && me.cantidad!=0 && me.lote!='' && me.codigo!='' && me.registrosanitario!='' && me.fecha_vencimiento!='')
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
-                    
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
@@ -439,14 +446,18 @@ import { error401 } from '../../errores';
                 });
             },
 
+
             perecedero(){
                 let me = this;
                 var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
-                    me.productos=respuesta;
-                    console.log('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
-                    console.log(response);
+                    me.productoperecedero = respuesta[0].areamedica;
+                    if(respuesta[0].areamedica == 1)
+                    {
+                        me.registrosanitario = '';
+                        me.fecha_vencimiento = '';
+                    }
                 })
                 .catch(function (error) {
                     error401(error);
@@ -539,7 +550,7 @@ import { error401 } from '../../errores';
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
-                    'codigo_internacional':me.codigointernacional, 
+                    //'codigo_internacional':me.codigointernacional, 
                 }).then(function(response){
                     console.log(response);
                     Swal.fire('Registrado Correctamente')
@@ -658,7 +669,7 @@ import { error401 } from '../../errores';
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
-                    'codigo_internacional':me.codigointernacional,
+                    //'codigo_internacional':me.codigointernacional,
                 }).then(function (response) {
                     Swal.fire('Actualizado Correctamente')
                     me.listarProductosAlmacen(1); 
@@ -677,14 +688,13 @@ import { error401 } from '../../errores';
                     {
                         if(me.sucursalselected!=0)
                         {
-                            me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.razon_social;
+                            me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.nombre_almacen;
                             me.tipoAccion=1;
                             me.idproductoselected=0;
                             me.tipo_entrada='Compra';
                             me.cantidad=0;
                             me.lote='';
                             me.registrosanitario='';
-                            me.codigointernacional='';
                             me.classModal.openModal('registrar');
                         }
                         else
@@ -705,13 +715,13 @@ import { error401 } from '../../errores';
                         me.fecha_vencimiento = data.fecha_vencimiento;
                         me.lote = data.lote;
                         me.registrosanitario = data.registro_sanitario;
-                        me.codigointernacional = data.codigo_internacional;
+                        //me.codigointernacional = data.codigo_internacional;
                         me.codigo = JSON.stringify
                         ({
                             idproducto:me.idproductoselected,
                             cantidad: me.cantidad,
                             fechaVencimiento:me.fecha_vencimiento,
-                            codigointernacional:me.codigointernacional,
+                            //codigointernacional:me.codigointernacional,
                             registroSanitario:me.registrosanitario
                         });
                         me.classModal.openModal('registrar');

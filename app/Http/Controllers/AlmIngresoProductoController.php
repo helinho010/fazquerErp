@@ -16,7 +16,7 @@ class AlmIngresoProductoController extends Controller
         /**
          * select
          * alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional,
-         * alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo, alm__almacens.razon_social, alm__almacens.direccion,
+         * alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo, alm__almacens.nombre_almacen, alm__almacens.direccion,
          * prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo, prod__productos.nombre
          * from
          * 	alm__ingreso_producto
@@ -27,7 +27,26 @@ class AlmIngresoProductoController extends Controller
         $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                              ->select(DB::raw('alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional, alm__ingreso_producto.activo ,alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo as codalmacen, alm__almacens.razon_social, alm__almacens.direccion,prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo as codproducto, prod__productos.nombre as nomproducto'))    
+                              ->select(DB::raw('
+                                       alm__ingreso_producto.id, 
+                                       alm__ingreso_producto.id_prod_producto, 
+                                       alm__ingreso_producto.idalmacen, 
+                                       alm__ingreso_producto.cantidad, 
+                                       alm__ingreso_producto.tipo_entrada, 
+                                       alm__ingreso_producto.fecha_vencimiento, 
+                                       alm__ingreso_producto.lote, 
+                                       alm__ingreso_producto.registro_sanitario, 
+                                       alm__ingreso_producto.activo,
+                                       alm__almacens.id as idalmacen, 
+                                       alm__almacens.idsucursal, 
+                                       alm__almacens.codigo as codalmacen, 
+                                       alm__almacens.nombre_almacen, 
+                                       alm__almacens.direccion,
+                                       prod__productos.id as idprodproducto, 
+                                       prod__productos.idlinea, 
+                                       prod__productos.codigo as codproducto, 
+                                       prod__productos.nombre as nomproducto'
+                                       ))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);
 
@@ -68,7 +87,7 @@ class AlmIngresoProductoController extends Controller
         $nuevoProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $nuevoProducto->lote = $request->lote;
         $nuevoProducto->registro_sanitario = $request->registro_sanitario;
-        $nuevoProducto->codigo_internacional = $request->codigo_internacional;
+        //$nuevoProducto->codigo_internacional = $request->codigo_internacional;
         $nuevoProducto->id_usuario_registra=auth()->user()->id;
         $nuevoProducto->save();
     }
@@ -102,7 +121,7 @@ class AlmIngresoProductoController extends Controller
         $actualizarProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $actualizarProducto->lote = $request->lote;
         $actualizarProducto->registro_sanitario = $request->registro_sanitario;
-        $actualizarProducto->codigo_internacional = $request->codigo_internacional;
+        //$actualizarProducto->codigo_internacional = $request->codigo_internacional;
         $actualizarProducto->id_usuario_registra=auth()->user()->id;
         $actualizarProducto->save();
     }
