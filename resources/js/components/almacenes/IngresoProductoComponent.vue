@@ -499,7 +499,6 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                console.log("Esto quiero ver imprimir en la consola: "+me.almacenselected);
             },
 
             selectSucursals(){
