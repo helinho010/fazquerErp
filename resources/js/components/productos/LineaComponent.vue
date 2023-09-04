@@ -17,8 +17,17 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="input-group">
+                                <label class="form-control-label" style="margin-top:auto;">Seleccione Rubro:</label> 
+                                <select v-model="idrubrofiltro" @change="listarLineas()" class="form-control" style="margin-left:8px;">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group" v-if="idrubrofiltro != 0">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarLineas(1)">
                                 <button type="submit" class="btn btn-primary" @click="listarLineas(1)"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
@@ -95,6 +104,16 @@
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
+                                <label class="col-md-3 form-control-label">Rubro:</label>
+                                <div class="col-md-9">
+                                    <select v-model="idrubroselected" @change="listarrubro()" class="form-control">
+                                        <option value="0">Seleccionar</option>
+                                        <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                    </select>
+                                    <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="!sinombre" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Linea" v-model="nombre" v-on:focus="selectAll" >
@@ -159,6 +178,9 @@ import { error401 } from '../../errores';
                 idlinea:'',
                 buscar:'',
                 demora:7,
+                idrubroselected:0,
+                rubros:[],
+                idrubrofiltro:0,
                 
             }
 
@@ -213,15 +235,12 @@ import { error401 } from '../../errores';
         methods :{
             listarLineas(page){
                 let me=this;
-                var url='/linea?page='+page+'&buscar='+me.buscar;
+                var url='/linea?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    //console.log(respuesta.lineas);
                     me.pagination=respuesta.pagination;
-                    //console.log(me.lineas.data);
                     me.arrayLineas=respuesta.lineas.data;
                     me.correlativo=respuesta.maxcorrelativo[0].maximo;
-                    //console.log(me.arrayLineas);
                 })
                 .catch(function(error){
                     error401(error);
@@ -233,9 +252,11 @@ import { error401 } from '../../errores';
                 me.pagination.current_page = page;
                 me.listarLineas(page);
             },
+
             registrarLinea(){
                 let me = this;
                 axios.post('/linea/registrar',{
+                    'idrubro':me.idrubroselected,
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
                     'tiempo_demora':me.demora,
@@ -248,6 +269,35 @@ import { error401 } from '../../errores';
                 });
 
             },
+
+
+            listarrubro(){
+                let me=this;
+                var url='/rubro/selectrubro';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.rubros=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
+            // listarProducto(page){
+            //     let me=this;
+            //     var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
+            //     axios.get(url).then(function(response){
+            //         var respuesta=response.data;
+            //         me.pagination=respuesta.pagination;
+            //         me.arrayProducto=respuesta.producto.data;
+            //     })
+            //     .catch(function(error){
+            //         error401(error);
+            //         console.log(error);
+            //     });
+            // },
+
             eliminarLinea(idlinea){
                 let me=this;
                 //console.log("prueba");
@@ -349,10 +399,10 @@ import { error401 } from '../../errores';
                 })
             },
             actualizarLinea(){
-               // const Swal = require('sweetalert2')
                 let me =this;
                 axios.put('/linea/actualizar',{
                     'id':me.idlinea,
+                    'idrubro':me.idrubroselected,
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
                     'tiempo_demora':me.demora
@@ -391,7 +441,8 @@ import { error401 } from '../../errores';
                     {
                         me.idlinea=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Linea'
+                        me.tituloModal='Actualizar Linea';
+                        me.idrubroselected=data.idrubro;
                         me.nombre=data.nombre;
                         me.descripcion=data.descripcion;
                         me.demora=data.tiempo_demora;
@@ -421,6 +472,7 @@ import { error401 } from '../../errores';
         },
         mounted() {
             this.listarLineas(1);
+            this.listarrubro();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')

@@ -16,47 +16,53 @@ class ProdLineaController extends Controller
     public function index(Request $request)
     {
         $buscararray=array();
-        if(!empty($request->buscar)){
+        if(!empty($request->buscar))
+        {
             $buscararray = explode(" ",$request->buscar);
-            //dd($buscararray);
             $valor=sizeof($buscararray);
-            if($valor > 0){
+            if($valor > 0)
+            {
                 $sqls='';
                 foreach($buscararray as $valor){
-                    if(empty($sqls)){
+                    if(empty($sqls))
+                    {
                         $sqls="(codigo like '%".$valor."%' or nombre like '%".$valor."%' or descripcion like '%".$valor."%')" ;
                     }
                     else
                     {
                         $sqls.=" and (codigo like '%".$valor."%' or nombre like '%".$valor."%' or descripcion like '%".$valor."%')" ;
                     }
-    
                 }
-                $lineas= Prod_Linea::orderby('codigo','asc')->whereraw($sqls)->paginate(20);
+                $lineas= Prod_Linea::orderby('codigo','asc')
+                                    ->whereraw($sqls)
+                                    ->where('prod__lineas.idrubro',$request->idrubro)
+                                    ->paginate(20);
             }
         }
-        
-        else
-        {
-            $lineas= Prod_Linea::orderby('codigo','asc')->paginate(20);
+        else{
+            $lineas= Prod_Linea::orderby('codigo','asc')
+                                ->where('prod__lineas.idrubro',$request->idrubro)
+                                ->paginate(20);
         }
         
         //$lineas = Prod_Linea::all();
         
         $maxcorrelativo = Prod_Linea::select(DB::raw('max(correlativo) as maximo'))
                                 ->get();
-        return ['pagination'=>[
-            'total'         =>    $lineas->total(),
-            'current_page'  =>    $lineas->currentPage(),
-            'per_page'      =>    $lineas->perPage(),
-            'last_page'     =>    $lineas->lastPage(),
-            'from'          =>    $lineas->firstItem(),
-            'to'            =>    $lineas->lastItem(),
-
-        ] ,
+        return [
+                'pagination'=>
+                [
+                    'total'         =>    $lineas->total(),
+                    'current_page'  =>    $lineas->currentPage(),
+                    'per_page'      =>    $lineas->perPage(),
+                    'last_page'     =>    $lineas->lastPage(),
+                    'from'          =>    $lineas->firstItem(),
+                    'to'            =>    $lineas->lastItem(),
+                 ] ,
                 'lineas'=>$lineas,
                 'maxcorrelativo'=>$maxcorrelativo];
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -99,6 +105,7 @@ class ProdLineaController extends Controller
         $linea = new Prod_Linea();
         $linea->codigo=$codigo;
         $linea->correlativo=$correlativo;
+        $linea->idrubro=$request->idrubro;
         $linea->nombre=$request->nombre;
         $linea->descripcion=$request->descripcion;
         $linea->tiempo_demora=$request->tiempo_demora;
@@ -140,6 +147,7 @@ class ProdLineaController extends Controller
     {
         $linea = Prod_Linea::findOrFail($request->id);
 
+        $linea->idrubro=$request->idrubro;
         $linea->nombre=$request->nombre;
         $linea->descripcion=$request->descripcion;
         $linea->tiempo_demora=$request->tiempo_demora;

@@ -933,7 +933,6 @@ import QrcodeVue from 'qrcode.vue';
                     {
                         Swal.fire('Registrado Correctamente');
                         me.cerrarModal('registrar');
-                        // me.listarProducto(me.pagination.current_page);
                         me.listarProducto(1);
                     }
                     

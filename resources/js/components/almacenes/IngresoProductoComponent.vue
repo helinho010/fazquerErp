@@ -522,25 +522,6 @@ import { error401 } from '../../errores';
 
             registrarProductoEnAlmacen(){
                 let me = this;
-                // axios.post('/almacen/registrar',{
-                //     'idsucursal':me.sucursalselected,
-                //     'idproducto':me.idproductoselected,
-                //     'idusuario':1,
-                //     'cantidad':me.cantidad,
-                //     'tipo_entrada':me.tipo_entrada,
-                //     'lote':me.lote,
-                //     'fecha_vencimiento':me.fecha_vencimiento,
-                //     'codigo':me.codigo,
-                //     'registro_sanitario':me.registrosanitario,
-                //     'ubicacion_estante':me.codestante+'-'+me.ubicacionSelected
-                // }).then(function(response){
-                //     Swal.fire('Registrado Correctamente')
-                //     me.cerrarModal('registrar');
-                //     me.listarProductosAlmacen(1);
-                // }).catch(function(error){
-                //     error401(error);
-                //     console.log(error);
-                // });
                 axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
                     'idalmacen':me.almacenselected,
@@ -693,6 +674,7 @@ import { error401 } from '../../errores';
                             me.tipo_entrada='Compra';
                             me.cantidad=0;
                             me.lote='';
+                            me.fecha_vencimiento='';
                             me.registrosanitario='';
                             me.classModal.openModal('registrar');
                         }
@@ -740,7 +722,7 @@ import { error401 } from '../../errores';
                 me.cantidad=0;
                 me.tipo_entrada='';
                 me.lote='';
-                me.fecha_vencimiento=me.fechaactual;
+                me.fecha_vencimiento='';//me.fechaactual;
                 me.codigo='';
                 me.registrosanitario='';
                 me.ubicacionSelected=0;
