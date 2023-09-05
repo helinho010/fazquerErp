@@ -494,6 +494,8 @@ import { error401 } from '../../errores';
                     me.pagination=respuesta.pagination;
                     me.listarEstantes(me.almacenselected);
                     me.listarProductosAlmacen();
+                    console.log("**************");
+                    console.log(response);
                 })
                 .catch(function(error){
                     error401(error);

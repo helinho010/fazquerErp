@@ -229,9 +229,8 @@ import { error401 } from '../../errores';
                 }
                 return pagesArray;
             },
-
-
         },
+
         methods :{
             listarLineas(page){
                 let me=this;
@@ -247,6 +246,7 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
@@ -270,7 +270,6 @@ import { error401 } from '../../errores';
 
             },
 
-
             listarrubro(){
                 let me=this;
                 var url='/rubro/selectrubro';
@@ -283,20 +282,6 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
-
-            // listarProducto(page){
-            //     let me=this;
-            //     var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
-            //     axios.get(url).then(function(response){
-            //         var respuesta=response.data;
-            //         me.pagination=respuesta.pagination;
-            //         me.arrayProducto=respuesta.producto.data;
-            //     })
-            //     .catch(function(error){
-            //         error401(error);
-            //         console.log(error);
-            //     });
-            // },
 
             eliminarLinea(idlinea){
                 let me=this;
@@ -333,9 +318,7 @@ import { error401 } from '../../errores';
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
-                    });
-                    
-                    
+                    });  
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -348,6 +331,7 @@ import { error401 } from '../../errores';
                 }
                 })
             },
+
             activarLinea(idlinea){
                 let me=this;
                 //console.log("prueba");
@@ -398,6 +382,7 @@ import { error401 } from '../../errores';
                 }
                 })
             },
+
             actualizarLinea(){
                 let me =this;
                 axios.put('/linea/actualizar',{
@@ -418,18 +403,19 @@ import { error401 } from '../../errores';
                     } 
                 }).catch(function (error) {
                     error401(error);
+                    console.log(error);
                 });
                 me.cerrarModal('registrar');
-
-
             },
+
             abrirModal(accion,data= []){
                 let me=this;
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Linea'
+                        me.tituloModal='Registar Lineas y Marcas'
                         me.tipoAccion=1;
+                        me.idrubroselected=0;
                         me.nombre='';
                         me.descripcion='';
                         me.demora=7;
@@ -449,10 +435,9 @@ import { error401 } from '../../errores';
                         me.classModal.openModal('registrar');
                         break;
                     }
-
-                }
-                
+                } 
             },
+
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
@@ -460,16 +445,15 @@ import { error401 } from '../../errores';
                 me.descripcion='';
                 me.tipoAccion=1;
                 me.demora=7;
-                
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
             },  
-
-
         },
+
         mounted() {
             this.listarLineas(1);
             this.listarrubro();

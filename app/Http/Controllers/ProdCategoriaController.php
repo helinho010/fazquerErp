@@ -33,27 +33,33 @@ class ProdCategoriaController extends Controller
                         }
         
                     }
-                    $categoria= Prod_Categoria::orderby('nombre','asc')->whereraw($sqls)->paginate(20);
+                    $categoria= Prod_Categoria::orderby('nombre','asc')
+                                              ->whereraw($sqls)
+                                              ->where('prod__categorias.idrubro',$request->idrubro)
+                                              ->paginate(20);
                 }
             }
-            
             else
             {
-                $categoria= Prod_Categoria::orderby('nombre','asc')->paginate(20);
+                $categoria= Prod_Categoria::orderby('nombre','asc')
+                                          ->where('prod__categorias.idrubro',$request->idrubro)
+                                          ->paginate(20);
             }
             
             //$categoria = Prod_Categoria::all();
-            return ['pagination'=>[
-                'total'         =>    $categoria->total(),
-                'current_page'  =>    $categoria->currentPage(),
-                'per_page'      =>    $categoria->perPage(),
-                'last_page'     =>    $categoria->lastPage(),
-                'from'          =>    $categoria->firstItem(),
-                'to'            =>    $categoria->lastItem(),
-    
-            ] ,
-                    'categoria'=>$categoria,
-                    ];
+            return [
+                        'pagination'=>
+                        [
+                            'total'         =>    $categoria->total(),
+                            'current_page'  =>    $categoria->currentPage(),
+                            'per_page'      =>    $categoria->perPage(),
+                            'last_page'     =>    $categoria->lastPage(),
+                            'from'          =>    $categoria->firstItem(),
+                            'to'            =>    $categoria->lastItem(),
+                        ] ,
+                            
+                        'categoria'=>$categoria,
+                   ];
         }
     }
 
@@ -85,7 +91,7 @@ class ProdCategoriaController extends Controller
         }
         
         $categoria = new Prod_Categoria();
-
+        $categoria->idrubro=$request->idrubro;
         $categoria->nombre=$request->nombre;
         $categoria->id_usuario_registra=auth()->user()->id;
         $categoria->save();
@@ -123,7 +129,7 @@ class ProdCategoriaController extends Controller
     public function update(Request $request, Prod_Categoria $prod_Categoria)
     {
         $categoria = Prod_Categoria::findOrFail($request->id);
-
+        $categoria->idrubro=$request->idrubro;
         $categoria->nombre=$request->nombre;
         $categoria->id_usuario_modifica=auth()->user()->id;
         $categoria->save();
@@ -191,16 +197,14 @@ class ProdCategoriaController extends Controller
               
         }
         return ['categorias' => $categoria];
-
     }
+
     public function selectCategoria2(Request $request)
     {
         $categoria = Prod_Categoria::select('id','nombre')
                                     ->where('activo',1)
                                     ->orderby('nombre','asc')
                                     ->get();
-        
         return $categoria;
-
     }
 }

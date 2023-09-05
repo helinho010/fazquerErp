@@ -17,8 +17,17 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="input-group">
+                                <label class="form-control-label" style="margin-top:auto;">Seleccione Rubro:</label> 
+                                <select v-model="idrubrofiltro" @change="listarCategoria()" class="form-control" style="margin-left:8px;">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group" v-if="idrubrofiltro!=0">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarCategoria(1)">
                                 <button type="submit" class="btn btn-primary" @click="listarCategoria(1)"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
@@ -87,10 +96,20 @@
                     <div class="modal-body">
                         <!-- <form action="" method="post" enctype="multipart/form-data" class="form-horizontal"> -->
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="!sicompleto" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label">Rubro:</label>
+                                <div class="col-md-9">
+                                    <select v-model="idrubroselected" class="form-control">
+                                        <option value="0">Seleccionar</option>
+                                        <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                    </select>
+                                    <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="nombre==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Categoria" v-model="nombre" v-on:focus="selectAll" @keyup.enter="registrarCategoria()">
-                                    <span  v-if="!sicompleto" class="error">Debe Ingresar el Nombre de la Categoria</span>
+                                    <span  v-if="nombre==''" class="error">Debe Ingresar el Nombre de la Categoria</span>
                                 </div>
                             </div>
                         <!-- </form> -->
@@ -105,9 +124,7 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-        <!--Fin del modal-->
-        
-        
+        <!--Fin del modal-->  
     </main>
 </template>
 
@@ -132,21 +149,26 @@ import { error401 } from '../../errores';
                 tituloModal:'',
                 tipoAccion:1,
                 idcategoria:'',
-                buscar:''
+                buscar:'',
+                idrubrofiltro:0,
+                rubros:[],
+                idrubroselected:0,
             }
-
         },
+
         computed:{
             sicompleto(){
                 let me=this;
-                if (me.nombre!='')
+                if (me.nombre!='' && me.idrubroselected!=0)
                     return true;
                 else
                     return false;
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -166,32 +188,46 @@ import { error401 } from '../../errores';
                 }
                 return pagesArray;
             },
-
-
         },
+
         methods :{
             listarCategoria(page){
                 let me=this;
-                var url='/categoria?page='+page+'&buscar='+me.buscar;
+                var url='/categoria?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    me.arrayCategoria=respuesta.categoria.data;
-                    
+                    me.arrayCategoria=respuesta.categoria.data;   
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
                 me.listarCategoria(page);
             },
+
+            listarrubro(){
+                let me=this;
+                var url='/rubro/selectrubro';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.rubros=respuesta;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
             registrarCategoria(){
                 let me = this;
                 axios.post('/categoria/registrar',{
+                    'idrubro':me.idrubroselected,
                     'nombre':me.nombre,
                 }).then(function(response){
                     if(response.data=='error')
@@ -207,8 +243,8 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-
             },
+
             eliminarCategoria(idcategoria){
                 let me=this;
                 //console.log("prueba");
@@ -245,8 +281,6 @@ import { error401 } from '../../errores';
                         error401(error);
                         console.log(error);
                     });
-                    
-                    
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -259,9 +293,9 @@ import { error401 } from '../../errores';
                 }
                 })
             },
+
             activarCategoria(idcategoria){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -309,11 +343,13 @@ import { error401 } from '../../errores';
                 }
                 })
             },
+
             actualizarCategoria(){
                // const Swal = require('sweetalert2')
                 let me =this;
                 axios.put('/categoria/actualizar',{
                     'id':me.idcategoria,
+                    'idrubro':me.idrubroselected,
                     'nombre':me.nombre,
                     
                 }).then(function (response) {
@@ -333,13 +369,15 @@ import { error401 } from '../../errores';
 
 
             },
+
             abrirModal(accion,data= []){
                 let me=this;
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Categoria'
+                        me.tituloModal='Registar Categoria';
                         me.tipoAccion=1;
+                        me.idrubroselected=0;
                         me.nombre='';
                         me.classModal.openModal('registrar');
                         break;
@@ -350,31 +388,33 @@ import { error401 } from '../../errores';
                         me.idcategoria=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Categoria'
+                        me.idrubroselected=data.idrubro;
                         me.nombre=data.nombre;
                         me.classModal.openModal('registrar');
                         break;
                     }
-
-                }
-                
+                } 
             },
+
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
+                me.idrubroselected=0;
                 me.nombre='';
                 me.tipoAccion=1;
                 
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
             },  
-
-
         },
+
         mounted() {
             this.listarCategoria(1);
+            this.listarrubro();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
