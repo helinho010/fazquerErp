@@ -121,6 +121,14 @@
                     <div class="modal-body">
                         <div class="row" style="margin-bottom: 30px;">
                             <div class="form-group col-sm-4">
+                                <strong>Rubro:</strong>
+                                <select v-model="idrubroselected" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
+                                </select>
+                                <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
+                            </div>
+                            <div class="form-group col-sm-4">
                                 <strong>Linea:</strong>
                                 <select v-model="idlineaselected" @change="getCodigoLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -132,14 +140,6 @@
                                 <strong>Producto:</strong>
                                 <input type="text" class="form-control" v-model="nombre" placeholder="Nombre del Producto">
                                 <span class="error" v-if="nombre.length==0">Debe Ingresar Nombre del Producto</span>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <strong>Rubro:</strong>
-                                <select v-model="idrubroselected" class="form-control">
-                                    <option value="0">Seleccionar</option>
-                                    <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
-                                </select>
-                                <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
                             </div>
                         </div>
                             <!-- tab para los envases del producto -->

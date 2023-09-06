@@ -148,7 +148,7 @@ import { error401 } from '../../errores';
                 arrayCategoria:[],
                 tituloModal:'',
                 tipoAccion:1,
-                idcategoria:'',
+                idcategoria:0,
                 buscar:'',
                 idrubrofiltro:0,
                 rubros:[],
@@ -385,6 +385,8 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
+                        console.log("Actualizar el resgistro");
+                        console.log(data);
                         me.idcategoria=data.id;
                         me.tipoAccion=2;
                         me.tituloModal='Actualizar Categoria'

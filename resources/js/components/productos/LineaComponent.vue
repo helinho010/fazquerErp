@@ -116,7 +116,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="!sinombre" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Linea" v-model="nombre" v-on:focus="selectAll" >
+                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Linea o Marca" v-model="nombre" v-on:focus="selectAll" >
                                     <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre de la Linea</span>
                                 </div>
                             </div>                            
