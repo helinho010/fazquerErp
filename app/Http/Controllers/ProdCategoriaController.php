@@ -203,6 +203,7 @@ class ProdCategoriaController extends Controller
     {
         $categoria = Prod_Categoria::select('id','nombre')
                                     ->where('activo',1)
+                                    ->where('idrubro',$request->idrubro)
                                     ->orderby('nombre','asc')
                                     ->get();
         return $categoria;

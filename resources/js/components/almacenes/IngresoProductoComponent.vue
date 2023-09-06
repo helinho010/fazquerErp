@@ -100,6 +100,8 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
+        
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">

@@ -225,6 +225,7 @@ class ProdLineaController extends Controller
         $raw=DB::raw(DB::raw('concat(codigo," ",nombre) as cod'));  
         $lineas = Prod_Linea::select($raw,'id','nombre','codigo')
                             ->where('activo',1)
+                            ->where('idrubro',$request->idrubro)
                             ->orderby('codigo','asc')
                             ->get();
         return $lineas;

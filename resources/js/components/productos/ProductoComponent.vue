@@ -108,6 +108,8 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -122,7 +124,7 @@
                         <div class="row" style="margin-bottom: 30px;">
                             <div class="form-group col-sm-4">
                                 <strong>Rubro:</strong>
-                                <select v-model="idrubroselected" class="form-control">
+                                <select v-model="idrubroselected" @change="listarLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     <option v-for="rubro in rubros" :key="rubro.id" :value="rubro.id" v-text="rubro.nombre"></option>
                                 </select>
@@ -691,16 +693,17 @@ import QrcodeVue from 'qrcode.vue';
 
             listarLinea(){
                 let me=this;
-                var url='/linea/selectlinea2';
+                var url='/linea/selectlinea2?idrubro='+me.idrubroselected;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.lineas=respuesta;
+                    me.idlineaselected=0;
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
-
+                me.listarCategorias();
             },
 
             getCodigoLinea(){
@@ -744,11 +747,11 @@ import QrcodeVue from 'qrcode.vue';
             },
             listarCategorias(){
                 let me=this;
-                var url='/categoria/selectcategoria2';
+                var url='/categoria/selectcategoria2?idrubro='+me.idrubroselected;
                 axios.get(url).then(function(response){
-                    var respuesta=response.data;
-                    me.categorias=respuesta;
-                    
+                    var respuesta = response.data;
+                    me.categorias = respuesta;
+                    me.idcategoriaselected = 0;
                 })
                 .catch(function(error){
                     error401(error);
