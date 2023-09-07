@@ -547,13 +547,16 @@ class ProdProductoController extends Controller
         //                                         ->orderby('prod__productos.nombre','asc')
         //                                         ->get();
         
-        /*$idrubroDeAlmacenSeleccionado = DB::table('alm__almacens')
+        $idrubroDeAlmacenSeleccionado = DB::table('alm__almacens')
                                         ->select('adm__sucursals.idrubro') 
                                         ->leftJoin('adm__sucursals','adm__sucursals.id','alm__almacens.idsucursal')
                                         ->where('alm__almacens.id',$request->idalmacen)
                                         ->get();
 
-        echo "//////////0000000/////////".$idrubroDeAlmacenSeleccionado;*/
+        foreach ($idrubroDeAlmacenSeleccionado as $value) {
+            $idrubroTable = $value->idrubro;
+        } 
+        
 
         $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," ",ifnull(prod__productos.cantidadprimario,"")," ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
         $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceuticaprimario')
@@ -573,6 +576,7 @@ class ProdProductoController extends Controller
                                             $raw
                                         )
                                         ->where('prod__productos.activo',1)
+                                        ->where('adm__rubros.id',$idrubroTable)
                                         ->orderby('prod__productos.nombre','asc')
                                         ->get();
         

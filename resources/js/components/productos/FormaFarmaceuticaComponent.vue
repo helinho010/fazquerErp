@@ -339,7 +339,7 @@ import { error401 } from '../../errores';
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar FormaFarm'
+                        me.tituloModal='Registar Forma o Unidad de Medida'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.classModal.openModal('registrar');
@@ -350,7 +350,7 @@ import { error401 } from '../../errores';
                     {
                         me.idformafarm=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar FormaFarm'
+                        me.tituloModal='Actualizar Forma o Unidad de Medida'
                         me.nombre=data.nombre;
                         me.classModal.openModal('registrar');
                         break;

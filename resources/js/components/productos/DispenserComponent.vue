@@ -340,7 +340,7 @@ import { error401 } from '../../errores';
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Dispenser'
+                        me.tituloModal='Registar Envases y Embalajes'
                         me.tipoAccion=1;
                         me.nombre='';
                         me.classModal.openModal('registrar');
@@ -351,7 +351,7 @@ import { error401 } from '../../errores';
                     {
                         me.iddispenser=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Dispenser'
+                        me.tituloModal='Actualizar Envases y Embalajes'
                         me.nombre=data.nombre;
                         me.classModal.openModal('registrar');
                         break;

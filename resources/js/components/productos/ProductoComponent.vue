@@ -121,8 +121,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row" style="margin-bottom: 30px;">
-                            <div class="form-group col-sm-4">
+                        <div class="row">
+                            <div class="form-group col-sm-5">
                                 <strong>Rubro:</strong>
                                 <select v-model="idrubroselected" @change="listarLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -130,7 +130,7 @@
                                 </select>
                                 <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-5">
                                 <strong>Linea:</strong>
                                 <select v-model="idlineaselected" @change="getCodigoLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -138,12 +138,15 @@
                                 </select>
                                 <span class="error" v-if="idlineaselected==0">Debe Seleccionar la Linea</span>
                             </div>
-                            <div class="form-group col-sm-4">
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;">
+                            <div class="form-group col-sm-7">
                                 <strong>Producto:</strong>
                                 <input type="text" class="form-control" v-model="nombre" placeholder="Nombre del Producto">
                                 <span class="error" v-if="nombre.length==0">Debe Ingresar Nombre del Producto</span>
                             </div>
                         </div>
+
                             <!-- tab para los envases del producto -->
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">

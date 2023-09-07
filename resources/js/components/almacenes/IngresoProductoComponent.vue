@@ -121,15 +121,6 @@
                                      <option value="0" disabled>Seleccionar...</option>
                                      <option v-for="producto in productos" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option>
                                     </select>
-                                   <!-- <Ajaxselect  v-if="clearSelected"
-                                    ruta="/producto/selectproducto?buscar=" @found="productos" @cleaning="cleanproductos"
-                                    resp_ruta="productos"
-                                    labels="cod"
-                                    placeholder="Ingrese Texto..." 
-                                    idtabla="id"
-                                    :id="idproductoselected"
-                                    :clearable='true'>
-                                </Ajaxselect>-->
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
                             </div>
