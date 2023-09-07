@@ -185,7 +185,7 @@ class AlmAlmacenController extends Controller
              */
             $almacenes= DB::table('alm__almacens')
                         ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
-                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, 
+                        ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, adm__sucursals.idrubro, 
                                      adm__sucursals.cod as codsuc, 
                                      alm__almacens.codigo, adm__sucursals.razon_social,
                                      adm__sucursals.tipo, adm__sucursals.correlativo,

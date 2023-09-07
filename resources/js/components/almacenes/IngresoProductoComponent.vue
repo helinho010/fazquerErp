@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarAlmacenes(1,buscar)" v-model="almacenselected">
+                                <select class="form-control" @change="listarAlmacenes(1,buscar,$event)" v-model="almacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
                                     <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.nombre_almacen"></option>
                                 </select>                              
@@ -215,6 +215,7 @@
 import Swal from 'sweetalert2';
 import QrcodeVue from 'qrcode.vue';
 import { error401 } from '../../errores';
+
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -278,7 +279,7 @@ import { error401 } from '../../errores';
                 size: 120,
                 productos:[],
                 arrayIngresoProducto:[],
-                
+                                
             }
 
         },
@@ -437,10 +438,13 @@ import { error401 } from '../../errores';
 
             listarProductos(){
                 let me = this;
-                var url= '/producto/selectproducto2';
+                var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
                     me.productos=respuesta;
+                    console.log("////////////////////////////////");
+                    console.log(me.productos);
+                    console.log(me.almacenselected);
                 })
                 .catch(function (error) {
                     error401(error);
@@ -496,8 +500,7 @@ import { error401 } from '../../errores';
                     me.pagination=respuesta.pagination;
                     me.listarEstantes(me.almacenselected);
                     me.listarProductosAlmacen();
-                    console.log("**************");
-                    console.log(response);
+                    me.listarProductos();
                 })
                 .catch(function(error){
                     error401(error);

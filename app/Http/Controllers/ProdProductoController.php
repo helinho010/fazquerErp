@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 //use App\Models\Prod_Categoria;
+
+use App\Models\Alm_Almacen;
 use App\Models\Prod_Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -532,6 +534,7 @@ class ProdProductoController extends Controller
         
 
     }
+
     function selectProducto2(Request $request){
         // $raw=DB::raw(DB::raw('concat(prod__productos.codigo," ",prod__productos.nombre," ",prod__dispensers.nombre," ",prod__productos.cantidad," ",prod__forma_farmaceuticas.nombre) as cod'));
         // $productos = Prod_Producto::join('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser')
@@ -544,6 +547,14 @@ class ProdProductoController extends Controller
         //                                         ->orderby('prod__productos.nombre','asc')
         //                                         ->get();
         
+        /*$idrubroDeAlmacenSeleccionado = DB::table('alm__almacens')
+                                        ->select('adm__sucursals.idrubro') 
+                                        ->leftJoin('adm__sucursals','adm__sucursals.id','alm__almacens.idsucursal')
+                                        ->where('alm__almacens.id',$request->idalmacen)
+                                        ->get();
+
+        echo "//////////0000000/////////".$idrubroDeAlmacenSeleccionado;*/
+
         $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," ",ifnull(prod__productos.cantidadprimario,"")," ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
         $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceuticaprimario')
                                     ->leftJoin('prod__dispensers','prod__dispensers.id','prod__productos.iddispenserprimario')
