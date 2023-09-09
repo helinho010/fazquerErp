@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Lineas y Marcas
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -91,6 +91,8 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -103,7 +105,7 @@
                     </div>
                     <div class="modal-body">
                         <form action=""  class="form-horizontal">
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="tipoAccion == 2">
                                 <label class="col-md-3 form-control-label">Rubro:</label>
                                 <div class="col-md-9">
                                     <select v-model="idrubroselected" @change="listarrubro()" class="form-control">
@@ -200,16 +202,26 @@ import { error401 } from '../../errores';
                 else
                     return false;
             },
+
             sicompleto(){
                 let me=this;
-                if (me.nombre!='' && me.demora!='')
-                    return true;
-                else
-                    return false;
+                if (me.tipoAccion == 2) {
+                    if (me.nombre !='' && me.demora !='' && me.idrubroselected != 0)
+                        return true;
+                    else
+                        return false;   
+                } else {
+                    if (me.nombre!='' && me.demora!='')
+                        return true;
+                    else
+                        return false;   
+                }
             },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -256,7 +268,7 @@ import { error401 } from '../../errores';
             registrarLinea(){
                 let me = this;
                 axios.post('/linea/registrar',{
-                    'idrubro':me.idrubroselected,
+                    'idrubro':me.idrubrofiltro,
                     'nombre':me.nombre,
                     'descripcion':me.descripcion,
                     'tiempo_demora':me.demora,
@@ -413,8 +425,8 @@ import { error401 } from '../../errores';
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Lineas y Marcas'
                         me.tipoAccion=1;
+                        me.tituloModal='Registar Lineas y Marcas'
                         me.idrubroselected=0;
                         me.nombre='';
                         me.descripcion='';
@@ -425,8 +437,8 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        me.idlinea=data.id;
                         me.tipoAccion=2;
+                        me.idlinea=data.id;
                         me.tituloModal='Actualizar Linea';
                         me.idrubroselected=data.idrubro;
                         me.nombre=data.nombre;

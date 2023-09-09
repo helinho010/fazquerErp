@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Registro de Productos
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro == 0">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-sm-5">
+                            <div class="form-group col-sm-5" v-if="tipoAccion == 2">
                                 <strong>Rubro:</strong>
                                 <select v-model="idrubroselected" @change="listarLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -618,26 +618,50 @@ import QrcodeVue from 'qrcode.vue';
 
             sicompleto(){
                 let me=this;
-                if (me.idlineaselected == 0 || 
-                    me.nombre == '' || 
+                if (me.tipoAccion == 2) {
+                    if (me.idrubroselected == 0 ||
+                        me.idlineaselected == 0 || 
+                        me.nombre == '' || 
 
-                    me.iddispenserselectedprimario == 0 || 
-                    me.cantidadprimario == 0 || 
-                    (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
-                    me.tiempopedidoselectedprimario==0 ||
-                    
-                    me.iddispenserselectedsecundario == 0 || 
-                    me.cantidadsecundario == 0 || 
-                    (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
-                    me.tiempopedidoselectedsecundario==0 ||
-                    me.idcategoriaselected == 0 ||
-                    me.codigointernacional == '' ||
-                    !me.seleccinoTiendaAlmacenPrimario ||
-                    !me.seleccinoTiendaAlmacenSecundario
-                    )
-                    return false;
-                else
-                    return true;
+                        me.iddispenserselectedprimario == 0 || 
+                        me.cantidadprimario == 0 || 
+                        (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
+                        me.tiempopedidoselectedprimario==0 ||
+                        
+                        me.iddispenserselectedsecundario == 0 || 
+                        me.cantidadsecundario == 0 || 
+                        (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
+                        me.tiempopedidoselectedsecundario==0 ||
+                        me.idcategoriaselected == 0 ||
+                        me.codigointernacional == '' ||
+                        !me.seleccinoTiendaAlmacenPrimario ||
+                        !me.seleccinoTiendaAlmacenSecundario
+                        )
+                        return false;
+                    else
+                        return true;   
+                } else {
+                    if (me.idlineaselected == 0 || 
+                        me.nombre == '' || 
+
+                        me.iddispenserselectedprimario == 0 || 
+                        me.cantidadprimario == 0 || 
+                        (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
+                        me.tiempopedidoselectedprimario==0 ||
+                        
+                        me.iddispenserselectedsecundario == 0 || 
+                        me.cantidadsecundario == 0 || 
+                        (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
+                        me.tiempopedidoselectedsecundario==0 ||
+                        me.idcategoriaselected == 0 ||
+                        me.codigointernacional == '' ||
+                        !me.seleccinoTiendaAlmacenPrimario ||
+                        !me.seleccinoTiendaAlmacenSecundario
+                        )
+                        return false;
+                    else
+                        return true;
+                }
             },
 
             isActived:function(){
@@ -696,7 +720,10 @@ import QrcodeVue from 'qrcode.vue';
 
             listarLinea(){
                 let me=this;
-                var url='/linea/selectlinea2?idrubro='+me.idrubroselected;
+                let aux = me.tipoAccion==2?me.idrubroselected:me.idrubrofiltro;
+                console.log("Esto es la variable aux ----------");
+                console.log(aux);
+                var url='/linea/selectlinea2?idrubro='+aux;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.lineas=respuesta;
@@ -735,6 +762,7 @@ import QrcodeVue from 'qrcode.vue';
                 });
 
             },
+
             listarFormafarm(){
                 let me=this;
                 var url='/formafarm/selectformafarm2';
@@ -748,9 +776,11 @@ import QrcodeVue from 'qrcode.vue';
                 });
 
             },
+
             listarCategorias(){
                 let me=this;
-                var url='/categoria/selectcategoria2?idrubro='+me.idrubroselected;
+                let aux = me.tipoAccion==2?me.idrubroselected:me.idrubrofiltro;
+                var url='/categoria/selectcategoria2?idrubro='+aux;
                 axios.get(url).then(function(response){
                     var respuesta = response.data;
                     me.categorias = respuesta;
@@ -761,6 +791,7 @@ import QrcodeVue from 'qrcode.vue';
                     console.log(error);
                 });
             },
+
             onFileChange(e) {
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -866,6 +897,9 @@ import QrcodeVue from 'qrcode.vue';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
+                    console.log("queeeeeeeeeeeeeeeeeeeeeeeeeeeeee cagada");
+                    me.listarCategorias();
+                    me.listarLinea();
                 })
                 .catch(function(error){
                     error401(error);
@@ -886,7 +920,7 @@ import QrcodeVue from 'qrcode.vue';
                 formData.append('idlineaselected', me.idlineaselected);
                 formData.append('codigolinea',me.codigolinea);
                 formData.append('nombre',me.nombre);
-                formData.append('idrubro',me.idrubroselected);
+                formData.append('idrubro',me.idrubrofiltro);
                 formData.append('iddispenserselectedprimario',me.iddispenserselectedprimario);
                 formData.append('cantidadPrimario',me.cantidadprimario);
                 formData.append('checkformafarmaceuticaprimario',me.checkformafarmaceuticaprimario==true?1:0);        
@@ -1115,6 +1149,7 @@ import QrcodeVue from 'qrcode.vue';
                 switch(accion){
                     case 'registrar':
                     {
+                        me.tipoAccion = 1;
                         me.removeImage;
                         me.tituloModal='Registar Producto'
                         me.nombre = '';
@@ -1268,11 +1303,11 @@ import QrcodeVue from 'qrcode.vue';
         },
         mounted() {
             //this.listarProducto(1);
-            this.listarLinea();
+            //this.listarLinea();
             this.listarrubro();
             this.listarDispenser();
             this.listarFormafarm();
-            this.listarCategorias();
+            //this.listarCategorias();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')

@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Categorias
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="modal-body">
                         <!-- <form action="" method="post" enctype="multipart/form-data" class="form-horizontal"> -->
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="tipoAccion==2">
                                 <label class="col-md-3 form-control-label">Rubro:</label>
                                 <div class="col-md-9">
                                     <select v-model="idrubroselected" class="form-control">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="nombre==''" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre: <span  v-if="nombre==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
                                     <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Categoria" v-model="nombre" v-on:focus="selectAll" @keyup.enter="registrarCategoria()">
                                     <span  v-if="nombre==''" class="error">Debe Ingresar el Nombre de la Categoria</span>
@@ -117,7 +117,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarCategoria()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarCategoria()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -159,10 +159,17 @@ import { error401 } from '../../errores';
         computed:{
             sicompleto(){
                 let me=this;
-                if (me.nombre!='' && me.idrubroselected!=0)
-                    return true;
-                else
-                    return false;
+                if (me.tipoAccion == 2) {
+                    if (me.nombre != '' && me.idrubroselected != 0)
+                        return true;
+                    else
+                        return false;   
+                } else {
+                    if (me.nombre != '')
+                        return true;
+                    else
+                        return false;   
+                }
             },
 
             isActived:function(){
@@ -227,7 +234,7 @@ import { error401 } from '../../errores';
             registrarCategoria(){
                 let me = this;
                 axios.post('/categoria/registrar',{
-                    'idrubro':me.idrubroselected,
+                    'idrubro':me.idrubrofiltro,
                     'nombre':me.nombre,
                 }).then(function(response){
                     if(response.data=='error')
