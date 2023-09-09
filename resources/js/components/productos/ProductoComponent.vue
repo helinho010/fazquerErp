@@ -122,7 +122,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-sm-5" v-if="tipoAccion == 2">
+                            <div class="form-group col-sm-6" v-if="tipoAccion == 2">
                                 <strong>Rubro:</strong>
                                 <select v-model="idrubroselected" @change="listarLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -130,7 +130,7 @@
                                 </select>
                                 <span class="error" v-if="idrubroselected==0">Debe Seleccionar un rubro</span>
                             </div>
-                            <div class="form-group col-sm-5">
+                            <div class="form-group col-sm-6">
                                 <strong>Linea:</strong>
                                 <select v-model="idlineaselected" @change="getCodigoLinea" class="form-control">
                                     <option value="0">Seleccionar</option>
@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div class="row" style="margin-bottom: 30px;">
-                            <div class="form-group col-sm-7">
+                            <div class="form-group col-sm-6">
                                 <strong>Producto:</strong>
                                 <input type="text" class="form-control" v-model="nombre" placeholder="Nombre del Producto">
                                 <span class="error" v-if="nombre.length==0">Debe Ingresar Nombre del Producto</span>
@@ -721,8 +721,6 @@ import QrcodeVue from 'qrcode.vue';
             listarLinea(){
                 let me=this;
                 let aux = me.tipoAccion==2?me.idrubroselected:me.idrubrofiltro;
-                console.log("Esto es la variable aux ----------");
-                console.log(aux);
                 var url='/linea/selectlinea2?idrubro='+aux;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
@@ -897,7 +895,6 @@ import QrcodeVue from 'qrcode.vue';
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
                     me.arrayProducto=respuesta.producto.data;
-                    console.log("queeeeeeeeeeeeeeeeeeeeeeeeeeeeee cagada");
                     me.listarCategorias();
                     me.listarLinea();
                 })

@@ -25366,8 +25366,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     listarLinea: function listarLinea() {
       var me = this;
       var aux = me.tipoAccion == 2 ? me.idrubroselected : me.idrubrofiltro;
-      console.log("Esto es la variable aux ----------");
-      console.log(aux);
       var url = '/linea/selectlinea2?idrubro=' + aux;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
@@ -25532,7 +25530,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var respuesta = response.data;
         me.pagination = respuesta.pagination;
         me.arrayProducto = respuesta.producto.data;
-        console.log("queeeeeeeeeeeeeeeeeeeeeeeeeeeeee cagada");
         me.listarCategorias();
         me.listarLinea();
       })["catch"](function (error) {
@@ -38585,7 +38582,7 @@ var _hoisted_67 = {
 };
 var _hoisted_68 = {
   key: 0,
-  "class": "form-group col-sm-5"
+  "class": "form-group col-sm-6"
 };
 
 var _hoisted_69 = /*#__PURE__*/_withScopeId(function () {
@@ -38608,7 +38605,7 @@ var _hoisted_72 = {
   "class": "error"
 };
 var _hoisted_73 = {
-  "class": "form-group col-sm-5"
+  "class": "form-group col-sm-6"
 };
 
 var _hoisted_74 = /*#__PURE__*/_withScopeId(function () {
@@ -38637,7 +38634,7 @@ var _hoisted_78 = {
   }
 };
 var _hoisted_79 = {
-  "class": "form-group col-sm-7"
+  "class": "form-group col-sm-6"
 };
 
 var _hoisted_80 = /*#__PURE__*/_withScopeId(function () {
