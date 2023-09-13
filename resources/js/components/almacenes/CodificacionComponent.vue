@@ -11,20 +11,20 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i>Clasificacion Estantes
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="sucursalSelected==0">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="almacenSelected==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
-                    <span  v-if="sucursalSelected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar una Sucursal</span>
+                    <span  v-if="almacenSelected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar una Sucursal</span>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-md-2">
-                            <strong>Seleccionar Sucursal:</strong>
+                            <strong>Seleccionar Almacen:</strong>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control" @change="listarEstantes(1,buscar)" name="" id="" v-model="sucursalSelected">
+                            <select class="form-control" @change="listarEstantes(1,buscar)" name="" id="" v-model="almacenSelected">
                                 <option disabled value="0">Seleccionar...</option>
-                                <option v-for="sucursal in arraySucursal" :key="sucursal.id" v-text="sucursal.cod + ' ' + sucursal.nombre" :value="sucursal.id"></option>
+                                <option v-for="alamcen in almacenes" :key="alamcen.id" v-text="alamcen.codigo + ' ' + alamcen.nombre_almacen" :value="alamcen.id"></option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -57,8 +57,8 @@
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarEstante(estante.id)" >
                                         <i class="icon-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-sm" @click="imprimirCodificacion(estante.id)" >
-                                        <i >Imprimir</i>
+                                    <button type="button" class="btn btn-success btn-sm" @click="imprimirCodificacion(estante.id)" style="margin-left: 8px;">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
                                     </button>
                                 </td>
                                 <td v-text="estante.codestante"></td>
@@ -185,10 +185,11 @@ import { error401 } from '../../errores';
                 numaltura:0,
                 codsucursal:'',
                 codestante:'',
-                
+                almacenes:[],
+                almacenSelected:0,
             }
-
         },
+
         computed:{
             sicompleto(){
                 let me=this;
@@ -241,10 +242,10 @@ import { error401 } from '../../errores';
 
             listarEstantes(page){
                 let me=this;
-                var url='/estante?page='+page+'&buscar='+me.buscar+'&idsucursal='+me.sucursalSelected;
+                var url='/estante?page='+page+'&buscar='+me.buscar+'&idalmacen='+me.almacenSelected;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    //console.log(respuesta);
+                    console.log(respuesta);
                     me.pagination=respuesta.pagination;
                     me.arrayEstantes=respuesta.estantes.data;
                     me.letra=respuesta.letra;
@@ -265,7 +266,7 @@ import { error401 } from '../../errores';
             registrarEstante(){
                 let me = this;
                 axios.post('/estante/registrar',{
-                    'idsucursal':me.sucursalSelected,
+                    'idalmacen':me.almacenSelected,
                     'codestante':me.codestante,
                     'letraestante':me.letra,
                     'numletra':me.numletra,
@@ -407,11 +408,13 @@ import { error401 } from '../../errores';
             },
             abrirModal(accion,data= []){
                 let me=this;
+                console.log("--------------------------------------");
+                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
-                        let resp=me.arraySucursal.find(element=>element.id==me.sucursalSelected);
-                        me.codsucursal=resp.cod;
+                        let resp=me.almacenes.find(element=>element.id==me.almacenSelected);
+                        me.codsucursal=resp.codigo;
                         me.tituloModal='Registar Estante '
                         me.tipoAccion=1;
                         me.codestante=me.codsucursal+me.letra;
@@ -473,7 +476,7 @@ import { error401 } from '../../errores';
                 axios.get(url)
                 .then(function(response){
                     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                    console.log(response.data.almacenes);
+                    me.almacenes = response.data.almacenes.data;
                 })
                 .catch(function(error){
                     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");

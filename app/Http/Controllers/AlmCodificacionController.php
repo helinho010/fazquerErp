@@ -53,22 +53,37 @@ class AlmCodificacionController extends Controller
         
         else
         {
-            $estantes= Alm_Codificacion::join('adm__sucursals','adm__sucursals.id','alm__codificacions.idsucursal')
-                                        ->select('alm__codificacions.id',
-                                                'razon_social',
-                                                'telefonos',
-                                                'idsucursal',
-                                                'letraestante',
-                                                'codestante',
-                                                'numposicion',
-                                                'numaltura',
-                                                'alm__codificacions.activo')
+            // $estantes= Alm_Codificacion::join('adm__sucursals','adm__sucursals.id','alm__codificacions.idsucursal')
+            //                             ->select('alm__codificacions.id',
+            //                                     'razon_social',
+            //                                     'telefonos',
+            //                                     'idsucursal',
+            //                                     'letraestante',
+            //                                     'codestante',
+            //                                     'numposicion',
+            //                                     'numaltura',
+            //                                     'alm__codificacions.activo')
+            //                             ->orderby('letraestante','asc')
+            //                             ->where('idsucursal',$request->idsucursal)
+            //                             ->paginate(40);
+            $estantes= Alm_Codificacion::join('alm__almacens','alm__almacens.id','alm__codificacions.idalmacen')
+                                        ->selectRaw('alm__codificacions.id,
+                                                alm__almacens.id as idalmacen,
+                                                alm__almacens.nombre_almacen,
+                                                alm__almacens.telefono,
+                                                alm__almacens.idsucursal,
+                                                alm__codificacions.letraestante,
+                                                alm__codificacions.codestante,
+                                                alm__codificacions.numposicion,
+                                                alm__codificacions.numaltura,
+                                                alm__codificacions.activo')
                                         ->orderby('letraestante','asc')
-                                        ->where('idsucursal',$request->idsucursal)
+                                        ->where('idalmacen',$request->idalmacen)
                                         ->paginate(40);
         }
+        
         $maxletra = Alm_Codificacion::select(DB::raw('max(numletra) as maximo'))
-                                ->where('idsucursal',$request->idsucursal)
+                                ->where('idalmacen',$request->idalmacen)
                                 ->get();
         
         $sigletra=$maxletra[0]->maximo;
@@ -82,8 +97,6 @@ class AlmCodificacionController extends Controller
         $letra=$this->getByPosition($sigletra);
         
         
-
-
         return ['pagination'=>[
             'total'         =>    $estantes->total(),
             'current_page'  =>    $estantes->currentPage(),
@@ -120,7 +133,7 @@ class AlmCodificacionController extends Controller
     public function store(Request $request)
     {
         $codificacion= new Alm_Codificacion();
-        $codificacion->idsucursal=$request->idsucursal;
+        $codificacion->idalmacen=$request->idalmacen;
         $codificacion->codestante=$request->codestante;
         $codificacion->letraestante=$request->letraestante;
         $codificacion->numletra=$request->numletra;
@@ -178,6 +191,7 @@ class AlmCodificacionController extends Controller
     {
         //
     }
+
     function getByPosition($index){
         #Crea un array con las letras de la A a la Z
         $alphabet = range('A', 'Z');
@@ -187,8 +201,9 @@ class AlmCodificacionController extends Controller
         #Para evitar que true sea tratado como índice 1, controlamos con is_bool también
         return ( !empty($alphabet[$pos]) && !is_bool($index) ) ? $alphabet[$pos] : NULL ;
     }
-    function imprimirCodigos(Request $request){
 
+    function imprimirCodigos(Request $request)
+    {
         $estante = Alm_Codificacion::where('id',$request->idestante)
                                     ->get();
 
@@ -223,9 +238,9 @@ class AlmCodificacionController extends Controller
             return ['posicion'=>$posicion,
             'altura'=>$altura,
             'codestante'=>$codigo];
-        }
-            
+        }       
     }
+
     public function desactivar(Request $request)
     {
         $estante = Alm_Codificacion::findOrFail($request->id);
@@ -241,6 +256,7 @@ class AlmCodificacionController extends Controller
         $estante->id_usuario_modifica=auth()->user()->id;
         $estante->save();
     }
+
     public function selectEstante(Request $request)
     {
         $estante = Alm_Codificacion::where('idsucursal',$request->idsucursal)
@@ -251,6 +267,7 @@ class AlmCodificacionController extends Controller
                                     
 
     }
+
     public function pdf() 
     {
     	$data = [
