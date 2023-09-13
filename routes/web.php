@@ -328,7 +328,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/almacen/actualizar', [AlmAlmacenController::class,'update']);
     Route::put('/almacen/desactivar', [AlmAlmacenController::class,'desactivar']);
     Route::put('/almacen/activar', [AlmAlmacenController::class,'activar']);
-    Route::get('/almacen/selectalmacen',[AlmAlmacenController::class,'selectAlmacen']);
+    Route::get('/almacen/listaralmacenes',[AlmAlmacenController::class,'listaralmacenes']);
 
     //Ingreso de productos al almacen
     Route::get('/almacen/ingreso-producto',[AlmIngresoProductoController::class,'index']);

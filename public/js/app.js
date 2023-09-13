@@ -22274,10 +22274,22 @@ __webpack_require__.r(__webpack_exports__);
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
       });
+    },
+    listarAlmacenes: function listarAlmacenes() {
+      var me = this;
+      var url = '/almacen';
+      axios.get(url).then(function (response) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.log(response.data.almacenes);
+      })["catch"](function (error) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
     this.selectSucursal(1);
+    this.listarAlmacenes();
     this.classModal = new _pl.Modals();
     this.classModal.addModal('registrar'); //console.log('Component mounted.')
   }

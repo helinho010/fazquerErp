@@ -349,9 +349,9 @@ class AlmAlmacenController extends Controller
     }
 
 
-     public function selectAlmacen()
+     public function listaralmacenes()
      {
-        
+        //$almacenes = Alm_Almacen::
      }   
 
 }

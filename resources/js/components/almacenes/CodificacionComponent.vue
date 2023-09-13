@@ -238,6 +238,7 @@ import { error401 } from '../../errores';
                 window.open(url, '_blank');
 
             },
+
             listarEstantes(page){
                 let me=this;
                 var url='/estante?page='+page+'&buscar='+me.buscar+'&idsucursal='+me.sucursalSelected;
@@ -254,11 +255,13 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
                 me.listarEstantes(page);
             },
+
             registrarEstante(){
                 let me = this;
                 axios.post('/estante/registrar',{
@@ -277,6 +280,7 @@ import { error401 } from '../../errores';
                 });
 
             },
+
             eliminarEstante(idestante){
                 let me=this;
                 //console.log("prueba");
@@ -461,12 +465,27 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
+            },
+
+            listarAlmacenes(){
+                let me = this;
+                var url = '/almacen'
+                axios.get(url)
+                .then(function(response){
+                    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                    console.log(response.data.almacenes);
+                })
+                .catch(function(error){
+                    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                    console.log(error);
+                })
             }
 
 
         },
         mounted() {
             this.selectSucursal(1);
+            this.listarAlmacenes();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
