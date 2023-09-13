@@ -408,8 +408,6 @@ import { error401 } from '../../errores';
             },
             abrirModal(accion,data= []){
                 let me=this;
-                console.log("--------------------------------------");
-                console.log(data);
                 switch(accion){
                     case 'registrar':
                     {
@@ -475,11 +473,9 @@ import { error401 } from '../../errores';
                 var url = '/almacen'
                 axios.get(url)
                 .then(function(response){
-                    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                     me.almacenes = response.data.almacenes.data;
                 })
                 .catch(function(error){
-                    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                     console.log(error);
                 })
             }

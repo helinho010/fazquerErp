@@ -25,29 +25,48 @@ class AlmCodificacionController extends Controller
                 $sqls='';
                 foreach($buscararray as $valor){
                     if(empty($sqls)){
-                        $sqls="(codestante like '%".$valor."%' or razon_social like '%".$valor."%')" ;
+                        // $sqls="(codestante like '%".$valor."%' or razon_social like '%".$valor."%')" ;
+                        $sqls="(codestante like '%".$valor."%' or nombre_almacen like '%".$valor."%')" ;
                     }
                     else
                     {
-                        $sqls.=" and (codestante like '%".$valor."%' or razon_social like '%".$valor."%')" ;
+                        // $sqls.=" and (codestante like '%".$valor."%' or razon_social like '%".$valor."%')" ;
+                        $sqls.=" and (codestante like '%".$valor."%' or nombre_almacen like '%".$valor."%')" ;
                     }
     
                 }
-                $estantes= Alm_Codificacion::join('adm__sucursals','adm__sucursals.id','alm__codificacions.idsucursal')
-                                            ->select('alm__codificacions.id',
-                                                    'razon_social',
-                                                     'telefonos',
-                                                     'idsucursal',
-                                                     'letraestante',
-                                                     'codestante',
-                                                     'numposicion',
-                                                     'numaltura',
-                                                     'alm__codificacions.activo')
-                                            ->orderby('letraestante','asc');
-                                            if($request->idsucursal!=0)
-                                                $estantes=$estantes->where('idsucursal',$request->idsucursal);
-                                            $estantes=$estantes->whereraw($sqls)
-                                            ->paginate(40);
+                // $estantes= Alm_Codificacion::join('adm__sucursals','adm__sucursals.id','alm__codificacions.idsucursal')
+                //                             ->select('alm__codificacions.id',
+                //                                     'razon_social',
+                //                                      'telefonos',
+                //                                      'idsucursal',
+                //                                      'letraestante',
+                //                                      'codestante',
+                //                                      'numposicion',
+                //                                      'numaltura',
+                //                                      'alm__codificacions.activo')
+                //                             ->orderby('letraestante','asc');
+                //                             if($request->idsucursal!=0)
+                //                                 $estantes=$estantes->where('idsucursal',$request->idsucursal);
+                //                             $estantes=$estantes->whereraw($sqls)
+                //                             ->paginate(40);
+
+                $estantes= Alm_Codificacion::join('alm__almacens','alm__almacens.id','alm__codificacions.idalmacen')
+                                        ->selectRaw('alm__codificacions.id,
+                                                alm__almacens.id as idalmacen,
+                                                alm__almacens.nombre_almacen,
+                                                alm__almacens.telefono,
+                                                alm__almacens.idsucursal,
+                                                alm__codificacions.letraestante,
+                                                alm__codificacions.codestante,
+                                                alm__codificacions.numposicion,
+                                                alm__codificacions.numaltura,
+                                                alm__codificacions.activo')
+                                        ->orderby('letraestante','asc');
+                                        if($request->idalmacen!=0)
+                                            $estantes=$estantes->where('idalmacen',$request->idalmacen);
+                                        $estantes=$estantes->whereraw($sqls)
+                                        ->paginate(40);
             }
         }
         
