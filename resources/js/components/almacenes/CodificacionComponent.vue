@@ -60,6 +60,9 @@
                                     <button type="button" class="btn btn-success btn-sm" @click="imprimirCodificacion(estante.id)" style="margin-left: 8px;">
                                         <i class="fa fa-print" aria-hidden="true"></i>
                                     </button>
+                                    <button type="button" class="btn btn-sm"  @click="abrirModal('ubicacionproductos',estante)" style="margin-left: 8px; background: #8e44ad;">
+                                        <i class="fa fa-delicious" aria-hidden="true" style="color: white;"></i>
+                                    </button>
                                 </td>
                                 <td v-text="estante.codestante"></td>
                                 <td v-text="estante.letraestante"></td>
@@ -95,6 +98,7 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-sm" role="document">
@@ -128,8 +132,6 @@
                             <div style="text-align:center">
                                 <strong style="font-size:30px">Codigo: {{ codestante }}</strong>
                             </div>
-                            
-                            
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -144,6 +146,25 @@
         </div>
         <!--Fin del modal-->
         
+        <!-- Inicio Modal para la ubicacion de productos en un estante -->
+        <div class="modal fade" role="dialog" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">{{ tituloModal}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModal('staticBackdrop')">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal ubicacion de productos en un estante  -->
         
     </main>
 </template>
@@ -435,6 +456,19 @@ import { error401 } from '../../errores';
                         break;
                     }
 
+                    case 'ubicacionproductos':
+                    {
+                        me.idestante=data.id;
+                        me.tipoAccion=3;
+                        me.tituloModal='Ubicacion de Productos en Estante'
+                        me.numposicion=data.numposicion;
+                        me.numaltura=data.numaltura;
+                        me.letra=data.letraestante;
+                        me.codestante=data.codestante;
+                        me.classModal.openModal('staticBackdrop');
+                        break;
+                    }
+
                 }
                 
             },
@@ -487,6 +521,7 @@ import { error401 } from '../../errores';
             this.listarAlmacenes();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
+            this.classModal.addModal('staticBackdrop');
             //console.log('Component mounted.')
         }
     }
