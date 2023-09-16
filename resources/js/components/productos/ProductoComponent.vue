@@ -10,10 +10,28 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Registro de Productos
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro == 0">
-                        <i class="icon-plus"></i>&nbsp;Nuevo
-                    </button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <i class="fa fa-align-justify"></i> Registro de Productos
+                            <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro == 0">
+                                <i class="icon-plus"></i>&nbsp;Nuevo
+                            </button>
+                        </div>
+                        <div class="col-md-6" id="botonos-infoprisecter">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button @click="listarProducto()" class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Primario</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Secundario</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Terciario</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -897,12 +915,49 @@ import QrcodeVue from 'qrcode.vue';
                     me.arrayProducto=respuesta.producto.data;
                     me.listarCategorias();
                     me.listarLinea();
+                    console.log("yes of corse");
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
             },
+
+            listarProductoEnvSecundario(page){
+                let me=this;
+                var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.pagination=respuesta.pagination;
+                    me.arrayProducto=respuesta.producto.data;
+                    me.listarCategorias();
+                    me.listarLinea();
+                    console.log("yes of corse");
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
+            listarProductoEnvTerciario(page){
+                let me=this;
+                var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.pagination=respuesta.pagination;
+                    me.arrayProducto=respuesta.producto.data;
+                    me.listarCategorias();
+                    me.listarLinea();
+                    console.log("yes of corse");
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
+
 
             cambiarPagina(page){
                 let me =this;
@@ -1334,6 +1389,16 @@ img {
 #nombre-prducto > div > div
 {
     display: inline-block;
+}
+
+#botonos-infoprisecter > ul > li
+{
+    margin-left: 10px;   
+}
+
+#botonos-infoprisecter > ul > li >button
+{
+    border: 0;
 }
 
 </style>
