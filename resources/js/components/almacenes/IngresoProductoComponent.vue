@@ -726,6 +726,7 @@ import { error401 } from '../../errores';
                 me.ubicacionSelected=0;
                 me.estanteselected=0;
                 me.codestante='';
+                me.productoperecedero = 0;
                 
             },
             selectAll: function (event) {

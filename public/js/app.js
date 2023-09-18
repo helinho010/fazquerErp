@@ -22782,6 +22782,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       me.ubicacionSelected = 0;
       me.estanteselected = 0;
       me.codestante = '';
+      me.productoperecedero = 0;
     },
     selectAll: function selectAll(event) {
       setTimeout(function () {
@@ -25558,8 +25559,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         me.arrayProducto = respuesta.producto.data;
         me.listarCategorias();
         me.listarLinea();
-        console.log("yes of corse");
-        console.log(me.arrayProducto);
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);

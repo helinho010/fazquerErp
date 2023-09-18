@@ -1039,8 +1039,6 @@ import QrcodeVue from 'qrcode.vue';
                     me.arrayProducto=respuesta.producto.data;
                     me.listarCategorias();
                     me.listarLinea();
-                    console.log("yes of corse");
-                    console.log(me.arrayProducto);
                 })
                 .catch(function(error){
                     error401(error);
