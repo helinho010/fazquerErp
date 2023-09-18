@@ -286,7 +286,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
     Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
     Route::get('/producto/selectproductoperecedero',[ProdProductoController::class,'selectProductoPerecedero']);
-
+    
 
     Route::get('/dispenser',[ProdDispenserController::class,'index']);
     Route::post('/dispenser/registrar', [ProdDispenserController::class,'store']);
