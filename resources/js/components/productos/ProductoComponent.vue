@@ -20,7 +20,7 @@
                         <div class="col-md-6" id="botonos-infoprisecter">
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button @click="listarProducto()" class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#envase-primario" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Envase Primario</button>
+                                    <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#envase-primario" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Envase Primario</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#envase-secundario" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Envase Secundario</button>
@@ -207,7 +207,7 @@
                                         <td v-text="producto.codprod"></td>
                                         <td id="nombre-prducto">
                                             <div>
-                                                {{ producto.nomprod }} --------
+                                                {{ producto.nomprod }}
                                                 <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseterciario"> {{ dispenser.nombre }} X {{ producto.cantidadterciario }} </div></div>
                                                 <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaterciario">&nbsp;{{ formafar.nombre }} </div></div>
                                             </div> <br><br>
@@ -1047,41 +1047,6 @@ import QrcodeVue from 'qrcode.vue';
                     console.log(error);
                 });
             },
-
-            listarProductoEnvSecundario(page,envase){
-                let me=this;
-                var url='/producto-envase?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro+'&envase='+envase;
-                axios.get(url).then(function(response){
-                    var respuesta=response.data;
-                    me.pagination=respuesta.pagination;
-                    me.arrayProducto=respuesta.producto.data;
-                    me.listarCategorias();
-                    me.listarLinea();
-                    console.log("yes of corse");
-                })
-                .catch(function(error){
-                    error401(error);
-                    console.log(error);
-                });
-            },
-
-            listarProductoEnvTerciario(page){
-                let me=this;
-                var url='/producto?page='+page+'&buscar='+me.buscar+'&idrubro='+me.idrubrofiltro;
-                axios.get(url).then(function(response){
-                    var respuesta=response.data;
-                    me.pagination=respuesta.pagination;
-                    me.arrayProducto=respuesta.producto.data;
-                    me.listarCategorias();
-                    me.listarLinea();
-                    console.log("yes of corse");
-                })
-                .catch(function(error){
-                    error401(error);
-                    console.log(error);
-                });
-            },
-
 
 
             cambiarPagina(page){
