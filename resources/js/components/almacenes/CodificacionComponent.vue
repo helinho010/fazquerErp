@@ -11,20 +11,20 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i>Clasificacion Estantes
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="sucursalSelected==0">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="almacenSelected==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
-                    <span  v-if="sucursalSelected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar una Sucursal</span>
+                    <span  v-if="almacenSelected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar una Sucursal</span>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-md-2">
-                            <strong>Seleccionar Sucursal:</strong>
+                            <strong>Seleccionar Almacen:</strong>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control" @change="listarEstantes(1,buscar)" name="" id="" v-model="sucursalSelected">
+                            <select class="form-control" @change="listarEstantes(1,buscar)" name="" id="" v-model="almacenSelected">
                                 <option disabled value="0">Seleccionar...</option>
-                                <option v-for="sucursal in arraySucursal" :key="sucursal.id" v-text="sucursal.cod + ' ' + sucursal.nombre" :value="sucursal.id"></option>
+                                <option v-for="alamcen in almacenes" :key="alamcen.id" v-text="alamcen.codigo + ' ' + alamcen.nombre_almacen" :value="alamcen.id"></option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -57,8 +57,11 @@
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarEstante(estante.id)" >
                                         <i class="icon-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-success btn-sm" @click="imprimirCodificacion(estante.id)" >
-                                        <i >Imprimir</i>
+                                    <button type="button" class="btn btn-success btn-sm" @click="imprimirCodificacion(estante.id)" style="margin-left: 8px;">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm"  @click="abrirModal('ubicacionproductos',estante)" style="margin-left: 8px; background: #8e44ad;">
+                                        <i class="fa fa-delicious" aria-hidden="true" style="color: white;"></i>
                                     </button>
                                 </td>
                                 <td v-text="estante.codestante"></td>
@@ -95,6 +98,7 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-sm" role="document">
@@ -128,8 +132,6 @@
                             <div style="text-align:center">
                                 <strong style="font-size:30px">Codigo: {{ codestante }}</strong>
                             </div>
-                            
-                            
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -144,6 +146,25 @@
         </div>
         <!--Fin del modal-->
         
+        <!-- Inicio Modal para la ubicacion de productos en un estante -->
+        <div class="modal fade" role="dialog" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">{{ tituloModal}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModal('staticBackdrop')">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal ubicacion de productos en un estante  -->
         
     </main>
 </template>
@@ -185,10 +206,11 @@ import { error401 } from '../../errores';
                 numaltura:0,
                 codsucursal:'',
                 codestante:'',
-                
+                almacenes:[],
+                almacenSelected:0,
             }
-
         },
+
         computed:{
             sicompleto(){
                 let me=this;
@@ -238,12 +260,13 @@ import { error401 } from '../../errores';
                 window.open(url, '_blank');
 
             },
+
             listarEstantes(page){
                 let me=this;
-                var url='/estante?page='+page+'&buscar='+me.buscar+'&idsucursal='+me.sucursalSelected;
+                var url='/estante?page='+page+'&buscar='+me.buscar+'&idalmacen='+me.almacenSelected;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    //console.log(respuesta);
+                    console.log(respuesta);
                     me.pagination=respuesta.pagination;
                     me.arrayEstantes=respuesta.estantes.data;
                     me.letra=respuesta.letra;
@@ -254,15 +277,17 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
                 me.listarEstantes(page);
             },
+
             registrarEstante(){
                 let me = this;
                 axios.post('/estante/registrar',{
-                    'idsucursal':me.sucursalSelected,
+                    'idalmacen':me.almacenSelected,
                     'codestante':me.codestante,
                     'letraestante':me.letra,
                     'numletra':me.numletra,
@@ -277,6 +302,7 @@ import { error401 } from '../../errores';
                 });
 
             },
+
             eliminarEstante(idestante){
                 let me=this;
                 //console.log("prueba");
@@ -406,8 +432,8 @@ import { error401 } from '../../errores';
                 switch(accion){
                     case 'registrar':
                     {
-                        let resp=me.arraySucursal.find(element=>element.id==me.sucursalSelected);
-                        me.codsucursal=resp.cod;
+                        let resp=me.almacenes.find(element=>element.id==me.almacenSelected);
+                        me.codsucursal=resp.codigo;
                         me.tituloModal='Registar Estante '
                         me.tipoAccion=1;
                         me.codestante=me.codsucursal+me.letra;
@@ -427,6 +453,19 @@ import { error401 } from '../../errores';
                         me.letra=data.letraestante;
                         me.codestante=data.codestante;
                         me.classModal.openModal('registrar');
+                        break;
+                    }
+
+                    case 'ubicacionproductos':
+                    {
+                        me.idestante=data.id;
+                        me.tipoAccion=3;
+                        me.tituloModal='Ubicacion de Productos en Estante'
+                        me.numposicion=data.numposicion;
+                        me.numaltura=data.numaltura;
+                        me.letra=data.letraestante;
+                        me.codestante=data.codestante;
+                        me.classModal.openModal('staticBackdrop');
                         break;
                     }
 
@@ -461,14 +500,28 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
+            },
+
+            listarAlmacenes(){
+                let me = this;
+                var url = '/almacen'
+                axios.get(url)
+                .then(function(response){
+                    me.almacenes = response.data.almacenes.data;
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
             }
 
 
         },
         mounted() {
             this.selectSucursal(1);
+            this.listarAlmacenes();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
+            this.classModal.addModal('staticBackdrop');
             //console.log('Component mounted.')
         }
     }

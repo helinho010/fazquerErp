@@ -115,7 +115,7 @@ class ProdProductoController extends Controller
                                                     prod__productos.preciolistaterciario,
                                                     prod__productos.iddispenserprimario as idenvaseprimario,
                                                     prod__productos.iddispensersecundario as idenvasesecundario,
-                                                    prod__productos.iddispenserterciario  as idenvasetercirio,
+                                                    prod__productos.iddispenserterciario  as idenvaseterciario,
                                                     prod__productos.cantidadprimario,
                                                     prod__productos.cantidadsecundario,
                                                     prod__productos.cantidadterciario,
@@ -181,7 +181,7 @@ class ProdProductoController extends Controller
                                       prod__productos.preciolistaterciario,
                                       prod__productos.iddispenserprimario as idenvaseprimario,
                                       prod__productos.iddispensersecundario as idenvasesecundario,
-                                      prod__productos.iddispenserterciario  as idenvasetercirio,
+                                      prod__productos.iddispenserterciario  as idenvaseterciario,
                                       prod__productos.cantidadprimario,
                                       prod__productos.cantidadsecundario,
                                       prod__productos.cantidadterciario,
@@ -558,7 +558,7 @@ class ProdProductoController extends Controller
         } 
         
 
-        $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," ",ifnull(prod__productos.cantidadprimario,"")," ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
+        $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," X ",ifnull(prod__productos.cantidadprimario,"")," - ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
         $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceuticaprimario')
                                     ->leftJoin('prod__dispensers','prod__dispensers.id','prod__productos.iddispenserprimario')
                                     ->leftJoin('adm__rubros','adm__rubros.id','prod__productos.idrubro')
@@ -591,4 +591,5 @@ class ProdProductoController extends Controller
                                 ->get();
         return $productos;
     }
+
 }

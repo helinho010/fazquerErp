@@ -193,7 +193,7 @@ class AlmAlmacenController extends Controller
                                      alm__almacens.telefono, alm__almacens.direccion, 
                                      alm__almacens.departamento, alm__almacens.ciudad, 
                                      alm__almacens.activo')
-                        //->where('alm__almacens.activo','=',1)
+                        ->where('alm__almacens.activo','=',1)
                         ->paginate(10);
             return [
                     'pagination'=>[
@@ -349,9 +349,9 @@ class AlmAlmacenController extends Controller
     }
 
 
-     public function selectAlmacen()
+     public function listaralmacenes()
      {
-        
+        //$almacenes = Alm_Almacen::
      }   
 
 }

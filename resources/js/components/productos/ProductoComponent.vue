@@ -10,10 +10,27 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Registro de Productos
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro == 0">
-                        <i class="icon-plus"></i>&nbsp;Nuevo
-                    </button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <i class="fa fa-align-justify"></i> Registro de Productos
+                            <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="idrubrofiltro == 0">
+                                <i class="icon-plus"></i>&nbsp;Nuevo
+                            </button>
+                        </div>
+                        <div class="col-md-6" id="botonos-infoprisecter">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#envase-primario" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Envase Primario</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#envase-secundario" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Envase Secundario</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#envase-terciario" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Envase Terciario</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -33,64 +50,189 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped table-sm table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Opciones</th>
-                                <th>Linea</th>
-                                <th>Codigo</th>
-                                <th>Nombre</th>
-                                <!--th>Presentacion</th-->
-                                <th>Tiempo Pedido</th>
-                                <th>Precio Lista</th>
-                                <th>Precio Venta</th>
-                                <th>Metodo</th>
-                                <th>Codigo Internacional</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="producto in arrayProducto" :key="producto.id">
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',producto)">
-                                        <i class="icon-pencil"></i>
-                                    </button> &nbsp;
-                                    <button v-if="producto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProducto(producto.id)" >
-                                        <i class="icon-trash"></i>
-                                    </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
-                                        <i class="icon-check"></i>
-                                    </button>
-                                    <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
-                                    <img v-else src="img/avatars/noimagen.png"  class="rounded fotosociomini" >
-                                </td>
-                                <td >{{ producto.nomlinea }}</td>
-                                <td v-text="producto.codprod"></td>
-                                <td id="nombre-prducto">
-                                    <div>
-                                        {{ producto.nomprod }} 
-                                        <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} X {{ producto.cantidadprimario }} </div></div>
-                                        <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario">&nbsp;{{ formafar.nombre }} </div></div>
-                                    </div> <br><br>
-                                </td>
-                                <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
-                                <td >{{ producto.tiempopedidoprimario }} meses</td>
-                                <td v-text="producto.preciolistaprimario"></td>
-                                <td v-text="producto.precioventaprimario"></td>
-                                
-                                <td v-text="producto.metodoabcprimario"></td>
-                                <td v-text="producto.codigointernacional"></td>
-                                <td>
-                                    <div v-if="producto.activo==1">
-                                        <span class="badge badge-success">Activo</span>
-                                    </div>
-                                    <div v-else>
-                                        <span class="badge badge-warning">Desactivado</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="envase-primario" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <table class="table table-bordered table-striped table-sm table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Opciones</th>
+                                    <th>Linea</th>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <!--th>Presentacion</th-->
+                                    <th>Tiempo Pedido</th>
+                                    <th>Precio Lista</th>
+                                    <th>Precio Venta</th>
+                                    <th>Metodo</th>
+                                    <th>Codigo Internacional</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="producto in arrayProducto" :key="producto.id">
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',producto)">
+                                            <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+                                        <button v-if="producto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProducto(producto.id)" >
+                                            <i class="icon-trash"></i>
+                                        </button>
+                                        <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
+                                            <i class="icon-check"></i>
+                                        </button>
+                                        <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
+                                        <img v-else src="img/avatars/noimagen.png"  class="rounded fotosociomini" >
+                                    </td>
+                                    <td >{{ producto.nomlinea }}</td>
+                                    <td v-text="producto.codprod"></td>
+                                    <td id="nombre-prducto">
+                                        <div>
+                                            {{ producto.nomprod }} 
+                                            <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseprimario"> {{ dispenser.nombre }} X {{ producto.cantidadprimario }} </div></div>
+                                            <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaprimario">&nbsp;{{ formafar.nombre }} </div></div>
+                                        </div> <br><br>
+                                    </td>
+                                    <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
+                                    <td >{{ producto.tiempopedidoprimario }} meses</td>
+                                    <td v-text="producto.preciolistaprimario"></td>
+                                    <td v-text="producto.precioventaprimario"></td>
+                                    
+                                    <td v-text="producto.metodoabcprimario"></td>
+                                    <td v-text="producto.codigointernacional"></td>
+                                    <td>
+                                        <div v-if="producto.activo==1">
+                                            <span class="badge badge-success">Activo</span>
+                                        </div>
+                                        <div v-else>
+                                            <span class="badge badge-warning">Desactivado</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div class="tab-pane fade" id="envase-secundario" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <table class="table table-bordered table-striped table-sm table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Opciones</th>
+                                        <th>Linea</th>
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <!--th>Presentacion</th-->
+                                        <th>Tiempo Pedido</th>
+                                        <th>Precio Lista</th>
+                                        <th>Precio Venta</th>
+                                        <th>Metodo</th>
+                                        <th>Codigo Internacional</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="producto in arrayProducto" :key="producto.id">
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',producto)">
+                                                <i class="icon-pencil"></i>
+                                            </button> &nbsp;
+                                            <button v-if="producto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProducto(producto.id)" >
+                                                <i class="icon-trash"></i>
+                                            </button>
+                                            <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
+                                                <i class="icon-check"></i>
+                                            </button>
+                                            <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
+                                            <img v-else src="img/avatars/noimagen.png"  class="rounded fotosociomini" >
+                                        </td>
+                                        <td >{{ producto.nomlinea }}</td>
+                                        <td v-text="producto.codprod"></td>
+                                        <td id="nombre-prducto">
+                                            <div>
+                                                {{ producto.nomprod }} 
+                                                <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvasesecundario"> {{ dispenser.nombre }} X {{ producto.cantidadsecundario }} </div></div>
+                                                <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticasecundario">&nbsp;{{ formafar.nombre }} </div></div>
+                                            </div> <br><br>
+                                        </td>
+                                        <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
+                                        <td >{{ producto.tiempopedidosecundario }} meses</td>
+                                        <td v-text="producto.preciolistasecundario"></td>
+                                        <td v-text="producto.precioventasecundario"></td>
+                                        
+                                        <td v-text="producto.metodoabcsecundario"></td>
+                                        <td v-text="producto.codigointernacional"></td>
+                                        <td>
+                                            <div v-if="producto.activo==1">
+                                                <span class="badge badge-success">Activo</span>
+                                            </div>
+                                            <div v-else>
+                                                <span class="badge badge-warning">Desactivado</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="envase-terciario" role="tabpanel" aria-labelledby="pills-contact-tab">
+                            <table class="table table-bordered table-striped table-sm table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Opciones</th>
+                                        <th>Linea</th>
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <!--th>Presentacion</th-->
+                                        <th>Tiempo Pedido</th>
+                                        <th>Precio Lista</th>
+                                        <th>Precio Venta</th>
+                                        <th>Metodo</th>
+                                        <th>Codigo Internacional</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="producto in arrayProducto" :key="producto.id">
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',producto)">
+                                                <i class="icon-pencil"></i>
+                                            </button> &nbsp;
+                                            <button v-if="producto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProducto(producto.id)" >
+                                                <i class="icon-trash"></i>
+                                            </button>
+                                            <button v-else type="button" class="btn btn-info btn-sm" @click="activarProducto(producto.id)" >
+                                                <i class="icon-check"></i>
+                                            </button>
+                                            <img v-if="producto.foto" :src="'imgproductos/'+ producto.foto.substring(9)" class="rounded fotosociomini">
+                                            <img v-else src="img/avatars/noimagen.png"  class="rounded fotosociomini" >
+                                        </td>
+                                        <td >{{ producto.nomlinea }}</td>
+                                        <td v-text="producto.codprod"></td>
+                                        <td id="nombre-prducto">
+                                            <div>
+                                                {{ producto.nomprod }}
+                                                <div v-for="dispenser in dispensers"> <div v-if="dispenser.id == producto.idenvaseterciario"> {{ dispenser.nombre }} X {{ producto.cantidadterciario }} </div></div>
+                                                <div v-for="formafar in formafarms"> <div v-if="formafar.id == producto.idformafarmaceuticaterciario">&nbsp;{{ formafar.nombre }} </div></div>
+                                            </div> <br><br>
+                                        </td>
+                                        <!--td>{{ producto.codlinea}} - {{producto.cantidadprimario}} <br /> {{producto.idformafarmaceuticaprimario }}</td-->
+                                        <td >{{ producto.tiempopedidoterciario }} meses</td>
+                                        <td v-text="producto.preciolistaterciario"></td>
+                                        <td v-text="producto.precioventaterciario"></td>
+                                        
+                                        <td v-text="producto.metodoabcterciario"></td>
+                                        <td v-text="producto.codigointernacional"></td>
+                                        <td>
+                                            <div v-if="producto.activo==1">
+                                                <span class="badge badge-success">Activo</span>
+                                            </div>
+                                            <div v-else>
+                                                <span class="badge badge-warning">Desactivado</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>
+
                     <nav>
                         <ul class="pagination">
                             <li class="page-item" v-if="pagination.current_page > 1">
@@ -904,6 +1046,7 @@ import QrcodeVue from 'qrcode.vue';
                 });
             },
 
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
@@ -1334,6 +1477,16 @@ img {
 #nombre-prducto > div > div
 {
     display: inline-block;
+}
+
+#botonos-infoprisecter > ul > li
+{
+    margin-left: 10px;   
+}
+
+#botonos-infoprisecter > ul > li >button
+{
+    border: 0;
 }
 
 </style>

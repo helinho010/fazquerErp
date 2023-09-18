@@ -18,7 +18,7 @@ class CreateAlmCodificacionsTable extends Migration
             $table->smallInteger('idsucursal')->unsigned();
             $table->string('letraestante',2);
             $table->tinyInteger('numletra')->unsigned();
-            $table->string('codestante',6);
+            $table->string('codestante',10);
             $table->tinyInteger('numposicion')->unsigned();
             $table->tinyInteger('numaltura')->unsigned();
             $table->boolean('activo')->default(1);
