@@ -119,7 +119,11 @@
                                 <div class="col-md-9">
                                     <select v-model="idproductoselected" @change="perecedero()" class="form-control">
                                      <option value="0" disabled>Seleccionar...</option>
-                                     <option v-for="producto in productos" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option>
+                                     <option v-for="producto in productos" :key="producto.idproduc" :value="producto.idproduc">
+                                        <div v-text="producto.cod"></div>
+                                        <!-- <div v-if="producto.almacensecundario" v-text="producto.codsecundario"></div>
+                                        <div v-if="producto.almacenterciario" v-text="producto.codterciario"></div> -->
+                                     </option>
                                     </select>
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
