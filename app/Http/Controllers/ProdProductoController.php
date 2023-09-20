@@ -546,20 +546,6 @@ class ProdProductoController extends Controller
         foreach ($idrubroDeAlmacenSeleccionado as $value) {
             $idrubroTable = $value->idrubro;
         } 
-        
-        // if ($request->dealmacen == 1) 
-        // {
-        //    $productosParaElAlmacen=Prod_Producto::where('activo',1)
-        //                                         ->orWhere('prod__productos.almacenprimario',1)
-        //                                         ->orWhere('prod__productos.almacensecundario',1)
-        //                                         ->orWhere('prod__productos.almacenterciario',1);
-        //     foreach ($productosParaElAlmacen as $key => $producto) 
-        //     {
-                
-        //     }
-        // }else{
-
-        // }
 
         $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," X ",ifnull(prod__productos.cantidadprimario,"")," - ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
         $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceuticaprimario')
@@ -594,5 +580,50 @@ class ProdProductoController extends Controller
                                 ->get();
         return $productos;
     }
+
+    public function getProductosTiendaAlamcenEnvase(Request $request)
+    {
+        $idrubroDeAlmacenSeleccionado = DB::table('alm__almacens')
+                                        ->select('adm__sucursals.idrubro') 
+                                        ->leftJoin('adm__sucursals','adm__sucursals.id','alm__almacens.idsucursal')
+                                        ->where('alm__almacens.id',$request->idalmacen)
+                                        ->get();
+
+        foreach ($idrubroDeAlmacenSeleccionado as $value) {
+            $idrubroTable = $value->idrubro;
+        } 
+
+        $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," X ",ifnull(prod__productos.cantidad'.$request->envase.',"")," - ",ifnull(prod__forma_farmaceuticas.nombre,"")) as cod'));
+        $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceutica'.$request->envase)
+                                    ->leftJoin('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser'.$request->envase)
+                                    ->leftJoin('adm__rubros','adm__rubros.id','prod__productos.idrubro')
+                                    ->select(DB::raw('prod__productos.id as idproduc,
+                                                prod__productos.codigo,
+                                                prod__productos.nombre, 
+                                                prod__productos.idformafarmaceutica'.$request->envase.',
+                                                prod__productos.cantidad'.$request->envase.', 
+                                                prod__forma_farmaceuticas.nombre as nomformafarmaceutica,
+                                                prod__dispensers.id as idenvase,
+                                                prod__dispensers.nombre as nomenvase,
+                                                adm__rubros.id as idrubro,
+                                                adm__rubros.nombre as nomrubro,
+                                                adm__rubros.areamedica,
+                                                prod__productos.tiendaprimario,
+                                                prod__productos.tiendasecundario,
+                                                prod__productos.tiendaterciario,
+                                                prod__productos.almacenprimario,
+                                                prod__productos.almacensecundario,
+                                                prod__productos.almacenterciario'),
+                                                $raw
+                                            )
+                                    ->where('prod__productos.activo',1)
+                                    ->where('adm__rubros.id',$idrubroTable)
+                                    ->orderby('prod__productos.nombre','asc')
+                                    ->get();
+        
+        return $productos;
+    }
+
+
 
 }

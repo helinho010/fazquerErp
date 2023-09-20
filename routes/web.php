@@ -285,6 +285,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
     Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
+    /*Esta ruta es de prueba*/
+    Route::get('/producto/getProductosTiendaAlamcenEnvase',[ProdProductoController::class,'getProductosTiendaAlamcenEnvase']);
+    /** Find de la ruta de prueba */
     Route::get('/producto/selectproductoperecedero',[ProdProductoController::class,'selectProductoPerecedero']);
     
 

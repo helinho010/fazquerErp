@@ -119,11 +119,12 @@
                                 <div class="col-md-9">
                                     <select v-model="idproductoselected" @change="perecedero()" class="form-control">
                                      <option value="0" disabled>Seleccionar...</option>
-                                     <option v-for="producto in productos" :key="producto.idproduc" :value="producto.idproduc">
-                                        <div v-text="producto.cod"></div>
-                                        <!-- <div v-if="producto.almacensecundario" v-text="producto.codsecundario"></div>
-                                        <div v-if="producto.almacenterciario" v-text="producto.codterciario"></div> -->
-                                     </option>
+                                     <optgroup v-for="producto in productosenvaseprimario" label="primera-opcion">
+                                        <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option>
+                                     </optgroup>
+                                     <optgroup v-for="producto1 in productosenvasesecundario" label="primera-opcion">
+                                        <option v-if="producto.almacensecundario == 1" v-text="producto1.cod" :key="producto1.idproduc" :value="producto1.idproduc"></option>
+                                     </optgroup>
                                     </select>
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
@@ -226,7 +227,7 @@ import { error401 } from '../../errores';
                 offset:3,
                 idproducto:[],
                 idproductoselected:'',
-                productos:[],
+                //productos:[],
                 descripcion:'',
                 codigo:'',
                 correlativo:0,
@@ -272,7 +273,9 @@ import { error401 } from '../../errores';
                  //////qrcode
                 value: 'https://example.com',
                 size: 120,
-                productos:[],
+                productosenvaseprimario:[],
+                productosenvasesecundario:[],
+                productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                                 
             }
@@ -433,12 +436,37 @@ import { error401 } from '../../errores';
 
             listarProductos(){
                 let me = this;
-                var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
+                //var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
+                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'primario';    
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
-                    me.productos=respuesta;
-                    console.log("////////////////////////////////");
-                    console.log(me.productos);
+                    me.productosenvaseprimario=respuesta;
+                    console.log("////////////////////////////////****************");
+                    console.log(me.productosenvaseprimario);
+                    console.log(me.almacenselected);
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'secundario';    
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productosenvasesecundario=respuesta;
+                    console.log("////////////////////////////////****************");
+                    console.log(me.productosenvasesecundario);
+                    console.log(me.almacenselected);
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'terciario';    
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productosenvaseterciario=respuesta;
+                    console.log("////////////////////////////////****************");
+                    console.log(me.productosenvaseterciario);
                     console.log(me.almacenselected);
                 })
                 .catch(function (error) {
