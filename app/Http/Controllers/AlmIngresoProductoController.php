@@ -81,6 +81,7 @@ class AlmIngresoProductoController extends Controller
     {
         $nuevoProducto = new Alm_IngresoProducto();
         $nuevoProducto->id_prod_producto = $request->id_prod_producto;
+        $nuevoProducto->envase = $request->envase;
         $nuevoProducto->idalmacen = $request->idalmacen;
         $nuevoProducto->cantidad = $request->cantidad;
         $nuevoProducto->tipo_entrada = $request->tipo_entrada;
@@ -115,6 +116,7 @@ class AlmIngresoProductoController extends Controller
     {
         $actualizarProducto = Alm_IngresoProducto::findOrFail($request->id);
         $actualizarProducto->id_prod_producto = $request->id_prod_producto;
+        $actualizarProducto->envase = $request->envase;
         $actualizarProducto->idalmacen = $request->idalmacen;
         $actualizarProducto->cantidad = $request->cantidad;
         $actualizarProducto->tipo_entrada = $request->tipo_entrada;

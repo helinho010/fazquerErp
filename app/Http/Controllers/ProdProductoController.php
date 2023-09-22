@@ -608,12 +608,8 @@ class ProdProductoController extends Controller
                                                 adm__rubros.id as idrubro,
                                                 adm__rubros.nombre as nomrubro,
                                                 adm__rubros.areamedica,
-                                                prod__productos.tiendaprimario,
-                                                prod__productos.tiendasecundario,
-                                                prod__productos.tiendaterciario,
-                                                prod__productos.almacenprimario,
-                                                prod__productos.almacensecundario,
-                                                prod__productos.almacenterciario'),
+                                                prod__productos.tienda'.$request->envase.',
+                                                prod__productos.almacen'.$request->envase),
                                                 $raw
                                             )
                                     ->where('prod__productos.activo',1)

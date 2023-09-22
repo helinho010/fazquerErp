@@ -117,14 +117,9 @@
                             <div class="form-group row">
                                 <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproductoselected==0" class="error">(*)</span></strong>
                                 <div class="col-md-9">
-                                    <select v-model="idproductoselected" @change="perecedero()" class="form-control">
-                                     <option value="0" disabled>Seleccionar...</option>
-                                     <optgroup v-for="producto in productosenvaseprimario" label="primera-opcion">
-                                        <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option>
-                                     </optgroup>
-                                     <optgroup v-for="producto1 in productosenvasesecundario" label="primera-opcion">
-                                        <option v-if="producto.almacensecundario == 1" v-text="producto1.cod" :key="producto1.idproduc" :value="producto1.idproduc"></option>
-                                     </optgroup>
+                                    <!-- <option value="0" disabled>Seleccionar...</option>
+                                    <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option> -->
+                                    <select v-model="idproductoselected" @change="perecedero()" class="form-control" v-html="opciones">
                                     </select>
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
@@ -277,6 +272,7 @@ import { error401 } from '../../errores';
                 productosenvasesecundario:[],
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
+                opciones:'<option value="0" disabled>Seleccionar...</option>',
                                 
             }
 
@@ -436,14 +432,18 @@ import { error401 } from '../../errores';
 
             listarProductos(){
                 let me = this;
+                me.opciones = '<option value="0" disabled>Seleccionar...</option>';
                 //var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
                 var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'primario';    
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
-                    me.productosenvaseprimario=respuesta;
-                    console.log("////////////////////////////////****************");
-                    console.log(me.productosenvaseprimario);
-                    console.log(me.almacenselected);
+                    me.productosenvaseprimario=respuesta;                    
+                    me.productosenvaseprimario.forEach((element,index) => {
+                        if (element.almacenprimario == 1) 
+                        {
+                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                        }
+                    });
                 })
                 .catch(function (error) {
                     error401(error);
@@ -453,9 +453,12 @@ import { error401 } from '../../errores';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
                     me.productosenvasesecundario=respuesta;
-                    console.log("////////////////////////////////****************");
-                    console.log(me.productosenvasesecundario);
-                    console.log(me.almacenselected);
+                    me.productosenvasesecundario.forEach((element,index) => {
+                        if (element.almacensecundario == 1) 
+                        {
+                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                        }
+                    });
                 })
                 .catch(function (error) {
                     error401(error);
@@ -465,14 +468,21 @@ import { error401 } from '../../errores';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
                     me.productosenvaseterciario=respuesta;
-                    console.log("////////////////////////////////****************");
-                    console.log(me.productosenvaseterciario);
-                    console.log(me.almacenselected);
+                    me.productosenvaseterciario.forEach((element,index) => {
+                        if (element.almacenterciario == 1) 
+                        {
+                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                        }
+                    });
                 })
                 .catch(function (error) {
                     error401(error);
                     console.log(error);
                 });
+
+                console.log("+++++++++++++++++++++++++++");
+                console.log(me.opciones);
+                console.log("+++++++++++++++++++++++++++");
             },
 
 
@@ -552,8 +562,11 @@ import { error401 } from '../../errores';
 
             registrarProductoEnAlmacen(){
                 let me = this;
+                console.log("Esto es el idproductoselected del producto selecccionado");
+                console.log(me.idproductoselected);
                 axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
+                    'envase':'secundario',
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
@@ -679,7 +692,6 @@ import { error401 } from '../../errores';
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
-                    //'codigo_internacional':me.codigointernacional,
                 }).then(function (response) {
                     Swal.fire('Actualizado Correctamente')
                     me.listarProductosAlmacen(1); 
