@@ -119,7 +119,7 @@
                                 <div class="col-md-9">
                                     <!-- <option value="0" disabled>Seleccionar...</option>
                                     <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option> -->
-                                    <select v-model="idproductoselected" @change="perecedero()" class="form-control" v-html="opciones">
+                                    <select v-model="idproductoselected" @change="perecedero($event)" class="form-control" v-html="opciones">
                                     </select>
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
@@ -273,7 +273,6 @@ import { error401 } from '../../errores';
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
-                                
             }
 
         },
@@ -441,7 +440,7 @@ import { error401 } from '../../errores';
                     me.productosenvaseprimario.forEach((element,index) => {
                         if (element.almacenprimario == 1) 
                         {
-                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-envase="primario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
                         }
                     });
                 })
@@ -456,7 +455,7 @@ import { error401 } from '../../errores';
                     me.productosenvasesecundario.forEach((element,index) => {
                         if (element.almacensecundario == 1) 
                         {
-                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-envase="secundario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
                         }
                     });
                 })
@@ -471,7 +470,7 @@ import { error401 } from '../../errores';
                     me.productosenvaseterciario.forEach((element,index) => {
                         if (element.almacenterciario == 1) 
                         {
-                           me.opciones = me.opciones + '<option key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-envase="terciario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
                         }
                     });
                 })
@@ -486,8 +485,10 @@ import { error401 } from '../../errores';
             },
 
 
-            perecedero(){
+            perecedero(event){
                 let me = this;
+                console.log("------------------- Value Option --------------------------");
+                console.log(event.target);
                 var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
@@ -562,8 +563,6 @@ import { error401 } from '../../errores';
 
             registrarProductoEnAlmacen(){
                 let me = this;
-                console.log("Esto es el idproductoselected del producto selecccionado");
-                console.log(me.idproductoselected);
                 axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
                     'envase':'secundario',

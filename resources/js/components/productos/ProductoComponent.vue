@@ -1369,7 +1369,7 @@ import QrcodeVue from 'qrcode.vue';
                         me.metodoselectedsecundario = data.metodoabcsecundario;
                         me.tiendasecundario = data.tiendasecundario==1?true:false;
                         me.almacensecundario = data.almacensecundario==1?true:false;
-                        me.iddispenserselectedterciario = data.idenvasetercirio;
+                        me.iddispenserselectedterciario = data.idenvaseterciario;
                         me.cantidadterciario = data.cantidadterciario;
                         me.checkformafarmaceuticaterciario = data.checkformafarmaceuticaterciario==1?true:false;
                         me.idformafarmselectedterciario = data.idformafarmaceuticaterciario;

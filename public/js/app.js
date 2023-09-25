@@ -22525,7 +22525,7 @@ __webpack_require__.r(__webpack_exports__);
         me.productosenvaseprimario = respuesta;
         me.productosenvaseprimario.forEach(function (element, index) {
           if (element.almacenprimario == 1) {
-            me.opciones = me.opciones + '<option key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
+            me.opciones = me.opciones + '<option data-envase="primario" key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
           }
         });
       })["catch"](function (error) {
@@ -22538,7 +22538,7 @@ __webpack_require__.r(__webpack_exports__);
         me.productosenvasesecundario = respuesta;
         me.productosenvasesecundario.forEach(function (element, index) {
           if (element.almacensecundario == 1) {
-            me.opciones = me.opciones + '<option key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
+            me.opciones = me.opciones + '<option data-envase="secundario" key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
           }
         });
       })["catch"](function (error) {
@@ -22551,7 +22551,7 @@ __webpack_require__.r(__webpack_exports__);
         me.productosenvaseterciario = respuesta;
         me.productosenvaseterciario.forEach(function (element, index) {
           if (element.almacenterciario == 1) {
-            me.opciones = me.opciones + '<option key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
+            me.opciones = me.opciones + '<option data-envase="terciario" key="' + element.idproduc + '" value="' + element.idproduc + '">' + element.cod + '</option>';
           }
         });
       })["catch"](function (error) {
@@ -22562,8 +22562,10 @@ __webpack_require__.r(__webpack_exports__);
       console.log(me.opciones);
       console.log("+++++++++++++++++++++++++++");
     },
-    perecedero: function perecedero() {
+    perecedero: function perecedero(event) {
       var me = this;
+      console.log("------------------- Value Option --------------------------");
+      console.log(event.target);
       var url = '/producto/selectproductoperecedero?idproducto=' + me.idproductoselected;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
@@ -22630,8 +22632,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     registrarProductoEnAlmacen: function registrarProductoEnAlmacen() {
       var me = this;
-      console.log("Esto es el idproductoselected del producto selecccionado");
-      console.log(me.idproductoselected);
       axios.post('/almacen/ingreso-producto/registrar', {
         'id_prod_producto': me.idproductoselected,
         'envase': 'secundario',
@@ -25892,7 +25892,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             me.metodoselectedsecundario = data.metodoabcsecundario;
             me.tiendasecundario = data.tiendasecundario == 1 ? true : false;
             me.almacensecundario = data.almacensecundario == 1 ? true : false;
-            me.iddispenserselectedterciario = data.idenvasetercirio;
+            me.iddispenserselectedterciario = data.idenvaseterciario;
             me.cantidadterciario = data.cantidadterciario;
             me.checkformafarmaceuticaterciario = data.checkformafarmaceuticaterciario == 1 ? true : false;
             me.idformafarmselectedterciario = data.idformafarmaceuticaterciario;
@@ -34044,7 +34044,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.idproductoselected = $event;
     }),
     onChange: _cache[10] || (_cache[10] = function ($event) {
-      return $options.perecedero();
+      return $options.perecedero($event);
     }),
     "class": "form-control",
     innerHTML: $data.opciones
