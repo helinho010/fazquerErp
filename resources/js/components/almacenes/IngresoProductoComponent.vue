@@ -116,14 +116,18 @@
                         <form  enctype="multipart/form-data" class="form-horizontal">
                             <div class="form-group row">
                                 <strong class="col-md-3 form-control-label" for="text-input">Producto: <span  v-if="idproductoselected==0" class="error">(*)</span></strong>
-                                <div class="col-md-9">
+                                <div class="col-md-7 input-group mb-3">
                                     <!-- <option value="0" disabled>Seleccionar...</option>
                                     <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option> -->
-                                    <select v-model="idproductoselected" @change="perecedero(this.options[this.selectedIndex])" class="form-control" v-html="opciones">
+                                    <select v-model="idproductoselected" @change="perecedero" class="form-control" v-html="opciones" aria-label="Example text with button addon" aria-describedby="button-addon1">
                                     </select>
-                                <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
+                                    <button class="btn btn-primary" type="button" id="button-addon1" @click="abrirModal('bucarProductoIngresoAlmacen')"><i class="fa fa-search" ></i></button>
                                 </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3"></div>
+                                <span v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                             </div>
+                                                        
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <strong>Cantidad: <span  v-if="cantidad==0" class="error">(*)</span></strong>
@@ -198,6 +202,25 @@
         </div>
         <!--Fin del modal-->
         
+        <!-- Modal para la busqueda de producto por lote -->
+        <div class="modal fade" id="staticBackdrop" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" @click="cerrarModal('staticBackdrop')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModal('staticBackdrop')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fun Modal para la busqueda de producto por lote -->
         
     </main>
 </template>
@@ -273,6 +296,7 @@ import { error401 } from '../../errores';
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
+                envaseProductoSelecionadoIngresoAlmacen:'',
             }
 
         },
@@ -478,17 +502,14 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-
-                console.log("+++++++++++++++++++++++++++");
-                console.log(me.opciones);
-                console.log("+++++++++++++++++++++++++++");
             },
 
 
             perecedero(event){
                 let me = this;
-                console.log("------------------- Value Option --------------------------");
-                console.log(event.getAttribute('data-envase'));
+                var envaseseleccionado = event.target.options[event.target.options.selectedIndex].dataset;
+                me.envaseProductoSelecionadoIngresoAlmacen = envaseseleccionado.envase;
+                console.log(me.envaseProductoSelecionadoIngresoAlmacen);
                 var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
@@ -565,7 +586,7 @@ import { error401 } from '../../errores';
                 let me = this;
                 axios.post('/almacen/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoselected,
-                    'envase':'secundario',
+                    'envase':me.envaseProductoSelecionadoIngresoAlmacen,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
@@ -750,28 +771,42 @@ import { error401 } from '../../errores';
                         break;
                     }
 
+                    case 'bucarProductoIngresoAlmacen':
+                    {
+                        me.classModal.openModal('staticBackdrop');
+                        console.log("Esto deberia imprimir");
+                    }
+
                 }
                 
             },
+
             cerrarModal(accion){
                 let me = this;
-                me.classModal.closeModal(accion);
-                //me.sucursalselected=0;
-                me.idproducto=[];
-                me.clearSelected=0;
-                setTimeout(me.tiempo, 200); 
-                me.cantidad=0;
-                me.tipo_entrada='';
-                me.lote='';
-                me.fecha_vencimiento='';//me.fechaactual;
-                me.codigo='';
-                me.registrosanitario='';
-                me.ubicacionSelected=0;
-                me.estanteselected=0;
-                me.codestante='';
-                me.productoperecedero = 0;
+                if (accion == "registrar") {
+                    me.classModal.closeModal(accion);
+                    me.idproducto=[];
+                    me.clearSelected=0;
+                    me.idproductoselected = 0; 
+                    setTimeout(me.tiempo, 200); 
+                    me.cantidad=0;
+                    me.tipo_entrada='';
+                    me.lote='';
+                    me.fecha_vencimiento='';//me.fechaactual;
+                    me.codigo='';
+                    me.registrosanitario='';
+                    me.ubicacionSelected=0;
+                    me.estanteselected=0;
+                    me.codestante='';
+                    me.productoperecedero = 0;    
+                }else{
+                    me.classModal.closeModal(accion);
+                    me.idproductoselected = 0; 
+                    me.classModal.openModal('registrar'); 
+                }
                 
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
@@ -788,6 +823,7 @@ import { error401 } from '../../errores';
             this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
+            this.classModal.addModal('staticBackdrop');
             this.listarProductos();
             //console.log('Component mounted.')
         }

@@ -961,9 +961,11 @@ import { error401 } from '../../errores';
                 });
 
             },
+            
             tiempo(){
             this.clearInputFile=1;
             },
+
             cerrarModal(accion){
                 let me = this;
                 if(accion=='regmodal'){
