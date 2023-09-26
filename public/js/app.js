@@ -22565,7 +22565,7 @@ __webpack_require__.r(__webpack_exports__);
     perecedero: function perecedero(event) {
       var me = this;
       console.log("------------------- Value Option --------------------------");
-      console.log(event.target);
+      console.log(event.getAttribute('data-envase'));
       var url = '/producto/selectproductoperecedero?idproducto=' + me.idproductoselected;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
@@ -33886,6 +33886,8 @@ var _hoisted_97 = {
 var _hoisted_98 = ["disabled"];
 var _hoisted_99 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
   var _component_qrcode_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("qrcode-vue");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Breadcrumb "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ejemplo de tabla Listado "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -34044,7 +34046,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.idproductoselected = $event;
     }),
     onChange: _cache[10] || (_cache[10] = function ($event) {
-      return $options.perecedero($event);
+      return $options.perecedero(_this.options[_this.selectedIndex]);
     }),
     "class": "form-control",
     innerHTML: $data.opciones

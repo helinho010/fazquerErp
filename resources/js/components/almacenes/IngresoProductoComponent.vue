@@ -119,7 +119,7 @@
                                 <div class="col-md-9">
                                     <!-- <option value="0" disabled>Seleccionar...</option>
                                     <option v-if="producto.almacenprimario == 1" :key="producto.idproduc" :value="producto.idproduc" v-text="producto.cod"></option> -->
-                                    <select v-model="idproductoselected" @change="perecedero($event)" class="form-control" v-html="opciones">
+                                    <select v-model="idproductoselected" @change="perecedero(this.options[this.selectedIndex])" class="form-control" v-html="opciones">
                                     </select>
                                 <span  v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                                 </div>
@@ -488,7 +488,7 @@ import { error401 } from '../../errores';
             perecedero(event){
                 let me = this;
                 console.log("------------------- Value Option --------------------------");
-                console.log(event.target);
+                console.log(event.getAttribute('data-envase'));
                 var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
@@ -500,7 +500,7 @@ import { error401 } from '../../errores';
                     }
                 })
                 .catch(function (error) {
-                    error401(error);
+                    error401(error);    
                     console.log(error);
                 });
             },
