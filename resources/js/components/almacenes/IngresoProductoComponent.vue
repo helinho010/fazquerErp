@@ -204,14 +204,35 @@
         
         <!-- Modal para la busqueda de producto por lote -->
         <div class="modal fade" id="staticBackdrop" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-primary modal-md">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Busqueda de Productos</h5>
                     <button type="button" @click="cerrarModal('staticBackdrop')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Introduzca el codigo Internacional: </label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div>
+                            <table class="table table-hover">
+                                    <tbody>
+                                      <tr v-for="(item1, index) in productosenvaseprimario" :key="index">
+                                        <th>{{ item1.cod }}</th>
+                                      </tr>
+                                      <tr v-for="(item2, index) in productosenvasesecundario" :key="index">
+                                        <th>{{ item2.cod }}</th>
+                                      </tr>
+                                      <tr v-for="(item3, index) in productosenvaseterciario" :key="index">
+                                        <th>{{ item3.cod }}</th>
+                                      </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModal('staticBackdrop')">Close</button>

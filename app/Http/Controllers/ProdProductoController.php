@@ -608,6 +608,7 @@ class ProdProductoController extends Controller
                                                 adm__rubros.id as idrubro,
                                                 adm__rubros.nombre as nomrubro,
                                                 adm__rubros.areamedica,
+                                                prod__productos.codigointernacional,
                                                 prod__productos.tienda'.$request->envase.',
                                                 prod__productos.almacen'.$request->envase),
                                                 $raw
