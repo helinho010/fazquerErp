@@ -214,20 +214,23 @@
                     <form>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Introduzca el codigo Internacional: </label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="inputTextBuscarProductoIngresoAlmacen" v-on:keypress.prevent="buscarProductoPorEnvaseIngresoAlamcen">
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
                         <div>
                             <table class="table table-hover">
-                                    <tbody>
-                                      <tr v-for="(item1, index) in productosenvaseprimario" :key="index">
-                                        <th>{{ item1.cod }}</th>
-                                      </tr>
-                                      <tr v-for="(item2, index) in productosenvasesecundario" :key="index">
-                                        <th>{{ item2.cod }}</th>
-                                      </tr>
-                                      <tr v-for="(item3, index) in productosenvaseterciario" :key="index">
-                                        <th>{{ item3.cod }}</th>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Codigo</th>
+                                            <th scope="col">Id Prod.</th>
+                                            <th scope="col">Codigo Internacional</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>  
+                                      <tr v-for="(item1, index) in opciones2" :key="index">
+                                        <th>{{ item1.idproduc }}</th>
+                                        <th>{{ item1.codprimario }} {{ item1.codsecundario }} {{ item1.codterciario }}</th>
+                                        <th>{{ item1.codigointernacional }}</th>
                                       </tr>
                                     </tbody>
                             </table>
@@ -317,7 +320,9 @@ import { error401 } from '../../errores';
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
+                opciones2:[],
                 envaseProductoSelecionadoIngresoAlmacen:'',
+                inputTextBuscarProductoIngresoAlmacen:'pppp',
             }
 
         },
@@ -477,6 +482,7 @@ import { error401 } from '../../errores';
             listarProductos(){
                 let me = this;
                 me.opciones = '<option value="0" disabled>Seleccionar...</option>';
+                me.opciones2 = [];
                 //var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
                 var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'primario';    
                 axios.get(url).then(function (response) {
@@ -486,6 +492,12 @@ import { error401 } from '../../errores';
                         if (element.almacenprimario == 1) 
                         {
                            me.opciones = me.opciones + '<option data-envase="primario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones2.push( 
+                           { 
+                            codprimario:element.cod,
+                            idproduc:element.idproduc,
+                            codigointernacional:element.codigointernacional
+                           });
                         }
                     });
                 })
@@ -501,6 +513,12 @@ import { error401 } from '../../errores';
                         if (element.almacensecundario == 1) 
                         {
                            me.opciones = me.opciones + '<option data-envase="secundario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones2.push( 
+                           { 
+                            codsecundario:element.cod,
+                            idproduc:element.idproduc,
+                            codigointernacional:element.codigointernacional
+                           });
                         }
                     });
                 })
@@ -516,6 +534,12 @@ import { error401 } from '../../errores';
                         if (element.almacenterciario == 1) 
                         {
                            me.opciones = me.opciones + '<option data-envase="terciario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones2.push( 
+                           { 
+                            codterciario:element.cod,
+                            idproduc:element.idproduc,
+                            codigointernacional:element.codigointernacional
+                           });
                         }
                     });
                 })
@@ -523,6 +547,8 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
+
+                console.log("Opciones 2:" +me.opciones2);
             },
 
 
@@ -832,9 +858,17 @@ import { error401 } from '../../errores';
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
-            },  
+            },
             
-
+            buscarProductoPorEnvaseIngresoAlamcen(ex){
+                let me = this;
+                console.log("keypress: "+ex.keyCode+"-"+ex.key);
+                if(ex.keyCode==32 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.inputTextBuscarProductoIngresoAlmacen = me.inputTextBuscarProductoIngresoAlmacen+ex.key;
+                    
+                } 
+            },
 
         },
         mounted() {
