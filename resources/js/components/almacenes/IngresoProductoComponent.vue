@@ -204,7 +204,7 @@
         
         <!-- Modal para la busqueda de producto por lote -->
         <div class="modal fade" id="staticBackdrop" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-primary modal-md">
+            <div class="modal-dialog modal-dialog-scrollable modal-primary">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Busqueda de Productos</h5>
@@ -215,21 +215,23 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Introduzca el codigo Internacional: </label>
                             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="inputTextBuscarProductoIngresoAlmacen" v-on:keypress.prevent="buscarProductoPorEnvaseIngresoAlamcen">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         </div>
                         <div>
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tablaProductosIngresoAlmacen"  style='height:350px;display:block;overflow:scroll'>
                                     <thead>
                                         <tr>
-                                            <th scope="col">Codigo</th>
                                             <th scope="col">Id Prod.</th>
+                                            <th scope="col">Descripcion Prod.</th>
+                                            <th scope="col">Envase</th>
                                             <th scope="col">Codigo Internacional</th>
                                         </tr>
                                     </thead>
                                     <tbody>  
-                                      <tr v-for="(item1, index) in opciones2" :key="index">
+                                      <tr v-for="(item1, index) in (opciones3.length>0?opciones3:opciones2)" :key="index" @click="itemSeleccionadoEnLaBusqueda(item1.value,item1.idproduc,item1.envase)">
                                         <th>{{ item1.idproduc }}</th>
                                         <th>{{ item1.codprimario }} {{ item1.codsecundario }} {{ item1.codterciario }}</th>
+                                        <th>{{ item1.envase }}</th>
                                         <th>{{ item1.codigointernacional }}</th>
                                       </tr>
                                     </tbody>
@@ -239,7 +241,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cerrarModal('staticBackdrop')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
                 </div>
             </div>
@@ -252,6 +254,7 @@
 <script>
 import Swal from 'sweetalert2';
 import QrcodeVue from 'qrcode.vue';
+import { watch } from 'vue';
 import { error401 } from '../../errores';
 
 //Vue.use(VeeValidate);
@@ -321,8 +324,10 @@ import { error401 } from '../../errores';
                 arrayIngresoProducto:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
                 opciones2:[],
+                opciones3:[],
                 envaseProductoSelecionadoIngresoAlmacen:'',
-                inputTextBuscarProductoIngresoAlmacen:'pppp',
+                inputTextBuscarProductoIngresoAlmacen:'',
+                idproductoRealSeleccionado:0,
             }
 
         },
@@ -428,7 +433,6 @@ import { error401 } from '../../errores';
             listarposicion(idestante){
                 let me=this;
                 let respuesta=me.arrayEstantes.find(element=>element.id==idestante);
-                //console.log(respuesta);
                 var valor
                 me.codestante=respuesta.codestante;
                 me.ubicacionSelected=0;
@@ -481,6 +485,7 @@ import { error401 } from '../../errores';
 
             listarProductos(){
                 let me = this;
+                let contador = 1;
                 me.opciones = '<option value="0" disabled>Seleccionar...</option>';
                 me.opciones2 = [];
                 //var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
@@ -491,13 +496,16 @@ import { error401 } from '../../errores';
                     me.productosenvaseprimario.forEach((element,index) => {
                         if (element.almacenprimario == 1) 
                         {
-                           me.opciones = me.opciones + '<option data-envase="primario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="primario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
                            me.opciones2.push( 
                            { 
+                            value:contador,
                             codprimario:element.cod,
                             idproduc:element.idproduc,
-                            codigointernacional:element.codigointernacional
+                            codigointernacional:element.codigointernacional,
+                            envase:'primario',
                            });
+                           contador++;
                         }
                     });
                 })
@@ -512,13 +520,16 @@ import { error401 } from '../../errores';
                     me.productosenvasesecundario.forEach((element,index) => {
                         if (element.almacensecundario == 1) 
                         {
-                           me.opciones = me.opciones + '<option data-envase="secundario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="secundario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
                            me.opciones2.push( 
                            { 
+                            value:contador,
                             codsecundario:element.cod,
                             idproduc:element.idproduc,
-                            codigointernacional:element.codigointernacional
+                            codigointernacional:element.codigointernacional,
+                            envase:'secundario',
                            });
+                           contador++;
                         }
                     });
                 })
@@ -533,42 +544,21 @@ import { error401 } from '../../errores';
                     me.productosenvaseterciario.forEach((element,index) => {
                         if (element.almacenterciario == 1) 
                         {
-                           me.opciones = me.opciones + '<option data-envase="terciario" key="'+element.idproduc+'" value="'+element.idproduc+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="terciario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
                            me.opciones2.push( 
                            { 
+                            value:contador,
                             codterciario:element.cod,
                             idproduc:element.idproduc,
-                            codigointernacional:element.codigointernacional
+                            codigointernacional:element.codigointernacional,
+                            envase:'terciario',
                            });
+                           contador++;
                         }
                     });
                 })
                 .catch(function (error) {
                     error401(error);
-                    console.log(error);
-                });
-
-                console.log("Opciones 2:" +me.opciones2);
-            },
-
-
-            perecedero(event){
-                let me = this;
-                var envaseseleccionado = event.target.options[event.target.options.selectedIndex].dataset;
-                me.envaseProductoSelecionadoIngresoAlmacen = envaseseleccionado.envase;
-                console.log(me.envaseProductoSelecionadoIngresoAlmacen);
-                var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoselected;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data; 
-                    me.productoperecedero = respuesta[0].areamedica;
-                    if(respuesta[0].areamedica == 1)
-                    {
-                        me.registrosanitario = '';
-                        me.fecha_vencimiento = '';
-                    }
-                })
-                .catch(function (error) {
-                    error401(error);    
                     console.log(error);
                 });
             },
@@ -600,7 +590,7 @@ import { error401 } from '../../errores';
                     var respuesta=response.data;
                     me.arrayAlmacen=respuesta.almacenes.data;
                     me.pagination=respuesta.pagination;
-                    me.listarEstantes(me.almacenselected);
+                    //me.listarEstantes(me.almacenselected);
                     me.listarProductosAlmacen();
                     me.listarProductos();
                 })
@@ -632,7 +622,7 @@ import { error401 } from '../../errores';
             registrarProductoEnAlmacen(){
                 let me = this;
                 axios.post('/almacen/ingreso-producto/registrar',{
-                    'id_prod_producto':me.idproductoselected,
+                    'id_prod_producto':me.idproductoRealSeleccionado,
                     'envase':me.envaseProductoSelecionadoIngresoAlmacen,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
@@ -785,6 +775,7 @@ import { error401 } from '../../errores';
                             me.lote='';
                             me.fecha_vencimiento='';
                             me.registrosanitario='';
+                            me.productoperecedero = 0;
                             me.classModal.openModal('registrar');
                         }
                         else
@@ -820,8 +811,9 @@ import { error401 } from '../../errores';
 
                     case 'bucarProductoIngresoAlmacen':
                     {
+                        me.inputTextBuscarProductoIngresoAlmacen='';
+                        me.opciones3=[];
                         me.classModal.openModal('staticBackdrop');
-                        console.log("Esto deberia imprimir");
                     }
 
                 }
@@ -848,7 +840,7 @@ import { error401 } from '../../errores';
                     me.productoperecedero = 0;    
                 }else{
                     me.classModal.closeModal(accion);
-                    me.idproductoselected = 0; 
+                    //me.idproductoselected = me.idproductoselected; 
                     me.classModal.openModal('registrar'); 
                 }
                 
@@ -859,18 +851,72 @@ import { error401 } from '../../errores';
                     event.target.select()
                 }, 0)
             },
+
+            perecedero(event){
+                    let me = this;
+                    var envaseseleccionado = event.target.options[event.target.options.selectedIndex].dataset;
+                    me.envaseProductoSelecionadoIngresoAlmacen = envaseseleccionado.envase;
+                    var url= '/producto/selectproductoperecedero?idproducto='+envaseseleccionado.idproduc;
+                    axios.get(url).then(function (response) {
+                        var respuesta= response.data; 
+                        me.productoperecedero = respuesta[0].areamedica;
+                        if(respuesta[0].areamedica == 1)
+                        {
+                            me.registrosanitario = '';
+                            me.fecha_vencimiento = '';
+                        }
+                    })
+                    .catch(function (error) {
+                        error401(error);    
+                        console.log(error);
+                    });
+                },
+                        
             
             buscarProductoPorEnvaseIngresoAlamcen(ex){
                 let me = this;
-                console.log("keypress: "+ex.keyCode+"-"+ex.key);
+                var aux='';
+                me.opciones3=[];
+                //console.log("keypress: "+ex.keyCode+"---"+ex.key);
                 if(ex.keyCode==32 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.inputTextBuscarProductoIngresoAlmacen = me.inputTextBuscarProductoIngresoAlmacen+ex.key;
+                    me.opciones2.forEach(element => {
+                       if(element.codigointernacional.includes(me.inputTextBuscarProductoIngresoAlmacen))
+                       {
+                         me.opciones3.push(element);
+                       }
+                    });
                     
                 } 
+                console.log("opciones3: "+me.opciones3)
             },
 
+            itemSeleccionadoEnLaBusqueda(idproducto, idprodproductoreal, envase){
+                let me = this;
+                me.idproductoselected = idproducto;
+                me.idproductoRealSeleccionado = idprodproductoreal;
+                me.envaseProductoSelecionadoIngresoAlmacen = envase;
+                var url= '/producto/selectproductoperecedero?idproducto='+me.idproductoRealSeleccionado;
+                    axios.get(url).then(function (response) {
+                        var respuesta= response.data; 
+                        me.productoperecedero = respuesta[0].areamedica;
+                        if(respuesta[0].areamedica == 1)
+                        {
+                            me.registrosanitario = '';
+                            me.fecha_vencimiento = '';
+                        }
+                    })
+                    .catch(function (error) {
+                        error401(error);    
+                        console.log(error);
+                    });
+                me.cerrarModal('staticBackdrop');
+            },
+            
+
         },
+
         mounted() {
             this.obtenerfecha(1);
             this.listarProductosAlmacen(1);
@@ -881,13 +927,15 @@ import { error401 } from '../../errores';
             this.classModal.addModal('staticBackdrop');
             this.listarProductos();
             //console.log('Component mounted.')
-        }
-    }
+        },
+
+    }    
 </script>
+
 <style scoped>
 .error{
     color: red;
     font-size: 10px;
-    
 }
+
 </style>
