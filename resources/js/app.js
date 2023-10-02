@@ -55,6 +55,9 @@ createApp ({
     .component('nuevo-almacen-component', require('./components/almacenes/NuevoAlmacenComponent.vue').default)
     
 
+    //Gestion de precios
+    .component('precio-venta-component', require('./components/gestion_precios/PrecioVentaComponent.vue').default)
+
 
 
 

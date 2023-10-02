@@ -20,7 +20,8 @@ class AdmVentanaModuloSeeder extends Seeder
         $alm = Adm_Modulo::where('nombre', 'almacenes')->first();        
         $serv = Adm_Modulo::where('nombre', 'servicios')->first();        
         $config = Adm_Modulo::where('nombre', 'parametros')->first();        
-        $prod = Adm_Modulo::where('nombre', 'productos')->first();        
+        $prod = Adm_Modulo::where('nombre', 'productos')->first();
+        $gestprec = Adm_Modulo::where('nombre', 'gestion precios')->first();        
 
         
         
@@ -31,6 +32,7 @@ class AdmVentanaModuloSeeder extends Seeder
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'103','idmodulo'=>$admin->id,'nombre'=>'Usuarios','template'=>'usuario-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'104','idmodulo'=>$admin->id,'nombre'=>'Sucursales','template'=>'sucursal-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'105','idmodulo'=>$admin->id,'nombre'=>'Rubros','template'=>'rubros-component']);
+        
         //recursos humanos 200
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'201','idmodulo'=>$rh->id,'nombre'=>'Nivel de Formacion','template'=>'rrhnivel-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'202','idmodulo'=>$rh->id,'nombre'=>'Profesiones','template'=>'rrhprofesion-component']);
@@ -64,5 +66,8 @@ class AdmVentanaModuloSeeder extends Seeder
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'603','idmodulo'=>$prod->id,'nombre'=>'Envases y Embalaje','template'=>'dispenser-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'604','idmodulo'=>$prod->id,'nombre'=>'Forma o U. Medida','template'=>'formafarm-component']);
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'605','idmodulo'=>$prod->id,'nombre'=>'Categorias','template'=>'categoria-component']);
+
+        //gestion de productos 700
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'701','idmodulo'=>$gestprec->id,'nombre'=>'Utilidad','template'=>'precio-venta-component']);
     }
 }
