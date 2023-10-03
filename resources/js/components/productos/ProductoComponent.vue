@@ -390,12 +390,12 @@
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="dispenser in dispensers" :key="dispenser.id" :value="dispenser.id" v-text="dispenser.nombre"></option>
                                                 </select>
-                                                <span class="error" v-if="iddispenserselectedsecundario==0">Debe Seleccionar un Envase</span>
+                                                <!-- <span class="error" v-if="iddispenserselectedsecundario==0">Debe Seleccionar un Envase</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
                                                 <input type="text" class="form-control" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
-                                                <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span>
+                                                <!-- <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Forma o Unid. de Medida</strong>
@@ -408,7 +408,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <span class="error" v-if="checkformafarmaceuticasecundario && idformafarmselectedsecundario==0">Debe Seleccionar la Forma Farmaceutica</span>
+                                                <!-- <span class="error" v-if="checkformafarmaceuticasecundario && idformafarmselectedsecundario==0">Debe Seleccionar la Forma Farmaceutica</span> -->
                                             </div>
                                         </div>
 
@@ -427,7 +427,7 @@
                                                     <option value="0">Seleccionar</option>
                                                     <option v-for="tiempo in tiempopedido" :key="tiempo.id" :value="tiempo.id" v-text="tiempo.dato"></option>
                                                 </select>
-                                                <span class="error" v-if="tiempopedidoselectedsecundario==0">Debe seleccionar un tiempo de pedido</span>
+                                                <!-- <span class="error" v-if="tiempopedidoselectedsecundario==0">Debe seleccionar un tiempo de pedido</span> -->
                                             </div>
                                         </div>
                                         <div class="row">
@@ -508,17 +508,17 @@
                                                     <option v-for="metodo in arrayMetodo" :key="metodo" :value="metodo" v-text="metodo"></option>
                                                 </select>
                                             </div>
-                                            <div class="form-check col-sm-4 mt-4 pl-5">
+                                            <div class="form-check col-sm-5 mt-4 pl-5">
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="tiendaterciario" id="defaultCheck1tiendaterciario">
                                                     <label class="form-check-label" for="defaultCheck1tiendaterciario">
-                                                        Tienda
+                                                        Tienda <span class="error" v-if="!seleccinoTiendaAlmacenTerciario">(Debe seleccionar Tienda o Almacen)</span>
                                                     </label>
                                                 </div>
                                                 <div>
                                                     <input class="form-check-input" type="checkbox" v-model="almacenterciario" id="defaultCheck1almacenterciario">
                                                     <label class="form-check-label" for="defaultCheck1almacenterciario">
-                                                        Almacen
+                                                        Almacen <span class="error" v-if="!seleccinoTiendaAlmacenTerciario">(Debe seleccionar Tienda o Almacen)</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -753,6 +753,17 @@ import QrcodeVue from 'qrcode.vue';
                     return false;
                 }   
             },
+
+            seleccinoTiendaAlmacenTerciario()
+            {
+                if( (this.tiendaterciario == false && this.almacenterciario == true) ||
+                    (this.tiendaterciario == true && this.almacenterciario == false))
+                {
+                    return true;
+                }else {
+                    return false;
+                }   
+            },
             
             imagen(){
                 return this.imagenminiatura;
@@ -761,44 +772,46 @@ import QrcodeVue from 'qrcode.vue';
             sicompleto(){
                 let me=this;
                 if (me.tipoAccion == 2) {
-                    if (me.idrubroselected == 0 ||
-                        me.idlineaselected == 0 || 
-                        me.nombre == '' || 
+                    if (
+                            me.idrubroselected == 0 ||
+                            me.idlineaselected == 0 || 
+                            me.nombre == '' || 
 
-                        me.iddispenserselectedprimario == 0 || 
-                        me.cantidadprimario == 0 || 
-                        (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
-                        me.tiempopedidoselectedprimario==0 ||
-                        
-                        me.iddispenserselectedsecundario == 0 || 
-                        me.cantidadsecundario == 0 || 
-                        (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
-                        me.tiempopedidoselectedsecundario==0 ||
-                        me.idcategoriaselected == 0 ||
-                        me.codigointernacional == '' ||
-                        !me.seleccinoTiendaAlmacenPrimario ||
-                        !me.seleccinoTiendaAlmacenSecundario
+                            me.iddispenserselectedprimario == 0 || 
+                            me.cantidadprimario == 0 || 
+                            (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
+                            me.tiempopedidoselectedprimario==0 ||
+                            
+                            // me.iddispenserselectedsecundario == 0 || 
+                            // me.cantidadsecundario == 0 || 
+                            // (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
+                            // me.tiempopedidoselectedsecundario==0 ||
+                            
+                            me.idcategoriaselected == 0 ||
+                            me.codigointernacional == '' ||
+                            !me.seleccinoTiendaAlmacenPrimario // || !me.seleccinoTiendaAlmacenSecundario
                         )
                         return false;
                     else
                         return true;   
                 } else {
-                    if (me.idlineaselected == 0 || 
-                        me.nombre == '' || 
+                    if (
+                            me.idlineaselected == 0 || 
+                            me.nombre == '' || 
 
-                        me.iddispenserselectedprimario == 0 || 
-                        me.cantidadprimario == 0 || 
-                        (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
-                        me.tiempopedidoselectedprimario==0 ||
-                        
-                        me.iddispenserselectedsecundario == 0 || 
-                        me.cantidadsecundario == 0 || 
-                        (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
-                        me.tiempopedidoselectedsecundario==0 ||
-                        me.idcategoriaselected == 0 ||
-                        me.codigointernacional == '' ||
-                        !me.seleccinoTiendaAlmacenPrimario ||
-                        !me.seleccinoTiendaAlmacenSecundario
+                            me.iddispenserselectedprimario == 0 || 
+                            me.cantidadprimario == 0 || 
+                            (me.checkformafarmaceuticaprimario == true && me.idformafarmselectedprimario == 0) ||
+                            me.tiempopedidoselectedprimario==0 ||
+                            
+                            // me.iddispenserselectedsecundario == 0 || 
+                            // me.cantidadsecundario == 0 || 
+                            // (me.checkformafarmaceuticasecundario == true && me.idformafarmselectedsecundario == 0) ||
+                            // me.tiempopedidoselectedsecundario==0 ||
+                            
+                            me.idcategoriaselected == 0 ||
+                            me.codigointernacional == '' ||
+                            !me.seleccinoTiendaAlmacenPrimario //|| !me.seleccinoTiendaAlmacenSecundario
                         )
                         return false;
                     else
