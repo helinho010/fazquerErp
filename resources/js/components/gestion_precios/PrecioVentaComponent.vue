@@ -113,12 +113,12 @@
             <!-- Fin ejemplo de tabla Listado -->
         </div>
         <!--Inicio del modal agregar/actualizar-->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="gestion-precio" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">{{ tituloModal }}</h4>
-                        <button type="button" class="close"  aria-label="Close" @click="cerrarModal('registrar')">
+                        <button type="button" class="close"  aria-label="Close" @click="cerrarModal('gestion-precio')">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
@@ -611,7 +611,8 @@ import { error401 } from '../../errores';
             this.selectDepartamentos();
             this.selectCiudades();
             this.classModal = new _pl.Modals();
-            this.classModal.addModal('registrar');
+            this.classModal.addModal('gestion-precio');
+            this.classModal.openModal('gestion-precio');
             //console.log('Component mounted.')
         }
     }
