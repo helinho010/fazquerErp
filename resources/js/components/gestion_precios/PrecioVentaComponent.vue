@@ -17,7 +17,18 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-2" style="text-align:center">
+                            <label for="" >Almacenes Disponibles:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <select class="form-control" @change="listarAlmacenes(1,buscar)" v-model="almacenselected">
+                                    <option value="0" disabled>Seleccionar...</option>
+                                    <option v-for="almacen in arrayAlmacenes" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.nombre_almacen"></option>
+                                </select>                              
+                            </div>
+                        </div>
+                        <div class="col-md-5">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarAlmacenes(1)">
                                 <button type="submit" class="btn btn-primary" @click="listarAlmacenes(1)"><i class="fa fa-search" ></i> Buscar</button>
@@ -28,7 +39,6 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Nombre Usuario</th>
                                 <th>Codigo Producto</th>
                                 <th>Linea</th>
                                 <th>Entrada</th>
@@ -39,6 +49,7 @@
                                 <th>Precio Venta</th>
                                 <th>Utilidad Bruta (en %)</th>
                                 <th>Fecha de Utilidad</th>
+                                <th>Nombre Usuario</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +88,9 @@
                                     </div>
                                     
                                 </td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>03 - 10 - 2023</td>
                             </tr>
                            
                         </tbody>
@@ -249,7 +263,8 @@ import { error401 } from '../../errores';
                 idalmacen:0,
                 arrayCiudad:[],
                 arrayDepto:[],
-                arrayAlmacenes:[]
+                arrayAlmacenes:[],
+                almacenselected:0,
                 
             }
 
@@ -365,6 +380,7 @@ import { error401 } from '../../errores';
                     error401(error);
                 });
             },
+            
 
             cambiarPagina(page){
                 let me =this;
