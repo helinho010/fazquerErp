@@ -112,7 +112,9 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
-        <!--Inicio del modal agregar/actualizar-->
+
+        
+        <!--Inicio del modal para modificar los valores de gestion de precios-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="gestion-precio" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
@@ -128,7 +130,7 @@
                         </div>
                         <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">
+                                <!-- <label class="col-md-3 form-control-label" for="text-input">
                                     Asignar Sucursal
                                 </label>
                                 <div class="col-md-9">
@@ -136,66 +138,99 @@
                                         <option value="0" disabled>Seleccionar...</option>
                                         <option v-for="sucursal in arraySucursales" :key="sucursal.id" :value="sucursal.id" v-text="sucursal.cod +' '+sucursal.razon_social+' '+sucursal.direccion"></option>
                                     </select>
+                                </div> -->
+                                <div class="col-md-3">
+                                    <label for="basic-url">Precio de Lista</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <label for="basic-url">Cantidad Dispenser</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="basic-url">Precio de Compra</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="basic-url">Precio de Venta</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>                                
                             </div>
-                            <!-- <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Razon Social <span  v-if="razonsocial==''" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <input type="tex" id="" name="" class="form-control"  v-model="razonsocial" v-on:focus="selectAll"  >
-                                    <span  v-if="razonsocial==''" class="error">Debe Ingresar La Razon Social</span>
-                                </div>
-                            </div> -->
-                            <!-- Esto es para Nombre comercial -->
+
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre Almacen <span  v-if="nombrealmacen==''" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <input type="tex" id="nombrealmacen" name="nombrealmacen" class="form-control"  v-model="nombrealmacen" v-on:focus="selectAll"  >
-                                    <span  v-if="nombrealmacen==''" class="error">Debe Ingresar el Nombre de Almacen</span>
+                                <div class="col-md-4">
+                                    <label for="basic-url">Margen 30%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Fin nombre comercial -->
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Telefonos</label>
-                                <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
-                                 </div>
-                            </div>
-                            <!-- <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-model="nit" v-on:focus="selectAll">
-                                    <span  v-if="nit==''" class="error">Debe Ingresar el NIT</span>                                
+
+                                <div class="col-md-4">
+                                    <label for="basic-url">Margen 40%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
                                 </div>
-                            </div> -->
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Direccion <span  v-if="direccion==''" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la Direccion" v-model="direccion" v-on:focus="selectAll">
-                                    <span  v-if="direccion==''" class="error">Debe Ingresar la Direccion</span>                                
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Departamento <span  v-if="departamento==0" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <select name="" id="" v-model="departamento" class="form-control">
-                                        <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciud in arrayciudad" :key="ciud.id" :value="ciud.valor" v-text="ciud.valor"></option>
-                                    </select>
-                                    <span  v-if="departamento==0" class="error">Debe seleccionar un Departamento</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Ciudad <span  v-if="ciudad==''" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <!-- <select v-model="ciudad" class="form-control rounded">
-                                        <option value="0" disabled>Seleccionar...</option>
-                                        <option v-for="ciudad in arrayCiudad" :key="ciudad.id" :value="ciudad.id" v-text="ciudad.abrev+'-'+ciudad.nombre"></option>
-                                    </select> -->
-                                    <input type="tex" id="ciudad" name="ciudad" class="form-control" placeholder="Ingrese la ciudad" v-model="ciudad" v-on:focus="selectAll">
-                                    <span  v-if="ciudad==''" class="error">Debe Ingresar la Ciudad</span>
+
+                                <div class="col-md-4">
+                                    <label for="basic-url">Utilidad Neta (en %)</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
                                 </div>
                             </div>
                             
+                            <h5>Gestor de Precios</h5>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="basic-url">Margen 30%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Margen 40%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Utilidad Neta (en %)</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Utilidad Neta (en %)</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Utilidad Neta (en %)</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </form>
                     </div>
                     <div class="modal-footer">
