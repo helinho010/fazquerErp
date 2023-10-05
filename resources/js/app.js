@@ -57,6 +57,7 @@ createApp ({
 
     //Gestion de precios
     .component('precio-venta-component', require('./components/gestion_precios/PrecioVentaComponent.vue').default)
+    .component('calculadora-venta-component', require('./components/gestion_precios/CalculadoraVentaComponent.vue').default)
 
 
 

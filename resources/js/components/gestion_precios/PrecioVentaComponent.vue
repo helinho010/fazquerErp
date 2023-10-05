@@ -229,8 +229,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -652,8 +650,12 @@ import { error401 } from '../../errores';
         }
     }
 </script>
-<style>
+<style scoped>
     h1{
         color: red;
     }
+    label{
+        font-size: 11px;
+    }
+
 </style>
