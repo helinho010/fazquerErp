@@ -20,7 +20,7 @@
                             {{-- {{$item->id}} --}}
                             @if ($ventana->idmodulo == $item->id)
                                 <li @click="menu={{ $ventana->codventana }}" class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fa fa-check"></i>{{ $ventana->nombre }} </a>
+                                    <a class="nav-link" href="#"><i class="fa fa-check"></i>{{ $ventana->nombre }}</a>
                                 </li>
                             @endif
                         @endforeach
