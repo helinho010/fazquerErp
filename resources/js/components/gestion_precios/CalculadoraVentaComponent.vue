@@ -436,7 +436,7 @@ export default {
 
             // var p_venta = parseFloat($("#precio_venta_utilidad").val());
             me.utilidad_neta = ((parseFloat(me.p_venta)-parseFloat(me.p_compra))/me.p_venta)*100;
-            me.utilidad_neta = Math.round(me.utilidad_neta).toFixed(2);
+            me.utilidad_neta = Math.round(me.utilidad_neta);
             // $("#neto_utilidad").val(utilidad_neta);
         },
 
@@ -455,10 +455,10 @@ export default {
             // $("#l30pc").val(li30);
             // $("#l40pc").val(li40);
             me.pucc = parseFloat(me.pucc);
-            me.pvc = parseFloat(me.pvc);
+            me.pvc = parseFloat(me.pvc).toFixed(2);
             me.ubc = (me.pvc - me.pucc).toFixed(2);
             // $("#ubc").val(ubc);
-            me.upc = ((me.ubc*100)/me.pvc).toFixed();
+            me.upc = ((me.ubc*100)/me.pvc).toFixed(2);
             // $("#upc").val(upc);
         }
     },

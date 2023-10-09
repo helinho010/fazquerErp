@@ -60,7 +60,7 @@
                             <tr v-for="producto in arrayProductos" :key="producto.id">
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"
-                                        @click="prueba">
+                                        @click="abrirModal('editarPrecioUtilidadProducto',producto)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
                                     <!-- <button v-if="almacen.activo == 1" type="button" class="btn btn-danger btn-sm"
@@ -123,6 +123,196 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="calculadoraModal" tabindex="-1" aria-labelledby="calculadoraModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="calculadoraModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                    <div class="container-fluid">
+                        <form action="" class="form-horizontal">
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label>Precio de Lista</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="p_lista" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="basic-url">Cantidad Dispenser</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="c_disp" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>Precio de Compra</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="p_compra" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Precio de Venta</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="p_venta" aria-describedby="basic-addon3">
+                                        <button class="btn btn-primary" type="button" @click="utilidad">
+                                            <i class="fa fa-calculator" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="basic-url">Margen 30%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="margen_30" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Margen 40%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="margen_40" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Utilidad Neta (en %)</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="utilidad_neta" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="area-botones-guarcancelar">
+                                <button type="button" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-danger">Cancelar</button>
+                            </div>
+
+                            <div>
+                                <h5>Gestor de Precios</h5><br>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="basic-url">Precio de Compra</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="pcc" v-model="pcc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Descuento %</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="dpc" v-model="dpc1" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Descuento %</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="dpc2" v-model="dpc2" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Descuento %</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="dpc3" v-model="dpc3" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Descuento Bs.</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="dbsc" v-model="dbsc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="basic-url">Precio C/Desc.</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="pcdc" v-model="pcdc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Precio Unitario</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="puc" v-model="puc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Liq. 30 %</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control"  id="l30pc" v-model="l30pc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Liq. 40%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="l40pc" v-model="l40pc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="basic-url">P/U de Compra</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="pucc" v-model="pucc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="basic-url">Utilidad Bruta</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="ubc" v-model="ubc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Utilidad Bruta%</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="upc" v-model="upc" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="basic-url">Precio de Venta</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="pvc" v-model="pvc" aria-describedby="basic-addon3">
+                                        <button class="btn btn-primary" type="button" @click="calculadora">
+                                            <i class="fa fa-calculator" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
@@ -130,6 +320,7 @@
 <script>
 import Swal from 'sweetalert2';
 import { error401 } from '../../errores';
+// import router from "@/router";
 
 export default {
     data() {
@@ -187,7 +378,8 @@ export default {
     methods: {
         prueba(){
             console.log('2222222222222222222');
-            menu=1;
+            // this.router.push('./CalculadoraVentaComponent.vue');
+            // this.menu=102;
         },
 
         listarProductosTiendaAlmacen(page) {
@@ -438,7 +630,7 @@ export default {
                         me.tipo = 0;
                         me.nombrealmacen = '';
                         me.nombrealmacen = '',
-                            me.telefono = '';
+                        me.telefono = '';
                         me.direccion = '';
                         me.sucursalSeleccionado = 0;
                         me.departamento = 0;
@@ -461,6 +653,14 @@ export default {
                         me.departamento = data.departamento;
                         me.idalmacen = data.id;
                         me.classModal.openModal('registrar');
+                        break;
+                    }
+                case 'editarPrecioUtilidadProducto':
+                    {
+                        me.tituloModal = 'Modificar Untilidad Producto'
+                        me.tipoAccion = 1;
+                        console.log(data);
+                        me.classModal.openModal('calculadoraModal');
                         break;
                     }
 
@@ -509,16 +709,22 @@ export default {
         this.selectDepartamentos();
         this.selectCiudades();
         this.classModal = new _pl.Modals();
-        this.classModal.addModal('gestion-precio');
-        // this.classModal.openModal('gestion-precio');
+        this.classModal.addModal('calculadoraModal');
         //console.log('Component mounted.')
     }
 }
 </script>
-<style scoped>h1 {
+<style scoped>
+h1 {
     color: red;
 }
 
 label {
     font-size: 11px;
-}</style>
+}
+
+.modal-xl{
+    width: 900px;
+}
+
+</style>
