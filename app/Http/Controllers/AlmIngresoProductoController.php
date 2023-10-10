@@ -29,7 +29,8 @@ class AlmIngresoProductoController extends Controller
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
                               ->select(DB::raw('
                                        alm__ingreso_producto.id, 
-                                       alm__ingreso_producto.id_prod_producto, 
+                                       alm__ingreso_producto.id_prod_producto,
+                                       alm__ingreso_producto.envase as envaseregistrado, 
                                        alm__ingreso_producto.idalmacen, 
                                        alm__ingreso_producto.cantidad, 
                                        alm__ingreso_producto.tipo_entrada, 
@@ -45,7 +46,16 @@ class AlmIngresoProductoController extends Controller
                                        prod__productos.id as idprodproducto, 
                                        prod__productos.idlinea, 
                                        prod__productos.codigo as codproducto, 
-                                       prod__productos.nombre as nomproducto'
+                                       prod__productos.nombre as nomproducto,
+                                       prod__productos.cantidadprimario,
+                                       prod__productos.cantidadsecundario,
+                                       prod__productos.cantidadterciario,
+                                       prod__productos.preciolistaprimario,
+                                       prod__productos.precioventaprimario,
+                                       prod__productos.preciolistasecundario,
+                                       prod__productos.precioventasecundario,
+                                       prod__productos.preciolistaterciario,
+                                       prod__productos.precioventaterciario'
                                        ))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);
