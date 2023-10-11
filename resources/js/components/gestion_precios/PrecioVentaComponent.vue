@@ -75,12 +75,11 @@
                                 </td>
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
                                 <td v-text="producto.codproducto"></td>
-                                <td>{{ producto.razon_social }} <br> {{ producto.tipo }} {{ producto.tipo == 'Sucursal' ?
-                                    producto.correlativo : '' }}</td>
+                                <td>{{ producto.idlinea }}</td>
                                 <td>{{ producto.nomproducto }} - {{ producto.envaseregistrado }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }}</td>
                                 <td>{{ producto.cantidad }}+1</td>
-                                <td>{{ producto.cantidad }}+2</td>
-                                <td>{{ producto.cantidad }}+3</td>
+                                <td>{{ producto.cantidad }}</td>
+                                <td>{{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}</td>
                                 <td>
                                     <div v-for="ciudad in arrayCiudad">
                                         <div v-if="ciudad.id == producto.ciudad">
@@ -89,16 +88,17 @@
                                     </div>
                                 </td>
                                 <td>
+                                    {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                </td>
+                                <td>70%</td>
+                                <td>
                                     <div v-if="producto.activo == 1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">Desactivado</span>
                                     </div>
-
                                 </td>
-                                <td>1</td>
-                                <td>2</td>
                                 <td>03 - 10 - 2023</td>
                             </tr>
 
@@ -364,6 +364,8 @@ export default {
             idrubro: 0,
             arrayAlmacenes: [],
             arrayProductos: [],
+            arrayLineas:[],
+            
             tiendaalmacenselected: 0,
             p_lista: 0,
             c_disp: 0,
@@ -416,6 +418,24 @@ export default {
 
     },
     methods: {
+        
+        listarLineas(idlineaabuscar){
+                let me = this;
+                var url='/linea/selectlinea';
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayLineas=respuesta;
+                    console.log("2222222222222222");
+                    console.log(me.arrayLineas);
+                    console.log("44444444444444444444444444");
+                    console.log(me.arrayLineas.find((element)=>element.id==idlineaabuscar));
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+                
+        },
         
         listarProductosTiendaAlmacen(page) {
             let me = this;
@@ -781,6 +801,7 @@ export default {
 
     mounted() {
         this.selectRubros();
+        this.listarLineas(2);
         this.listarAlmacenes(1);
         this.listarSucursales(1);
         this.selectDepartamentos();
