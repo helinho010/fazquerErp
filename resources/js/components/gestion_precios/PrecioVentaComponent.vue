@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="producto in arrayProductos" :key="producto.id">
+                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id">
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"
                                         @click="abrirModal('editarPrecioUtilidadProducto', producto)">
@@ -75,8 +75,8 @@
                                 </td>
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
                                 <td v-text="producto.codproducto"></td>
-                                <td>{{ producto.idlinea }}</td>
-                                <td>{{ producto.nomproducto }} - {{ producto.envaseregistrado }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }}</td>
+                                <td>{{ producto.lineaProductoNombre }}</td>
+                                <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }}</td>
                                 <td>{{ producto.cantidad }}+1</td>
                                 <td>{{ producto.cantidad }}</td>
                                 <td>{{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}</td>
@@ -364,8 +364,10 @@ export default {
             idrubro: 0,
             arrayAlmacenes: [],
             arrayProductos: [],
+            arrayProductosAlterado:[],
             arrayLineas:[],
-            
+            arrayEmvasesEmbalajes:[],
+            arrayFormaUnidadMedidas:[],
             tiendaalmacenselected: 0,
             p_lista: 0,
             c_disp: 0,
@@ -419,22 +421,43 @@ export default {
     },
     methods: {
         
-        listarLineas(idlineaabuscar){
+        listarLineas(){
                 let me = this;
                 var url='/linea/selectlinea';
                 axios.get(url).then(function(response){
-                    var respuesta=response.data;
-                    me.arrayLineas=respuesta;
-                    console.log("2222222222222222");
-                    console.log(me.arrayLineas);
-                    console.log("44444444444444444444444444");
-                    console.log(me.arrayLineas.find((element)=>element.id==idlineaabuscar));
+                    me.arrayLineas=response.data.lineas;
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
                 
+        },
+
+        listarEmvasesEmbalajes(){
+            let me = this;
+            let url = '/dispenser/selectdispenser';
+            axios.get(url)
+            .then(function(response){
+                me.arrayEmvasesEmbalajes=response.data.dispensers;
+            })
+            .catch(function(error){
+                error401(error);
+                console.log(error);
+            });            
+        },
+
+        listarFormaUnidadDeMedida(){
+            let me = this;
+            let url = '/formafarm/selectformafarm';
+            axios.get(url)
+            .then(function(response){
+                me.arrayFormaUnidadMedidas=response.data.formafarm;
+            })
+            .catch(function(error){
+                error401(error);
+                console.log(error);
+            });
         },
         
         listarProductosTiendaAlmacen(page) {
@@ -446,7 +469,33 @@ export default {
                     me.pagination = respuesta.pagination;
                     me.arrayProductos = respuesta.productosAlmacen.data;
                     console.log("11111111111111111111111111111111111111111111");
-                    console.log(respuesta);
+                    console.log(me.arrayFormaUnidadMedidas);
+                    let nombreLineaDelProducto = '';
+                    let nombreEnvaseEmbalajeDelProducto='';
+                    let nombreFormaUnidadMedidaProducto='';
+                    me.arrayProductos.forEach(element => {
+                        nombreLineaDelProducto = me.arrayLineas.find((element2)=>element2.id==element.idlinea).nombre;
+                        switch (element.envaseregistrado) {
+                            case 'primario':
+                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserprimario).nombre; 
+                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaprimario).nombre;
+                                break;
+                            case 'secundario':
+                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispensersecundario).nombre;
+                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticasecundario).nombre;    
+                                break;
+                            case 'terciario':
+                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserterciario).nombre;
+                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaterciario).nombre;
+                                break;
+                            default:
+                                break;
+                        }
+                        element.lineaProductoNombre = nombreLineaDelProducto;
+                        element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
+                        element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
+                        me.arrayProductosAlterado.push(element);
+                    });
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -801,7 +850,9 @@ export default {
 
     mounted() {
         this.selectRubros();
-        this.listarLineas(2);
+        this.listarLineas();
+        this.listarEmvasesEmbalajes();
+        this.listarFormaUnidadDeMedida();
         this.listarAlmacenes(1);
         this.listarSucursales(1);
         this.selectDepartamentos();

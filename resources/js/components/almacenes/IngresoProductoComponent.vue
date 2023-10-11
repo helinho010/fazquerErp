@@ -856,6 +856,7 @@ import { error401 } from '../../errores';
                     let me = this;
                     var envaseseleccionado = event.target.options[event.target.options.selectedIndex].dataset;
                     me.envaseProductoSelecionadoIngresoAlmacen = envaseseleccionado.envase;
+                    me.idproductoRealSeleccionado = envaseseleccionado.idproduc;
                     var url= '/producto/selectproductoperecedero?idproducto='+envaseseleccionado.idproduc;
                     axios.get(url).then(function (response) {
                         var respuesta= response.data; 
