@@ -765,8 +765,29 @@ export default {
                         console.log(data);
                         me.tituloModal = 'Modificar Utilidad del Producto'
                         me.tipoAccion = 1;
-                        me.p_lista = data.cantidad;
-                        me.pcc = data.cantidad;
+                        me.c_disp=data.cantidad;
+                        switch (data.envaseregistrado) {
+                            case 'primario':
+                                me.p_lista = data.preciolistaprimario;
+                                me.pcc = data.preciolistaprimario;
+                                me.p_venta = data.precioventaprimario;                             
+                                break;
+                            case 'secundario':
+                                me.p_lista = data.preciolistasecundario;
+                                me.pcc = data.preciolistasecundario;
+                                me.p_venta = data.precioventasecundario;    
+                                break;
+
+                            case 'terciario':
+                                me.p_lista = data.preciolistaterciario;
+                                me.pcc = data.preciolistaterciario;
+                                me.p_venta = data.precioventaterciario;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                        
                         me.classModal.openModal('calculadoraModal');
                         break;
                     }
