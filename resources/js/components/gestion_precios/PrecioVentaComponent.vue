@@ -789,7 +789,7 @@ export default {
                         me.ubc = 0;
                         me.upc =  0;
                         me.pvc = 0;
-                        me.tipoAccion = 1;
+                        me.tipoAccion = 1; 
                         switch (data.envaseregistrado) {
                             case 'primario':
                                 me.p_lista = data.preciolistaprimario;
@@ -808,14 +808,17 @@ export default {
 
                             case 'terciario':
                                 me.p_lista = data.preciolistaterciario;
-                                me.pcc = data.preciolistaterciario/data.cantidadterciario;
+                                me.p_compra = data.preciolistaterciario/data.cantidadterciario;
+                                me.c_disp=data.cantidadterciario;
+                                me.pcc = data.preciolistaterciario;
                                 me.p_venta = data.precioventaterciario;
                                 break;
                                 
                             default:
                                 break;
                         }
-                        
+                        me.pcdc = me.pcc;
+                        me.puc = me.pcdc/me.c_disp;
                         me.classModal.openModal('calculadoraModal');
                         break;
                     }
@@ -877,9 +880,15 @@ export default {
             let me = this;
             me.pcc = parseFloat(me.p_lista);
             me.dpc1 = parseFloat(me.dpc1);
+            me.dpc2 = parseFloat(me.dpc2);
+            me.dpc3 = parseFloat(me.dpc3);
+
             me.dbsc = parseFloat(me.dbsc);
             var cd = parseInt(me.c_disp);
             me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)).toFixed(2);
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)).toFixed(2);
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);
+
             // $("#pcdc").val(pcdc);
             me.puc = me.pcdc / cd;
             // $("#puc").val(puc);

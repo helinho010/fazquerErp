@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pro__utilidads', function (Blueprint $table) {
+        Schema::create('ges_pre__ventas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idalmingresoproducto')->comment('identifcador unico que hace referencia al id de la tabla alm__ingreso_producto');
             // $table->integer('cantidad_utilidad')->comment('');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pro__utilidads');
+        Schema::dropIfExists('ges_pre__ventas');
     }
 };
