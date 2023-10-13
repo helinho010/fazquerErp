@@ -328,7 +328,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" class="btn btn-primary" :disabled="!sicompleto">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
@@ -393,6 +393,17 @@ export default {
 
     },
     computed: {
+
+        sicompleto(){
+            let me = this;
+            if(me.p_venta > 0 && me.margen_30>0 && me.margen_40>0 && me.utilidad_neta>=0)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
 
         isActived: function () {
             return this.pagination.current_page;
@@ -763,24 +774,41 @@ export default {
                     {
                         console.log("33333333333333");
                         console.log(data);
-                        me.tituloModal = 'Modificar Utilidad del Producto'
+                        me.tituloModal = 'Modificar Utilidad del Producto';
+                        me.margen_30 = 0;
+                        me.margen_40 = 0;
+                        me.p_venta = 0;
+                        me.utilidad_neta = 0;
+                        me.dpc1 = 0;
+                        me.dpc2 = 0;
+                        me.dpc3 = 0;
+                        me.dbsc = 0;
+                        me.l30pc = 0;
+                        me.l40pc = 0;
+                        me.pucc = 0;
+                        me.ubc = 0;
+                        me.upc =  0;
+                        me.pvc = 0;
                         me.tipoAccion = 1;
-                        me.c_disp=data.cantidad;
                         switch (data.envaseregistrado) {
                             case 'primario':
                                 me.p_lista = data.preciolistaprimario;
+                                me.p_compra = data.preciolistaprimario/data.cantidadprimario;
+                                me.c_disp=data.cantidadprimario;
                                 me.pcc = data.preciolistaprimario;
                                 me.p_venta = data.precioventaprimario;                             
                                 break;
                             case 'secundario':
                                 me.p_lista = data.preciolistasecundario;
+                                me.p_compra = data.preciolistasecundario/data.cantidadsecundario;
+                                me.c_disp=data.cantidadsecundario;
                                 me.pcc = data.preciolistasecundario;
                                 me.p_venta = data.precioventasecundario;    
                                 break;
 
                             case 'terciario':
                                 me.p_lista = data.preciolistaterciario;
-                                me.pcc = data.preciolistaterciario;
+                                me.pcc = data.preciolistaterciario/data.cantidadterciario;
                                 me.p_venta = data.precioventaterciario;
                                 break;
                                 

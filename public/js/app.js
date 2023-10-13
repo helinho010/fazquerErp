@@ -23663,6 +23663,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    sicompleto: function sicompleto() {
+      var me = this;
+
+      if (me.p_venta > 0 && me.margen_30 > 0 && me.margen_40 > 0 && me.utilidad_neta >= 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     isActived: function isActived() {
       return this.pagination.current_page;
     },
@@ -24010,25 +24019,42 @@ __webpack_require__.r(__webpack_exports__);
             console.log("33333333333333");
             console.log(data);
             me.tituloModal = 'Modificar Utilidad del Producto';
+            me.margen_30 = 0;
+            me.margen_40 = 0;
+            me.p_venta = 0;
+            me.utilidad_neta = 0;
+            me.dpc1 = 0;
+            me.dpc2 = 0;
+            me.dpc3 = 0;
+            me.dbsc = 0;
+            me.l30pc = 0;
+            me.l40pc = 0;
+            me.pucc = 0;
+            me.ubc = 0;
+            me.upc = 0;
+            me.pvc = 0;
             me.tipoAccion = 1;
-            me.c_disp = data.cantidad;
 
             switch (data.envaseregistrado) {
               case 'primario':
                 me.p_lista = data.preciolistaprimario;
+                me.p_compra = data.preciolistaprimario / data.cantidadprimario;
+                me.c_disp = data.cantidadprimario;
                 me.pcc = data.preciolistaprimario;
                 me.p_venta = data.precioventaprimario;
                 break;
 
               case 'secundario':
                 me.p_lista = data.preciolistasecundario;
+                me.p_compra = data.preciolistasecundario / data.cantidadsecundario;
+                me.c_disp = data.cantidadsecundario;
                 me.pcc = data.preciolistasecundario;
                 me.p_venta = data.precioventasecundario;
                 break;
 
               case 'terciario':
                 me.p_lista = data.preciolistaterciario;
-                me.pcc = data.preciolistaterciario;
+                me.pcc = data.preciolistaterciario / data.cantidadterciario;
                 me.p_venta = data.precioventaterciario;
                 break;
 
@@ -36983,22 +37009,21 @@ var _hoisted_115 = /*#__PURE__*/_withScopeId(function () {
 });
 
 var _hoisted_116 = [_hoisted_115];
+var _hoisted_117 = {
+  "class": "modal-footer"
+};
 
-var _hoisted_117 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-footer"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_118 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     "data-dismiss": "modal"
-  }, "Cerrar"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-primary"
-  }, "Guardar Cambios")], -1
+  }, "Cerrar", -1
   /* HOISTED */
   );
 });
 
+var _hoisted_119 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Breadcrumb "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ejemplo de tabla Listado "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-header\">\n                    <i class=\"fa fa-align-justify\"></i> Almacen\n                    <button type=\"button\" class=\"btn btn-secondary\" @click=\"abrirModal('registrar')\">\n                        <i class=\"icon-plus\"></i>&nbsp;Nuevo\n                    </button>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
@@ -37315,7 +37340,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[28] || (_cache[28] = function () {
       return $options.calculadora && $options.calculadora.apply($options, arguments);
     })
-  }, _hoisted_116)])])])])])]), _hoisted_117])])])]);
+  }, _hoisted_116)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [_hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary",
+    disabled: !$options.sicompleto
+  }, "Guardar Cambios", 8
+  /* PROPS */
+  , _hoisted_119)])])])])]);
 }
 
 /***/ }),
