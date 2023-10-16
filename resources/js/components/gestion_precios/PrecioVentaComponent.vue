@@ -50,7 +50,7 @@
                                 <th>Cant. Entrada</th>
                                 <th>Stock</th>
                                 <th>Precio Lista</th>
-                                <th>Precio Compra</th>
+                                <th>Precio/U.Compra</th>
                                 <th>Precio Venta</th>
                                 <th>Utilidad Bruta (en %)</th>
                                 <th>Fecha de Utilidad</th>
@@ -93,13 +93,13 @@
                                 <td>70%</td>
                                 <td>
                                     <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">Activo</span>
+                                        <span class="badge badge-success">03 - 10 - 2023</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">Desactivado</span>
+                                        <span class="badge badge-warning">03 - 10 - 2023</span>
                                     </div>
                                 </td>
-                                <td>03 - 10 - 2023</td>
+                                <td>Admin</td>
                             </tr>
 
                         </tbody>
@@ -149,7 +149,7 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label for="basic-url">Cantidad Dispenser</label>
+                                        <label for="basic-url">Cantidad Envase o Embalaje</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="c_disp"
                                                 aria-describedby="basic-addon3" readonly>
@@ -157,7 +157,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label>Precio de Compra</label>
+                                        <label>Costo de Compra</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="p_compra"
                                                 aria-describedby="basic-addon3">
@@ -254,15 +254,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-2">
-                                        <label for="basic-url">Precio C/Desc.</label>
+                                    <div class="col-md-3">
+                                        <label for="basic-url">Costo Compa C/Desc.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcdc" v-model="pcdc"
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label for="basic-url">Precio Unitario</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="puc" v-model="puc"
@@ -285,6 +285,9 @@
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="col-md-2">
                                         <label for="basic-url">P/U de Compra</label>
                                         <div class="input-group mb-3">
@@ -292,10 +295,6 @@
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div class="form-group row">
                                     <div class="col-md-2">
                                         <label for="basic-url">Utilidad Bruta</label>
                                         <div class="input-group mb-3">
