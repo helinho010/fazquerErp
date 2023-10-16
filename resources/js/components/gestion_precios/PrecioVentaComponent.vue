@@ -328,7 +328,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" :disabled="!sicompleto">Guardar Cambios</button>
+                        <button type="button" class="btn btn-primary" :disabled="!sicompleto" @click="registrarPrecioVenta">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
@@ -357,7 +357,7 @@ export default {
             tituloModal:'',
             tipo: 0,
             tipoAccion: 1,
-            idsucursal: '',
+            idalmingresoproducto:0,
             buscar: '',
             matriz: 0,
             arrayRubros: [],
@@ -593,26 +593,23 @@ export default {
             me.listarAlmacenes(page);
         },
 
-        registrarAlmacen() {
+        registrarPrecioVenta() {
             let me = this;
-            axios.post('/almacen/registrar', {
-                'idsucursal': me.sucursalSeleccionado,
-                'nombre_almacen': me.nombrealmacen,
-                'telefono': me.telefono,
-                'direccion': me.direccion,
-                'departamento': me.departamento,
-                'ciudad': me.ciudad,
-                'activo': 1,
-                'estado': 1,
+            axios.post('/gestionprecioventa/registrar', {
+                'idalmingresoproducto': me.idalmingresoproducto,
+                'precio_compra_gespreventa': me.p_compra,
+                'margen_30p_gespreventa': me.margen_30,
+                'margen_40p_gespreventa': me.margen_40,
+                'utilidad_neto_gespreventa': me.utilidad_neta
+
             }).then(function (response) {
-                me.cerrarModal('registrar');
+                me.cerrarModal('calculadoraModal');
                 Swal.fire(
                     'Almacen Registrado exitosamente',
                     'Haga click en Ok',
                     'success'
                 )
-                me.listarAlmacenes();
-                me.listarSucursales();
+                
             }).catch(function (error) {
                 error401(error);
                 console.log(error);
@@ -774,6 +771,8 @@ export default {
                     {
                         console.log("33333333333333");
                         console.log(data);
+                        me.tipoAccion = 3;
+                        me.idalmingresoproducto = data.id;
                         me.tituloModal = 'Modificar Utilidad del Producto';
                         me.margen_30 = 0;
                         me.margen_40 = 0;
@@ -831,14 +830,21 @@ export default {
             let me = this;
             me.classModal.closeModal(accion);
             me.tipoAccion = 1;
-            me.tipo = 0;
-            me.nombrealmacen = '';
-            me.telefono = '';
-            me.nit = '';
-            me.direccion = '';
-            me.ciudad = 0;
-            me.tipoAccion = 1;
-            me.idrubro = 0;
+            me.margen_30 = 0;
+            me.margen_40 = 0;
+            me.p_venta = 0;
+            me.utilidad_neta = 0;
+            me.dpc1 = 0;
+            me.dpc2 = 0;
+            me.dpc3 = 0;
+            me.dbsc = 0;
+            me.l30pc = 0;
+            me.l40pc = 0;
+            me.pucc = 0;
+            me.ubc = 0;
+            me.upc =  0;
+            me.pvc = 0;
+            
         },
 
         selectAll: function (event) {

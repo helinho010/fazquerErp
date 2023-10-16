@@ -18,6 +18,7 @@ use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\AlmAlmacenController;
 use App\Http\Controllers\AlmCodificacionController;
 use App\Http\Controllers\AlmIngresoProductoController;
+use App\Http\Controllers\GesPreVentaController;
 use App\Http\Controllers\ParClienteController;
 use App\Http\Controllers\ParDescServicioController;
 use App\Http\Controllers\ProdCategoriaController;
@@ -353,6 +354,10 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/ventasmaestro',[SerVentaMaestroController::class,'index']);
     Route::put('/ventasmaestro/desactivar', [SerVentaMaestroController::class,'desactivar']);
     Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
+
+    //////// Gestion Precio Venta
+    Route::post('/gestionprecioventa/registrar', [GesPreVentaController::class,'store']);
+
 
 });
     
