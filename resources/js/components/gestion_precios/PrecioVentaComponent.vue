@@ -50,10 +50,11 @@
                                 <th>Cant. Entrada</th>
                                 <th>Stock</th>
                                 <th>Precio Lista</th>
-                                <th>Precio/U.Compra</th>
+                                <th>Precio U.Compra</th>
                                 <th>Precio Venta</th>
                                 <th>Utilidad Bruta (en %)</th>
                                 <th>Fecha de Utilidad</th>
+                                <th>Tipo</th>
                                 <th>Nombre Usuario</th>
                             </tr>
                         </thead>
@@ -74,23 +75,51 @@
                                     </button> -->
                                 </td>
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
-                                <td v-text="producto.codproducto"></td>
+                                <td> {{ producto.codproducto }}</td>
                                 <td>{{ producto.lineaProductoNombre }}</td>
                                 <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }}</td>
-                                <td>{{ producto.cantidad }}+1</td>
                                 <td>{{ producto.cantidad }}</td>
-                                <td>{{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}</td>
+                                <td>{{ producto.cantidad }}</td>
                                 <td>
-                                    <div v-for="ciudad in arrayCiudad">
-                                        <div v-if="ciudad.id == producto.ciudad">
-                                            {{ ciudad.abrev }}-{{ ciudad.nombre }}
-                                        </div>
+                                    <div v-if="producto.activo == 1">
+                                        <span class="badge badge-success">
+                                          {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
+                                        </span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-warning">
+                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
+                                        </span>
                                     </div>
                                 </td>
                                 <td>
-                                    {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                    <div v-if="producto.activo == 1">
+                                        <span class="badge badge-success">777Bs</span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-warning">8Bs</span>
+                                    </div>
                                 </td>
-                                <td>70%</td>
+                                <td>
+                                    <div v-if="producto.activo == 1">
+                                        <span class="badge badge-success">
+                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                        </span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-warning">
+                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div v-if="producto.activo == 1">
+                                        <span class="badge badge-success">70%</span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-warning">8%</span>
+                                    </div>
+                                </td>
                                 <td>
                                     <div v-if="producto.activo == 1">
                                         <span class="badge badge-success">03 - 10 - 2023</span>
@@ -99,6 +128,7 @@
                                         <span class="badge badge-warning">03 - 10 - 2023</span>
                                     </div>
                                 </td>
+                                <td>{{  producto.tipo_entrada }}</td>
                                 <td>Admin</td>
                             </tr>
 
@@ -472,14 +502,13 @@ export default {
         
         listarProductosTiendaAlmacen(page) {
             let me = this;
+            me.arrayProductosAlterado = [];
             if (me.tiendaalmacenselected != 0) {
                 let url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected;
                 axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     me.arrayProductos = respuesta.productosAlmacen.data;
-                    console.log("11111111111111111111111111111111111111111111");
-                    console.log(me.arrayFormaUnidadMedidas);
                     let nombreLineaDelProducto = '';
                     let nombreEnvaseEmbalajeDelProducto='';
                     let nombreFormaUnidadMedidaProducto='';
@@ -936,4 +965,10 @@ label {
 
 .modal-xl {
     width: 900px;
-}</style>
+}
+table > thead > tr > th {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;    
+}
+</style>
