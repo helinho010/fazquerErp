@@ -356,7 +356,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
 
     //////// Gestion Precio Venta
-    Route::post('/gestionprecioventa/registrar', [GesPreVentaController::class,'store']);
+    Route::post('/gestionprecioventa/actualizar-registrar', [GesPreVentaController::class,'update_store']);
+    Route::get('/gestionprecioventa/verificarProductoConPrecio', [GesPreVentaController::class,'verificarProductoPrecio']);
 
 
 });

@@ -357,7 +357,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" :disabled="!sicompleto" @click="registrarPrecioVenta">Guardar Cambios</button>
+                        <button type="button" class="btn btn-primary" :disabled="!sicompleto" @click="actualizarRegistrarPrecioVenta">Guardar Cambios</button>
                     </div>
                 </div>
             </div>
@@ -621,9 +621,9 @@ export default {
             me.listarAlmacenes(page);
         },
 
-        registrarPrecioVenta() {
+        actualizarRegistrarPrecioVenta() {
             let me = this;
-            axios.post('/gestionprecioventa/registrar', {
+            axios.post('/gestionprecioventa/actualizar-registrar', {
                 'idalmingresoproducto': me.idalmingresoproducto,
                 'precio_compra_gespreventa': me.p_compra,
                 'margen_30p_gespreventa': me.margen_30,
@@ -797,55 +797,91 @@ export default {
                     }
                 case 'editarPrecioUtilidadProducto':
                     {
+                        let me = this;
                         console.log("33333333333333");
                         console.log(data);
-                        me.tipoAccion = 3;
-                        me.idalmingresoproducto = data.id;
-                        me.tituloModal = 'Modificar Utilidad del Producto';
-                        me.margen_30 = 0;
-                        me.margen_40 = 0;
-                        me.p_venta = 0;
-                        me.utilidad_neta = 0;
-                        me.dpc1 = 0;
-                        me.dpc2 = 0;
-                        me.dpc3 = 0;
-                        me.dbsc = 0;
-                        me.l30pc = 0;
-                        me.l40pc = 0;
-                        me.pucc = 0;
-                        me.ubc = 0;
-                        me.upc =  0;
-                        me.pvc = 0;
-                        me.tipoAccion = 1; 
-                        switch (data.envaseregistrado) {
-                            case 'primario':
-                                me.p_lista = data.preciolistaprimario;
-                                me.p_compra = data.preciolistaprimario/data.cantidadprimario;
-                                me.c_disp=data.cantidadprimario;
-                                me.pcc = data.preciolistaprimario;
-                                me.p_venta = data.precioventaprimario;                             
-                                break;
-                            case 'secundario':
-                                me.p_lista = data.preciolistasecundario;
-                                me.p_compra = data.preciolistasecundario/data.cantidadsecundario;
-                                me.c_disp=data.cantidadsecundario;
-                                me.pcc = data.preciolistasecundario;
-                                me.p_venta = data.precioventasecundario;    
-                                break;
+                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)
 
-                            case 'terciario':
-                                me.p_lista = data.preciolistaterciario;
-                                me.p_compra = data.preciolistaterciario/data.cantidadterciario;
-                                me.c_disp=data.cantidadterciario;
-                                me.pcc = data.preciolistaterciario;
-                                me.p_venta = data.precioventaterciario;
-                                break;
-                                
-                            default:
-                                break;
-                        }
-                        me.pcdc = me.pcc;
-                        me.puc = me.pcdc/me.c_disp;
+                        .then(function (response) {
+                            console.log("Tanto tiempo por hacer esot");   
+                            console.log(response.data);   
+                            console.log(response.data.length);    
+
+                            if (response.data.length == 1) 
+                            {
+                                me.idalmingresoproducto = data.id;
+                                me.margen_30 = response.data[0].margen_30p_gespreventa;
+                                me.margen_40 = response.data[0].margen_40p_gespreventa;
+                                me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
+                            }
+                            else{
+                                me.p_venta = 0;
+                                me.utilidad_neta = 0;
+                                me.margen_30 = 0;
+                                me.margen_40 = 0;
+                                me.dpc1 = 0;
+                                me.dpc2 = 0;
+                                me.dpc3 = 0;
+                                me.dbsc = 0;
+                                me.l30pc = 0;
+                                me.l40pc = 0;
+                                me.pucc = 0;
+                                me.ubc = 0;
+                                me.upc =  0;
+                                me.pvc = 0;
+                            }
+                            
+                        }).catch(function (error) {
+                            error401(error);
+                            console.log(error);
+                        });
+                        switch (data.envaseregistrado) 
+                                {
+                                    case 'primario':
+                                        me.p_lista = data.preciolistaprimario;
+                                        me.p_compra = data.preciolistaprimario/data.cantidadprimario;
+                                        me.c_disp=data.cantidadprimario;
+                                        me.pcc = data.preciolistaprimario;
+                                        me.p_venta = data.precioventaprimario;                             
+                                        break;
+                                    case 'secundario':
+                                        me.p_lista = data.preciolistasecundario;
+                                        me.p_compra = data.preciolistasecundario/data.cantidadsecundario;
+                                        me.c_disp=data.cantidadsecundario;
+                                        me.pcc = data.preciolistasecundario;
+                                        me.p_venta = data.precioventasecundario;    
+                                        break;
+
+                                    case 'terciario':
+                                        me.p_lista = data.preciolistaterciario;
+                                        me.p_compra = data.preciolistaterciario/data.cantidadterciario;
+                                        me.c_disp=data.cantidadterciario;
+                                        me.pcc = data.preciolistaterciario;
+                                        me.p_venta = data.precioventaterciario;
+                                        break;
+                                        
+                                    default:
+                                        break;
+                                }
+                                me.pcdc = me.pcc;
+                                me.puc = me.pcdc/me.c_disp;
+
+                        // me.tipoAccion = 3;
+                        // me.idalmingresoproducto = data.id;
+                        // me.tituloModal = 'Modificar Utilidad del Producto';
+                        // me.p_venta = 0;
+                        // me.utilidad_neta = 0;
+                        // me.dpc1 = 0;
+                        // me.dpc2 = 0;
+                        // me.dpc3 = 0;
+                        // me.dbsc = 0;
+                        // me.l30pc = 0;
+                        // me.l40pc = 0;
+                        // me.pucc = 0;
+                        // me.ubc = 0;
+                        // me.upc =  0;
+                        // me.pvc = 0; 
+                          
                         me.classModal.openModal('calculadoraModal');
                         break;
                     }
