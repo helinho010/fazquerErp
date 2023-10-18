@@ -418,6 +418,8 @@ export default {
             ubc: 0,
             upc: 0,
             pvc: 0,
+            idProdProducto:0,
+            envaseregistradoAlmIngresoProducto:'',
         }
 
     },
@@ -626,9 +628,12 @@ export default {
             axios.post('/gestionprecioventa/actualizar-registrar', {
                 'idalmingresoproducto': me.idalmingresoproducto,
                 'precio_compra_gespreventa': me.p_compra,
+                'precio_venta_prodproductos':me.p_venta,
                 'margen_30p_gespreventa': me.margen_30,
                 'margen_40p_gespreventa': me.margen_40,
-                'utilidad_neto_gespreventa': me.utilidad_neta
+                'utilidad_neto_gespreventa': me.utilidad_neta,
+                'idProdProducto':me.idProdProducto,
+                'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
 
             }).then(function (response) {
                 me.cerrarModal('calculadoraModal');
@@ -636,7 +641,8 @@ export default {
                     'Almacen Registrado exitosamente',
                     'Haga click en Ok',
                     'success'
-                )
+                );
+                me.listarProductosTiendaAlmacen();
                 
             }).catch(function (error) {
                 error401(error);
@@ -798,18 +804,19 @@ export default {
                 case 'editarPrecioUtilidadProducto':
                     {
                         let me = this;
-                        console.log("33333333333333");
+                        console.log("33333333333333*****");
                         console.log(data);
-                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)
-
+                        me.idProdProducto=data.id_prod_producto;
+                        me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
+                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
                         .then(function (response) {
                             console.log("Tanto tiempo por hacer esot");   
                             console.log(response.data);   
                             console.log(response.data.length);    
-
+                            
+                            me.idalmingresoproducto = data.id;
                             if (response.data.length == 1) 
                             {
-                                me.idalmingresoproducto = data.id;
                                 me.margen_30 = response.data[0].margen_30p_gespreventa;
                                 me.margen_40 = response.data[0].margen_40p_gespreventa;
                                 me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
@@ -842,7 +849,7 @@ export default {
                                         me.p_compra = data.preciolistaprimario/data.cantidadprimario;
                                         me.c_disp=data.cantidadprimario;
                                         me.pcc = data.preciolistaprimario;
-                                        me.p_venta = data.precioventaprimario;                             
+                                        me.p_venta = data.precioventaprimario;   
                                         break;
                                     case 'secundario':
                                         me.p_lista = data.preciolistasecundario;
