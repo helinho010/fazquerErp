@@ -75,12 +75,12 @@
                                     </button> -->
                                 </td>
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
-                                <td> {{ producto.codproducto }}</td>
+                                <td>{{ producto.codproducto }}</td>
                                 <td>{{ producto.lineaProductoNombre }}</td>
                                 <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }}</td>
-                                <td>{{ producto.cantidad }}</td>
-                                <td>{{ producto.cantidad }}</td>
-                                <td>
+                                <td>{{ producto.cantidad }}</td> <!-- Cantidad Envase o Enbalaje -->
+                                <td>{{ producto.cantidad }}</td><!-- Cantidad stock-->
+                                <td><!-- Precio lista -->
                                     <div v-if="producto.activo == 1">
                                         <span class="badge badge-success">
                                           {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
@@ -92,15 +92,15 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td>
+                                <td><!-- Precio Unitario de Compra -->
                                     <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">777Bs</span>
+                                        <span class="badge badge-success">{{producto.precio_compra_gespreventa}} Bs</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">8Bs</span>
+                                        <span class="badge badge-warning">{{producto.precio_compra_gespreventa}} Bs</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td><!-- Precio de Venta -->
                                     <div v-if="producto.activo == 1">
                                         <span class="badge badge-success">
                                             {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
@@ -112,22 +112,22 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td>
+                                <td><!-- Utilidad Bruta (en %) -->
                                     <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">70%</span>
+                                        <span class="badge badge-success">{{ producto.utilidad_neto_gespreventa }} %</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">8%</span>
+                                        <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa }} %</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td> <!-- Utilidad Bruta (en %) -->
                                     <div v-if="producto.activo == 1">
                                         <span class="badge badge-success">03 - 10 - 2023</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">03 - 10 - 2023</span>
                                     </div>
-                                </td>
+                                </td> <!-- Fecha de Utilidad -->
                                 <td>{{  producto.tipo_entrada }}</td>
                                 <td>Admin</td>
                             </tr>
@@ -536,6 +536,8 @@ export default {
                         element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                         element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
                         me.arrayProductosAlterado.push(element);
+                        console.log("*-*-*-*-*-*-*-*--*-*-*-*-");
+                        console.log(me.arrayProductosAlterado);
                     });
                 }).catch(function (error) {
                     console.log(error);
@@ -842,26 +844,27 @@ export default {
                             error401(error);
                             console.log(error);
                         });
+
                         switch (data.envaseregistrado) 
                                 {
                                     case 'primario':
-                                        me.p_lista = data.preciolistaprimario;
-                                        me.p_compra = data.preciolistaprimario/data.cantidadprimario;
+                                        me.p_compra = data.preciolistaprimario/(/[a-z]/.test(data.cantidadprimario.toLowerCase())?1:data.cantidadprimario);
                                         me.c_disp=data.cantidadprimario;
+                                        me.p_lista = data.preciolistaprimario;
                                         me.pcc = data.preciolistaprimario;
                                         me.p_venta = data.precioventaprimario;   
                                         break;
                                     case 'secundario':
-                                        me.p_lista = data.preciolistasecundario;
-                                        me.p_compra = data.preciolistasecundario/data.cantidadsecundario;
+                                        me.p_compra = data.preciolistasecundario/(/[a-z]/.test(data.cantidadsecundario.toLowerCase())?1:data.cantidadsecundario);
                                         me.c_disp=data.cantidadsecundario;
+                                        me.p_lista = data.preciolistasecundario;
                                         me.pcc = data.preciolistasecundario;
                                         me.p_venta = data.precioventasecundario;    
                                         break;
 
                                     case 'terciario':
                                         me.p_lista = data.preciolistaterciario;
-                                        me.p_compra = data.preciolistaterciario/data.cantidadterciario;
+                                        me.p_compra = data.preciolistaterciario/(/[a-z]/.test(data.cantidadterciario.toLowerCase())?1:data.cantidadterciario);
                                         me.c_disp=data.cantidadterciario;
                                         me.pcc = data.preciolistaterciario;
                                         me.p_venta = data.precioventaterciario;
@@ -871,7 +874,7 @@ export default {
                                         break;
                                 }
                                 me.pcdc = me.pcc;
-                                me.puc = me.pcdc/me.c_disp;
+                                me.puc = me.pcdc/(/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp);
 
                         // me.tipoAccion = 3;
                         // me.idalmingresoproducto = data.id;
@@ -961,7 +964,7 @@ export default {
             me.dpc3 = parseFloat(me.dpc3);
 
             me.dbsc = parseFloat(me.dbsc);
-            var cd = parseInt(me.c_disp);
+            var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp));
             me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)).toFixed(2);
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)).toFixed(2);
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);

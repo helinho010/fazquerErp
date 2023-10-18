@@ -27,6 +27,7 @@ class AlmIngresoProductoController extends Controller
         $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
+                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
                               ->select(DB::raw('
                                        alm__ingreso_producto.id, 
                                        alm__ingreso_producto.id_prod_producto,
@@ -61,7 +62,12 @@ class AlmIngresoProductoController extends Controller
                                        prod__productos.preciolistasecundario,
                                        prod__productos.precioventasecundario,
                                        prod__productos.preciolistaterciario,
-                                       prod__productos.precioventaterciario'
+                                       prod__productos.precioventaterciario,
+                                       ges_pre__ventas.id as idgespreventas,
+                                       ges_pre__ventas.precio_compra_gespreventa,
+                                       ges_pre__ventas.margen_40p_gespreventa,
+                                       ges_pre__ventas.utilidad_neto_gespreventa,
+                                       ges_pre__ventas.idusuario as idgespreventasusuario'
                                        ))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);
