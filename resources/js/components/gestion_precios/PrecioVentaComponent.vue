@@ -32,11 +32,12 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <div class="input-group">
+                            <div class="input-group" v-if="tiendaalmacenselected!=0">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar"
-                                    v-model="buscar" @keyup.enter="listarAlmacenes(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarAlmacenes(1)"><i
-                                        class="fa fa-search"></i> Buscar</button>
+                                    v-model="buscar" @keyup.enter="bucarProducto(1)">
+                                <button type="submit" class="btn btn-primary" @click="bucarProducto(1)"><i
+                                        class="fa fa-search"></i> Buscar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -81,8 +82,8 @@
                                 <td>{{ producto.cantidad }}</td> <!-- Cantidad Envase o Enbalaje -->
                                 <td>{{ producto.cantidad }}</td><!-- Cantidad stock-->
                                 <td><!-- Precio lista -->
-                                    <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">
+                                    <div v-if="producto.listo_venta == 1">
+                                        <span class="badge badge-secondary">
                                           {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
                                         </span>
                                     </div>
@@ -93,16 +94,16 @@
                                     </div>
                                 </td>
                                 <td><!-- Precio Unitario de Compra -->
-                                    <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">{{producto.precio_compra_gespreventa}} Bs</span>
+                                    <div v-if="producto.listo_venta == 1">
+                                        <span class="badge badge-secondary">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">{{producto.precio_compra_gespreventa}} Bs</span>
+                                        <span class="badge badge-warning">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
                                 </td>
                                 <td><!-- Precio de Venta -->
-                                    <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">
+                                    <div v-if="producto.listo_venta == 1">
+                                        <span class="badge badge-secondary">
                                             {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
                                         </span>
                                     </div>
@@ -113,16 +114,16 @@
                                     </div>
                                 </td>
                                 <td><!-- Utilidad Bruta (en %) -->
-                                    <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">{{ producto.utilidad_neto_gespreventa }} %</span>
+                                    <div v-if="producto.listo_venta == 1">
+                                        <span class="badge badge-secondary">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa }} %</span>
+                                        <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
                                     </div>
                                 </td>
                                 <td> <!-- Utilidad Bruta (en %) -->
-                                    <div v-if="producto.activo == 1">
-                                        <span class="badge badge-success">03 - 10 - 2023</span>
+                                    <div v-if="producto.listo_venta == 1">
+                                        <span class="badge badge-secondary">03 - 10 - 2023</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">03 - 10 - 2023</span>
@@ -130,8 +131,7 @@
                                 </td> <!-- Fecha de Utilidad -->
                                 <td>{{  producto.tipo_entrada }}</td>
                                 <td>Admin</td>
-                            </tr>
-
+                            </tr> 
                         </tbody>
                     </table>
                     <nav>
@@ -158,7 +158,7 @@
         <!-- Modal -->
         <div class="modal fade" id="calculadoraModal" tabindex="-1" aria-labelledby="calculadoraModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-primary modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="calculadoraModalLabel">{{ tituloModal }}</h5>
@@ -169,6 +169,13 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <form action="" class="form-horizontal">
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-primary" role="alert">
+                                          <b>Caracteristicas del Producto a Modificar:</b> {{ caracteristicasProductoModificar }}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-2">
                                         <label>Precio de Lista</label>
@@ -420,6 +427,7 @@ export default {
             pvc: 0,
             idProdProducto:0,
             envaseregistradoAlmIngresoProducto:'',
+            caracteristicasProductoModificar:'',
         }
 
     },
@@ -536,13 +544,27 @@ export default {
                         element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                         element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
                         me.arrayProductosAlterado.push(element);
-                        console.log("*-*-*-*-*-*-*-*--*-*-*-*-");
-                        console.log(me.arrayProductosAlterado);
                     });
                 }).catch(function (error) {
                     console.log(error);
                 });
             }
+        },
+
+        bucarProducto(fraseBuscar){
+            let me = this;
+            console.log(me.arrayProductosAlterado);
+            let cont = 1;
+            let arrayProductosAlterado2 = [];
+            
+            me.arrayProductosAlterado.forEach(element => {
+                if(cont == 1)
+                {
+                    arrayProductosAlterado2.push(element);
+                    cont++;
+                }
+            });
+            me.arrayProductosAlterado = arrayProductosAlterado2;
         },
 
         caracteresPermitidosTelefono(ex) {
@@ -585,7 +607,6 @@ export default {
                 .then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
-                    //console.log(me.sucursals.data);
                     me.arraySucursales = respuesta.sucursales.data;
                     let resp = me.arraySucursales.find(element => element.tipo == 'Casa_Matriz');
                     if (resp != undefined) {
@@ -608,8 +629,6 @@ export default {
             axios.get(url)
                 .then(function (response) {
                     var respuesta = response.data;
-                    console.log("//////////////////");
-                    console.log(respuesta);
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenes = respuesta.almacenes.data;
                 })
@@ -617,7 +636,6 @@ export default {
                     error401(error);
                 });
         },
-
 
         cambiarPagina(page) {
             let me = this;
@@ -806,16 +824,13 @@ export default {
                 case 'editarPrecioUtilidadProducto':
                     {
                         let me = this;
-                        console.log("33333333333333*****");
+                        me.tituloModal = 'Modificar Utilidad del Producto';
                         console.log(data);
+                        me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
                         axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
-                        .then(function (response) {
-                            console.log("Tanto tiempo por hacer esot");   
-                            console.log(response.data);   
-                            console.log(response.data.length);    
-                            
+                        .then(function (response) {                            
                             me.idalmingresoproducto = data.id;
                             if (response.data.length == 1) 
                             {
@@ -878,7 +893,6 @@ export default {
 
                         // me.tipoAccion = 3;
                         // me.idalmingresoproducto = data.id;
-                        // me.tituloModal = 'Modificar Utilidad del Producto';
                         // me.p_venta = 0;
                         // me.utilidad_neta = 0;
                         // me.dpc1 = 0;
@@ -1016,5 +1030,8 @@ table > thead > tr > th {
     text-align: center;
     display: table-cell;
     vertical-align: middle;    
+}
+table > tbody > tr > td > div {
+    font-size: 18px;
 }
 </style>

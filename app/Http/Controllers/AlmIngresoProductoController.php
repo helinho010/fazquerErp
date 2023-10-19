@@ -13,18 +13,63 @@ class AlmIngresoProductoController extends Controller
      */
     public function index(Request $request)
     {
-        /**
-         * select
-         * alm__ingreso_producto.id, alm__ingreso_producto.id_prod_producto, alm__ingreso_producto.idalmacen, alm__ingreso_producto.cantidad, alm__ingreso_producto.tipo_entrada, alm__ingreso_producto.fecha_vencimiento, alm__ingreso_producto.lote, alm__ingreso_producto.registro_sanitario, alm__ingreso_producto.codigo_internacional,
-         * alm__almacens.id as idalmacen, alm__almacens.idsucursal, alm__almacens.codigo, alm__almacens.nombre_almacen, alm__almacens.direccion,
-         * prod__productos.id as idprodproducto, prod__productos.idlinea, prod__productos.codigo, prod__productos.nombre
-         * from
-         * 	alm__ingreso_producto
-         * left join alm__almacens on alm__ingreso_producto.idalmacen  = alm__almacens.id 
-         * left join prod__productos on alm__ingreso_producto.id_prod_producto = prod__productos.id  
-         */
+        // $buscararray=array();
+        // if(!empty($request->buscar))
+        // {
+        //     $buscararray = explode(" ",$request->buscar);
+        //     if( sizeof($buscararray) > 0 )
+        //     {
+        //         $sqls='';
+        //         foreach($buscararray as $palabra)
+        //         {
+        //             if(empty($sqls)){
+        //                 $sqls="(alm__almacens.codigo like '%".$palabra."%' 
+        //                         or alm__almacens.nombre_almacen like '%".$palabra."%' 
+        //                         or alm__almacens.telefono like '%".$palabra."%' 
+        //                         or alm__almacens.direccion like '%".$palabra."%' 
+        //                         or alm__almacens.departamento like '%".$palabra."%')" ;
+        //             }
+        //             else
+        //             {
+        //                 $sqls.="and (alm__almacens.codigo like '%".$palabra."%'  
+        //                         or alm__almacens.nombre_almacen like '%".$palabra."%' 
+        //                         or alm__almacens.telefono like '%".$palabra."%' 
+        //                         or alm__almacens.direccion like '%".$palabra."%' 
+        //                         or alm__almacens.departamento like '%".$palabra."%')" ;
+        //             }
+    
+        //         }
 
-        $productosAlmacen = DB::table('alm__ingreso_producto')
+        //         $almacenes= DB::table('alm__almacens')
+        //                 ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
+        //                 ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, 
+        //                              adm__sucursals.cod as codsuc, adm__sucursals.razon_social,
+        //                              adm__sucursals.tipo, adm__sucursals.correlativo,
+        //                              alm__almacens.codigo, alm__almacens.nombre_almacen, 
+        //                              alm__almacens.telefono, alm__almacens.direccion, 
+        //                              alm__almacens.departamento, alm__almacens.ciudad, 
+        //                              alm__almacens.activo')
+        //                 ->whereraw($sqls)
+        //                 ->paginate(15);
+        //     }
+            
+        //     return 
+        //     [
+        //             'pagination'=>
+        //                 [
+        //                     'total'         =>    $almacenes->total(),
+        //                     'current_page'  =>    $almacenes->currentPage(),
+        //                     'per_page'      =>    $almacenes->perPage(),
+        //                     'last_page'     =>    $almacenes->lastPage(),
+        //                     'from'          =>    $almacenes->firstItem(),
+        //                     'to'            =>    $almacenes->lastItem(),
+        //                 ] ,
+        //             'almacenes'=>$almacenes,
+        //     ];
+        // }
+        // else
+        // {
+            $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
                               ->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
@@ -67,13 +112,12 @@ class AlmIngresoProductoController extends Controller
                                        ges_pre__ventas.precio_compra_gespreventa,
                                        ges_pre__ventas.margen_40p_gespreventa,
                                        ges_pre__ventas.utilidad_neto_gespreventa,
-                                       ges_pre__ventas.idusuario as idgespreventasusuario'
+                                       ges_pre__ventas.idusuario as idgespreventasusuario,
+                                       ges_pre__ventas.listo_venta'
                                        ))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);
-
-        //return $productosAlmacen;
-        return 
+            return 
             [
                     'pagination'=>
                         [
@@ -86,6 +130,8 @@ class AlmIngresoProductoController extends Controller
                         ] ,
                     'productosAlmacen'=>$productosAlmacen,
             ];
+        // }
+
     }
 
     /**
