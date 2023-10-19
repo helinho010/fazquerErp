@@ -31,6 +31,7 @@ class GesPreVentaController extends Controller
         $precioVentaProducto->margen_30p_gespreventa = $request->margen_30p_gespreventa;
         $precioVentaProducto->margen_40p_gespreventa = $request->margen_40p_gespreventa;
         $precioVentaProducto->utilidad_neto_gespreventa = $request->utilidad_neto_gespreventa;
+        $precioVentaProducto->listo_venta = 1;
         $precioVentaProducto->idusuario = auth()->user()->id;
         $precioVentaProducto->save();
         

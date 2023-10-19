@@ -401,6 +401,7 @@ export default {
             arrayAlmacenes: [],
             arrayProductos: [],
             arrayProductosAlterado:[],
+            arrayProductosAlteradoCopy:[],
             arrayLineas:[],
             arrayEmvasesEmbalajes:[],
             arrayFormaUnidadMedidas:[],
@@ -544,6 +545,7 @@ export default {
                         element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                         element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
                         me.arrayProductosAlterado.push(element);
+                        me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     });
                 }).catch(function (error) {
                     console.log(error);
@@ -551,20 +553,28 @@ export default {
             }
         },
 
-        bucarProducto(fraseBuscar){
+        bucarProducto(){
             let me = this;
-            console.log(me.arrayProductosAlterado);
-            let cont = 1;
             let arrayProductosAlterado2 = [];
-            
-            me.arrayProductosAlterado.forEach(element => {
-                if(cont == 1)
-                {
-                    arrayProductosAlterado2.push(element);
-                    cont++;
-                }
-            });
-            me.arrayProductosAlterado = arrayProductosAlterado2;
+            if (me.buscar.length == 0) {
+                me.arrayProductosAlterado = me.arrayProductosAlteradoCopy;
+            }else{
+                let arrayBuscar = me.buscar.split(' ');
+                me.arrayProductosAlterado.forEach(element => {
+                    arrayBuscar.forEach(element1 => {
+                        if( element.codproducto.toLowerCase() == element1.toLowerCase() || 
+                            element.lineaProductoNombre.toLowerCase() == element1.toLowerCase() || 
+                            element.envaseEmbalajeProductoNombre.toLowerCase() == element1.toLowerCase() || 
+                            element.formaUnidadMedidaProducto.toLowerCase() == element1.toLowerCase() || 
+                            element.nomproducto.toLowerCase().includes(element1.toLowerCase()) || 
+                            element.tipo_entrada.toLowerCase() == element1.toLowerCase() )
+                        {
+                            arrayProductosAlterado2.push(element);
+                        }  
+                    });
+                });
+                me.arrayProductosAlterado = arrayProductosAlterado2;
+            }
         },
 
         caracteresPermitidosTelefono(ex) {
@@ -654,7 +664,6 @@ export default {
                 'utilidad_neto_gespreventa': me.utilidad_neta,
                 'idProdProducto':me.idProdProducto,
                 'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
-
             }).then(function (response) {
                 me.cerrarModal('calculadoraModal');
                 Swal.fire(
@@ -888,24 +897,10 @@ export default {
                                     default:
                                         break;
                                 }
+                                me.p_compra = me.p_compra.toFixed(2);
                                 me.pcdc = me.pcc;
-                                me.puc = me.pcdc/(/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp);
+                                me.puc = (me.pcdc/(/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)).toFixed(2);
 
-                        // me.tipoAccion = 3;
-                        // me.idalmingresoproducto = data.id;
-                        // me.p_venta = 0;
-                        // me.utilidad_neta = 0;
-                        // me.dpc1 = 0;
-                        // me.dpc2 = 0;
-                        // me.dpc3 = 0;
-                        // me.dbsc = 0;
-                        // me.l30pc = 0;
-                        // me.l40pc = 0;
-                        // me.pucc = 0;
-                        // me.ubc = 0;
-                        // me.upc =  0;
-                        // me.pvc = 0; 
-                          
                         me.classModal.openModal('calculadoraModal');
                         break;
                     }
@@ -984,18 +979,24 @@ export default {
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);
 
             // $("#pcdc").val(pcdc);
-            me.puc = me.pcdc / cd;
+            me.puc = (me.pcdc / cd).toFixed(2);
             // $("#puc").val(puc);
             me.l30pc = ((me.puc * 100) / 70).toFixed(2);
             me.l40pc = ((me.puc * 100) / 60).toFixed(2);
             // $("#l30pc").val(li30);
             // $("#l40pc").val(li40);
-            me.pucc = parseFloat(me.pucc);
+            me.pucc = parseFloat(me.pucc).toFixed(2);
             me.pvc = parseFloat(me.pvc).toFixed(2);
             me.ubc = (me.pvc - me.pucc).toFixed(2);
             // $("#ubc").val(ubc);
-            me.upc = ((me.ubc * 100) / me.pvc);
+            me.upc = ((me.ubc * 100) / me.pvc).toFixed(2);
             // $("#upc").val(upc);
+            me.pcc = me.pcc.toFixed(2);
+            me.dpc1 = me.dpc1.toFixed(2);
+            me.dpc2 = me.dpc2.toFixed(2);
+            me.dpc3 = me.dpc3.toFixed(2);
+            me.dbsc = me.dbsc.toFixed(2);
+            
         }
 
     },

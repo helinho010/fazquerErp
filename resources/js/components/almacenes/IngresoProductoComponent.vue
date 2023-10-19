@@ -131,7 +131,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <strong>Cantidad: <span  v-if="cantidad==0" class="error">(*)</span></strong>
-                                    <input type="number" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                    <input type="number" min="0" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidos">
                                     <span  v-if="cantidad==0" class="error">Debe Ingresar la Cantidad </span>
                                 </div>
                                 <div class="form-group col-sm-4">
@@ -403,6 +403,15 @@ import { error401 } from '../../errores';
         },
         methods :{
 
+            caracteresPermitidos(ex){
+                let me=this;
+                console.log(ex.keyCode)
+                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                {
+                    me.cantidad = me.cantidad+ex.key;
+                } 
+            },
+
             listarProductosAlmacen(page){
                 let me = this;
                 if (me.almacenselected != 0 ) {
@@ -411,6 +420,8 @@ import { error401 } from '../../errores';
                         var respuesta = response.data;
                         me.pagination = respuesta.pagination;
                         me.arrayIngresoProducto = respuesta.productosAlmacen.data;
+                        console.log("----------- porductos x almacen ----------");
+                        console.log(me.arrayIngresoProducto);
                     }).catch(function(error){
                         console.log(error);
                     });   
@@ -743,6 +754,7 @@ import { error401 } from '../../errores';
                 axios.put('/almacen/ingreso-producto/actualizar',{
                     'id':me.idproducto,
                     'id_prod_producto':me.idproductoselected,
+                    'envase':me.arrayIngresoProducto.find((element1)=>element1.id== me.idproducto).envaseregistrado,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
