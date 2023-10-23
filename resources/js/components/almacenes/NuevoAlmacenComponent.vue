@@ -353,8 +353,6 @@ import { error401 } from '../../errores';
                 axios.get(url)
                 .then(function(response){
                     var respuesta = response.data;
-                    console.log("//////////////////");
-                    console.log(respuesta);
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenes = respuesta.almacenes.data;
                 })
@@ -418,7 +416,7 @@ import { error401 } from '../../errores';
                      axios.put('/almacen/desactivar',{
                         'id': idalmacen
                     }).then(function (response) {
-                        
+                        me.listarAlmacenes();
                         swalWithBootstrapButtons.fire(
                             'Desactivado!',
                             'El registro a sido desactivado Correctamente',

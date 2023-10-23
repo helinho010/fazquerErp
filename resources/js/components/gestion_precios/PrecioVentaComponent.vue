@@ -78,7 +78,7 @@
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
                                 <td>{{ producto.codproducto }}</td>
                                 <td>{{ producto.lineaProductoNombre }}</td>
-                                <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }}</td>
+                                <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }} FI: {{ producto.fecingreso }} - LOTE: {{ producto.lote }} {{  producto.perecedero == 0 ? '': ("- FV: "+producto.fecha_vencimiento) }} </td>
                                 <td>{{ producto.cantidad }}</td> <!-- Cantidad Envase o Enbalaje -->
                                 <td>{{ producto.cantidad }}</td><!-- Cantidad stock-->
                                 <td><!-- Precio lista -->
@@ -130,7 +130,7 @@
                                     </div>
                                 </td> <!-- Fecha de Utilidad -->
                                 <td>{{  producto.tipo_entrada }}</td>
-                                <td>Admin</td>
+                                <td>{{ producto.usuarioRegistroIngresoProducto}}</td> <!-- Usuario -->
                             </tr> 
                         </tbody>
                     </table>
@@ -170,9 +170,14 @@
                         <div class="container-fluid">
                             <form action="" class="form-horizontal">
                                 <div class="form-group row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <div class="alert alert-primary" role="alert">
-                                          <b>Caracteristicas del Producto a Modificar:</b> {{ caracteristicasProductoModificar }}
+                                           <b>Ingreso:</b> {{ caracteristicasProductoModificar }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-primary" role="alert">
+                                            <b>Cant. Ingreso: </b>{{ cantidadIngresoAlmacen }}
                                         </div>
                                     </div>
                                 </div>
@@ -196,16 +201,16 @@
                                     <div class="col-md-2">
                                         <label>Costo de Compra</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" v-model="p_compra"
-                                                aria-describedby="basic-addon3">
+                                            <input type="text" id="p_compra" class="form-control" v-model="p_compra"
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <label>Precio de Venta</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" v-model="p_venta"
-                                                aria-describedby="basic-addon3">
+                                            <input type="text" id="p_venta" class="form-control" v-model="p_venta"
+                                                aria-describedby="basic-addon3" readonly>
                                             <button class="btn btn-warning" type="button" @click="utilidad">
                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
                                             </button>
@@ -237,12 +242,13 @@
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- <div class="row" id="area-botones-guarcancelar">
-                                <button type="button" class="btn btn-primary">Guardar</button>
-                                <button type="button" class="btn btn-danger">Cancelar</button>
-                            </div> -->
+                                    <div class="col-md-4" id="area-botones-guarcancelar">
+                                        <button type="button" class="btn btn-success" :disabled="!sicompleto" @click="actualizarRegistrarPrecioVenta">Guardar</button>
+                                        <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-dismiss="modal">Cancelar</button>
+                                    </div>                                    
+                                </div>
+                                
                                 <hr>
                                 <div>
                                     <h5>Gestor de Precios</h5><br>
@@ -254,15 +260,15 @@
                                         <label for="basic-url">Precio de Compra</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcc" v-model="pcc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" id="dpc" v-model="dpc1"
-                                                aria-describedby="basic-addon3">
+                                            <input type="text" class="form-control" id="dpc1" v-model="dpc1"
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
@@ -270,7 +276,7 @@
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc2" v-model="dpc2"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
@@ -278,7 +284,7 @@
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc3" v-model="dpc3"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
@@ -286,7 +292,7 @@
                                         <label for="basic-url">Descuento Bs.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dbsc" v-model="dbsc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
                                 </div>
@@ -295,7 +301,7 @@
                                         <label for="basic-url">Costo Compa C/Desc.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcdc" v-model="pcdc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
@@ -303,7 +309,7 @@
                                         <label for="basic-url">Precio Unitario</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="puc" v-model="puc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
 
@@ -329,7 +335,7 @@
                                         <label for="basic-url">P/U de Compra</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pucc" v-model="pucc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -352,7 +358,7 @@
                                         <label for="basic-url">Precio de Venta</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pvc" v-model="pvc"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
                                             <button class="btn btn-warning" type="button" @click="calculadora">
                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
                                             </button>
@@ -363,8 +369,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" :disabled="!sicompleto" @click="actualizarRegistrarPrecioVenta">Guardar Cambios</button>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" :disabled="!sicompleto" @click="actualizarRegistrarPrecioVenta">Guardar Cambios</button> -->
                     </div>
                 </div>
             </div>
@@ -405,6 +411,7 @@ export default {
             arrayLineas:[],
             arrayEmvasesEmbalajes:[],
             arrayFormaUnidadMedidas:[],
+            arrayUsuarios:[],
             tiendaalmacenselected: 0,
             p_lista: 0,
             c_disp: 0,
@@ -429,6 +436,7 @@ export default {
             idProdProducto:0,
             envaseregistradoAlmIngresoProducto:'',
             caracteristicasProductoModificar:'',
+            cantidadIngresoAlmacen:0,
         }
 
     },
@@ -471,6 +479,37 @@ export default {
 
     },
     methods: {
+
+        caracteresPermitidosPrecioModal(ex) {
+            let me = this;
+            // console.log(ex.currentTarget.id +'-->'+ex.keyCode +'-->'+ex.key);
+            //  backspace --> 8    punto "." --> 46         0 - 9 --> 48 al 57
+            if (ex.keyCode == 8 || ex.keyCode == 46 || (ex.keyCode >= 48 && ex.keyCode <= 57)) {
+                if (ex.currentTarget.id == 'p_compra') {
+                    me.p_compra = me.p_compra + ex.key;
+                } else if (ex.currentTarget.id == 'p_venta') {
+                    me.p_venta = me.p_venta + ex.key;
+                } else if (ex.currentTarget.id == 'pcc') {
+                    me.pcc = me.pcc + ex.key;
+                } else if (ex.currentTarget.id == 'dpc1') {
+                    me.dpc1 = me.dpc1 + ex.key;
+                } else if (ex.currentTarget.id == 'dpc2') {
+                    me.dpc2 = me.dpc2 + ex.key;
+                } else if (ex.currentTarget.id == 'dpc3') {
+                    me.dpc3 = me.dpc3 + ex.key;
+                } else if (ex.currentTarget.id == 'dbsc') {
+                    me.dbsc = me.dbsc + ex.key;
+                } else if (ex.currentTarget.id == 'pcdc') {
+                    me.pcdc = me.pcdc + ex.key;
+                } else if (ex.currentTarget.id == 'puc') {
+                    me.puc = me.puc + ex.key;
+                } else if (ex.currentTarget.id == 'pucc') {
+                    me.pucc = me.pucc + ex.key;
+                } else if (ex.currentTarget.id == 'pvc') {
+                    me.pvc = me.pvc + ex.key;
+                }
+            }
+        },   
         
         listarLineas(){
                 let me = this;
@@ -484,7 +523,7 @@ export default {
                 });
                 
         },
-
+        
         listarEmvasesEmbalajes(){
             let me = this;
             let url = '/dispenser/selectdispenser';
@@ -496,6 +535,18 @@ export default {
                 error401(error);
                 console.log(error);
             });            
+        },
+
+        listarUsuarios(){
+            let me = this;
+            var url='/usuario/listar-usuarios';
+                axios.get(url).then(function(response){
+                    me.arrayUsuarios = response.data;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
         },
 
         listarFormaUnidadDeMedida(){
@@ -521,22 +572,39 @@ export default {
                     me.pagination = respuesta.pagination;
                     me.arrayProductos = respuesta.productosAlmacen.data;
                     let nombreLineaDelProducto = '';
+                    let usuarioRegistroIngresoProducto = '';
+                    let perecederoProducto = 0;
                     let nombreEnvaseEmbalajeDelProducto='';
                     let nombreFormaUnidadMedidaProducto='';
                     me.arrayProductos.forEach(element => {
                         nombreLineaDelProducto = me.arrayLineas.find((element2)=>element2.id==element.idlinea).nombre;
+                        perecederoProducto = me.arrayRubros.find((rubro)=>rubro.id==element.idrubroproducto).areamedica;
+                        usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario)=>usuario.id==element.id_usuario_registra).name;
                         switch (element.envaseregistrado) {
                             case 'primario':
                                 nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserprimario).nombre; 
-                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaprimario).nombre;
+                                if(element.idformafarmaceuticaprimario == 0){
+                                    nombreFormaUnidadMedidaProducto = '';    
+                                }else{
+                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaprimario).nombre;
+                                }
                                 break;
                             case 'secundario':
                                 nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispensersecundario).nombre;
-                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticasecundario).nombre;    
+                                if( element.idformafarmaceuticasecundario ==0 ){
+                                    nombreFormaUnidadMedidaProducto = '';
+                                }else
+                                {
+                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticasecundario).nombre;    
+                                }
                                 break;
                             case 'terciario':
                                 nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserterciario).nombre;
-                                nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaterciario).nombre;
+                                if(element.idformafarmaceuticaterciario == 0){
+                                    nombreFormaUnidadMedidaProducto = '';
+                                }else{
+                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaterciario).nombre;
+                                }
                                 break;
                             default:
                                 break;
@@ -544,6 +612,8 @@ export default {
                         element.lineaProductoNombre = nombreLineaDelProducto;
                         element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                         element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
+                        element.perecedero = perecederoProducto;
+                        element.usuarioRegistroIngresoProducto = usuarioRegistroIngresoProducto;
                         me.arrayProductosAlterado.push(element);
                         me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     });
@@ -574,13 +644,6 @@ export default {
                     });
                 });
                 me.arrayProductosAlterado = arrayProductosAlterado2;
-            }
-        },
-
-        caracteresPermitidosTelefono(ex) {
-            let me = this;
-            if (ex.keyCode == 32 || ex.keyCode == 43 || ex.keyCode == 8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57)) {
-                me.telefono = me.telefono + ex.key;
             }
         },
 
@@ -635,12 +698,19 @@ export default {
 
         listarAlmacenes(page) {
             let me = this;
+            let copiaArrayAlmacenes=[];
             var url = '/almacen?page=' + page + '&buscar=' + me.buscar;
             axios.get(url)
                 .then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenes = respuesta.almacenes.data;
+                    me.arrayAlmacenes.forEach(element => {
+                        if(element.activo == 1){
+                            copiaArrayAlmacenes.push(element);
+                        }
+                    });
+                    me.arrayAlmacenes = copiaArrayAlmacenes;
                 })
                 .catch(function (error) {
                     error401(error);
@@ -834,10 +904,12 @@ export default {
                     {
                         let me = this;
                         me.tituloModal = 'Modificar Utilidad del Producto';
+                        console.log("Reeeequeeeecheecheeee");
                         console.log(data);
                         me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
+                        me.cantidadIngresoAlmacen = data.cantidad;
                         axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
                         .then(function (response) {                            
                             me.idalmingresoproducto = data.id;
@@ -848,7 +920,7 @@ export default {
                                 me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
                             }
                             else{
-                                me.p_venta = 0;
+                                me.p_venta = data.precioventaprimario;
                                 me.utilidad_neta = 0;
                                 me.margen_30 = 0;
                                 me.margen_40 = 0;
@@ -942,6 +1014,8 @@ export default {
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 me.arrayRubros = respuesta;
+                console.log("#########################");
+                console.log(me.arrayRubros);
             })
                 .catch(function (error) {
                     error401(error);
@@ -967,7 +1041,7 @@ export default {
 
         calculadora() {
             let me = this;
-            me.pcc = parseFloat(me.p_lista);
+            me.pcc = parseFloat(me.pcc);
             me.dpc1 = parseFloat(me.dpc1);
             me.dpc2 = parseFloat(me.dpc2);
             me.dpc3 = parseFloat(me.dpc3);
@@ -1002,6 +1076,7 @@ export default {
     },
 
     mounted() {
+        this.listarUsuarios();
         this.selectRubros();
         this.listarLineas();
         this.listarEmvasesEmbalajes();
@@ -1016,7 +1091,13 @@ export default {
     }
 }
 </script>
-<style scoped>h1 {
+<style scoped>
+
+#area-botones-guarcancelar{
+    margin-top: 28px;
+}
+
+h1 {
     color: red;
 }
 

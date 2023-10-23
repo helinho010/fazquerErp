@@ -314,7 +314,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" v-model="cantidadprimario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <input type="text" class="form-control" id="primario" v-model="cantidadprimario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
                                                 <span class="error" v-if="cantidadprimario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -335,20 +335,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolistaprimario" step="any" v-on:focus="selectAll" style="text-align:right">
-                                                <!--<vue-numeric  
-                                                    class="form-control"
-                                                    currency="Bs." 
-                                                    separator="," 
-                                                    v-model="preciolista"
-                                                    v-bind:precision="2"
-                                                    v-on:focus="selectAll"
-                                                    style="text-align:right">
-                                                </vue-numeric>-->
+                                                <input type="text" class="form-control" min="0" id="preciolistaprimario" v-model="preciolistaprimario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="text" id="precioventaprimario" min="0" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -394,7 +385,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <input type="text" class="form-control" id="secundario" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
                                                 <!-- <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -415,11 +406,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="text" class="form-control" id="preciolistasecundario" min="0" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="text" id="precioventasecundario" min="0" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -465,7 +456,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll">
+                                                <input type="text" class="form-control" id="terciario" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
                                                 <!-- <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -486,11 +477,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="number" class="form-control" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="text" class="form-control" id="preciolistaterciario" min="0" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="number" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right">
+                                                <input type="text" id="precioventaterciario" min="0" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -846,6 +837,43 @@ import QrcodeVue from 'qrcode.vue';
 
         },
         methods :{
+
+            caracteresPermitidosCantidad(ex){
+                let me=this;
+                console.log(ex.keyCode +'--->'+ex.key);
+                if( ex.keyCode==32  || ex.keyCode==8  || (ex.keyCode >= 48 && ex.keyCode <= 57 ) || (ex.keyCode >= 97 && ex.keyCode <= 122 ) || (ex.keyCode >= 65 && ex.keyCode <= 90 ) )
+                {
+                    if(ex.currentTarget.id == 'primario'){
+                        me.cantidadprimario = me.cantidadprimario+ex.key;
+                    }else if(ex.currentTarget.id == 'secundario'){
+                        me.cantidadsecundario = me.cantidadsecundario+ex.key;
+                    }else if(ex.currentTarget.id == 'terciario'){
+                        me.cantidadterciario = me.cantidadterciario+ex.key;
+                    }
+                    
+                } 
+            },
+
+            caracteresPermitidosPrecio(ex){
+                let me=this;
+                if( ex.keyCode==8  || ex.keyCode==46  || (ex.keyCode >= 48 && ex.keyCode <= 57 ) )
+                {
+                    if(ex.currentTarget.id == 'preciolistaprimario'){
+                        me.preciolistaprimario = me.preciolistaprimario+ex.key;
+                    }else if(ex.currentTarget.id == 'preciolistasecundario'){
+                        me.preciolistasecundario = me.preciolistasecundario+ex.key;
+                    }else if(ex.currentTarget.id == 'preciolistaterciario'){
+                        me.preciolistaterciario = me.preciolistaterciario+ex.key;
+                    }else if(ex.currentTarget.id == 'precioventaprimario'){
+                        me.precioventaprimario = me.precioventaprimario+ex.key;
+                    }else if(ex.currentTarget.id == 'precioventasecundario'){
+                        me.precioventasecundario = me.precioventasecundario+ex.key;
+                    }else if(ex.currentTarget.id == 'precioventaterciario'){
+                        me.precioventaterciario = me.precioventaterciario+ex.key;
+                    }
+                } 
+            },
+
             subirfoto(event){
                 let me=this;
                 me.foto=event.target.files[0];

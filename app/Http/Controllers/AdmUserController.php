@@ -232,4 +232,12 @@ class AdmUserController extends Controller
 
     }
 
+    public function listaUsuarios(Request $request)
+    {
+        $usuarios = User::selectRaw('id, name, activo')
+                         ->get();
+        return $usuarios;
+    }
+    
+
 }

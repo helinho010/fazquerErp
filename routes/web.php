@@ -160,6 +160,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/usuario/actualizar', [AdmUserController::class,'update']);
     Route::put('/usuario/desactivar', [AdmUserController::class,'desactivar']);
     Route::put('/usuario/activar', [AdmUserController::class,'activar']);
+    Route::get('/usuario/listar-usuarios',[AdmUserController::class,'listaUsuarios']);
     Route::get('/usuario/selectusuario',[AdmUserController::class,'selectUsuario']);
 
 

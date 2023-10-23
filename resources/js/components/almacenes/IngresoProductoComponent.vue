@@ -405,8 +405,7 @@ import { error401 } from '../../errores';
 
             caracteresPermitidos(ex){
                 let me=this;
-                console.log(ex.keyCode)
-                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
+                if( ex.keyCode==8  || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.cantidad = me.cantidad+ex.key;
                 } 
@@ -594,14 +593,19 @@ import { error401 } from '../../errores';
             
             listarAlmacenes(page){
                 let me=this;
-                //me.listarEstantes(me.sucursalselected);
+                let copiaArrayAlmacenes = [];
                 var url='/almacen?page='+page+'&idsucursal='+me.almacenselected+'&buscar='+me.buscar;
                 axios.get(url)
                 .then(function(response){
                     var respuesta=response.data;
-                    me.arrayAlmacen=respuesta.almacenes.data;
                     me.pagination=respuesta.pagination;
-                    //me.listarEstantes(me.almacenselected);
+                    me.arrayAlmacen=respuesta.almacenes.data;
+                    me.arrayAlmacen.forEach(element => {
+                        if(element.activo == 1){
+                            copiaArrayAlmacenes.push(element);
+                        }
+                    });
+                    me.arrayAlmacen = copiaArrayAlmacenes;
                     me.listarProductosAlmacen();
                     me.listarProductos();
                 })
