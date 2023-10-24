@@ -75,7 +75,7 @@
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
                                 <td v-text="ingresoProducto.registro_sanitario"></td>
                                 <td v-text="ingresoProducto.tipo_entrada"></td>
-                                <td v-text="ingresoProducto.id_usuario_registra"></td>
+                                <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -133,7 +133,7 @@
                                 <div class="col-md-3"></div>
                                 <span v-if="idproductoselected==0" class="error">Debe Ingresar el Nombre del producto</span>
                             </div>
-                                                        
+                            
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <strong>Cantidad: <span  v-if="cantidad==0" class="error">(*)</span></strong>
@@ -330,6 +330,7 @@ import { error401 } from '../../errores';
                 arrayIngresoProducto:[],
                 arrayLineasMarca:[],
                 arrayRubro:[],
+                arrayUsuario:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
                 opciones2:[],
                 opciones3:[],
@@ -433,6 +434,18 @@ import { error401 } from '../../errores';
                 });
             },
 
+            listarUsuarios(){
+            let me = this;
+            var url='/usuario/listar-usuarios';
+                axios.get(url).then(function(response){
+                    me.arrayUsuario = response.data;
+                })
+                .catch(function(error){
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
             listarLineaMarca(){
                 let me=this;
                 var url='/linea/selectlinea';
@@ -450,18 +463,14 @@ import { error401 } from '../../errores';
                 let me = this;
                 if (me.almacenselected != 0 ) {
                     let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
-                    let lineaOMarca = '';
                     let usuarioRegistroProducto = '';
-                    let areamedicaProducto = '';
-
                     axios.get(url).then(function(response){
                         var respuesta = response.data;
                         me.pagination = respuesta.pagination;
                         me.arrayIngresoProducto = respuesta.productosAlmacen.data;
                         me.arrayIngresoProducto.forEach(producto => {
                             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
-                            //producto.areamedicaProducto = me.arrayRubro.find((rubro) => rubro.id == producto.idprodproducto).areamedica;
-                            //usuarioRegistroProducto
+                            producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
                         });
                     }).catch(function(error){
                         console.log(error);
@@ -552,6 +561,7 @@ import { error401 } from '../../errores';
                            me.opciones2.push( 
                            { 
                             value:contador,
+                            descripcionProducto:element.cod,
                             codprimario:element.cod,
                             idproduc:element.idproduc,
                             codigointernacional:element.codigointernacional,
@@ -576,6 +586,7 @@ import { error401 } from '../../errores';
                            me.opciones2.push( 
                            { 
                             value:contador,
+                            descripcionProducto:element.cod,
                             codsecundario:element.cod,
                             idproduc:element.idproduc,
                             codigointernacional:element.codigointernacional,
@@ -600,6 +611,7 @@ import { error401 } from '../../errores';
                            me.opciones2.push( 
                            { 
                             value:contador,
+                            descripcionProducto:element.cod,
                             codterciario:element.cod,
                             idproduc:element.idproduc,
                             codigointernacional:element.codigointernacional,
@@ -613,10 +625,6 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-
-                console.log("opciones del select de productos ingreso productos");
-                console.log(me.opciones);
-                console.log(me.opciones2);
             },
 
             /*
@@ -656,6 +664,10 @@ import { error401 } from '../../errores';
                     me.arrayAlmacen = copiaArrayAlmacenes;
                     objAlmacen = me.arrayAlmacen.find((almacen)=> almacen.id == me.almacenselected);
                     me.almacenRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objAlmacen.idrubro).areamedica;
+                    console.log("%%%%%%%%");
+                    console.log(me.arrayAlmacen);
+                    console.log(objAlmacen);
+                    console.log(me.almacenRubroareamedica);
                     me.listarProductosAlmacen();
                     me.listarProductos();
                 })
@@ -697,7 +709,6 @@ import { error401 } from '../../errores';
                     'registro_sanitario':me.registrosanitario,
                     //'codigo_internacional':me.codigointernacional, 
                 }).then(function(response){
-                    console.log(response);
                     Swal.fire('Registrado Correctamente')
                     me.cerrarModal('registrar');
                     me.listarProductosAlmacen(1);
@@ -806,9 +817,9 @@ import { error401 } from '../../errores';
             actualizarProductoEnAlmacen(){
                 let me =this;
                 axios.put('/almacen/ingreso-producto/actualizar',{
-                    'id':me.idproducto,
-                    'id_prod_producto':me.idproductoselected,
-                    'envase':me.arrayIngresoProducto.find((element1)=>element1.id== me.idproducto).envaseregistrado,
+                    'id':me.arrayIngresoProducto.find((element1)=>element1.id_prod_producto== me.idproductoRealSeleccionado).id,
+                    'id_prod_producto':me.idproductoRealSeleccionado,
+                    'envase':me.arrayIngresoProducto.find((element1)=>element1.id_prod_producto== me.idproductoRealSeleccionado).envaseregistrado,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'tipo_entrada':me.tipo_entrada,
@@ -853,13 +864,10 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        console.log("Esto es el data de ingreso producto");
-                        console.log(data);
-                        console.log(respuesta);
-                        me.tituloModal='Actualizar Producto: '+ data.codproducto +' '+ data.nomproducto;
+                        me.tituloModal='Actualizar Producto';
                         me.tipoAccion=2;
-                        //me.idproducto = data.id;
-                        me.idproductoselected = data.id_prod_producto;
+                        me.idproductoselected = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
+                        me.idproductoRealSeleccionado = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
                         me.cantidad = data.cantidad;
                         me.tipo_entrada = data.tipo_entrada;
                         me.fecha_vencimiento = data.fecha_vencimiento;
@@ -872,6 +880,7 @@ import { error401 } from '../../errores';
                             fechaVencimiento:me.fecha_vencimiento,
                             registroSanitario:me.registrosanitario
                         });
+                        me.productoperecedero = me.arrayRubro.find((rubro)=> rubro.id == data.idrubroproducto).areamedica;
                         me.classModal.openModal('registrar');
                         break;
                     }
@@ -943,7 +952,6 @@ import { error401 } from '../../errores';
             
             buscarProductoPorEnvaseIngresoAlamcen(ex){
                 let me = this;
-                var aux='';
                 me.opciones3=[];
                 //console.log("keypress: "+ex.keyCode+"---"+ex.key);
                 if(ex.keyCode==32 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
@@ -957,7 +965,6 @@ import { error401 } from '../../errores';
                     });
                     
                 } 
-                console.log("opciones3: "+me.opciones3)
             },
 
             itemSeleccionadoEnLaBusqueda(idproducto, idprodproductoreal, envase){
@@ -988,13 +995,14 @@ import { error401 } from '../../errores';
         mounted() {
             this.obtenerfecha(1);
             this.listarLineaMarca();
-            this.listarProductosAlmacen(1);
+            this.listarUsuarios();
             this.listarAlmacenes();
             this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             this.classModal.addModal('staticBackdrop');
-            this.listarProductos();
+            //this.listarProductosAlmacen(1);
+            //this.listarProductos();
             //console.log('Component mounted.')
         },
 
