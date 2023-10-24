@@ -116,7 +116,8 @@ class AlmIngresoProductoController extends Controller
                                        ges_pre__ventas.margen_40p_gespreventa,
                                        ges_pre__ventas.utilidad_neto_gespreventa,
                                        ges_pre__ventas.idusuario as idgespreventasusuario,
-                                       ges_pre__ventas.listo_venta'
+                                       ges_pre__ventas.listo_venta,
+                                       ges_pre__ventas.created_at as fecha_utilidad'
                                        ))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);

@@ -149,17 +149,18 @@ class AdmRubroController extends Controller
         $rubro->id_usuario_modifica=auth()->user()->id;
         $rubro->save();
     }
+
     public function selectRubro(Request $request)
     {
-        $rubros=Adm_Rubro::select('id','nombre','areamedica')
-                                ->where('activo',1)
-                                ->orderBy('nombre', 'asc')
-                                ->get();
-        return $rubros;
+        // $rubros=Adm_Rubro::select('id','nombre','areamedica')
+        //                         ->where('activo',1)
+        //                         ->orderBy('nombre', 'asc')
+        //                         ->get();
+        // return $rubros;
         
-        /* $buscararray = array(); 
+        $buscararray = array(); 
         if(!empty($request->buscar)) $buscararray = explode(" ",$request->buscar); 
-        $raw=DB::raw(DB::raw('concat(codigo," ",nombre) as cod'));
+        $raw=DB::raw(DB::raw('concat(id," ",nombre) as cod'));
         if (sizeof($buscararray)>0) { 
             $sqls=''; 
             foreach($buscararray as $valor){
@@ -175,24 +176,37 @@ class AdmRubroController extends Controller
                                 ->get();
         }
         else {
-            if ($request->id){
-                    $rubros = Adm_Rubro::select($raw,'id','nombre','codigo')
+            if ($request->id)
+            {
+                $rubros = Adm_Rubro::select($raw,'id','nombre','areamedica')
                                                  ->where('activo',1)
                                                 ->where('id',$request->id)
-                                                ->orderby('codigo','asc')
+                                                ->orderby('id','asc')
                                                 ->get();
+
+                    // $rubros = Adm_Rubro::select($raw,'id','nombre','codigo')
+                    //                              ->where('activo',1)
+                    //                             ->where('id',$request->id)
+                    //                             ->orderby('codigo','asc')
+                    //                             ->get();
             }
 
             else
             {
-                $rubros = Adm_Rubro::select($raw,'id','nombre','codigo')
-                                    ->where('activo',1)
-                                    ->orderby('codigo','asc')
-                                    ->get();
+                
+                $rubros=Adm_Rubro::select('id','nombre','areamedica')
+                                        ->where('activo',1)
+                                        ->orderBy('nombre', 'asc')
+                                        ->get();
+
+                // $rubros = Adm_Rubro::select('id','nombre','codigo')
+                //                     ->where('activo',1)
+                //                     ->orderby('codigo','asc')
+                //                     ->get();
             }
               
         }
-        return ['rubros' => $rubros]; */
+        return ['rubros' => $rubros];
         
 
     }

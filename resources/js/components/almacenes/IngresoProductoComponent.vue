@@ -40,13 +40,16 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Almacen</th>
+                                <th>Codigo</th>
+                                <th>Linea o Marca</th>
                                 <th>Producto</th>
                                 <th>Cantidad</th>
-                                <th>Tipo Entrada</th>
-                                <th>Fecha Vencimiento</th>
                                 <th>Lote</th>
-                                <th>Registro Sanitario</th>
+                                <th v-if="almacenRubroareamedica == 1">Vencimiento</th>
+                                <th v-if="almacenRubroareamedica == 1">R.S. SENASAG</th>
+                                <th>Fecha y Hora</th>
+                                <th>Tipo Entrada</th>
+                                <th>Usuario</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
@@ -64,12 +67,15 @@
                                     </button>
                                 </td>
                                 <td v-text="ingresoProducto.codalmacen +' '+ ingresoProducto.nombre_almacen"></td>
+                                <td> {{ ingresoProducto.nombreLinea }} </td>
                                 <td v-text="ingresoProducto.codproducto+' '+ingresoProducto.nomproducto"></td>  
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
-                                <td v-text="ingresoProducto.tipo_entrada"></td>
-                                <td v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-text="ingresoProducto.lote"></td>
+                                <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
+                                <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
                                 <td v-text="ingresoProducto.registro_sanitario"></td>
+                                <td v-text="ingresoProducto.tipo_entrada"></td>
+                                <td v-text="ingresoProducto.id_usuario_registra"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -322,12 +328,15 @@ import { error401 } from '../../errores';
                 productosenvasesecundario:[],
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
+                arrayLineasMarca:[],
+                arrayRubro:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
                 opciones2:[],
                 opciones3:[],
                 envaseProductoSelecionadoIngresoAlmacen:'',
                 inputTextBuscarProductoIngresoAlmacen:'',
                 idproductoRealSeleccionado:0,
+                almacenRubroareamedica:0,
             }
 
         },
@@ -411,16 +420,49 @@ import { error401 } from '../../errores';
                 } 
             },
 
+            listarRubro(){
+                let me=this;
+                var url='/rubro/selectrubro';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.arrayRubro=respuesta.rubros;
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
+            listarLineaMarca(){
+                let me=this;
+                var url='/linea/selectlinea';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.arrayLineasMarca=respuesta.lineas;                    
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
             listarProductosAlmacen(page){
                 let me = this;
                 if (me.almacenselected != 0 ) {
                     let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
+                    let lineaOMarca = '';
+                    let usuarioRegistroProducto = '';
+                    let areamedicaProducto = '';
+
                     axios.get(url).then(function(response){
                         var respuesta = response.data;
                         me.pagination = respuesta.pagination;
                         me.arrayIngresoProducto = respuesta.productosAlmacen.data;
-                        console.log("----------- porductos x almacen ----------");
-                        console.log(me.arrayIngresoProducto);
+                        me.arrayIngresoProducto.forEach(producto => {
+                            producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
+                            //producto.areamedicaProducto = me.arrayRubro.find((rubro) => rubro.id == producto.idprodproducto).areamedica;
+                            //usuarioRegistroProducto
+                        });
                     }).catch(function(error){
                         console.log(error);
                     });   
@@ -571,6 +613,10 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
+
+                console.log("opciones del select de productos ingreso productos");
+                console.log(me.opciones);
+                console.log(me.opciones2);
             },
 
             /*
@@ -593,6 +639,8 @@ import { error401 } from '../../errores';
             
             listarAlmacenes(page){
                 let me=this;
+                me.listarRubro();
+                let objAlmacen = {};
                 let copiaArrayAlmacenes = [];
                 var url='/almacen?page='+page+'&idsucursal='+me.almacenselected+'&buscar='+me.buscar;
                 axios.get(url)
@@ -606,6 +654,8 @@ import { error401 } from '../../errores';
                         }
                     });
                     me.arrayAlmacen = copiaArrayAlmacenes;
+                    objAlmacen = me.arrayAlmacen.find((almacen)=> almacen.id == me.almacenselected);
+                    me.almacenRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objAlmacen.idrubro).areamedica;
                     me.listarProductosAlmacen();
                     me.listarProductos();
                 })
@@ -803,22 +853,23 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        me.tituloModal='Actualizar Almacen Para: '+ respuesta.sucursal
+                        console.log("Esto es el data de ingreso producto");
+                        console.log(data);
+                        console.log(respuesta);
+                        me.tituloModal='Actualizar Producto: '+ data.codproducto +' '+ data.nomproducto;
                         me.tipoAccion=2;
-                        me.idproducto = data.id;
-                        me.idproductoselected = data.idprodproducto;
+                        //me.idproducto = data.id;
+                        me.idproductoselected = data.id_prod_producto;
                         me.cantidad = data.cantidad;
                         me.tipo_entrada = data.tipo_entrada;
                         me.fecha_vencimiento = data.fecha_vencimiento;
                         me.lote = data.lote;
                         me.registrosanitario = data.registro_sanitario;
-                        //me.codigointernacional = data.codigo_internacional;
                         me.codigo = JSON.stringify
                         ({
                             idproducto:me.idproductoselected,
                             cantidad: me.cantidad,
                             fechaVencimiento:me.fecha_vencimiento,
-                            //codigointernacional:me.codigointernacional,
                             registroSanitario:me.registrosanitario
                         });
                         me.classModal.openModal('registrar');
@@ -936,6 +987,7 @@ import { error401 } from '../../errores';
 
         mounted() {
             this.obtenerfecha(1);
+            this.listarLineaMarca();
             this.listarProductosAlmacen(1);
             this.listarAlmacenes();
             this.selectSucursals();

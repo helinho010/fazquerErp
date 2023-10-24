@@ -123,14 +123,14 @@
                                 </td>
                                 <td> <!-- Utilidad Bruta (en %) -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">03 - 10 - 2023</span>
+                                        <span class="badge badge-secondary">{{ producto.fecha_utilidad}}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">03 - 10 - 2023</span>
+                                        <span class="badge badge-warning">DD/MM/AAAA</span>
                                     </div>
                                 </td> <!-- Fecha de Utilidad -->
                                 <td>{{  producto.tipo_entrada }}</td>
-                                <td>{{ producto.usuarioRegistroIngresoProducto}}</td> <!-- Usuario -->
+                                <td>{{ producto.usuarioRegistroIngresoProducto }}</td> <!-- Usuario -->
                             </tr> 
                         </tbody>
                     </table>
@@ -618,6 +618,7 @@ export default {
                         me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     });
                 }).catch(function (error) {
+                    error401(error);
                     console.log(error);
                 });
             }
@@ -904,8 +905,6 @@ export default {
                     {
                         let me = this;
                         me.tituloModal = 'Modificar Utilidad del Producto';
-                        console.log("Reeeequeeeecheecheeee");
-                        console.log(data);
                         me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
@@ -1013,9 +1012,7 @@ export default {
             var url = '/rubro/selectrubro';
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
-                me.arrayRubros = respuesta;
-                console.log("#########################");
-                console.log(me.arrayRubros);
+                me.arrayRubros = respuesta.rubros;
             })
                 .catch(function (error) {
                     error401(error);
