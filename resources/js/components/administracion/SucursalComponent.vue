@@ -569,7 +569,7 @@ import { error401 } from '../../errores';
                 var url='/rubro/selectrubro';
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
-                    me.arrayRubros=respuesta;
+                    me.arrayRubros=respuesta.rubros;
                 })
                 .catch(function(error){
                     error401(error);

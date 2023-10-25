@@ -664,10 +664,6 @@ import { error401 } from '../../errores';
                     me.arrayAlmacen = copiaArrayAlmacenes;
                     objAlmacen = me.arrayAlmacen.find((almacen)=> almacen.id == me.almacenselected);
                     me.almacenRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objAlmacen.idrubro).areamedica;
-                    console.log("%%%%%%%%");
-                    console.log(me.arrayAlmacen);
-                    console.log(objAlmacen);
-                    console.log(me.almacenRubroareamedica);
                     me.listarProductosAlmacen();
                     me.listarProductos();
                 })

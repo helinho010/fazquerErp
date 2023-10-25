@@ -1038,36 +1038,69 @@ export default {
 
         calculadora() {
             let me = this;
-            me.pcc = parseFloat(me.pcc);
-            me.dpc1 = parseFloat(me.dpc1);
-            me.dpc2 = parseFloat(me.dpc2);
-            me.dpc3 = parseFloat(me.dpc3);
+            // me.pcc = parseFloat(me.pcc);
+            // me.dpc1 = parseFloat(me.dpc1);
+            // me.dpc2 = parseFloat(me.dpc2);
+            // me.dpc3 = parseFloat(me.dpc3);
+            // me.dbsc = parseFloat(me.dbsc);
+            // var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp));
+            // me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)).toFixed(2);
+            // me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)).toFixed(2);
+            // me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);
+            // me.puc = (me.pcdc / cd).toFixed(2);
+            // me.l30pc = ((me.puc * 100) / 70).toFixed(2);
+            // me.l40pc = ((me.puc * 100) / 60).toFixed(2);
+            // me.pucc = parseFloat(me.pucc).toFixed(2);
+            // me.pvc = parseFloat(me.pvc).toFixed(2);
+            // me.ubc = (me.pvc - me.pucc).toFixed(2);
+            // me.upc = ((me.ubc * 100) / me.pvc).toFixed(2);
+            // me.pcc = me.pcc.toFixed(2);
+            // me.dpc1 = me.dpc1.toFixed(2);
+            // me.dpc2 = me.dpc2.toFixed(2);
+            // me.dpc3 = me.dpc3.toFixed(2);
+            // me.dbsc = me.dbsc.toFixed(2);
+            
 
-            me.dbsc = parseFloat(me.dbsc);
-            var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp));
-            me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)).toFixed(2);
-            me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)).toFixed(2);
-            me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);
+            me.pcc = parseFloat(me.pcc); // pcc = Precio de Compra
+            me.dpc1 = parseFloat(me.dpc1); // dpc1 = Descuento % (primer input)
+            me.dpc2 = parseFloat(me.dpc2); // dpc2 = Descuento % (segundo input)
+            me.dpc3 = parseFloat(me.dpc3); // dpc3 = Descuento % (tercer input)
+            me.dbsc = parseFloat(me.dbsc); // dbsc = Descuento Bs.
+            me.pucc = parseFloat(me.pucc); // pucc = P/U de Compra
+            me.pvc = parseFloat(me.pvc); // pvc = Precio de Venta
+            
+            var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)); // cd = Cantidad Dispenser
+            me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)); 
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
+            me.puc = (me.pcdc / cd); // puc = Precio Unitario
+            me.l30pc = ((me.puc * 100) / 70); // l30pc = Liq. 30 %
+            me.l40pc = ((me.puc * 100) / 60); // l40pc = Liq. 40 %
+            me.ubc = (me.pvc - me.pucc); // ubc = Utilidad Bruta
+            me.upc = ((me.ubc * 100) / me.pvc); //  upc = Utilidad Bruta%
 
-            // $("#pcdc").val(pcdc);
-            me.puc = (me.pcdc / cd).toFixed(2);
-            // $("#puc").val(puc);
-            me.l30pc = ((me.puc * 100) / 70).toFixed(2);
-            me.l40pc = ((me.puc * 100) / 60).toFixed(2);
-            // $("#l30pc").val(li30);
-            // $("#l40pc").val(li40);
-            me.pucc = parseFloat(me.pucc).toFixed(2);
-            me.pvc = parseFloat(me.pvc).toFixed(2);
-            me.ubc = (me.pvc - me.pucc).toFixed(2);
-            // $("#ubc").val(ubc);
-            me.upc = ((me.ubc * 100) / me.pvc).toFixed(2);
-            // $("#upc").val(upc);
+            console.log("**********Utilidad********");
+            console.log('cd: '+cd+ '\n'+        
+            'pdcd: '+me.pcdc+'\n'+
+            'puc: '+me.puc+'\n'+
+            'l30pc: '+me.l30pc+'\n'+
+            'l40pc: '+me.l40pc+'\n'+
+            'ubc : '+me.ubc +'\n'+
+            'upc: '+me.upc+'\n')
+
             me.pcc = me.pcc.toFixed(2);
             me.dpc1 = me.dpc1.toFixed(2);
             me.dpc2 = me.dpc2.toFixed(2);
             me.dpc3 = me.dpc3.toFixed(2);
             me.dbsc = me.dbsc.toFixed(2);
-            
+            me.pcdc = me.pcdc.toFixed(2);
+            me.puc = me.puc.toFixed(2);
+            me.l30pc = me.l30pc.toFixed(2);
+            me.l40pc = me.l40pc.toFixed(2);
+            me.pucc = me.pucc.toFixed(2);
+            me.ubc = me.ubc.toFixed(2);
+            me.upc = Math.round(me.upc);
+            me.pvc = me.pvc.toFixed(2);
         }
 
     },
