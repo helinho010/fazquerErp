@@ -46,7 +46,7 @@
                             <tr>
                                 <th>Opciones</th>
                                 <th>Codigo Producto</th>
-                                <th>Linea</th>
+                                <th>Linea o Marca</th>
                                 <th>Entrada</th>
                                 <th>Cant. Entrada</th>
                                 <th>Stock</th>

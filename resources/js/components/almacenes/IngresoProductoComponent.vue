@@ -66,14 +66,14 @@
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="ingresoProducto.codalmacen +' '+ ingresoProducto.nombre_almacen"></td>
+                                <td>{{ ingresoProducto.codproducto  }}</td>
                                 <td> {{ ingresoProducto.nombreLinea }} </td>
-                                <td v-text="ingresoProducto.codproducto+' '+ingresoProducto.nomproducto"></td>  
+                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.envaseregistrado.toLowerCase()=='primario'?ingresoProducto.cantidadprimario:'' }} {{ ingresoProducto.envaseregistrado.toLowerCase()=='secundario'?ingresoProducto.cantidadsecundario:'' }} {{ ingresoProducto.envaseregistrado.toLowerCase()=='terceario'?ingresoProducto.cantidadterciario:'' }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
-                                <td v-text="ingresoProducto.registro_sanitario"></td>
+                                <td v-text="ingresoProducto.fecingreso"></td>
                                 <td v-text="ingresoProducto.tipo_entrada"></td>
                                 <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
@@ -463,7 +463,6 @@ import { error401 } from '../../errores';
                 let me = this;
                 if (me.almacenselected != 0 ) {
                     let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
-                    let usuarioRegistroProducto = '';
                     axios.get(url).then(function(response){
                         var respuesta = response.data;
                         me.pagination = respuesta.pagination;
@@ -471,6 +470,7 @@ import { error401 } from '../../errores';
                         me.arrayIngresoProducto.forEach(producto => {
                             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
                             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
+                            producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
                         });
                     }).catch(function(error){
                         console.log(error);
