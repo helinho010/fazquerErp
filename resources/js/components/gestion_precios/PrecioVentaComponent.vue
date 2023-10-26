@@ -201,8 +201,8 @@
                                     <div class="col-md-2">
                                         <label>Costo de Compra</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" id="p_compra" class="form-control" v-model="p_compra"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                            <input type="number" min="0" id="p_compra" class="form-control" v-model.number="p_compra"
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                         </div>
                                     </div>
 
@@ -245,7 +245,7 @@
 
                                     <div class="col-md-4" id="area-botones-guarcancelar">
                                         <button type="button" class="btn btn-success" :disabled="!sicompleto" @click="actualizarRegistrarPrecioVenta">Guardar</button>
-                                        <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-dismiss="modal" @click="cerrarModal('calculadoraModal')">Cancelar</button>
                                     </div>                                    
                                 </div>
                                 
@@ -260,7 +260,7 @@
                                         <label for="basic-url">Precio de Compra</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcc" v-model="pcc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -268,7 +268,7 @@
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc1" v-model="dpc1"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -276,7 +276,7 @@
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc2" v-model="dpc2"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -284,7 +284,7 @@
                                         <label for="basic-url">Descuento %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc3" v-model="dpc3"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -292,7 +292,7 @@
                                         <label for="basic-url">Descuento Bs.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dbsc" v-model="dbsc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@
                                         <label for="basic-url">Costo Compa C/Desc.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcdc" v-model="pcdc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -309,7 +309,7 @@
                                         <label for="basic-url">Precio Unitario</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="puc" v-model="puc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
 
@@ -335,7 +335,7 @@
                                         <label for="basic-url">P/U de Compra</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pucc" v-model="pucc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -358,7 +358,7 @@
                                         <label for="basic-url">Precio de Venta</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pvc" v-model="pvc"
-                                                aria-describedby="basic-addon3" v-on:keypress.prevent="caracteresPermitidosPrecioModal">
+                                                aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                             <button class="btn btn-warning" type="button" @click="calculadora">
                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
                                             </button>
@@ -479,37 +479,7 @@ export default {
 
     },
     methods: {
-
-        caracteresPermitidosPrecioModal(ex) {
-            let me = this;
-            // console.log(ex.currentTarget.id +'-->'+ex.keyCode +'-->'+ex.key);
-            //  backspace --> 8    punto "." --> 46         0 - 9 --> 48 al 57
-            if (ex.keyCode == 8 || ex.keyCode == 46 || (ex.keyCode >= 48 && ex.keyCode <= 57)) {
-                if (ex.currentTarget.id == 'p_compra') {
-                    me.p_compra = me.p_compra + ex.key;
-                } else if (ex.currentTarget.id == 'p_venta') {
-                    me.p_venta = me.p_venta + ex.key;
-                } else if (ex.currentTarget.id == 'pcc') {
-                    me.pcc = me.pcc + ex.key;
-                } else if (ex.currentTarget.id == 'dpc1') {
-                    me.dpc1 = me.dpc1 + ex.key;
-                } else if (ex.currentTarget.id == 'dpc2') {
-                    me.dpc2 = me.dpc2 + ex.key;
-                } else if (ex.currentTarget.id == 'dpc3') {
-                    me.dpc3 = me.dpc3 + ex.key;
-                } else if (ex.currentTarget.id == 'dbsc') {
-                    me.dbsc = me.dbsc + ex.key;
-                } else if (ex.currentTarget.id == 'pcdc') {
-                    me.pcdc = me.pcdc + ex.key;
-                } else if (ex.currentTarget.id == 'puc') {
-                    me.puc = me.puc + ex.key;
-                } else if (ex.currentTarget.id == 'pucc') {
-                    me.pucc = me.pucc + ex.key;
-                } else if (ex.currentTarget.id == 'pvc') {
-                    me.pvc = me.pvc + ex.key;
-                }
-            }
-        },   
+   
         
         listarLineas(){
                 let me = this;
@@ -998,7 +968,8 @@ export default {
             me.ubc = 0;
             me.upc =  0;
             me.pvc = 0;
-            
+            me.pcc = 0;
+            me.pcdc = 0;        
         },
 
         selectAll: function (event) {
@@ -1066,14 +1037,14 @@ export default {
             me.dpc2 = parseFloat(me.dpc2); // dpc2 = Descuento % (segundo input)
             me.dpc3 = parseFloat(me.dpc3); // dpc3 = Descuento % (tercer input)
             me.dbsc = parseFloat(me.dbsc); // dbsc = Descuento Bs.
-            me.pucc = parseFloat(me.pucc); // pucc = P/U de Compra
-            me.pvc = parseFloat(me.pvc); // pvc = Precio de Venta
+            me.pvc = parseFloat(me.pvc == 0 ? me.p_venta:me.pvc); // pvc = Precio de Venta
             
             var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)); // cd = Cantidad Dispenser
             me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)); 
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
             me.puc = (me.pcdc / cd); // puc = Precio Unitario
+            me.pucc = parseFloat(me.pucc == 0 ? me.puc:me.pucc); // pucc = P/U de Compra
             me.l30pc = ((me.puc * 100) / 70); // l30pc = Liq. 30 %
             me.l40pc = ((me.puc * 100) / 60); // l40pc = Liq. 40 %
             me.ubc = (me.pvc - me.pucc); // ubc = Utilidad Bruta
@@ -1086,7 +1057,10 @@ export default {
             'l30pc: '+me.l30pc+'\n'+
             'l40pc: '+me.l40pc+'\n'+
             'ubc : '+me.ubc +'\n'+
-            'upc: '+me.upc+'\n')
+            'upc: '+me.upc+'\n'+
+            'pucc: '+me.pucc+'\n'+
+            'pvc: '+me.pvc+'\n'
+            )
 
             me.pcc = me.pcc.toFixed(2);
             me.dpc1 = me.dpc1.toFixed(2);
@@ -1099,7 +1073,7 @@ export default {
             me.l40pc = me.l40pc.toFixed(2);
             me.pucc = me.pucc.toFixed(2);
             me.ubc = me.ubc.toFixed(2);
-            me.upc = Math.round(me.upc);
+            me.upc = me.upc.toFixed(2); // Math.round(me.upc);
             me.pvc = me.pvc.toFixed(2);
         }
 
