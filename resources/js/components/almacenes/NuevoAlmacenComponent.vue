@@ -140,7 +140,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Telefonos</label>
                                 <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
+                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 || event.charCode == 40 || event.charCode == 41 || event.charCode == 45 )" v-model="telefono" v-on:focus="selectAll">
                                  </div>
                             </div>
                             <!-- <div class="form-group row">

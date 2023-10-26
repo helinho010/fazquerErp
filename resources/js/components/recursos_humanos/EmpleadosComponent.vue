@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>CI:<span  v-if="ci==''" class="error">(*)</span></label>
-                                        <input type="number" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" >
+                                        <input type="number" min="0" id="ci" name="ci" class="form-control rounded" placeholder="CI" v-model="ci" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                                         <span  v-if="ci==''" class="error">Debe Ingresar el CI del empleado</span>
                                         <small style="color:darkmagenta" v-if="mensajeError != ''" class="error">{{ mensajeError }}</small>
                                     </div>
@@ -236,11 +236,11 @@
                                 <div class="row">
                                     <div class="form-group col-sm-6">
                                         <label>Telefono Fijo:</label>
-                                        <input type="text" id="telefono" name="telefono" class="form-control rounded" placeholder="Telefonos" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll" >
+                                        <input type="text" id="telefono" name="telefono" class="form-control rounded" placeholder="Telefonos" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 || event.charCode == 40 || event.charCode == 41 || event.charCode == 32)" v-model="telefono" v-on:focus="selectAll" >
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>Celular:<span  v-if="celular==''" class="error">(*)</span></label>
-                                        <input type="text" id="celular" name="celular" class="form-control rounded" placeholder="Celular" v-on:keypress.prevent="caracteresPermitidosCelular" v-model="celular" v-on:focus="selectAll" >
+                                        <input type="text" id="celular" name="celular" class="form-control rounded" placeholder="Celular" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 || event.charCode == 43 || event.charCode == 32)" v-model="celular" v-on:focus="selectAll" >
                                         <span  v-if="celular==''" class="error">Debe Ingresar Num. Cel.</span>
                                     </div>
                                 </div>
@@ -267,7 +267,7 @@
                                 <div class="row">
                                     <div class="form-group col-sm-6">
                                         <label>Nit:<small class="text-muted"> Si Corresponde</small></label>
-                                        <input type="text" id="nit" name="nit" class="form-control rounded" placeholder="Nit" v-on:keypress.prevent="caracteresPermitidosNit" v-model="nit" v-on:focus="selectAll" >
+                                        <input type="text" id="nit" name="nit" class="form-control rounded" placeholder="Nit" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" v-model="nit" v-on:focus="selectAll" >
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label>Cargo:</label>
@@ -312,7 +312,7 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <strong>Nro de Cuenta: </strong>
-                                        <input type="text" id="nrcuenta" name="nrcuenta" class="form-control rounded" placeholder="Numero de Cuenta" v-model="nrcuenta" v-on:focus="selectAll" >
+                                        <input type="text" id="nrcuenta" name="nrcuenta" class="form-control rounded" placeholder="Numero de Cuenta" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 )" v-model="nrcuenta" v-on:focus="selectAll" >
                                         <span  v-if="nrcuenta==''" class="error">El numero de cuenta es requerido</span>
                                     </div>
                                 </div>
@@ -532,6 +532,7 @@ import { error401 } from '../../errores';
 
             caracteresPermitidosTelefono(ex){
                 let me=this;
+                console.log(ex.keyCode +'-->'+ex.key);
                 if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.telefono = me.telefono+ex.key;

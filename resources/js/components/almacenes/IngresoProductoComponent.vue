@@ -137,7 +137,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <strong>Cantidad: <span  v-if="cantidad==0" class="error">(*)</span></strong>
-                                    <input type="number" min="0" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidos">
+                                    <input type="number" min="0" class="form-control" v-model="cantidad" style="text-align:right" placeholder="0" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                                     <span  v-if="cantidad==0" class="error">Debe Ingresar la Cantidad </span>
                                 </div>
                                 <div class="form-group col-sm-4">
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <strong>Lote: <span  v-if="lote==''" class="error">(*)</span></strong>
-                                    <input type="text" class="form-control" placeholder="Lote" v-model="lote" v-on:focus="selectAll">
+                                    <input type="text" class="form-control" placeholder="Lote" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" v-model="lote" v-on:focus="selectAll">
                                     <span  v-if="lote==''" class="error">Debe Ingresar el lote</span>
                                 </div>
                             </div>
@@ -358,6 +358,7 @@ import { error401 } from '../../errores';
                 me.codigo=JSON.stringify({
                         idproducto:me.idproductoselected,
                         cantidad: me.cantidad,
+                        lote:me.lote,
                         fechaVencimiento:me.fecha_vencimiento,
                         //estante:me.estanteselected,
                         //ubicacion:me.ubicacionSelected,
@@ -873,6 +874,7 @@ import { error401 } from '../../errores';
                         ({
                             idproducto:me.idproductoselected,
                             cantidad: me.cantidad,
+                            lote:me.lote,
                             fechaVencimiento:me.fecha_vencimiento,
                             registroSanitario:me.registrosanitario
                         });

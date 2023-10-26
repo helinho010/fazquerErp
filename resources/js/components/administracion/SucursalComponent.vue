@@ -154,13 +154,13 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Telefonos <span  v-if="telefono ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" v-on:keypress.prevent="caracteresPermitidosTelefono" v-model="telefono" v-on:focus="selectAll">
+                                    <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Ingrese Los numeros de Telefono" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 || event.charCode == 32 || event.charCode == 43 )" v-model="telefono" v-on:focus="selectAll">
                                     <span  v-if="telefono==''" class="error">Debe Ingresar La Razon Social</span>                                </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nit <span  v-if="nit ==''" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" v-on:keypress.prevent="caracteresPermitidosNit" v-model="nit" v-on:focus="selectAll">
+                                    <input type="text" id="nit" name="nit" class="form-control" placeholder="Ingrese el numero de NIT" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" v-model="nit" v-on:focus="selectAll">
                                     <span  v-if="nit==''" class="error">Debe Ingresar el NIT</span>                                
                                 </div>
                             </div>
@@ -302,22 +302,6 @@ import { error401 } from '../../errores';
 
         },
         methods :{
-
-            caracteresPermitidosTelefono(ex){
-                let me=this;
-                if(ex.keyCode==32 || ex.keyCode==43 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
-                {
-                    me.telefono = me.telefono+ex.key;
-                } 
-            },
-
-            caracteresPermitidosNit(ex){
-                let me=this;
-                if(ex.keyCode==32 || ex.keyCode==8 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
-                {
-                    me.nit = me.nit+ex.key;
-                } 
-            },
 
             // buscarSucursal(){
             //     let me = this;

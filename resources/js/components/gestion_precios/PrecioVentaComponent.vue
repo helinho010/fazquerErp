@@ -1019,13 +1019,35 @@ export default {
             // var p_compra = parseFloat(me.p_compra);
             me.margen_30 = ((parseFloat(me.p_compra) * 100) / 80).toFixed(2);
             me.margen_40 = ((parseFloat(me.p_compra) * 100) / 70).toFixed(2);
-            me.utilidad_bruta = (parseFloat(me.p_venta) - parseFloat(me.p_compra));
+            me.utilidad_bruta = (parseFloat(me.p_venta) - parseFloat(me.p_compra)).toFixed(2);
             me.utilidad_neta = ((parseFloat(me.p_venta) - parseFloat(me.p_compra)) / me.p_venta) * 100;
             me.utilidad_neta = Math.round(me.utilidad_neta);
         },
 
         calculadoraCostoCompra(){
-            console.log("Gestor Costo Compra");
+
+            let me = this;
+            
+            me.pcc = parseFloat(me.pcc); // pcc = Precio de Compra
+            me.dpc1 = parseFloat(me.dpc1); // dpc1 = Descuento % (primer input)
+            me.dpc2 = parseFloat(me.dpc2); // dpc2 = Descuento % (segundo input)
+            me.dpc3 = parseFloat(me.dpc3); // dpc3 = Descuento % (tercer input)
+            me.dbsc = parseFloat(me.dbsc); // dbsc = Descuento Bs.
+
+            var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)); // cd = Cantidad Dispenser
+            me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)); 
+            me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
+            me.puc = (me.pcdc / cd); // puc = Precio Unitario
+    
+
+            me.pcc = me.pcc.toFixed(2);
+            me.dpc1 = me.dpc1.toFixed(2);
+            me.dpc2 = me.dpc2.toFixed(2);
+            me.dpc3 = me.dpc3.toFixed(2);
+            me.dbsc = me.dbsc.toFixed(2);
+            me.puc = me.puc.toFixed(2);
+            me.pcdc = me.pcdc.toFixed(2);
         },
 
         calculadoraPrecioVenta() {
@@ -1053,43 +1075,28 @@ export default {
             // me.dbsc = me.dbsc.toFixed(2);
             
 
-            me.pcc = parseFloat(me.pcc); // pcc = Precio de Compra
-            me.dpc1 = parseFloat(me.dpc1); // dpc1 = Descuento % (primer input)
-            me.dpc2 = parseFloat(me.dpc2); // dpc2 = Descuento % (segundo input)
-            me.dpc3 = parseFloat(me.dpc3); // dpc3 = Descuento % (tercer input)
-            me.dbsc = parseFloat(me.dbsc); // dbsc = Descuento Bs.
+            me.pcdc = parseFloat(me.pcdc);
             me.pvc = parseFloat(me.pvc == 0 ? me.p_venta:me.pvc); // pvc = Precio de Venta
-            
-            var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)); // cd = Cantidad Dispenser
-            me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
-            me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)); 
-            me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
-            me.puc = (me.pcdc / cd); // puc = Precio Unitario
             me.pucc = parseFloat(me.pucc == 0 ? me.puc:me.pucc); // pucc = P/U de Compra
             me.l20pc = ((me.puc * 100) / 80); // l20pc = Liq. 20 %
             me.l30pc = ((me.puc * 100) / 70); // l30pc = Liq. 30 %
             me.ubc = (me.pvc - me.pucc); // ubc = Utilidad Bruta
             me.upc = ((me.ubc * 100) / me.pvc); //  upc = Utilidad Bruta%
 
-            console.log("**********Utilidad********");
-            console.log('cd: '+cd+ '\n'+        
-            'pdcd: '+me.pcdc+'\n'+
-            'puc: '+me.puc+'\n'+
-            'l20pc: '+me.l20pc+'\n'+
-            'l30pc: '+me.l30pc+'\n'+
-            'ubc : '+me.ubc +'\n'+
-            'upc: '+me.upc+'\n'+
-            'pucc: '+me.pucc+'\n'+
-            'pvc: '+me.pvc+'\n'
-            )
+            // console.log("**********Utilidad********");
+            // console.log(        
+            // 'pdcd: '+me.pcdc+'\n'+
+            // 'puc: '+me.puc+'\n'+
+            // 'l20pc: '+me.l20pc+'\n'+
+            // 'l30pc: '+me.l30pc+'\n'+
+            // 'ubc : '+me.ubc +'\n'+
+            // 'upc: '+me.upc+'\n'+
+            // 'pucc: '+me.pucc+'\n'+
+            // 'pvc: '+me.pvc+'\n'
+            // );
 
-            me.pcc = me.pcc.toFixed(2);
-            me.dpc1 = me.dpc1.toFixed(2);
-            me.dpc2 = me.dpc2.toFixed(2);
-            me.dpc3 = me.dpc3.toFixed(2);
-            me.dbsc = me.dbsc.toFixed(2);
-            me.pcdc = me.pcdc.toFixed(2);
-            me.puc = me.puc.toFixed(2);
+
+            me.pcdc = me.pcdc.toFixed(2);            
             me.l20pc = me.l20pc.toFixed(2);
             me.l30pc = me.l30pc.toFixed(2);
             me.pucc = me.pucc.toFixed(2);
