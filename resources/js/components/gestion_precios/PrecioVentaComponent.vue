@@ -220,7 +220,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-md-2">
-                                        <label for="basic-url">Margen 30%</label>
+                                        <label for="basic-url">Margen 20%</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="margen_30"
                                                 aria-describedby="basic-addon3">
@@ -228,17 +228,25 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="basic-url">Margen 40%</label>
+                                        <label for="basic-url">Margen 30%</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="margen_40"
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
-
-                                    <div class="col-md-3">
-                                        <label>Utilidad Neta (en %)</label>
+                                    <div class="col-md-2">
+                                        <label>Utilidad Bruta</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" v-model="utilidad_neta"
+                                            <input type="text" class="form-control" v-model="utilidad_bruta"
+                                                aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- cambiar la utilidad bruta variable y en la base de datos ojo muy importante -->
+                                    <div class="col-md-3">
+                                        <label>Utilidad Neta (%)</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" v-model="utilidad_neta" 
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
@@ -251,7 +259,7 @@
                                 
                                 <hr>
                                 <div>
-                                    <h5>Gestor de Precios</h5><br>
+                                    <h5>Gestor Costo Compra</h5><br>
                                 </div>
 
 
@@ -265,7 +273,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="basic-url">Descuento %</label>
+                                        <label for="basic-url">Desc. 1 %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc1" v-model="dpc1"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
@@ -273,7 +281,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="basic-url">Descuento %</label>
+                                        <label for="basic-url">Desc. 2 %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc2" v-model="dpc2"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
@@ -281,7 +289,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="basic-url">Descuento %</label>
+                                        <label for="basic-url">Desc. 3 %</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="dpc3" v-model="dpc3"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
@@ -295,7 +303,9 @@
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
+                                    
                                 </div>
+
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label for="basic-url">Costo Compa C/Desc.</label>
@@ -310,26 +320,17 @@
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="puc" v-model="puc"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <label for="basic-url">Liq. 30 %</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" id="l30pc" v-model="l30pc"
-                                                aria-describedby="basic-addon3">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <label for="basic-url">Liq. 40%</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" id="l40pc" v-model="l40pc"
-                                                aria-describedby="basic-addon3">
+                                            <button class="btn btn-warning" type="button" @click="calculadoraCostoCompra">
+                                                <i class="fa fa-calculator" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
+                                <hr>
+                                <div>
+                                    <h5>Gestor Precio Venta</h5><br>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-2">
                                         <label for="basic-url">P/U de Compra</label>
@@ -338,10 +339,19 @@
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
                                         </div>
                                     </div>
+
                                     <div class="col-md-2">
-                                        <label for="basic-url">Utilidad Bruta</label>
+                                        <label for="basic-url">Liq. 20 %</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" id="ubc" v-model="ubc"
+                                            <input type="text" class="form-control" id="l20pc" v-model="l20pc"
+                                                aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="basic-url">Liq. 30%</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="l30pc" v-model="l30pc"
                                                 aria-describedby="basic-addon3">
                                         </div>
                                     </div>
@@ -359,11 +369,22 @@
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pvc" v-model="pvc"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
-                                            <button class="btn btn-warning" type="button" @click="calculadora">
+                                            <button class="btn btn-warning" type="button" @click="calculadoraPrecioVenta">
                                                 <i class="fa fa-calculator" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                     </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <!-- <div class="col-md-2">
+                                        <label for="basic-url">Utilidad Bruta</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="ubc" v-model="ubc"
+                                                aria-describedby="basic-addon3">
+                                        </div>
+                                    </div> -->
                                 </div>
                             </form>
                         </div>
@@ -418,6 +439,7 @@ export default {
             p_compra: 0,
             margen_30: 0,
             margen_40: 0,
+            utilidad_bruta:0,
             p_venta: 0,
             utilidad_neta: 0,
             pcc: 0,
@@ -427,8 +449,8 @@ export default {
             dbsc: 0,
             pcdc: 0,
             puc: 0,
+            l20pc: 0,
             l30pc: 0,
-            l40pc: 0,
             pucc: 0,
             ubc: 0,
             upc: 0,
@@ -897,8 +919,8 @@ export default {
                                 me.dpc2 = 0;
                                 me.dpc3 = 0;
                                 me.dbsc = 0;
+                                me.l20pc = 0;
                                 me.l30pc = 0;
-                                me.l40pc = 0;
                                 me.pucc = 0;
                                 me.ubc = 0;
                                 me.upc =  0;
@@ -962,8 +984,8 @@ export default {
             me.dpc2 = 0;
             me.dpc3 = 0;
             me.dbsc = 0;
+            me.l20pc = 0;
             me.l30pc = 0;
-            me.l40pc = 0;
             me.pucc = 0;
             me.ubc = 0;
             me.upc =  0;
@@ -995,19 +1017,18 @@ export default {
 
             let me = this;
             // var p_compra = parseFloat(me.p_compra);
-            me.margen_30 = ((parseFloat(me.p_compra) * 100) / 70).toFixed(2);
-
-            // $("#margen_30p_utilidad").val(margen_30);
-            me.margen_40 = ((parseFloat(me.p_compra) * 100) / 60).toFixed(2);
-            // $("#margen_40p_utilidad").val(margen_40);
-
-            // var p_venta = parseFloat($("#precio_venta_utilidad").val());
+            me.margen_30 = ((parseFloat(me.p_compra) * 100) / 80).toFixed(2);
+            me.margen_40 = ((parseFloat(me.p_compra) * 100) / 70).toFixed(2);
+            me.utilidad_bruta = (parseFloat(me.p_venta) - parseFloat(me.p_compra));
             me.utilidad_neta = ((parseFloat(me.p_venta) - parseFloat(me.p_compra)) / me.p_venta) * 100;
             me.utilidad_neta = Math.round(me.utilidad_neta);
-            // $("#neto_utilidad").val(utilidad_neta);
         },
 
-        calculadora() {
+        calculadoraCostoCompra(){
+            console.log("Gestor Costo Compra");
+        },
+
+        calculadoraPrecioVenta() {
             let me = this;
             // me.pcc = parseFloat(me.pcc);
             // me.dpc1 = parseFloat(me.dpc1);
@@ -1019,8 +1040,8 @@ export default {
             // me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)).toFixed(2);
             // me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100)).toFixed(2);
             // me.puc = (me.pcdc / cd).toFixed(2);
-            // me.l30pc = ((me.puc * 100) / 70).toFixed(2);
-            // me.l40pc = ((me.puc * 100) / 60).toFixed(2);
+            // me.l20pc = ((me.puc * 100) / 70).toFixed(2);
+            // me.l30pc = ((me.puc * 100) / 60).toFixed(2);
             // me.pucc = parseFloat(me.pucc).toFixed(2);
             // me.pvc = parseFloat(me.pvc).toFixed(2);
             // me.ubc = (me.pvc - me.pucc).toFixed(2);
@@ -1045,8 +1066,8 @@ export default {
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
             me.puc = (me.pcdc / cd); // puc = Precio Unitario
             me.pucc = parseFloat(me.pucc == 0 ? me.puc:me.pucc); // pucc = P/U de Compra
+            me.l20pc = ((me.puc * 100) / 80); // l20pc = Liq. 20 %
             me.l30pc = ((me.puc * 100) / 70); // l30pc = Liq. 30 %
-            me.l40pc = ((me.puc * 100) / 60); // l40pc = Liq. 40 %
             me.ubc = (me.pvc - me.pucc); // ubc = Utilidad Bruta
             me.upc = ((me.ubc * 100) / me.pvc); //  upc = Utilidad Bruta%
 
@@ -1054,8 +1075,8 @@ export default {
             console.log('cd: '+cd+ '\n'+        
             'pdcd: '+me.pcdc+'\n'+
             'puc: '+me.puc+'\n'+
+            'l20pc: '+me.l20pc+'\n'+
             'l30pc: '+me.l30pc+'\n'+
-            'l40pc: '+me.l40pc+'\n'+
             'ubc : '+me.ubc +'\n'+
             'upc: '+me.upc+'\n'+
             'pucc: '+me.pucc+'\n'+
@@ -1069,8 +1090,8 @@ export default {
             me.dbsc = me.dbsc.toFixed(2);
             me.pcdc = me.pcdc.toFixed(2);
             me.puc = me.puc.toFixed(2);
+            me.l20pc = me.l20pc.toFixed(2);
             me.l30pc = me.l30pc.toFixed(2);
-            me.l40pc = me.l40pc.toFixed(2);
             me.pucc = me.pucc.toFixed(2);
             me.ubc = me.ubc.toFixed(2);
             me.upc = me.upc.toFixed(2); // Math.round(me.upc);

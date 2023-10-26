@@ -20,7 +20,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarSucursales(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarSucursales(1)"><i class="fa fa-search" ></i> Buscar</button>
+                                <button type="submit" class="btn btn-primary" @click="buscarSucursal"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
                         </div>
                     </div>
@@ -237,6 +237,7 @@ import { error401 } from '../../errores';
                 nit:'',
                 direccion:'',
                 arraySucursales:[],
+                arraySucursalesCopia:[],
                 tituloModal:'',
                 tipoAccion:1,
                 idsucursal:'',
@@ -317,6 +318,28 @@ import { error401 } from '../../errores';
                     me.nit = me.nit+ex.key;
                 } 
             },
+
+            // buscarSucursal(){
+            //     let me = this;
+            //     me.arraySucursalesCopia = me.arraySucursales;
+            //     let arrayBuscar = [];
+            //     console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            //     console.log(me.arraySucursales);
+
+            //     if (me.buscar != '') {
+            //         arrayBuscar = me.buscar.split(' ');
+            //         arrayBuscar.forEach(element => {
+                        
+            //         });
+            //     }else{
+            //         me.arraySucursales = me.arraySucursalesCopia;
+            //     }
+            //     // me.arraySucursales.forEach(sucursal => {
+            //     //     if (sucursal.) {
+                        
+            //     //     }
+            //     // });
+            // },
 
             listarSucursales(page){
                 let me=this;
