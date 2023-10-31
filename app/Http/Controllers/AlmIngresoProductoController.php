@@ -79,7 +79,7 @@ class AlmIngresoProductoController extends Controller
                                        alm__ingreso_producto.envase as envaseregistrado, 
                                        alm__ingreso_producto.idalmacen, 
                                        alm__ingreso_producto.cantidad, 
-                                       alm__ingreso_producto.tipo_entrada, 
+                                       alm__ingreso_producto.id_tipoentrada, 
                                        alm__ingreso_producto.fecha_vencimiento, 
                                        alm__ingreso_producto.lote, 
                                        alm__ingreso_producto.registro_sanitario, 
@@ -156,11 +156,10 @@ class AlmIngresoProductoController extends Controller
         $nuevoProducto->envase = $request->envase;
         $nuevoProducto->idalmacen = $request->idalmacen;
         $nuevoProducto->cantidad = $request->cantidad;
-        $nuevoProducto->tipo_entrada = $request->tipo_entrada;
+        $nuevoProducto->id_tipoentrada = $request->id_tipo_entrada;
         $nuevoProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $nuevoProducto->lote = $request->lote;
         $nuevoProducto->registro_sanitario = $request->registro_sanitario;
-        //$nuevoProducto->codigo_internacional = $request->codigo_internacional;
         $nuevoProducto->id_usuario_registra=auth()->user()->id;
         $nuevoProducto->save();
     }
@@ -191,11 +190,10 @@ class AlmIngresoProductoController extends Controller
         $actualizarProducto->envase = $request->envase;
         $actualizarProducto->idalmacen = $request->idalmacen;
         $actualizarProducto->cantidad = $request->cantidad;
-        $actualizarProducto->tipo_entrada = $request->tipo_entrada;
+        $actualizarProducto->id_tipoentrada = $request->id_tipo_entrada;
         $actualizarProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $actualizarProducto->lote = $request->lote;
         $actualizarProducto->registro_sanitario = $request->registro_sanitario;
-        //$actualizarProducto->codigo_internacional = $request->codigo_internacional;
         $actualizarProducto->id_usuario_registra=auth()->user()->id;
         $actualizarProducto->save();
     }

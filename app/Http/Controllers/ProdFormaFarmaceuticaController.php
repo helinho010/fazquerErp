@@ -42,17 +42,19 @@ class ProdFormaFarmaceuticaController extends Controller
         }
         
         //$formafarm = Prod_FormaFarmaceutica::all();
-        return ['pagination'=>[
-            'total'         =>    $formafarm->total(),
-            'current_page'  =>    $formafarm->currentPage(),
-            'per_page'      =>    $formafarm->perPage(),
-            'last_page'     =>    $formafarm->lastPage(),
-            'from'          =>    $formafarm->firstItem(),
-            'to'            =>    $formafarm->lastItem(),
-
-        ] ,
-                'formafarm'=>$formafarm,
-                ];
+        return 
+        [
+            'pagination'=>
+            [
+                'total'         =>    $formafarm->total(),
+                'current_page'  =>    $formafarm->currentPage(),
+                'per_page'      =>    $formafarm->perPage(),
+                'last_page'     =>    $formafarm->lastPage(),
+                'from'          =>    $formafarm->firstItem(),
+                'to'            =>    $formafarm->lastItem(),
+            ] ,
+           'formafarm'=>$formafarm,
+        ];
     }
 
     /**

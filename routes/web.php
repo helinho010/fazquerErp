@@ -28,6 +28,7 @@ use App\Http\Controllers\ProdFormaFarmaceuticaController;
 use App\Http\Controllers\ProdLineaController;
 use App\Http\Controllers\ProdProductoController;
 use App\Http\Controllers\ProdTipoDescuentoController;
+use App\Http\Controllers\ProdTipoEntradaController;
 use App\Http\Controllers\RrhCargoController;
 use App\Http\Controllers\RrhEmpleadoController;
 use App\Http\Controllers\RrhFormacionController;
@@ -287,12 +288,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/producto/activar', [ProdProductoController::class,'activar']);
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
     Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
-    /*Esta ruta es de prueba*/
     Route::get('/producto/getProductosTiendaAlamcenEnvase',[ProdProductoController::class,'getProductosTiendaAlamcenEnvase']);
-    /** Find de la ruta de prueba */
     Route::get('/producto/selectproductoperecedero',[ProdProductoController::class,'selectProductoPerecedero']);
     
-
     Route::get('/dispenser',[ProdDispenserController::class,'index']);
     Route::post('/dispenser/registrar', [ProdDispenserController::class,'store']);
     Route::put('/dispenser/actualizar', [ProdDispenserController::class,'update']);
@@ -317,6 +315,12 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/categoria/activar', [ProdCategoriaController::class,'activar']);
     Route::get('/categoria/selectcategoria',[ProdCategoriaController::class,'selectCategoria']);
     Route::get('/categoria/selectcategoria2',[ProdCategoriaController::class,'selectCategoria2']);
+
+    Route::get('/tipoentrada',[ProdTipoEntradaController::class,'index']);
+    Route::post('/tipoentrada/registrar',[ProdTipoEntradaController::class,'store']);
+    Route::put('/tipoentrada/actualizar',[ProdTipoEntradaController::class,'update']);
+    Route::put('/tipoentrada/desactivar', [ProdTipoEntradaController::class,'desactivar']);
+    Route::put('/tipoentrada/activar', [ProdTipoEntradaController::class,'activar']);
 
     Route::get('/estante',[AlmCodificacionController::class,'index']);
     Route::post('/estante/registrar', [AlmCodificacionController::class,'store']);

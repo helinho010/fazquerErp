@@ -10,7 +10,7 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Forma o Unidad de Medida
+                    <i class="fa fa-align-justify"></i> Tipo de Entrada
                     <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
@@ -19,8 +19,8 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarFormaFarm(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarFormaFarm(1)"><i class="fa fa-search" ></i> Buscar</button>
+                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="valorBuscar"  @keyup.enter="buscar">
+                                <button type="submit" class="btn btn-primary" @click="buscar"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
                         </div>
                     </div>
@@ -33,28 +33,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="formafarm in arrayFormaFarm" :key="formafarm.id">
+                            <tr v-for="tipoentrada in arrayTipoEntrada" :key="tipoentrada.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',formafarm)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',tipoentrada)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="formafarm.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarFormaFarm(formafarm.id)" >
+                                    <button v-if="tipoentrada.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarTipoEntrada(tipoentrada.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarFormaFarm(formafarm.id)" >
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarTipoEntrada(tipoentrada.id)" >
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td v-text="formafarm.nombre"></td>
+                                <td v-text="tipoentrada.nombre"></td>
                                 <td>
-                                    <div v-if="formafarm.activo==1">
+                                    <div v-if="tipoentrada.activo==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">Desactivado</span>
                                     </div>
+                                    
                                 </td>
                             </tr>
+                           
                         </tbody>
                     </table>
                     <nav>
@@ -74,6 +76,8 @@
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
+
+
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="registrar" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -85,20 +89,20 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- <form action="" method="post" enctype="multipart/form-data" class="form-horizontal"> -->
+                        <form action=""  class="form-horizontal">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre <span  v-if="!sicompleto" class="error">(*)</span></label>
+                                <label class="col-md-3 form-control-label" for="text-input">Nombre: <span  v-if="!sinombre" class="error">(*)</span></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del FormaFarm" v-model="nombre" v-on:focus="selectAll" @keyup.enter="registrarFormaFarm()">
-                                    <span  v-if="!sicompleto" class="error">Debe Ingresar el Nombre de la Forma Farmaceutica</span>
+                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Tipo de Entrada" v-model="nombre" v-on:focus="selectAll" >
+                                    <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre del Tipo de Entrada</span>
                                 </div>
-                            </div>
-                        <!-- </form> -->
+                            </div>                            
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarFormaFarm()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarFormaFarm()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarTipoEntrada()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarTipoEntrada()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -106,15 +110,12 @@
             <!-- /.modal-dialog -->
         </div>
         <!--Fin del modal-->
-        
-        
     </main>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
 import { error401 } from '../../errores';
-
 //Vue.use(VeeValidate);
     export default {
         data(){
@@ -128,26 +129,45 @@ import { error401 } from '../../errores';
                     'to':0
                 },
                 offset:3,
+                idtipoentrada:0,
                 nombre:'',
-                arrayFormaFarm:[],
+                arrayTipoEntrada:[],
+                arrayTipoEntradaData:[],
+                arrayTipoEntradaDataCopia:[],
                 tituloModal:'',
                 tipoAccion:1,
-                idformafarm:'',
-                buscar:''
+                valorBuscar:'',             
             }
-
         },
+
         computed:{
-            sicompleto(){
+            sinombre(){
                 let me=this;
-                if (me.nombre!='')
+                if(me.nombre!='')
                     return true;
                 else
                     return false;
             },
+            
+            sicompleto(){
+                let me=this;
+                if (me.tipoAccion == 2) {
+                    if (me.nombre !='')
+                        return true;
+                    else
+                        return false;   
+                } else {
+                    if (me.nombre!='')
+                        return true;
+                    else
+                        return false;   
+                }
+            },
+
             isActived:function(){
                 return this.pagination.current_page;
             },
+
             pagesNumber:function(){
                 if(!this.pagination.to){
                     return[];
@@ -167,52 +187,79 @@ import { error401 } from '../../errores';
                 }
                 return pagesArray;
             },
-
-
         },
+
         methods :{
-            listarFormaFarm(page){
+
+            listarTipoEntrada(page){
                 let me=this;
-                var url='/formafarm?page='+page+'&buscar='+me.buscar;
+                var url='/tipoentrada?page='+page;
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    me.arrayFormaFarm=respuesta.formafarm.data;
-                    
+                    me.arrayTipoEntrada=respuesta.tipoentrada.data;
+                    me.arrayTipoEntradaData = respuesta.tipoentrada_data;
                 })
                 .catch(function(error){
                     error401(error);
                     console.log(error);
                 });
             },
+
+            buscar(){
+                let me = this;
+                me.arrayTipoEntradaDataCopia = me.arrayTipoEntradaData;
+                let arrayAux = [];
+                if(me.valorBuscar == ''){
+                    me.arrayTipoEntrada = me.arrayTipoEntradaDataCopia;
+                }else{
+                    me.arrayTipoEntrada.forEach(tipoentrada => {
+                        if(tipoentrada.nombre.toLowerCase().includes(me.valorBuscar.toLowerCase())){
+                            arrayAux.push(tipoentrada);
+                        }
+                    });
+                    me.arrayTipoEntrada = arrayAux;
+                }
+            },
+
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
-                me.listarFormaFarm(page);
+                me.listarTipoEntrada(page);
             },
-            registrarFormaFarm(){
+
+            registrarTipoEntrada(){
                 let me = this;
-                axios.post('/formafarm/registrar',{
-                    'nombre':me.nombre,
-                }).then(function(response){
-                    if(response.data=='error')
-                    {
-                        Swal.fire('El registro ya existe','Debe introducir uno diferente');
-                    }
-                    else
-                    {
-                        me.cerrarModal('registrar');
-                        me.listarFormaFarm(1);
-                    }
+                axios.post('/tipoentrada/registrar',{'nombre':me.nombre})
+                .then(function(response){
+                    Swal.fire('Tipo de Entrada almacenado Exitosamente!')
+                    me.cerrarModal('registrar');
+                    me.listarTipoEntrada(1);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
                 });
 
             },
-            eliminarFormaFarm(idformafarm){
+
+            actualizarTipoEntrada(){
+                let me =this;
+                axios.put('/tipoentrada/actualizar',{
+                    'id':me.idtipoentrada,
+                    'nombre':me.nombre,
+                }).then(function (response) {
+                    Swal.fire('Tipo de Entrada Actualizado Exitosamente!');
+                    me.listarTipoEntrada(1);
+                }).catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+                me.cerrarModal('registrar');
+            },
+
+
+            eliminarTipoEntrada(idtipoentrada){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -231,8 +278,8 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/formafarm/desactivar',{
-                        'id': idformafarm
+                     axios.put('/tipoentrada/desactivar',{
+                        'id': idtipoentrada,
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -240,14 +287,12 @@ import { error401 } from '../../errores';
                             'El registro a sido desactivado Correctamente',
                             'success'
                         )
-                        me.listarFormaFarm(me.pagination.current_page);
+                        me.listarTipoEntrada(1);
                         
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
-                    });
-                    
-                    
+                    });  
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -260,9 +305,9 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            activarFormaFarm(idformafarm){
+
+            activarTipoEntrada(idtipoentrada){
                 let me=this;
-                //console.log("prueba");
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -281,8 +326,8 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/formafarm/activar',{
-                        'id': idformafarm
+                     axios.put('/tipoentrada/activar',{
+                        'id': idtipoentrada,
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -290,7 +335,7 @@ import { error401 } from '../../errores';
                             'El registro a sido Activado Correctamente',
                             'success'
                         )
-                        me.listarFormaFarm(me.pagination.current_page);
+                        me.listarTipoEntrada(1);
                         
                     }).catch(function (error) {
                         error401(error);
@@ -310,37 +355,15 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            actualizarFormaFarm(){
-               // const Swal = require('sweetalert2')
-                let me =this;
-                axios.put('/formafarm/actualizar',{
-                    'id':me.idformafarm,
-                    'nombre':me.nombre,
-                    
-                }).then(function (response) {
-                    if(response.data.length){
-                    }
-                    // console.log(response)
-                    else{
-                            Swal.fire('Actualizado Correctamente')
-
-                        me.listarFormaFarm(me.pagination.current_page);
-                    } 
-                }).catch(function (error) {
-                    error401(error);
-                    console.log(error);
-                });
-                me.cerrarModal('registrar');
 
 
-            },
             abrirModal(accion,data= []){
                 let me=this;
                 switch(accion){
                     case 'registrar':
                     {
-                        me.tituloModal='Registar Forma o Unidad de Medida'
                         me.tipoAccion=1;
+                        me.tituloModal='Actualizar Nombre de Tipo de Entrada';
                         me.nombre='';
                         me.classModal.openModal('registrar');
                         break;
@@ -348,34 +371,31 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        me.idformafarm=data.id;
                         me.tipoAccion=2;
-                        me.tituloModal='Actualizar Forma o Unidad de Medida'
+                        me.tituloModal='Actualizar Nombre de Tipo de Entrada';
+                        me.idtipoentrada=data.id;
                         me.nombre=data.nombre;
                         me.classModal.openModal('registrar');
                         break;
                     }
-
-                }
-                
+                } 
             },
+
             cerrarModal(accion){
                 let me = this;
                 me.classModal.closeModal(accion);
                 me.nombre='';
-                me.tipoAccion=1;
-                
             },
+
             selectAll: function (event) {
                 setTimeout(function () {
                     event.target.select()
                 }, 0)
             },  
-
-
         },
+
         mounted() {
-            this.listarFormaFarm(1);
+            this.listarTipoEntrada(1);
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
@@ -383,9 +403,9 @@ import { error401 } from '../../errores';
     }
 </script>
 <style scoped>
-.error{
+.error
+{
     color: red;
-    font-size: 10px;
-    
+    font-size: 10px;    
 }
 </style>

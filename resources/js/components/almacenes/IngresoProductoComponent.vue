@@ -143,8 +143,9 @@
                                 <div class="form-group col-sm-4">
                                     <strong>Tipo Entrada:</strong>
                                     <select v-model="tipo_entrada" class="form-control">
-                                    <option v-for="tipo in arraytipoentrada" :key="tipo" :value="tipo" v-text="tipo"></option>
-                                </select>
+                                        <option value="0" disabled>Seleccionar...</option>
+                                        <option v-for="tipo in arrayTipoEntradaProductos" :key="tipo.id" :value="tipo.id" v-text="tipo.nombre"></option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <strong>Lote: <span  v-if="lote==''" class="error">(*)</span></strong>
@@ -293,7 +294,7 @@ import { error401 } from '../../errores';
                 precio:'',
                 clearSelected:1,
                 cantidad:0,
-                tipo_entrada:'Compra',
+                tipo_entrada:40,
                 fechaactual:'',
                 fechamin:'',
                 fecha_vencimiento:'',
@@ -307,20 +308,7 @@ import { error401 } from '../../errores';
                 lote:'',
                 registrosanitario:'',
                 productoperecedero:0,
-                arraytipoentrada:['Bonificacion',
-                                    'Compensacion',
-                                    'Compra',
-                                    'Devolucion',
-                                    'Donacion',
-                                    'Error de Registro',
-                                    'Permuta',
-                                    'Prestamo',
-                                    'Recuperacion',
-                                    'Reintegro',
-                                    'Reposicion',
-                                    'Sobrante',
-                                    'Traspaso'],
-                
+                                
                  //////qrcode
                 value: 'https://example.com',
                 size: 120,
@@ -330,6 +318,7 @@ import { error401 } from '../../errores';
                 arrayIngresoProducto:[],
                 arrayLineasMarca:[],
                 arrayRubro:[],
+                arrayTipoEntradaProductos:[],
                 arrayUsuario:[],
                 opciones:'<option value="0" disabled>Seleccionar...</option>',
                 opciones2:[],
@@ -422,6 +411,7 @@ import { error401 } from '../../errores';
                 } 
             },
 
+
             listarRubro(){
                 let me=this;
                 var url='/rubro/selectrubro';
@@ -431,8 +421,18 @@ import { error401 } from '../../errores';
                 })
                 .catch(function (error) {
                     error401(error);
-                    console.log(error);
                 });
+            },
+
+            listarTipoEntradaProducto(){
+              let me = this;
+                var url = '/tipoentrada';
+              axios.get(url)
+              .then(function(response){
+                me.arrayTipoEntradaProductos = response.data.tipoentrada_data;
+              }).catch(function(error){
+                    error401(error);
+              });  
             },
 
             listarUsuarios(){
@@ -443,7 +443,6 @@ import { error401 } from '../../errores';
                 })
                 .catch(function(error){
                     error401(error);
-                    console.log(error);
                 });
             },
 
@@ -472,8 +471,10 @@ import { error401 } from '../../errores';
                             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
                             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
                             producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
+                            producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
                         });
                     }).catch(function(error){
+                        error401(error);
                         console.log(error);
                     });   
                 }
@@ -700,7 +701,7 @@ import { error401 } from '../../errores';
                     'envase':me.envaseProductoSelecionadoIngresoAlmacen,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
-                    'tipo_entrada':me.tipo_entrada,
+                    'id_tipo_entrada':me.tipo_entrada,
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
@@ -819,7 +820,7 @@ import { error401 } from '../../errores';
                     'envase':me.arrayIngresoProducto.find((element1)=>element1.id_prod_producto== me.idproductoRealSeleccionado).envaseregistrado,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
-                    'tipo_entrada':me.tipo_entrada,
+                    'id_tipo_entrada':me.tipo_entrada,
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
                     'registro_sanitario':me.registrosanitario,
@@ -834,7 +835,6 @@ import { error401 } from '../../errores';
 
             abrirModal(accion,data= []){
                 let me=this;
-                //me.listarEstantes(me.sucursalselected);
                 let respuesta=me.arrayAlmacen.find(element=>element.id==me.almacenselected);
                 switch(accion){
                     case 'registrar':
@@ -844,7 +844,7 @@ import { error401 } from '../../errores';
                             me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.nombre_almacen;
                             me.tipoAccion=1;
                             me.idproductoselected=0;
-                            me.tipo_entrada='Compra';
+                            me.tipo_entrada=40;
                             me.cantidad=0;
                             me.lote='';
                             me.fecha_vencimiento='';
@@ -866,7 +866,7 @@ import { error401 } from '../../errores';
                         me.idproductoselected = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
                         me.idproductoRealSeleccionado = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
                         me.cantidad = data.cantidad;
-                        me.tipo_entrada = data.tipo_entrada;
+                        me.tipo_entrada = data.id_tipoentrada;
                         me.fecha_vencimiento = data.fecha_vencimiento;
                         me.lote = data.lote;
                         me.registrosanitario = data.registro_sanitario;
@@ -993,6 +993,7 @@ import { error401 } from '../../errores';
         mounted() {
             this.obtenerfecha(1);
             this.listarLineaMarca();
+            this.listarTipoEntradaProducto();
             this.listarUsuarios();
             this.listarAlmacenes();
             this.selectSucursals();

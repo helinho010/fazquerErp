@@ -47,6 +47,7 @@ createApp ({
     .component('dispenser-component', require('./components/productos/DispenserComponent.vue').default)
     .component('formafarm-component', require('./components/productos/FormaFarmaceuticaComponent.vue').default)
     .component('categoria-component', require('./components/productos/CategoriaComponent.vue').default)
+    .component('tipo-entrada-component', require('./components/productos/TipoEntradaComponent.vue').default)
 
     //Almacen
     .component('codificacion-component', require('./components/almacenes/CodificacionComponent.vue').default)
