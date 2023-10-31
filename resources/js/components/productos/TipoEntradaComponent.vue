@@ -89,15 +89,13 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action=""  class="form-horizontal">
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre: <span  v-if="!sinombre" class="error">(*)</span></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Tipo de Entrada" v-model="nombre" v-on:focus="selectAll" >
-                                    <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre del Tipo de Entrada</span>
-                                </div>
-                            </div>                            
-                        </form>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Nombre: <span  v-if="!sinombre" class="error">(*)</span></label>
+                            <div class="col-md-9">
+                               <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Tipo de Entrada" v-model="nombre" v-on:focus="selectAll" @keyup.enter="tipoAccion==1?registrarTipoEntrada():actualizarTipoEntrada()">
+                               <span  v-if="!sinombre" class="error">Debe Ingresar el Nombre del Tipo de Entrada</span>
+                            </div>
+                        </div>                            
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
