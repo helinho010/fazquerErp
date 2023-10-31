@@ -294,7 +294,7 @@ import { error401 } from '../../errores';
                 precio:'',
                 clearSelected:1,
                 cantidad:0,
-                tipo_entrada:40,
+                tipo_entrada:3,
                 fechaactual:'',
                 fechamin:'',
                 fecha_vencimiento:'',
@@ -844,7 +844,7 @@ import { error401 } from '../../errores';
                             me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.nombre_almacen;
                             me.tipoAccion=1;
                             me.idproductoselected=0;
-                            me.tipo_entrada=40;
+                            me.tipo_entrada=3;
                             me.cantidad=0;
                             me.lote='';
                             me.fecha_vencimiento='';

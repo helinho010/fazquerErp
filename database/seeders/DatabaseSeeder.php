@@ -60,6 +60,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProdFormaUnidadMedidaSeeder::class);
         $this->call(ProdTipoDescuentSeeder::class);
         $this->call(ParDescServiciosSeeder::class);
+        $this->call(ProdTipoEntradasSeeder::class);
 
         
     }
