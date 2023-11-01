@@ -22389,6 +22389,7 @@ __webpack_require__.r(__webpack_exports__);
       productosenvaseterciario: [],
       arrayIngresoProducto: [],
       arrayLineasMarca: [],
+      arrayEnvaseEmbalaje: [],
       arrayRubro: [],
       arrayTipoEntradaProductos: [],
       arrayUsuario: [],
@@ -22398,6 +22399,7 @@ __webpack_require__.r(__webpack_exports__);
       envaseProductoSelecionadoIngresoAlmacen: '',
       inputTextBuscarProductoIngresoAlmacen: '',
       idproductoRealSeleccionado: 0,
+      idalmingresoproducto: 0,
       almacenRubroareamedica: 0
     };
   },
@@ -22514,6 +22516,17 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    listarEnvaseEmbalaje: function listarEnvaseEmbalaje() {
+      var me = this;
+      var url = '/dispenser/selectdispenser';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayEnvaseEmbalaje = respuesta.dispensers;
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_3__.error401)(error);
+        console.log(error);
+      });
+    },
     listarProductosAlmacen: function listarProductosAlmacen(page) {
       var me = this;
 
@@ -22536,6 +22549,30 @@ __webpack_require__.r(__webpack_exports__);
             producto.tipo_entrada = me.arrayTipoEntradaProductos.find(function (tipo_entrada) {
               return tipo_entrada.id == producto.id_tipoentrada;
             }).nombre;
+
+            switch (producto.envaseregistrado.toLowerCase()) {
+              case 'primario':
+                producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find(function (envase) {
+                  return envase.id == producto.iddispenserprimario;
+                }).nombre;
+                break;
+
+              case 'secundario':
+                producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find(function (envase) {
+                  return envase.id == producto.iddispensersecundario;
+                }).nombre;
+                break;
+
+              case 'terciario':
+                producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find(function (envase) {
+                  return envase.id == producto.iddispenserterciario;
+                }).nombre;
+                break;
+
+              default:
+                producto.envaseEmbalajeProductoNombre = '';
+                break;
+            }
           });
         })["catch"](function (error) {
           (0,_errores__WEBPACK_IMPORTED_MODULE_3__.error401)(error);
@@ -22830,13 +22867,9 @@ __webpack_require__.r(__webpack_exports__);
     actualizarProductoEnAlmacen: function actualizarProductoEnAlmacen() {
       var me = this;
       axios.put('/almacen/ingreso-producto/actualizar', {
-        'id': me.arrayIngresoProducto.find(function (element1) {
-          return element1.id_prod_producto == me.idproductoRealSeleccionado;
-        }).id,
+        'id': me.idalmingresoproducto,
         'id_prod_producto': me.idproductoRealSeleccionado,
-        'envase': me.arrayIngresoProducto.find(function (element1) {
-          return element1.id_prod_producto == me.idproductoRealSeleccionado;
-        }).envaseregistrado,
+        'envase': me.envaseProductoSelecionadoIngresoAlmacen,
         'idalmacen': me.almacenselected,
         'cantidad': me.cantidad,
         'id_tipo_entrada': me.tipo_entrada,
@@ -22883,12 +22916,13 @@ __webpack_require__.r(__webpack_exports__);
           {
             me.tituloModal = 'Actualizar Producto';
             me.tipoAccion = 2;
+            me.idalmingresoproducto = data.id;
             me.idproductoselected = me.opciones2.find(function (opcion) {
               return opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado;
             }).value;
-            me.idproductoRealSeleccionado = me.opciones2.find(function (opcion) {
-              return opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado;
-            }).idproduc;
+            me.idproductoRealSeleccionado = data.id_prod_producto; //me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
+
+            me.envaseProductoSelecionadoIngresoAlmacen = data.envaseregistrado;
             me.cantidad = data.cantidad;
             me.tipo_entrada = data.id_tipoentrada;
             me.fecha_vencimiento = data.fecha_vencimiento;
@@ -23003,6 +23037,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.obtenerfecha(1);
     this.listarLineaMarca();
+    this.listarEnvaseEmbalaje();
     this.listarTipoEntradaProducto();
     this.listarUsuarios();
     this.listarAlmacenes();

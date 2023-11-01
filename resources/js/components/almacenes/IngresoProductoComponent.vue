@@ -315,6 +315,7 @@ import { error401 } from '../../errores';
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                 arrayLineasMarca:[],
+                arrayEnvaseEmbalaje:[],
                 arrayRubro:[],
                 arrayTipoEntradaProductos:[],
                 arrayUsuario:[],
@@ -324,6 +325,7 @@ import { error401 } from '../../errores';
                 envaseProductoSelecionadoIngresoAlmacen:'',
                 inputTextBuscarProductoIngresoAlmacen:'',
                 idproductoRealSeleccionado:0,
+                idalmingresoproducto:0,
                 almacenRubroareamedica:0,
             }
 
@@ -457,6 +459,19 @@ import { error401 } from '../../errores';
                 });
             },
 
+            listarEnvaseEmbalaje(){
+                let me=this;
+                var url='/dispenser/selectdispenser';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.arrayEnvaseEmbalaje=respuesta.dispensers; 
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                }); 
+            },
+
             listarProductosAlmacen(page){
                 let me = this;
                 if (me.almacenselected != 0 ) {
@@ -470,6 +485,21 @@ import { error401 } from '../../errores';
                             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
                             producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
                             producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
+                            switch (producto.envaseregistrado.toLowerCase()) {
+                                case 'primario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
+                                break;
+                                case 'secundario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
+                                break;
+                                case 'terciario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
+                                break;
+                            
+                                default:
+                                    producto.envaseEmbalajeProductoNombre ='';
+                                break;
+                            }
                         });
                     }).catch(function(error){
                         error401(error);
@@ -813,9 +843,9 @@ import { error401 } from '../../errores';
             actualizarProductoEnAlmacen(){
                 let me =this;
                 axios.put('/almacen/ingreso-producto/actualizar',{
-                    'id':me.arrayIngresoProducto.find((element1)=>element1.id_prod_producto== me.idproductoRealSeleccionado).id,
+                    'id':me.idalmingresoproducto,
                     'id_prod_producto':me.idproductoRealSeleccionado,
-                    'envase':me.arrayIngresoProducto.find((element1)=>element1.id_prod_producto== me.idproductoRealSeleccionado).envaseregistrado,
+                    'envase':me.envaseProductoSelecionadoIngresoAlmacen,
                     'idalmacen':me.almacenselected,
                     'cantidad':me.cantidad,
                     'id_tipo_entrada':me.tipo_entrada,
@@ -861,8 +891,10 @@ import { error401 } from '../../errores';
                     {
                         me.tituloModal='Actualizar Producto';
                         me.tipoAccion=2;
-                        me.idproductoselected = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
-                        me.idproductoRealSeleccionado = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
+                        me.idalmingresoproducto = data.id;
+                        me.idproductoselected =me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
+                        me.idproductoRealSeleccionado = data.id_prod_producto;//me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
+                        me.envaseProductoSelecionadoIngresoAlmacen = data.envaseregistrado;
                         me.cantidad = data.cantidad;
                         me.tipo_entrada = data.id_tipoentrada;
                         me.fecha_vencimiento = data.fecha_vencimiento;
@@ -991,6 +1023,7 @@ import { error401 } from '../../errores';
         mounted() {
             this.obtenerfecha(1);
             this.listarLineaMarca();
+            this.listarEnvaseEmbalaje();
             this.listarTipoEntradaProducto();
             this.listarUsuarios();
             this.listarAlmacenes();
