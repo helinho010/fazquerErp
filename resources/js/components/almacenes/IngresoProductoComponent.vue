@@ -48,7 +48,6 @@
                                 <th v-if="almacenRubroareamedica == 1">Vencimiento</th>
                                 <th v-if="almacenRubroareamedica == 1">R.S. SENASAG</th>
                                 <th>Fecha y Hora</th>
-                                <th>Tipo Entrada</th>
                                 <th>Usuario</th>
                                 <th>Estado</th>
                             </tr>
@@ -74,7 +73,6 @@
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
                                 <td v-text="ingresoProducto.fecingreso"></td>
-                                <td v-text="ingresoProducto.tipo_entrada"></td>
                                 <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo==1">
