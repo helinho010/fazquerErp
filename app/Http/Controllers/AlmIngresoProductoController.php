@@ -78,7 +78,8 @@ class AlmIngresoProductoController extends Controller
                                        alm__ingreso_producto.id_prod_producto,
                                        alm__ingreso_producto.envase as envaseregistrado, 
                                        alm__ingreso_producto.idalmacen, 
-                                       alm__ingreso_producto.cantidad, 
+                                       alm__ingreso_producto.cantidad,
+                                       alm__ingreso_producto.stock_ingreso,
                                        alm__ingreso_producto.id_tipoentrada, 
                                        alm__ingreso_producto.fecha_vencimiento, 
                                        alm__ingreso_producto.lote, 
@@ -156,6 +157,7 @@ class AlmIngresoProductoController extends Controller
         $nuevoProducto->envase = $request->envase;
         $nuevoProducto->idalmacen = $request->idalmacen;
         $nuevoProducto->cantidad = $request->cantidad;
+        $nuevoProducto->stock_ingreso = $request->cantidad;
         $nuevoProducto->id_tipoentrada = $request->id_tipo_entrada;
         $nuevoProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $nuevoProducto->lote = $request->lote;
@@ -190,6 +192,7 @@ class AlmIngresoProductoController extends Controller
         $actualizarProducto->envase = $request->envase;
         $actualizarProducto->idalmacen = $request->idalmacen;
         $actualizarProducto->cantidad = $request->cantidad;
+        $actualizarProducto->stock_ingreso = $request->cantidad;
         $actualizarProducto->id_tipoentrada = $request->id_tipo_entrada;
         $actualizarProducto->fecha_vencimiento = $request->fecha_vencimiento;
         $actualizarProducto->lote = $request->lote;

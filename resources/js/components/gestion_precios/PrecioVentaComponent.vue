@@ -55,7 +55,6 @@
                                 <th>Precio Venta</th>
                                 <th>Utilidad Bruta (en %)</th>
                                 <th>Fecha de Utilidad</th>
-                                <th>Tipo</th>
                                 <th>Nombre Usuario</th>
                             </tr>
                         </thead>
@@ -80,7 +79,7 @@
                                 <td>{{ producto.lineaProductoNombre }}</td>
                                 <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }} FI: {{ producto.fecingreso }} - LOTE: {{ producto.lote }} {{  producto.perecedero == 0 ? '': ("- FV: "+producto.fecha_vencimiento) }} </td>
                                 <td>{{ producto.cantidad }}</td> <!-- Cantidad Envase o Enbalaje -->
-                                <td>{{ producto.cantidad }}</td><!-- Cantidad stock-->
+                                <td>{{ producto.stock_ingreso }}</td><!-- Cantidad stock-->
                                 <td><!-- Precio lista -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="badge badge-secondary">
@@ -121,15 +120,14 @@
                                         <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
                                     </div>
                                 </td>
-                                <td> <!-- Utilidad Bruta (en %) -->
+                                <td> <!-- Fecha de Utilidad -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="badge badge-secondary">{{ producto.fecha_utilidad}}</span>
                                     </div>
                                     <div v-else>
                                         <span class="badge badge-warning">DD/MM/AAAA</span>
                                     </div>
-                                </td> <!-- Fecha de Utilidad -->
-                                <td>{{  producto.tipo_entrada }}</td>
+                                </td> 
                                 <td>{{ producto.usuarioRegistroIngresoProducto }}</td> <!-- Usuario -->
                             </tr> 
                         </tbody>
@@ -629,8 +627,7 @@ export default {
                             element.lineaProductoNombre.toLowerCase() == element1.toLowerCase() || 
                             element.envaseEmbalajeProductoNombre.toLowerCase() == element1.toLowerCase() || 
                             element.formaUnidadMedidaProducto.toLowerCase() == element1.toLowerCase() || 
-                            element.nomproducto.toLowerCase().includes(element1.toLowerCase()) || 
-                            element.tipo_entrada.toLowerCase() == element1.toLowerCase() )
+                            element.nomproducto.toLowerCase().includes(element1.toLowerCase()) )
                         {
                             arrayProductosAlterado2.push(element);
                         }  
