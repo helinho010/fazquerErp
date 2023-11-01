@@ -58,13 +58,7 @@
                                 <td v-text="almacen.telefono"></td>
                                 <td v-text="almacen.direccion"></td>
                                 <td v-text="almacen.departamento"></td>
-                                <td>
-                                    <div v-for="ciudad in arrayCiudad">
-                                        <div v-if="ciudad.id == almacen.ciudad">
-                                            {{ ciudad.abrev }}-{{ ciudad.nombre }}
-                                        </div>
-                                    </div> 
-                                </td>
+                                <td>{{ almacen.ciudad }}</td>
                                 <td>
                                     <div v-if="almacen.activo==1">
                                         <span class="badge badge-success">Activo</span>
@@ -307,19 +301,6 @@ import { error401 } from '../../errores';
                     console.log(error);
                 });
             },
-            
-            selectCiudades(){
-                let me=this;
-                var url='/ciudad/selectciudad';
-                axios.get(url).then(function(response){
-                    var respuesta=response.data;
-                    me.arrayCiudad=respuesta;
-                })
-                .catch(function(error){
-                    error401(error);
-                    console.log(error);
-                });
-            },
 
             listarSucursales(page){
                 let me=this;
@@ -328,7 +309,6 @@ import { error401 } from '../../errores';
                 .then(function(response){
                     var respuesta=response.data;
                     me.pagination=respuesta.pagination;
-                    //console.log(me.sucursals.data);
                     me.arraySucursales=respuesta.sucursales.data;
                     let resp=me.arraySucursales.find(element=>element.tipo=='Casa_Matriz');
                     if(resp!= undefined)
@@ -588,7 +568,6 @@ import { error401 } from '../../errores';
             this.listarAlmacenes(1);
             this.listarSucursales(1);
             this.selectDepartamentos();
-            this.selectCiudades();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             //console.log('Component mounted.')
