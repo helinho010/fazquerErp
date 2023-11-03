@@ -67,7 +67,7 @@
                                 </td>
                                 <td>{{ ingresoProducto.codproducto  }}</td>
                                 <td> {{ ingresoProducto.nombreLinea }} </td>
-                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.envaseregistrado.toLowerCase()=='primario'?ingresoProducto.cantidadprimario:'' }} {{ ingresoProducto.envaseregistrado.toLowerCase()=='secundario'?ingresoProducto.cantidadsecundario:'' }} {{ ingresoProducto.envaseregistrado.toLowerCase()=='terceario'?ingresoProducto.cantidadterciario:'' }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
+                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
@@ -315,6 +315,7 @@ import { error401 } from '../../errores';
                 productosenvaseterciario:[],
                 arrayIngresoProducto:[],
                 arrayLineasMarca:[],
+                arrayFormaUnidadMedida:[],
                 arrayEnvaseEmbalaje:[],
                 arrayRubro:[],
                 arrayTipoEntradaProductos:[],
@@ -424,6 +425,19 @@ import { error401 } from '../../errores';
                 });
             },
 
+            listarFormaUnidadMedida(){
+                let me=this;
+                var url='/formafarm/selectformafarm';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.arrayFormaUnidadMedida=respuesta.formafarm;
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+            },
+
             listarTipoEntradaProducto(){
               let me = this;
                 var url = '/tipoentrada';
@@ -488,16 +502,23 @@ import { error401 } from '../../errores';
                             switch (producto.envaseregistrado.toLowerCase()) {
                                 case 'primario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadprimario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
                                 break;
                                 case 'secundario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadsecundario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
                                 break;
                                 case 'terciario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadterciario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
                                 break;
                             
                                 default:
                                     producto.envaseEmbalajeProductoNombre ='';
+                                    producto.cantidadEnvaseProducto = '';
                                 break;
                             }
                         });
@@ -1025,6 +1046,7 @@ import { error401 } from '../../errores';
             this.listarLineaMarca();
             this.listarEnvaseEmbalaje();
             this.listarTipoEntradaProducto();
+            this.listarFormaUnidadMedida();
             this.listarUsuarios();
             this.listarAlmacenes();
             this.selectSucursals();
