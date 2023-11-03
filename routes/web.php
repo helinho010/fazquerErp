@@ -345,6 +345,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/almacen/ingreso-producto/actualizar', [AlmIngresoProductoController::class,'update']);
     Route::put('/almacen/ingreso-producto/desactivar', [AlmIngresoProductoController::class,'desactivar']);
     Route::put('/almacen/ingreso-producto/activar', [AlmIngresoProductoController::class,'activar']);
+    Route::get('/almacen/ingreso-producto/retornarProductosIngreoAlmacen',[AlmIngresoProductoController::class,'retornarProductosIngreoAlmacen']);
 
     Route::get('/tipodescuento/selecttipodescuento',[ProdTipoDescuentoController::class,'selectTipoDescuento']);
 

@@ -476,6 +476,7 @@ export default {
         isActived: function () {
             return this.pagination.current_page;
         },
+
         pagesNumber: function () {
             if (!this.pagination.to) {
                 return [];
@@ -499,7 +500,19 @@ export default {
 
     },
     methods: {
-   
+        
+        pruebaListarProductosIngreso(){
+            let me = this;
+            var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
+            axios.get(url).then(function(response){
+                console.log("@@@@@@@@@@");
+                console.log(response.data.productosAlmacen.data);
+            })
+            .catch(function(error){
+                error401(error);
+                console.log(error);
+            });
+        },
         
         listarLineas(){
                 let me = this;
@@ -554,6 +567,7 @@ export default {
         
         listarProductosTiendaAlmacen(page) {
             let me = this;
+            me.pruebaListarProductosIngreso();
             me.arrayProductosAlterado = [];
             if (me.tiendaalmacenselected != 0) {
                 let url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected;
@@ -710,7 +724,7 @@ export default {
         cambiarPagina(page) {
             let me = this;
             me.pagination.current_page = page;
-            me.listarAlmacenes(page);
+            me.arrayProductosAlterado(page);
         },
 
         actualizarRegistrarPrecioVenta() {
