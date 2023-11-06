@@ -1071,9 +1071,10 @@ export default {
             me.dbsc = parseFloat(me.dbsc); // dbsc = Descuento Bs.
 
             var cd = parseInt((/[a-z]/.test(me.c_disp.toLowerCase())?1:me.c_disp)); // cd = Cantidad Dispenser
-            me.pcdc = (me.pcc - me.dbsc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
+            me.pcdc = (me.pcc - (me.pcc * me.dpc1 / 100)); //  pcdc = Costo Compa C/Desc.
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc2 / 100)); 
             me.pcdc = (me.pcdc - (me.pcdc * me.dpc3 / 100));
+            me.pcdc = me.pcdc - me.dbsc;
             me.puc = (me.pcdc / cd); // puc = Precio Unitario
     
 
