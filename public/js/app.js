@@ -24123,9 +24123,9 @@ __webpack_require__.r(__webpack_exports__);
 
       me.pucc = parseFloat(me.pucc == 0 ? me.puc : me.pucc); // pucc = P/U de Compra
 
-      me.l20pc = me.puc * 100 / 80; // l20pc = Liq. 20 %
+      me.l20pc = me.pucc * 100 / 80; // l20pc = Liq. 20 %
 
-      me.l30pc = me.puc * 100 / 70; // l30pc = Liq. 30 %
+      me.l30pc = me.pucc * 100 / 70; // l30pc = Liq. 30 %
 
       me.ubc = me.pvc - me.pucc; // ubc = Utilidad Bruta
 
@@ -36750,7 +36750,7 @@ var _hoisted_113 = {
 var _hoisted_114 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "basic-url"
-  }, "Costo Compa C/Desc.", -1
+  }, "Costo Compra C/Desc.", -1
   /* HOISTED */
   );
 });

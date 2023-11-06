@@ -308,7 +308,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-md-3">
-                                        <label for="basic-url">Costo Compa C/Desc.</label>
+                                        <label for="basic-url">Costo Compra C/Desc.</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="pcdc" v-model="pcdc"
                                                 aria-describedby="basic-addon3" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)">
@@ -1115,8 +1115,8 @@ export default {
             me.pcdc = parseFloat(me.pcdc);
             me.pvc = parseFloat(me.pvc == 0 ? me.p_venta:me.pvc); // pvc = Precio de Venta
             me.pucc = parseFloat(me.pucc == 0 ? me.puc:me.pucc); // pucc = P/U de Compra
-            me.l20pc = ((me.puc * 100) / 80); // l20pc = Liq. 20 %
-            me.l30pc = ((me.puc * 100) / 70); // l30pc = Liq. 30 %
+            me.l20pc = ((me.pucc * 100) / 80); // l20pc = Liq. 20 %
+            me.l30pc = ((me.pucc * 100) / 70); // l30pc = Liq. 30 %
             me.ubc = (me.pvc - me.pucc); // ubc = Utilidad Bruta
             me.upc = ((me.ubc * 100) / me.pvc); //  upc = Utilidad Bruta%
 
