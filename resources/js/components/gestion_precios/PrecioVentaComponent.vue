@@ -45,17 +45,18 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Codigo Producto</th>
+                                <th>Codigo</th>
                                 <th>Linea o Marca</th>
                                 <th>Entrada</th>
-                                <th>Cant. Entrada</th>
+                                <th>Cantidad</th>
                                 <th>Stock</th>
                                 <th>Precio Lista</th>
-                                <th>Precio U.Compra</th>
+                                <th>Precio Compra</th>
                                 <th>Precio Venta</th>
-                                <th>Utilidad Bruta (en %)</th>
-                                <th>Fecha de Utilidad</th>
-                                <th>Nombre Usuario</th>
+                                <th>% Utilidad Bruta</th>
+                                <th>Tipo Entrada</th>
+                                <th>Fecha y Hora</th>
+                                <th>Usuario</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,7 +93,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td><!-- Precio Unitario de Compra -->
+                                <td><!-- Precio Compra -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="badge badge-secondary">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
@@ -112,7 +113,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td><!-- Utilidad Bruta (en %) -->
+                                <td><!-- % Utilidad Bruta -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="badge badge-secondary">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}</span>
                                     </div>
@@ -120,6 +121,7 @@
                                         <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
                                     </div>
                                 </td>
+                                <td>{{ producto.tipoentrada }}</td><!-- Tipo Entrada -->
                                 <td> <!-- Fecha de Utilidad -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="badge badge-secondary">{{ producto.fecha_utilidad}}</span>
@@ -430,6 +432,7 @@ export default {
             arrayLineas:[],
             arrayEmvasesEmbalajes:[],
             arrayFormaUnidadMedidas:[],
+            arrayTipoEntradaProductos:[],
             arrayUsuarios:[],
             tiendaalmacenselected: 0,
             p_lista: 0,
@@ -540,6 +543,17 @@ export default {
             });            
         },
 
+        listarTipoEntradaProducto(){
+              let me = this;
+                var url = '/tipoentrada';
+              axios.get(url)
+              .then(function(response){
+                me.arrayTipoEntradaProductos = response.data.tipoentrada_data;
+              }).catch(function(error){
+                    error401(error);
+              });  
+            },
+
         listarUsuarios(){
             let me = this;
             var url='/usuario/listar-usuarios';
@@ -575,15 +589,13 @@ export default {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     me.arrayProductos = respuesta.productosAlmacen.data;
-                    let nombreLineaDelProducto = '';
-                    let usuarioRegistroIngresoProducto = '';
-                    let perecederoProducto = 0;
                     let nombreEnvaseEmbalajeDelProducto='';
                     let nombreFormaUnidadMedidaProducto='';
                     me.arrayProductos.forEach(element => {
-                        nombreLineaDelProducto = me.arrayLineas.find((element2)=>element2.id==element.idlinea).nombre;
-                        perecederoProducto = me.arrayRubros.find((rubro)=>rubro.id==element.idrubroproducto).areamedica;
-                        usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario)=>usuario.id==element.id_usuario_registra).name;
+                        element.lineaProductoNombre = me.arrayLineas.find((element2)=>element2.id==element.idlinea).nombre;
+                        element.perecedero = me.arrayRubros.find((rubro)=>rubro.id==element.idrubroproducto).areamedica;
+                        element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario)=>usuario.id==element.id_usuario_registra).name;
+                        element.tipoentrada = me.arrayTipoEntradaProductos.find((tipoentrada) => tipoentrada.id == element.id_tipoentrada).nombre;
                         switch (element.envaseregistrado) {
                             case 'primario':
                                 nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserprimario).nombre; 
@@ -613,14 +625,12 @@ export default {
                             default:
                                 break;
                         }
-                        element.lineaProductoNombre = nombreLineaDelProducto;
+                        
                         element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                         element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
-                        element.perecedero = perecederoProducto;
-                        element.usuarioRegistroIngresoProducto = usuarioRegistroIngresoProducto;
                         me.arrayProductosAlterado.push(element);
-                        me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     });
+                    me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                 }).catch(function (error) {
                     error401(error);
                     console.log(error);
@@ -729,28 +739,39 @@ export default {
 
         actualizarRegistrarPrecioVenta() {
             let me = this;
-            axios.post('/gestionprecioventa/actualizar-registrar', {
-                'idalmingresoproducto': me.idalmingresoproducto,
-                'precio_compra_gespreventa': me.p_compra,
-                'precio_venta_prodproductos':me.p_venta,
-                'margen_30p_gespreventa': me.margen_30,
-                'margen_40p_gespreventa': me.margen_40,
-                'utilidad_neto_gespreventa': me.utilidad_neta,
-                'idProdProducto':me.idProdProducto,
-                'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
-            }).then(function (response) {
-                me.cerrarModal('calculadoraModal');
-                Swal.fire(
-                    'Almacen Registrado exitosamente',
-                    'Haga click en Ok',
-                    'success'
-                );
-                me.listarProductosTiendaAlmacen();
+            console.log(
+                'idalmingresoproducto: '+me.idalmingresoproducto+'\n'+
+                'idProdProducto: '+me.idProdProducto+'\n'+
+                'precio_compra_gespreventa: '+me.p_compra+'\n'+
+                'precio_venta_prodproductos: '+me.p_venta+'\n'+
+                'margen_30p_gespreventa: '+ me.margen_30+'\n'+
+                'margen_40p_gespreventa: '+ me.margen_40+'\n'+
+                'utilidad_neto_gespreventa: '+ me.utilidad_neta+'\n'+
+                'envaseregistrado: '+me.envaseregistradoAlmIngresoProducto
+            );
+
+            // axios.post('/gestionprecioventa/actualizar-registrar', {
+            //     'idalmingresoproducto': me.idalmingresoproducto,
+            //     'precio_compra_gespreventa': me.p_compra,
+            //     'precio_venta_prodproductos':me.p_venta,
+            //     'margen_30p_gespreventa': me.margen_30,
+            //     'margen_40p_gespreventa': me.margen_40,
+            //     'utilidad_neto_gespreventa': me.utilidad_neta,
+            //     'idProdProducto':me.idProdProducto,
+            //     'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
+            // }).then(function (response) {
+            //     me.cerrarModal('calculadoraModal');
+            //     Swal.fire(
+            //         'Almacen Registrado exitosamente',
+            //         'Haga click en Ok',
+            //         'success'
+            //     );
+            //     me.listarProductosTiendaAlmacen();
                 
-            }).catch(function (error) {
-                error401(error);
-                console.log(error);
-            });
+            // }).catch(function (error) {
+            //     error401(error);
+            //     console.log(error);
+            // });
         },
 
         eliminarAlmacen(idalmacen) {
@@ -907,6 +928,7 @@ export default {
                 case 'editarPrecioUtilidadProducto':
                     {
                         let me = this;
+                        console.log(data);
                         me.tituloModal = 'Modificar Utilidad del Producto';
                         me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;
@@ -1124,6 +1146,7 @@ export default {
         this.listarLineas();
         this.listarEmvasesEmbalajes();
         this.listarFormaUnidadDeMedida();
+        this.listarTipoEntradaProducto();
         this.listarAlmacenes(1);
         this.listarSucursales(1);
         this.selectDepartamentos();
