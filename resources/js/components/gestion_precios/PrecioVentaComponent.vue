@@ -647,10 +647,12 @@ export default {
                 let arrayBuscar = me.buscar.split(' ');
                 me.arrayProductosAlterado.forEach(element => {
                     arrayBuscar.forEach(element1 => {
-                        if( element.codproducto.toLowerCase() == element1.toLowerCase() || 
-                            element.lineaProductoNombre.toLowerCase() == element1.toLowerCase() || 
-                            element.envaseEmbalajeProductoNombre.toLowerCase() == element1.toLowerCase() || 
-                            element.formaUnidadMedidaProducto.toLowerCase() == element1.toLowerCase() || 
+                        if( element.codproducto.toLowerCase().includes(element1.toLowerCase()) || 
+                            element.lineaProductoNombre.toLowerCase().includes(element1.toLowerCase()) || 
+                            element.envaseEmbalajeProductoNombre.toLowerCase().includes(element1.toLowerCase()) || 
+                            element.formaUnidadMedidaProducto.toLowerCase().includes(element1.toLowerCase()) || 
+                            element.tipoentrada.toLowerCase().includes(element1.toLowerCase()) ||
+                            element.usuarioRegistroIngresoProducto.toLowerCase().includes(element1.toLowerCase()) ||
                             element.nomproducto.toLowerCase().includes(element1.toLowerCase()) )
                         {
                             arrayProductosAlterado2.push(element);
@@ -750,28 +752,28 @@ export default {
                 'envaseregistrado: '+me.envaseregistradoAlmIngresoProducto
             );
 
-            // axios.post('/gestionprecioventa/actualizar-registrar', {
-            //     'idalmingresoproducto': me.idalmingresoproducto,
-            //     'precio_compra_gespreventa': me.p_compra,
-            //     'precio_venta_prodproductos':me.p_venta,
-            //     'margen_30p_gespreventa': me.margen_30,
-            //     'margen_40p_gespreventa': me.margen_40,
-            //     'utilidad_neto_gespreventa': me.utilidad_neta,
-            //     'idProdProducto':me.idProdProducto,
-            //     'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
-            // }).then(function (response) {
-            //     me.cerrarModal('calculadoraModal');
-            //     Swal.fire(
-            //         'Almacen Registrado exitosamente',
-            //         'Haga click en Ok',
-            //         'success'
-            //     );
-            //     me.listarProductosTiendaAlmacen();
+            axios.post('/gestionprecioventa/actualizar-registrar', {
+                'idalmingresoproducto': me.idalmingresoproducto,
+                'precio_compra_gespreventa': me.p_compra,
+                'precio_venta_prodproductos':me.p_venta,
+                'margen_30p_gespreventa': me.margen_30,
+                'margen_40p_gespreventa': me.margen_40,
+                'utilidad_neto_gespreventa': me.utilidad_neta,
+                'idProdProducto':me.idProdProducto,
+                'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
+            }).then(function (response) {
+                me.cerrarModal('calculadoraModal');
+                Swal.fire(
+                    'Almacen Registrado exitosamente',
+                    'Haga click en Ok',
+                    'success'
+                );
+                me.listarProductosTiendaAlmacen();
                 
-            // }).catch(function (error) {
-            //     error401(error);
-            //     console.log(error);
-            // });
+            }).catch(function (error) {
+                error401(error);
+                console.log(error);
+            });
         },
 
         eliminarAlmacen(idalmacen) {
@@ -928,15 +930,16 @@ export default {
                 case 'editarPrecioUtilidadProducto':
                     {
                         let me = this;
+                        console.log("/////////////////////////////");
                         console.log(data);
                         me.tituloModal = 'Modificar Utilidad del Producto';
                         me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
                         me.cantidadIngresoAlmacen = data.cantidad;
+                        me.idalmingresoproducto = data.id;
                         axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
                         .then(function (response) {                            
-                            me.idalmingresoproducto = data.id;
                             if (response.data.length == 1) 
                             {
                                 me.margen_30 = response.data[0].margen_30p_gespreventa;
