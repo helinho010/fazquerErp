@@ -644,41 +644,32 @@ export default {
             if (me.buscar.length == 0) {
                 me.arrayProductosAlterado = me.arrayProductosAlteradoCopy;
             }else{
-                let arrayBuscar = me.buscar.split(' ');
+                let evaluacion = false;
                 me.arrayProductosAlterado.forEach(element => {
-                    console.log(element);
-                    arrayBuscar.forEach(element1 => {
-                        if( element.codproducto.toLowerCase().includes(element1.toLowerCase()) || 
-                            element.lineaProductoNombre.toLowerCase().includes(element1.toLowerCase()) || 
-                            element.envaseEmbalajeProductoNombre.toLowerCase().includes(element1.toLowerCase()) || 
-                            element.formaUnidadMedidaProducto.toLowerCase().includes(element1.toLowerCase()) || 
-                            element.tipoentrada.toLowerCase().includes(element1.toLowerCase()) ||
-                            element.usuarioRegistroIngresoProducto.toLowerCase().includes(element1.toLowerCase()) ||
-                            element.lote.toLowerCase().includes(element1.toLowerCase()) ||
-                            element.nomproducto.toLowerCase().includes(element1.toLowerCase()) )
-                        {
-                            arrayProductosAlterado2.push(element);
+                        evaluacion = (element.codproducto.toLowerCase().includes(me.buscar.toLowerCase()) || 
+                            element.lineaProductoNombre.toLowerCase().includes(me.buscar.toLowerCase()) || 
+                            element.envaseEmbalajeProductoNombre.toLowerCase().includes(me.buscar.toLowerCase()) || 
+                            element.formaUnidadMedidaProducto.toLowerCase().includes(me.buscar.toLowerCase()) || 
+                            element.tipoentrada.toLowerCase().includes(me.buscar.toLowerCase()) ||
+                            element.usuarioRegistroIngresoProducto.toLowerCase().includes(me.buscar.toLowerCase()) ||
+                            element.lote.toLowerCase().includes(me.buscar.toLowerCase()) ||
+                            element.nomproducto.toLowerCase().includes(me.buscar.toLowerCase()));
+
+                        if(element.fecha_vencimiento !== null){
+                          evaluacion = evaluacion || element.fecha_vencimiento.toLowerCase().includes(me.buscar.toLocaleLowerCase())
                         }
 
-                        // if(element.fecingreso !== null ){
-                        //     if(element.fecingreso.toLowerCase().includes(element1.toLowerCase())){
-                        //         arrayProductosAlterado2.push(element);  
-                        //     }
-                        // }
-                        
-                        // if(element.fecha_vencimiento !== null ){
-                        //     if(element.fecha_vencimiento.toLowerCase().includes(element1.toLowerCase())){
-                        //         arrayProductosAlterado2.push(element);  
-                        //     }
-                        // }
+                        if(element.fecingreso !== null){
+                          evaluacion = evaluacion || element.fecingreso.toLowerCase().includes(me.buscar.toLocaleLowerCase())
+                        }
 
-                        // if(element.fecha_utilidad !== null ){
-                        //     if(element.fecha_utilidad.toLowerCase().includes(element1.toLowerCase())){
-                        //         arrayProductosAlterado2.push(element);  
-                        //     }
-                        // }existe un errar
+                        if(element.fecha_utilidad !== null){
+                          evaluacion = evaluacion || element.fecha_utilidad.toLowerCase().includes(me.buscar.toLocaleLowerCase())
+                        }
 
-                    });
+                        if(evaluacion){
+                            arrayProductosAlterado2.push(element);
+                        }
                 });
                 me.arrayProductosAlterado = arrayProductosAlterado2;
             }
@@ -757,7 +748,7 @@ export default {
         cambiarPagina(page) {
             let me = this;
             me.pagination.current_page = page;
-            me.arrayProductosAlterado(page);
+            me.listarProductosTiendaAlmacen(page);
         },
 
         actualizarRegistrarPrecioVenta() {
