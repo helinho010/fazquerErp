@@ -646,6 +646,7 @@ export default {
             }else{
                 let arrayBuscar = me.buscar.split(' ');
                 me.arrayProductosAlterado.forEach(element => {
+                    console.log(element);
                     arrayBuscar.forEach(element1 => {
                         if( element.codproducto.toLowerCase().includes(element1.toLowerCase()) || 
                             element.lineaProductoNombre.toLowerCase().includes(element1.toLowerCase()) || 
@@ -653,10 +654,30 @@ export default {
                             element.formaUnidadMedidaProducto.toLowerCase().includes(element1.toLowerCase()) || 
                             element.tipoentrada.toLowerCase().includes(element1.toLowerCase()) ||
                             element.usuarioRegistroIngresoProducto.toLowerCase().includes(element1.toLowerCase()) ||
+                            element.lote.toLowerCase().includes(element1.toLowerCase()) ||
                             element.nomproducto.toLowerCase().includes(element1.toLowerCase()) )
                         {
                             arrayProductosAlterado2.push(element);
-                        }  
+                        }
+
+                        // if(element.fecingreso !== null ){
+                        //     if(element.fecingreso.toLowerCase().includes(element1.toLowerCase())){
+                        //         arrayProductosAlterado2.push(element);  
+                        //     }
+                        // }
+                        
+                        // if(element.fecha_vencimiento !== null ){
+                        //     if(element.fecha_vencimiento.toLowerCase().includes(element1.toLowerCase())){
+                        //         arrayProductosAlterado2.push(element);  
+                        //     }
+                        // }
+
+                        // if(element.fecha_utilidad !== null ){
+                        //     if(element.fecha_utilidad.toLowerCase().includes(element1.toLowerCase())){
+                        //         arrayProductosAlterado2.push(element);  
+                        //     }
+                        // }existe un errar
+
                     });
                 });
                 me.arrayProductosAlterado = arrayProductosAlterado2;
