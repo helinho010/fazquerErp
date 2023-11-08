@@ -314,7 +314,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" id="primario" v-model="cantidadprimario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
+                                                <input type="text" class="form-control" id="primario" v-model="cantidadprimario" style="text-align:right" placeholder="0" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90))">
                                                 <span class="error" v-if="cantidadprimario==''">Debe ingresar Cantidad</span>
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -335,11 +335,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="text" class="form-control" min="0" id="preciolistaprimario" v-model="preciolistaprimario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" class="form-control" min="0" id="preciolistaprimario" v-model="preciolistaprimario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="text" id="precioventaprimario" min="0" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" id="precioventaprimario" min="0" class="form-control" v-model="precioventaprimario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -385,7 +385,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" id="secundario" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
+                                                <input type="text" class="form-control" id="secundario" v-model="cantidadsecundario" style="text-align:right" placeholder="0" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90))">
                                                 <!-- <span class="error" v-if="cantidadsecundario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -406,11 +406,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="text" class="form-control" id="preciolistasecundario" min="0" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" class="form-control" id="preciolistasecundario" min="0" v-model="preciolistasecundario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="text" id="precioventasecundario" min="0" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" id="precioventasecundario" min="0" class="form-control" v-model="precioventasecundario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -456,7 +456,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Cantidad:</strong>
-                                                <input type="text" class="form-control" id="terciario" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll" v-on:keypress.prevent="caracteresPermitidosCantidad">
+                                                <input type="text" class="form-control" id="terciario" v-model="cantidadterciario" style="text-align:right" placeholder="0" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 65 && event.charCode <= 90))">
                                                 <!-- <span class="error" v-if="cantidadterciario==''">Debe ingresar Cantidad</span> -->
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -477,11 +477,11 @@
                                         <div class="row">
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Lista:</strong>
-                                                <input type="text" class="form-control" id="preciolistaterciario" min="0" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" class="form-control" id="preciolistaterciario" min="0" v-model="preciolistaterciario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Precio de Venta:</strong>
-                                                <input type="text" id="precioventaterciario" min="0" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right" v-on:keypress.prevent="caracteresPermitidosPrecio">
+                                                <input type="text" id="precioventaterciario" min="0" class="form-control" v-model="precioventaterciario" step="any" v-on:focus="selectAll" style="text-align:right" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 )">
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <strong>Ciclo de Pedido:</strong>
@@ -539,7 +539,7 @@
 
                             <div class="form-group col-sm-5">
                                 <strong>Codigo Internacional:</strong>
-                                <input type="text" class="form-control" v-model="codigointernacional" placeholder="Introduzca Codigo Internacional">
+                                <input type="text" class="form-control" v-model="codigointernacional" placeholder="Introduzca Codigo Internacional" onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 || event.charCode == 13 || event.charCode == 32 )">
                                 <span class="error" v-if="codigointernacional==''">Debe seleccionar el tiempo de pedido</span>
                             </div>
                             
@@ -838,7 +838,7 @@ import QrcodeVue from 'qrcode.vue';
         },
         methods :{
 
-            caracteresPermitidosCantidad(ex){
+              teresPermitidosCantidad(ex){
                 let me=this;
                 console.log(ex.keyCode +'--->'+ex.key);
                 if( ex.keyCode==32  || ex.keyCode==8  || (ex.keyCode >= 48 && ex.keyCode <= 57 ) || (ex.keyCode >= 97 && ex.keyCode <= 122 ) || (ex.keyCode >= 65 && ex.keyCode <= 90 ) )
@@ -853,27 +853,7 @@ import QrcodeVue from 'qrcode.vue';
                     
                 } 
             },
-
-            caracteresPermitidosPrecio(ex){
-                let me=this;
-                if( ex.keyCode==8  || ex.keyCode==46  || (ex.keyCode >= 48 && ex.keyCode <= 57 ) )
-                {
-                    if(ex.currentTarget.id == 'preciolistaprimario'){
-                        me.preciolistaprimario = me.preciolistaprimario+ex.key;
-                    }else if(ex.currentTarget.id == 'preciolistasecundario'){
-                        me.preciolistasecundario = me.preciolistasecundario+ex.key;
-                    }else if(ex.currentTarget.id == 'preciolistaterciario'){
-                        me.preciolistaterciario = me.preciolistaterciario+ex.key;
-                    }else if(ex.currentTarget.id == 'precioventaprimario'){
-                        me.precioventaprimario = me.precioventaprimario+ex.key;
-                    }else if(ex.currentTarget.id == 'precioventasecundario'){
-                        me.precioventasecundario = me.precioventasecundario+ex.key;
-                    }else if(ex.currentTarget.id == 'precioventaterciario'){
-                        me.precioventaterciario = me.precioventaterciario+ex.key;
-                    }
-                } 
-            },
-
+            
             subirfoto(event){
                 let me=this;
                 me.foto=event.target.files[0];

@@ -75,7 +75,7 @@ class AdmVentanaModuloSeeder extends Seeder
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'706','idmodulo'=>$prod->id,'nombre'=>'Tipo Entrada','template'=>'tipo-entrada-component']);
 
         //gestion de productos 800
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'801','idmodulo'=>$gestprec->id,'nombre'=>'Utilidad','template'=>'precio-venta-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'801','idmodulo'=>$gestprec->id,'nombre'=>'Costo Compra','template'=>'precio-venta-component']);
         
         
     }

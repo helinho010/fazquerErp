@@ -176,7 +176,7 @@
                                 
                                 <div class="form-group col-sm-4" v-if="productoperecedero == 1">
                                     <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
-                                    <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
+                                    <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll" onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 45 || event.charCode == 13 || event.charCode == 32 )">
                                     <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
                                 </div>
                             </div>
