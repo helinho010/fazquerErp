@@ -58,6 +58,7 @@ createApp ({
     
     //Tienda
     .component('tienda-component', require('./components/tienda/TiendaComponent.vue').default)
+    .component('tienda-codificacion-component', require('./components/tienda/TiendaCodificacionComponent.vue').default)
 
 
     //Gestion de precios

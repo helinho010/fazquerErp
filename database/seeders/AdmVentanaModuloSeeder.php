@@ -17,7 +17,8 @@ class AdmVentanaModuloSeeder extends Seeder
     {
         $admin = Adm_Modulo::where('nombre', 'administración')->first();        
         $rh = Adm_Modulo::where('nombre', 'recursos humanos')->first();        
-        $alm = Adm_Modulo::where('nombre', 'almacenes')->first();        
+        $alm = Adm_Modulo::where('nombre', 'almacenes')->first();
+        $tienda = Adm_Modulo::where('nombre', 'tienda')->first();         
         $serv = Adm_Modulo::where('nombre', 'servicios')->first();        
         $config = Adm_Modulo::where('nombre', 'parametros')->first();        
         $prod = Adm_Modulo::where('nombre', 'productos')->first();
@@ -48,28 +49,33 @@ class AdmVentanaModuloSeeder extends Seeder
         DB::table('adm__ventana_modulos')->insert(['codventana'=>'303','idmodulo'=>$alm->id,'nombre'=>'Ingreso Productos','template'=>'ingreso-producto-component']);
         
 
-        //servicios 400
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'401','idmodulo'=>$serv->id,'nombre'=>'Areas','template'=>'area-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'402','idmodulo'=>$serv->id,'nombre'=>'Prestaciones','template'=>'prestaciones-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'403','idmodulo'=>$serv->id,'nombre'=>'Venta Servicios','template'=>'ventas-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'404','idmodulo'=>$serv->id,'nombre'=>'Historial Ventas','template'=>'histventas-component']);
+        //Tienda 400
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'401','idmodulo'=>$tienda->id,'nombre'=>'Ingreso Productos','template'=>'tienda-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'402','idmodulo'=>$tienda->id,'nombre'=>'Codificacion','template'=>'tienda-codificacion-component']);
 
 
-        //configuraciones 500
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'501','idmodulo'=>$config->id,'nombre'=>'Desc. Servicios','template'=>'descuentos-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'502','idmodulo'=>$config->id,'nombre'=>'Desc. Productos','template'=>'descproductos-component']);
+        //servicios 500
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'501','idmodulo'=>$serv->id,'nombre'=>'Areas','template'=>'area-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'502','idmodulo'=>$serv->id,'nombre'=>'Prestaciones','template'=>'prestaciones-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'503','idmodulo'=>$serv->id,'nombre'=>'Venta Servicios','template'=>'ventas-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'504','idmodulo'=>$serv->id,'nombre'=>'Historial Ventas','template'=>'histventas-component']);
 
 
-        //productos 600
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'601','idmodulo'=>$prod->id,'nombre'=>'Lineas y Marcas','template'=>'linea-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'602','idmodulo'=>$prod->id,'nombre'=>'Registro Producto','template'=>'producto-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'603','idmodulo'=>$prod->id,'nombre'=>'Envases y Embalaje','template'=>'dispenser-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'604','idmodulo'=>$prod->id,'nombre'=>'Forma o U. Medida','template'=>'formafarm-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'605','idmodulo'=>$prod->id,'nombre'=>'Categorias','template'=>'categoria-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'606','idmodulo'=>$prod->id,'nombre'=>'Tipo Entrada','template'=>'tipo-entrada-component']);
+        //configuraciones 600
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'601','idmodulo'=>$config->id,'nombre'=>'Desc. Servicios','template'=>'descuentos-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'602','idmodulo'=>$config->id,'nombre'=>'Desc. Productos','template'=>'descproductos-component']);
 
-        //gestion de productos 700
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'701','idmodulo'=>$gestprec->id,'nombre'=>'Utilidad','template'=>'precio-venta-component']);
+
+        //productos 700
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'701','idmodulo'=>$prod->id,'nombre'=>'Lineas y Marcas','template'=>'linea-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'702','idmodulo'=>$prod->id,'nombre'=>'Registro Producto','template'=>'producto-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'703','idmodulo'=>$prod->id,'nombre'=>'Envases y Embalaje','template'=>'dispenser-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'704','idmodulo'=>$prod->id,'nombre'=>'Forma o U. Medida','template'=>'formafarm-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'705','idmodulo'=>$prod->id,'nombre'=>'Categorias','template'=>'categoria-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'706','idmodulo'=>$prod->id,'nombre'=>'Tipo Entrada','template'=>'tipo-entrada-component']);
+
+        //gestion de productos 800
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'801','idmodulo'=>$gestprec->id,'nombre'=>'Utilidad','template'=>'precio-venta-component']);
         
         
     }

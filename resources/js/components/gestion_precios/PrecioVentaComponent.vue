@@ -51,7 +51,7 @@
                                 <th>Cantidad</th>
                                 <th>Stock</th>
                                 <th>Precio Lista</th>
-                                <th>Precio Compra</th>
+                                <th>Costo Compra</th>
                                 <th>Precio Venta</th>
                                 <th>% Utilidad Bruta</th>
                                 <th>Tipo Entrada</th>
@@ -504,18 +504,18 @@ export default {
     },
     methods: {
         
-        pruebaListarProductosIngreso(){
-            let me = this;
-            var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
-            axios.get(url).then(function(response){
-                console.log("@@@@@@@@@@");
-                console.log(response.data.productosAlmacen.data);
-            })
-            .catch(function(error){
-                error401(error);
-                console.log(error);
-            });
-        },
+        // pruebaListarProductosIngreso(){
+        //     let me = this;
+        //     var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
+        //     axios.get(url).then(function(response){
+        //         console.log("@@@@@@@@@@");
+        //         console.log(response.data.productosAlmacen.data);
+        //     })
+        //     .catch(function(error){
+        //         error401(error);
+        //         console.log(error);
+        //     });
+        // },
         
         listarLineas(){
                 let me = this;
@@ -753,17 +753,7 @@ export default {
 
         actualizarRegistrarPrecioVenta() {
             let me = this;
-            console.log(
-                'idalmingresoproducto: '+me.idalmingresoproducto+'\n'+
-                'idProdProducto: '+me.idProdProducto+'\n'+
-                'precio_compra_gespreventa: '+me.p_compra+'\n'+
-                'precio_venta_prodproductos: '+me.p_venta+'\n'+
-                'margen_30p_gespreventa: '+ me.margen_30+'\n'+
-                'margen_40p_gespreventa: '+ me.margen_40+'\n'+
-                'utilidad_neto_gespreventa: '+ me.utilidad_neta+'\n'+
-                'envaseregistrado: '+me.envaseregistradoAlmIngresoProducto
-            );
-
+            
             axios.post('/gestionprecioventa/actualizar-registrar', {
                 'idalmingresoproducto': me.idalmingresoproducto,
                 'precio_compra_gespreventa': me.p_compra,
@@ -942,8 +932,6 @@ export default {
                 case 'editarPrecioUtilidadProducto':
                     {
                         let me = this;
-                        console.log("/////////////////////////////");
-                        console.log(data);
                         me.tituloModal = 'Modificar Utilidad del Producto';
                         me.caracteristicasProductoModificar = data.nomproducto + '-' + data.envaseEmbalajeProductoNombre +' X '+ (data.envaseregistrado.toLowerCase()=='primario'?data.cantidadprimario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='secundario'?data.cantidadsecundario:'') + ' ' + (data.envaseregistrado.toLowerCase()=='terceario'?data.cantidadterciario:'') + ' ' + data.formaUnidadMedidaProducto;
                         me.idProdProducto=data.id_prod_producto;

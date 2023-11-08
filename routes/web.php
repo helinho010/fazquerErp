@@ -361,6 +361,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/ventasmaestro/desactivar', [SerVentaMaestroController::class,'desactivar']);
     Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
 
+    //Tienda
+    //Route::get('/tienda',[SerVentaMaestroController::class,'index']);
+
     //////// Gestion Precio Venta
     Route::post('/gestionprecioventa/actualizar-registrar', [GesPreVentaController::class,'update_store']);
     Route::get('/gestionprecioventa/verificarProductoConPrecio', [GesPreVentaController::class,'verificarProductoPrecio']);
