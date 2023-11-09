@@ -621,6 +621,4 @@ class ProdProductoController extends Controller
         return $productos;
     }
 
-
-
 }

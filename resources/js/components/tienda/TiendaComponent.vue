@@ -11,10 +11,10 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Entrada de Productos a la Tienda
-                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="almacenselected==0">
+                    <button type="button" class="btn btn-secondary" @click="abrirModal('registrar')" :disabled="tiendaselected==0">
                         <i class="icon-plus"></i>&nbsp;Nuevo 
                     </button>
-                    <span  v-if="almacenselected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar un Almacen</span>
+                    <span  v-if="tiendaselected==0" class="error"> &nbsp; &nbsp;Debe Seleccionar un Almacen</span>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -23,9 +23,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarTiendas(1)" v-model="tiendaselected">
+                                <select class="form-control" @change="listarProductosTienda()" v-model="tiendaselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="tienda in arrayTiendas" :key="tienda.id" :value="tienda.id">
+                                    <option v-for="tienda in arrayTiendas" :key="tienda.id_tienda" :value="tienda.id_tienda">
                                         {{ tienda.razon_social }} {{ tienda.codigo }} Tienda {{ tienda.direccion }} 
                                     </option>
                                 </select>                              
@@ -354,9 +354,6 @@ import { error401 } from '../../errores';
                         cantidad: me.cantidad,
                         lote:me.lote,
                         fechaVencimiento:me.fecha_vencimiento,
-                        //estante:me.estanteselected,
-                        //ubicacion:me.ubicacionSelected,
-                        //codigointernacional:me.codigointernacional,
                         registroSanitario:me.registrosanitario
                     });
                 
@@ -495,93 +492,52 @@ import { error401 } from '../../errores';
                 }); 
             },
 
-            listarProductosAlmacen(page){
+            listarProductosTienda(page){
                 let me = this;
-                if (me.almacenselected != 0 ) {
-                    let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
-                    axios.get(url).then(function(response){
-                        var respuesta = response.data;
-                        me.pagination = respuesta.pagination;
-                        me.arrayIngresoProducto = respuesta.productosAlmacen.data;
-                        me.arrayIngresoProducto.forEach(producto => {
-                            producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
-                            producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
-                            producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
-                            producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
-                            switch (producto.envaseregistrado.toLowerCase()) {
-                                case 'primario':
-                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
-                                    producto.cantidadEnvaseProducto = producto.cantidadprimario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
-                                break;
-                                case 'secundario':
-                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
-                                    producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
-                                break;
-                                case 'terciario':
-                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
-                                    producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
-                                break;
+                 if (me.tiendaselected != 0 ) {
+                //     let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
+                //     axios.get(url).then(function(response){
+                //         var respuesta = response.data;
+                //         me.pagination = respuesta.pagination;
+                //         me.arrayIngresoProducto = respuesta.productosAlmacen.data;
+                //         me.arrayIngresoProducto.forEach(producto => {
+                //             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
+                //             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
+                //             producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
+                //             producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
+                //             switch (producto.envaseregistrado.toLowerCase()) {
+                //                 case 'primario':
+                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
+                //                     producto.cantidadEnvaseProducto = producto.cantidadprimario;
+                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                //                 break;
+                //                 case 'secundario':
+                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
+                //                     producto.cantidadEnvaseProducto = producto.cantidadsecundario;
+                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                //                 break;
+                //                 case 'terciario':
+                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
+                //                     producto.cantidadEnvaseProducto = producto.cantidadterciario;
+                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                //                 break;
                             
-                                default:
-                                    producto.envaseEmbalajeProductoNombre ='';
-                                    producto.cantidadEnvaseProducto = '';
-                                break;
-                            }
-                        });
-                    }).catch(function(error){
-                        error401(error);
-                        console.log(error);
-                    });   
+                //                 default:
+                //                     producto.envaseEmbalajeProductoNombre ='';
+                //                     producto.cantidadEnvaseProducto = '';
+                //                 break;
+                //             }
+                //         });
+                //     }).catch(function(error){
+                //         error401(error);
+                //         console.log(error);
+                //     });   
+                    console.log("*****************************************");
                 }
+                
             },
 
-            listarEstantes(idsucursal){
-                let me=this;
-                var url='/estante/selectestante?idsucursal='+ idsucursal;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data; 
-                    me.arrayEstantes=respuesta;
-                })
-                .catch(function (error) {
-                    error401(error);
-                    console.log(error);
-                });
-            },
-
-            listarposicion(idestante){
-                let me=this;
-                let respuesta=me.arrayEstantes.find(element=>element.id==idestante);
-                var valor
-                me.codestante=respuesta.codestante;
-                me.ubicacionSelected=0;
-                me.arrayUbicacions=[];
-                for (let index = 1; index <= respuesta.numposicion; index++) {
-                    for (let index2 = 1; index2 <= respuesta.numaltura; index2++) {
-                        if(index<10)
-                        {
-                            if(index2<10)
-                                valor='0'+index+'-0'+index2;
-                            else
-                                valor='0'+index+'-'+index2;
-                            
-                            me.arrayUbicacions.push(valor);
-                        }
-                        else
-                        {
-                            if(index2<10)
-                                valor=index+'-0'+index2;
-                            else
-                                valor=index+'-'+index2;
-
-                            me.arrayUbicacions.push(valor);
-                        }
-                    }
-                }
-            },
-
+            
             obtenerfecha(){
                 let me = this;
                 var url= '/obtenerfecha';
@@ -595,21 +551,13 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                
-                
                 //me.fechafactura=me.fechaactual;
-            },
-
-            tiempo(){
-                this.clearSelected=1;
             },
 
             listarProductos(){
                 let me = this;
                 let contador = 1;
-                me.opciones = '<option value="0" disabled>Seleccionar...</option>';
                 me.opciones2 = [];
-                //var url= '/producto/selectproducto2?idalmacen='+me.almacenselected;
                 var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'primario';    
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
@@ -617,7 +565,7 @@ import { error401 } from '../../errores';
                     me.productosenvaseprimario.forEach((element,index) => {
                         if (element.almacenprimario == 1) 
                         {
-                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="primario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
+                           //me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="primario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
                            me.opciones2.push( 
                            { 
                             value:contador,
@@ -635,102 +583,7 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'secundario';    
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data; 
-                    me.productosenvasesecundario=respuesta;
-                    me.productosenvasesecundario.forEach((element,index) => {
-                        if (element.almacensecundario == 1) 
-                        {
-                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="secundario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
-                           me.opciones2.push( 
-                           { 
-                            value:contador,
-                            descripcionProducto:element.cod,
-                            codsecundario:element.cod,
-                            idproduc:element.idproduc,
-                            codigointernacional:element.codigointernacional,
-                            envase:'secundario',
-                           });
-                           contador++;
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    error401(error);
-                    console.log(error);
-                });
-                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'terciario';    
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data; 
-                    me.productosenvaseterciario=respuesta;
-                    me.productosenvaseterciario.forEach((element,index) => {
-                        if (element.almacenterciario == 1) 
-                        {
-                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="terciario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
-                           me.opciones2.push( 
-                           { 
-                            value:contador,
-                            descripcionProducto:element.cod,
-                            codterciario:element.cod,
-                            idproduc:element.idproduc,
-                            codigointernacional:element.codigointernacional,
-                            envase:'terciario',
-                           });
-                           contador++;
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    error401(error);
-                    console.log(error);
-                });
-            },
-
-            /*
-            productos(productos){
-                this.idproducto=[];
-                for (const key in productos) {
-                    if (productos.hasOwnProperty(key)) {
-                        const element = productos[key];
-                        //console.log(element);
-                        this.idproducto.push(element);
-                    }
-                }
-                //console.log(this.idprestaciones);
-            },
-            cleanproductos(){
-                this.idproducto=[];
-                this.idproductoselected='';
-            
-            },*/
-            
-            listarAlmacenes(page){
-                let me=this;
-                me.listarRubro();
-                let objAlmacen = {};
-                let copiaArrayAlmacenes = [];
-                var url='/almacen?page='+page+'&idsucursal='+me.almacenselected+'&buscar='+me.buscar;
-                axios.get(url)
-                .then(function(response){
-                    var respuesta=response.data;
-                    me.pagination=respuesta.pagination;
-                    me.arrayAlmacen=respuesta.almacenes.data;
-                    me.arrayAlmacen.forEach(element => {
-                        if(element.activo == 1){
-                            copiaArrayAlmacenes.push(element);
-                        }
-                    });
-                    me.arrayAlmacen = copiaArrayAlmacenes;
-                    objAlmacen = me.arrayAlmacen.find((almacen)=> almacen.id == me.almacenselected);
-                    me.almacenRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objAlmacen.idrubro).areamedica;
-                    me.listarProductosAlmacen();
-                    me.listarProductos();
-                })
-                .catch(function(error){
-                    error401(error);
-                    console.log(error);
-                });
+                
             },
 
             selectSucursals(){
@@ -891,15 +744,17 @@ import { error401 } from '../../errores';
                 me.cerrarModal('registrar');
             },
 
-            abrirModal(accion,data= []){
+            abrirModal(accion,data = []){
                 let me=this;
-                let respuesta=me.arrayAlmacen.find(element=>element.id==me.almacenselected);
+                let respuesta=me.arrayTiendas.find(tienda=>tienda.id_tienda==me.tiendaselected);
+                console.log("********************");
+                console.log(respuesta);
                 switch(accion){
                     case 'registrar':
                     {
                         if(me.sucursalselected!=0)
                         {
-                            me.tituloModal='Registar Producto para: '+ respuesta.codsuc +' -> '+respuesta.codigo+' '+respuesta.nombre_almacen;
+                            me.tituloModal='Registar Producto: ' + respuesta.codigo_sucursal + ' ' + respuesta.razon_social+ ' -> Tienda '+respuesta.codigo_tienda;//+' '+respuesta.nombre_almacen;
                             me.tipoAccion=1;
                             me.idproductoselected=0;
                             me.tipo_entrada=3;
@@ -1052,14 +907,13 @@ import { error401 } from '../../errores';
 
         mounted() {
             this.listarTiendas();
-            this.obtenerfecha(1);
+            // this.obtenerfecha(1);
             this.listarLineaMarca();
             this.listarEnvaseEmbalaje();
             this.listarTipoEntradaProducto();
             this.listarFormaUnidadMedida();
             this.listarUsuarios();
-            this.listarAlmacenes();
-            this.selectSucursals();
+            // this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             this.classModal.addModal('staticBackdrop');
@@ -1067,8 +921,8 @@ import { error401 } from '../../errores';
             //this.listarProductos();
             //console.log('Component mounted.')
         },
-
     }    
+
 </script>
 
 <style scoped>
@@ -1076,5 +930,4 @@ import { error401 } from '../../errores';
     color: red;
     font-size: 10px;
 }
-
 </style>
