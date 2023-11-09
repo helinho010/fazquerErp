@@ -18,17 +18,19 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <!-- <div class="col-md-2" style="text-align:center">
-                            <label for="" >Almacenes Disponibles:</label>
+                        <div class="col-md-2" style="text-align:center">
+                            <label for="" >Tiendas Disponibles:</label>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarAlmacenes(1,buscar,$event)" v-model="almacenselected">
+                                <select class="form-control" @change="listarTiendas(1)" v-model="tiendaselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacen" :key="almacen.id" :value="almacen.id" v-text="(almacen.codsuc === null?'':almacen.codsuc+' -> ') +almacen.codigo + ' ' +almacen.nombre_almacen"></option>
+                                    <option v-for="tienda in arrayTiendas" :key="tienda.id" :value="tienda.id">
+                                        {{ tienda.razon_social }} {{ tienda.codigo }} Tienda {{ tienda.direccion }} 
+                                    </option>
                                 </select>                              
                             </div>
-                        </div> -->
+                        </div>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarProductosAlmacen(1)">
@@ -259,7 +261,6 @@
 <script>
 import Swal from 'sweetalert2';
 import QrcodeVue from 'qrcode.vue';
-import { watch } from 'vue';
 import { error401 } from '../../errores';
 
 //Vue.use(VeeValidate);
@@ -275,6 +276,9 @@ import { error401 } from '../../errores';
                     'to':0
                 },
                 offset:3,
+                arrayTiendas:[],
+                tiendaselected:0,
+
                 idproducto:[],
                 idproductoselected:'',
                 //productos:[],
@@ -404,12 +408,17 @@ import { error401 } from '../../errores';
         },
         methods :{
 
-            caracteresPermitidos(ex){
-                let me=this;
-                if( ex.keyCode==8  || (ex.keyCode >= 48 && ex.keyCode <= 57) )
-                {
-                    me.cantidad = me.cantidad+ex.key;
-                } 
+            listarTiendas(){
+                let me = this;
+                var url='/tienda?page=1&buscar="que pasa chango"';
+                axios.get(url).then(function (response) {
+                    console.log("@@@@@@@@@@@@@@@@@@@@@");
+                    console.log(response.data.tiendas);
+                    me.arrayTiendas = response.data.tiendas.data;
+                })
+                .catch(function (error) {
+                    error401(error);
+                });
             },
 
 
@@ -1042,6 +1051,7 @@ import { error401 } from '../../errores';
         },
 
         mounted() {
+            this.listarTiendas();
             this.obtenerfecha(1);
             this.listarLineaMarca();
             this.listarEnvaseEmbalaje();

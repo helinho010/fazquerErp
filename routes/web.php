@@ -18,6 +18,7 @@ use App\Http\Controllers\AdmVentanaModuloController;
 use App\Http\Controllers\AlmAlmacenController;
 use App\Http\Controllers\AlmCodificacionController;
 use App\Http\Controllers\AlmIngresoProductoController;
+use App\Http\Controllers\TdaTiendaController;
 use App\Http\Controllers\GesPreVentaController;
 use App\Http\Controllers\ParClienteController;
 use App\Http\Controllers\ParDescServicioController;
@@ -39,6 +40,7 @@ use App\Http\Controllers\SerPrestacionController;
 use App\Http\Controllers\SerVentaController;
 use App\Http\Controllers\SerVentaMaestroController;
 use App\Models\Alm_IngresoProducto;
+use App\Models\Tda_Tienda;
 
 /*
 |--------------------------------------------------------------------------
@@ -362,7 +364,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::put('/ventasmaestro/registrarventa', [SerVentaMaestroController::class,'activar']);
 
     //Tienda
-    //Route::get('/tienda',[SerVentaMaestroController::class,'index']);
+    Route::get('/tienda',[TdaTiendaController::class,'index']);
 
     //////// Gestion Precio Venta
     Route::post('/gestionprecioventa/actualizar-registrar', [GesPreVentaController::class,'update_store']);

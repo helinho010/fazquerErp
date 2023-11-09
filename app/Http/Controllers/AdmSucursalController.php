@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Adm_Sucursal;
+use App\Models\Tda_Tienda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -138,8 +139,11 @@ class AdmSucursalController extends Controller
     public function store(Request $request)
     {
         $letracodigo='SU';
+        $letrasCodigoTienda = 'TDA';
+
         $maxcorrelativo = Adm_Sucursal::select(DB::raw('max(correlativo) as maximo'))
                                 ->get()->toArray();
+
         $correlativo=$maxcorrelativo[0]['maximo'];
         if(is_null($correlativo))
             $correlativo=1;
@@ -154,7 +158,8 @@ class AdmSucursalController extends Controller
 
                 
         
-        $codigo=$letracodigo.$codigo;        
+        $codigoTienda = $letrasCodigoTienda.$codigo;        
+        $codigo=$letracodigo.$codigo;
         
         
         $sucursal = new Adm_Sucursal();
@@ -171,6 +176,13 @@ class AdmSucursalController extends Controller
         $sucursal->ciudad = $request->ciudad;
         $sucursal->id_usuario_registra=auth()->user()->id;
         $sucursal->save();
+
+        $tienda = new Tda_Tienda();
+        $tienda->codigo = $codigoTienda;
+        $tienda->idsucursal = $sucursal->id;
+        $tienda->activo = 1;
+        $tienda->id_usuario_registra = auth()->user()->id;
+        $tienda->save();
     }
 
     /**

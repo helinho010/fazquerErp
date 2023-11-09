@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('registro_sanitario')->nullable()->comment('Codigo expedido por la autoridad sanitaria');
             $table->boolean('activo')->default(1)->comment('Estado del registro, 1 -> activo, 0 ->inactivo');
             $table->timestamps();
-            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('identificador del usuario que esta modificando el producto');
-            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('identificador del usuario que esta registrando el producto');
+            $table->smallInteger('id_usuario_modifica')->unsigned()->nullable()->comment('identificador del usuario que esta modificando el registo');
+            $table->smallInteger('id_usuario_registra')->unsigned()->nullable()->comment('identificador del usuario que esta registrando el registro');
             
             $table->foreign('idtienda')->references('id')->on('tda__tiendas')
                   ->onDelete('cascade')
