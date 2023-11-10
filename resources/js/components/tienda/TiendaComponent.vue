@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <select class="form-control" @change="listarProductosTienda()" v-model="tiendaselected">
+                                <select class="form-control" @change="listarProductosTienda(1)" v-model="tiendaselected">
                                     <option value="0" disabled>Seleccionar...</option>
                                     <option v-for="tienda in arrayTiendas" :key="tienda.id_tienda" :value="tienda.id_tienda">
                                         {{ tienda.razon_social }} {{ tienda.codigo }} Tienda {{ tienda.direccion }} 
@@ -47,8 +47,8 @@
                                 <th>Producto</th>
                                 <th>Cantidad</th>
                                 <th>Lote</th>
-                                <th v-if="almacenRubroareamedica == 1">Vencimiento</th>
-                                <th v-if="almacenRubroareamedica == 1">R.S. SENASAG</th>
+                                <th v-if="tiendaRubroareamedica == 1">Vencimiento</th>
+                                <th v-if="tiendaRubroareamedica == 1">R.S. SENASAG</th>
                                 <th>Fecha y Hora</th>
                                 <th>Usuario</th>
                                 <th>Estado</th>
@@ -60,24 +60,24 @@
                                     <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="ingresoProducto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoAlmacen(ingresoProducto.id)" >
+                                    <button v-if="ingresoProducto.activo_tda_ingreso_producto==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoAlmacen(ingresoProducto.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
                                     <button v-else type="button" class="btn btn-info btn-sm" @click="activarProductoAlmacen(ingresoProducto.id)">
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td>{{ ingresoProducto.codproducto  }}</td>
+                                <td>{{ ingresoProducto.codigo_producto }}</td>
                                 <td> {{ ingresoProducto.nombreLinea }} </td>
-                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
+                                <td> {{ ingresoProducto.nombre_producto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.lote"></td>
-                                <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
-                                <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
-                                <td v-text="ingresoProducto.fecingreso"></td>
+                                <td v-if="ingresoProducto.perecederoProducto == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
+                                <td v-if="ingresoProducto.perecederoProducto == 1" v-text="ingresoProducto.registro_sanitario"></td>
+                                <td>{{ ingresoProducto.nombreUsuarioRegistroIngreso }}</td>
                                 <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
-                                    <div v-if="ingresoProducto.activo==1">
+                                    <div v-if="ingresoProducto.activo_tda_ingreso_producto==1">
                                         <span class="badge badge-success">Activo</span>
                                     </div>
                                     <div v-else>
@@ -154,22 +154,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="form-group col-sm-4">
-                                    <strong>Seleccionar Estante: <span  v-if="estanteselected==0" class="error">(*)</span></strong>
-                                    <select v-model="estanteselected" class="form-control" @change="listarposicion(estanteselected)">
-                                        <option value="0">Seleccionar...</option>
-                                        <option v-for="estante in arrayEstantes" :key="estante.id" :value="estante.id" v-text="estante.codestante"></option>
-                                    </select>
-                                    <span  v-if="estanteselected==0" class="error">Debe seleccionar un Estante</span>
-                                </div> -->
-                                <!-- <div class="form-group col-sm-4">
-                                    <strong>Seleccionar Ubicacion: <span  v-if="ubicacionSelected==0" class="error">(*)</span></strong>
-                                    <select v-model="ubicacionSelected" class="form-control">
-                                        <option value="0">Seleccionar...</option>
-                                        <option v-for="ubicacion in arrayUbicacions" :key="ubicacion" :value="ubicacion" v-text="ubicacion"></option>
-                                    </select>
-                                    <span  v-if="ubicacionSelected==0" class="error">Debe seleccionar la ubicacion</span>
-                                </div> -->
                                 <div class="form-group col-sm-4" v-if="productoperecedero == 1">
                                     <strong>Fecha de Vencimiento: <span  v-if="fecha_vencimiento==''" class="error">(*)</span></strong>
                                     <input type="date" :min="fechamin" class="form-control" v-model="fecha_vencimiento">
@@ -189,17 +173,12 @@
                                     <!-- <input type="text" class="form-control" placeholder="Codigo" v-model="codigo" v-on:focus="selectAll"> -->
                                     <!--<span  v-if="codigo==''" class="error">Debe Ingresar el Codigo</span> -->
                                 </div>
-                                <!-- <div class="form-group col-sm-6 ">
-                                    <strong>Registro Sanitario:<span  v-if="registrosanitario==''" class="error">(*)</span></strong>
-                                    <input type="text" class="form-control" placeholder="Registro Sanitario" v-model="registrosanitario" v-on:focus="selectAll">
-                                    <span  v-if="registrosanitario==''" class="error">Debe Ingresar el Registro Sanitario</span>
-                                </div> -->
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnAlmacen()" :disabled="!sicompleto">Guardar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnTienda()" :disabled="!sicompleto">Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnAlmacen()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
@@ -331,7 +310,7 @@ import { error401 } from '../../errores';
                 inputTextBuscarProductoIngresoAlmacen:'',
                 idproductoRealSeleccionado:0,
                 idalmingresoproducto:0,
-                almacenRubroareamedica:0,
+                tiendaRubroareamedica:0,
             }
 
         },
@@ -405,12 +384,11 @@ import { error401 } from '../../errores';
         },
         methods :{
 
-            listarTiendas(){
+            listarTiendas(page){
                 let me = this;
-                var url='/tienda?page=1&buscar="que pasa chango"';
+                var url='/tienda?page='+page+'&buscar='+me.buscar;
                 axios.get(url).then(function (response) {
-                    console.log("@@@@@@@@@@@@@@@@@@@@@");
-                    console.log(response.data.tiendas);
+                    me.pagination=response.data.pagination;
                     me.arrayTiendas = response.data.tiendas.data;
                 })
                 .catch(function (error) {
@@ -494,47 +472,54 @@ import { error401 } from '../../errores';
 
             listarProductosTienda(page){
                 let me = this;
+                let objTienda = {};
                  if (me.tiendaselected != 0 ) {
-                //     let url='/almacen/ingreso-producto?page='+page+'&idalmacen='+me.almacenselected;
-                //     axios.get(url).then(function(response){
-                //         var respuesta = response.data;
-                //         me.pagination = respuesta.pagination;
-                //         me.arrayIngresoProducto = respuesta.productosAlmacen.data;
-                //         me.arrayIngresoProducto.forEach(producto => {
-                //             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
-                //             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
-                //             producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.idrubroproducto).areamedica;
-                //             producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
-                //             switch (producto.envaseregistrado.toLowerCase()) {
-                //                 case 'primario':
-                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
-                //                     producto.cantidadEnvaseProducto = producto.cantidadprimario;
-                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
-                //                 break;
-                //                 case 'secundario':
-                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
-                //                     producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
-                //                 break;
-                //                 case 'terciario':
-                //                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
-                //                     producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                //                     producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
-                //                 break;
+                    let url='/tienda/ingreso-producto?page='+page+'&idtienda='+me.tiendaselected;
+                    axios.get(url).then(function(response){
+                        var respuesta = response.data;
+                        me.pagination = respuesta.pagination;
+                        me.arrayIngresoProducto = respuesta.productosTienda.data;
+                        console.log("@@@@@@@@@@");
+                        console.log(me.tiendaselected);
+                        objTienda = me.arrayIngresoProducto.find((producto) => producto.idtienda == me.tiendaselected);
+                        me.tiendaRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objTienda.id_rubro_producto).areamedica;
+                        
+                        console.log(me.arrayIngresoProducto);
+                        
+                        me.arrayIngresoProducto.forEach(producto => {
+                            producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
+                            producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
+                            producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.id_rubro_producto).areamedica;
+                            producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
+                            switch (producto.envaseregistrado.toLowerCase()) {
+                                case 'primario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadprimario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                                break;
+                                case 'secundario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadsecundario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                                break;
+                                case 'terciario':
+                                    producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
+                                    producto.cantidadEnvaseProducto = producto.cantidadterciario;
+                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                                break;
                             
-                //                 default:
-                //                     producto.envaseEmbalajeProductoNombre ='';
-                //                     producto.cantidadEnvaseProducto = '';
-                //                 break;
-                //             }
-                //         });
-                //     }).catch(function(error){
-                //         error401(error);
-                //         console.log(error);
-                //     });   
-                    console.log("*****************************************");
+                                default:
+                                    producto.envaseEmbalajeProductoNombre ='';
+                                    producto.cantidadEnvaseProducto = '';
+                                break;
+                            }
+                        });
+                    }).catch(function(error){
+                        error401(error);
+                        console.log(error);
+                    });   
                 }
-                
+                me.listarProductos();
             },
 
             
@@ -557,15 +542,16 @@ import { error401 } from '../../errores';
             listarProductos(){
                 let me = this;
                 let contador = 1;
+                me.opciones = '<option value="0" disabled>Seleccionar...</option>';
                 me.opciones2 = [];
-                var url= '/producto/getProductosTiendaAlamcenEnvase?idalmacen='+me.almacenselected+'&envase='+'primario';    
+                var url= '/producto/getProductosTiendaEnvase?idtienda='+me.tiendaselected+'&envase='+'primario';    
                 axios.get(url).then(function (response) {
                     var respuesta= response.data; 
-                    me.productosenvaseprimario=respuesta;                    
+                    me.productosenvaseprimario=respuesta;
                     me.productosenvaseprimario.forEach((element,index) => {
-                        if (element.almacenprimario == 1) 
+                        if (element.tiendaprimario == 1) 
                         {
-                           //me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="primario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="primario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
                            me.opciones2.push( 
                            { 
                             value:contador,
@@ -583,7 +569,56 @@ import { error401 } from '../../errores';
                     error401(error);
                     console.log(error);
                 });
-                
+                var url= '/producto/getProductosTiendaEnvase?idtienda='+me.tiendaselected+'&envase='+'secundario';    
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productosenvasesecundario=respuesta;
+                    me.productosenvasesecundario.forEach((element,index) => {
+                        if (element.tiendasecundario == 1) 
+                        {
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="secundario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
+                           me.opciones2.push( 
+                           { 
+                            value:contador,
+                            descripcionProducto:element.cod,
+                            codsecundario:element.cod,
+                            idproduc:element.idproduc,
+                            codigointernacional:element.codigointernacional,
+                            envase:'secundario',
+                           });
+                           contador++;
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                });
+                var url= '/producto/getProductosTiendaEnvase?idtienda='+me.tiendaselected+'&envase='+'terciario';    
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data; 
+                    me.productosenvaseterciario=respuesta;
+                    me.productosenvaseterciario.forEach((element,index) => {
+                        if (element.tiendaterciario == 1) 
+                        {
+                           me.opciones = me.opciones + '<option data-idproduc="'+element.idproduc+'" data-envase="terciario" key="'+element.idproduc+'" value="'+contador+'">'+element.cod+'</option>';
+                           me.opciones2.push( 
+                           { 
+                            value:contador,
+                            descripcionProducto:element.cod,
+                            codterciario:element.cod,
+                            idproduc:element.idproduc,
+                            codigointernacional:element.codigointernacional,
+                            envase:'terciario',
+                           });
+                           contador++;
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    error401(error);
+                    console.log(error);
+                }); 
             },
 
             selectSucursals(){
@@ -602,25 +637,24 @@ import { error401 } from '../../errores';
             cambiarPagina(page){
                 let me =this;
                 me.pagination.current_page = page;
-                me.listarProductosAlmacen(page);
+                me.listarProductosTienda(page);
             },
 
-            registrarProductoEnAlmacen(){
+            registrarProductoEnTienda(){
                 let me = this;
-                axios.post('/almacen/ingreso-producto/registrar',{
+                axios.post('/tienda/ingreso-producto/registrar',{
                     'id_prod_producto':me.idproductoRealSeleccionado,
                     'envase':me.envaseProductoSelecionadoIngresoAlmacen,
-                    'idalmacen':me.almacenselected,
+                    'idtienda':me.tiendaselected,
                     'cantidad':me.cantidad,
                     'id_tipo_entrada':me.tipo_entrada,
                     'fecha_vencimiento':me.fecha_vencimiento,
                     'lote':me.lote,
-                    'registro_sanitario':me.registrosanitario,
-                    //'codigo_internacional':me.codigointernacional, 
+                    'registro_sanitario':me.registrosanitario, 
                 }).then(function(response){
                     Swal.fire('Registrado Correctamente')
                     me.cerrarModal('registrar');
-                    me.listarProductosAlmacen(1);
+                    me.listarProductosTienda(1);
                 }).catch(function(error){
                     error401(error);
                     console.log(error);
@@ -703,7 +737,7 @@ import { error401 } from '../../errores';
                             'El registro a sido Activado Correctamente',
                             'success'
                         )
-                        me.listarProductosAlmacen(1);
+                        me.listarProductosTienda(1);
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
@@ -737,7 +771,7 @@ import { error401 } from '../../errores';
                     'registro_sanitario':me.registrosanitario,
                 }).then(function (response) {
                     Swal.fire('Actualizado Correctamente')
-                    me.listarProductosAlmacen(1); 
+                    me.listarProductosTienda(1); 
                 }).catch(function (error) {
                    console.log(error);
                 });
@@ -747,8 +781,6 @@ import { error401 } from '../../errores';
             abrirModal(accion,data = []){
                 let me=this;
                 let respuesta=me.arrayTiendas.find(tienda=>tienda.id_tienda==me.tiendaselected);
-                console.log("********************");
-                console.log(respuesta);
                 switch(accion){
                     case 'registrar':
                     {
@@ -906,13 +938,14 @@ import { error401 } from '../../errores';
         },
 
         mounted() {
-            this.listarTiendas();
+            this.listarTiendas(1);
             // this.obtenerfecha(1);
             this.listarLineaMarca();
             this.listarEnvaseEmbalaje();
             this.listarTipoEntradaProducto();
             this.listarFormaUnidadMedida();
             this.listarUsuarios();
+            this.listarRubro();
             // this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');

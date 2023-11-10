@@ -621,4 +621,44 @@ class ProdProductoController extends Controller
         return $productos;
     }
 
+    public function getProductosTiendaEnvase(Request $request)
+    {
+        $idrubroDeTiendaSeleccionado = DB::table('adm__sucursals')
+                                        ->select('adm__sucursals.idrubro') 
+                                        ->leftJoin('tda__tiendas','tda__tiendas.idsucursal','adm__sucursals.id')
+                                        ->where('tda__tiendas.id',$request->idtienda)
+                                        ->get();
+
+        foreach ($idrubroDeTiendaSeleccionado as $value) {
+            $idrubroTable = $value->idrubro;
+        } 
+
+        $raw = DB::raw(DB::raw('concat(ifnull(prod__productos.codigo,"")," ",ifnull(prod__productos.nombre,"")," ",ifnull(prod__dispensers.nombre,"")," X ",ifnull(prod__productos.cantidad'.$request->envase.',""),if(isnull(prod__forma_farmaceuticas.nombre),""," - "||prod__forma_farmaceuticas.nombre)) as cod'));
+        $productos = Prod_Producto::leftJoin('prod__forma_farmaceuticas','prod__forma_farmaceuticas.id','prod__productos.idformafarmaceutica'.$request->envase)
+                                    ->leftJoin('prod__dispensers','prod__dispensers.id','prod__productos.iddispenser'.$request->envase)
+                                    ->leftJoin('adm__rubros','adm__rubros.id','prod__productos.idrubro')
+                                    ->select(DB::raw('prod__productos.id as idproduc,
+                                                prod__productos.codigo,
+                                                prod__productos.nombre, 
+                                                prod__productos.idformafarmaceutica'.$request->envase.',
+                                                prod__productos.cantidad'.$request->envase.', 
+                                                prod__forma_farmaceuticas.nombre as nomformafarmaceutica,
+                                                prod__dispensers.id as idenvase,
+                                                prod__dispensers.nombre as nomenvase,
+                                                adm__rubros.id as idrubro,
+                                                adm__rubros.nombre as nomrubro,
+                                                adm__rubros.areamedica,
+                                                prod__productos.codigointernacional,
+                                                prod__productos.tienda'.$request->envase.',
+                                                prod__productos.almacen'.$request->envase),
+                                                $raw
+                                            )
+                                    ->where('prod__productos.activo',1)
+                                    ->where('adm__rubros.id',$idrubroTable)
+                                    ->orderby('prod__productos.nombre','asc')
+                                    ->get();
+        
+        return $productos;
+    }
+
 }

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tda_Tienda;
+use App\Models\tda__ingreso_productos;
 use App\Models\Adm_Sucursal;
 use Illuminate\Support\Facades\DB;
 use App\Models\Prod_Producto;
+use App\Models\Tda_IngresoProducto;
 
 class TdaTiendaController extends Controller
 {
@@ -29,6 +31,7 @@ class TdaTiendaController extends Controller
                                             tda__tiendas.id as id_tienda,
                                             tda__tiendas.codigo as codigo_tienda,
                                             tda__tiendas.activo as activo_tienda,
+                                            adm__rubros.id as id_rubro,
                                             adm__rubros.nombre as nombre_rubro,
                                             adm__rubros.areamedica,
                                             adm__rubros.activo as activo_rubro')
@@ -48,6 +51,23 @@ class TdaTiendaController extends Controller
             ] ,
            'tiendas'=>$tiendas,
         ];
+    }
+
+    public function store(Request $request)
+    {
+        $nuevoProducto = new Tda_IngresoProducto();
+        $nuevoProducto->id_prod_producto = $request->id_prod_producto;
+        $nuevoProducto->envase = $request->envase;
+        $nuevoProducto->idtienda = $request->idtienda;
+        $nuevoProducto->cantidad = $request->cantidad;
+        $nuevoProducto->stock_ingreso = $request->cantidad;
+        $nuevoProducto->id_tipoentrada = $request->id_tipo_entrada;
+        $nuevoProducto->fecha_vencimiento = $request->fecha_vencimiento;
+        $nuevoProducto->lote = $request->lote;
+        $nuevoProducto->registro_sanitario = $request->registro_sanitario;
+        $nuevoProducto->activo = 1;
+        $nuevoProducto->id_usuario_registra=auth()->user()->id;
+        $nuevoProducto->save();
     }
 
 
@@ -90,4 +110,6 @@ class TdaTiendaController extends Controller
         
         return $productos;
     }
+
+
 }

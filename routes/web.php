@@ -39,6 +39,7 @@ use App\Http\Controllers\SerAreaController;
 use App\Http\Controllers\SerPrestacionController;
 use App\Http\Controllers\SerVentaController;
 use App\Http\Controllers\SerVentaMaestroController;
+use App\Http\Controllers\TdaIngresoProductoController;
 use App\Models\Alm_IngresoProducto;
 use App\Models\Tda_Tienda;
 
@@ -291,6 +292,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/producto/selectproducto',[ProdProductoController::class,'selectProducto']);
     Route::get('/producto/selectproducto2',[ProdProductoController::class,'selectProducto2']);
     Route::get('/producto/getProductosTiendaAlamcenEnvase',[ProdProductoController::class,'getProductosTiendaAlamcenEnvase']);
+    Route::get('/producto/getProductosTiendaEnvase',[ProdProductoController::class,'getProductosTiendaEnvase']);
     Route::get('/producto/selectproductoperecedero',[ProdProductoController::class,'selectProductoPerecedero']);
     
     Route::get('/dispenser',[ProdDispenserController::class,'index']);
@@ -365,6 +367,8 @@ Route::group(['middleware'=>'auth'],function(){
 
     //Tienda
     Route::get('/tienda',[TdaTiendaController::class,'index']);
+    Route::get('/tienda/ingreso-producto',[TdaIngresoProductoController::class,'index']);
+    Route::post('/tienda/ingreso-producto/registrar', [TdaTiendaController::class,'store']);
 
     //////// Gestion Precio Venta
     Route::post('/gestionprecioventa/actualizar-registrar', [GesPreVentaController::class,'update_store']);
