@@ -31,10 +31,10 @@
                                 </select>                              
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" v-if="tiendaselected != 0">
                             <div class="input-group">
-                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="listarProductosAlmacen(1)">
-                                <button type="submit" class="btn btn-primary" @click="listarProductosAlmacen(1)"><i class="fa fa-search" ></i> Buscar</button>
+                                <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar" v-model="buscar"  @keyup.enter="bucarProducto(1)">
+                                <button type="submit" class="btn btn-primary" @click="bucarProducto(1)"><i class="fa fa-search" ></i> Buscar</button>
                             </div>
                         </div>
                     </div>
@@ -60,10 +60,10 @@
                                     <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
-                                    <button v-if="ingresoProducto.activo_tda_ingreso_producto==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoAlmacen(ingresoProducto.id)" >
+                                    <button v-if="ingresoProducto.activo_tda_ingreso_producto==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoTienda(ingresoProducto.id)" >
                                         <i class="icon-trash"></i>
                                     </button>
-                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarProductoAlmacen(ingresoProducto.id)">
+                                    <button v-else type="button" class="btn btn-info btn-sm" @click="activarProductoTienda(ingresoProducto.id)">
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
@@ -179,7 +179,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  @click="cerrarModal('registrar')">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProductoEnTienda()" :disabled="!sicompleto">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnAlmacen()" :disabled="!sicompleto">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProductoEnTienda()" :disabled="!sicompleto">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -200,7 +200,7 @@
                     <form>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Introduzca el codigo Internacional: </label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="inputTextBuscarProductoIngresoAlmacen" v-on:keypress.prevent="buscarProductoPorEnvaseIngresoAlamcen">
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="inputTextBuscarProductoIngresoTienda" v-on:keypress.prevent="buscarProductoPorEnvaseIngresoTienda">
                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         </div>
                         <div>
@@ -307,9 +307,9 @@ import { error401 } from '../../errores';
                 opciones2:[],
                 opciones3:[],
                 envaseProductoSelecionadoIngresoAlmacen:'',
-                inputTextBuscarProductoIngresoAlmacen:'',
+                inputTextBuscarProductoIngresoTienda:'',
                 idproductoRealSeleccionado:0,
-                idalmingresoproducto:0,
+                idtdaingresoproducto:0,
                 tiendaRubroareamedica:0,
             }
 
@@ -473,19 +473,15 @@ import { error401 } from '../../errores';
             listarProductosTienda(page){
                 let me = this;
                 let objTienda = {};
+                me.arrayIngresoProducto =[];
                  if (me.tiendaselected != 0 ) {
                     let url='/tienda/ingreso-producto?page='+page+'&idtienda='+me.tiendaselected;
                     axios.get(url).then(function(response){
                         var respuesta = response.data;
                         me.pagination = respuesta.pagination;
                         me.arrayIngresoProducto = respuesta.productosTienda.data;
-                        console.log("@@@@@@@@@@");
-                        console.log(me.tiendaselected);
                         objTienda = me.arrayIngresoProducto.find((producto) => producto.idtienda == me.tiendaselected);
-                        me.tiendaRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objTienda.id_rubro_producto).areamedica;
-                        
-                        console.log(me.arrayIngresoProducto);
-                        
+                        me.tiendaRubroareamedica = me.arrayRubro.find((rubro)=>rubro.id == objTienda.id_rubro_producto).areamedica
                         me.arrayIngresoProducto.forEach(producto => {
                             producto.nombreLinea = me.arrayLineasMarca.find((linea) => linea.id == producto.idlinea).nombre;
                             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
@@ -495,17 +491,30 @@ import { error401 } from '../../errores';
                                 case 'primario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadprimario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                                    if(producto.idformafarmaceuticaprimario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                                    }
+                                    
                                 break;
                                 case 'secundario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                                    if(producto.idformafarmaceuticasecundario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                                    }
                                 break;
                                 case 'terciario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                                    if(producto.idformafarmaceuticaterciario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                                    }
                                 break;
                             
                                 default:
@@ -514,13 +523,56 @@ import { error401 } from '../../errores';
                                 break;
                             }
                         });
+
+                        me.arrayProductosAlteradoCopy = me.arrayIngresoProducto;
+
                     }).catch(function(error){
                         error401(error);
                         console.log(error);
-                    });   
+                    });
+                       
                 }
                 me.listarProductos();
             },
+
+
+            bucarProducto(){
+            let me = this;
+            let arrayProductosAlterado2 = [];
+            if (me.buscar.trim().length == 0) {
+                me.arrayIngresoProducto = me.arrayProductosAlteradoCopy;
+            }else{
+                let evaluacion = false;
+                let texto = me.buscar.trim().toLowerCase()
+                me.arrayIngresoProducto.forEach(producto => {
+                        evaluacion = (producto.codigo_producto.toLowerCase().includes(texto) || 
+                            producto.nombreLinea.toLowerCase().includes(texto) || 
+                            producto.envaseEmbalajeProductoNombre.toLowerCase().includes(texto) || 
+                            producto.formaUnidadMedidaProducto.toLowerCase().includes(texto) || 
+                            producto.tipo_entrada.toLowerCase().includes(texto) ||
+                            producto.nombreUsuarioRegistroIngreso.toLowerCase().includes(texto) ||
+                            producto.lote.toLowerCase().includes(texto) ||
+                            producto.nombre_producto.toLowerCase().includes(texto));
+
+                        if(producto.registro_sanitario !== null){
+                          evaluacion = evaluacion || producto.registro_sanitario.toLowerCase().includes(texto)
+                        }
+
+                        if(producto.fecha_vencimiento !== null){
+                          evaluacion = evaluacion || producto.fecha_vencimiento.toLowerCase().includes(texto)
+                        }
+
+                        if(producto.fecha_ingreso !== null){
+                          evaluacion = evaluacion || producto.fecha_ingreso.toLowerCase().includes(texto)
+                        }
+
+                        if(evaluacion){
+                            arrayProductosAlterado2.push(producto);
+                        }
+                });
+                me.arrayIngresoProducto = arrayProductosAlterado2;
+            }
+        },
 
             
             obtenerfecha(){
@@ -661,7 +713,7 @@ import { error401 } from '../../errores';
                 });
             },
 
-            eliminarProductoAlmacen(idproductoalmacen){
+            eliminarProductoTienda(idproductotienda){
                 let me=this;
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -682,15 +734,15 @@ import { error401 } from '../../errores';
                 }).then((result) => {
                 
                 if (result.isConfirmed) {
-                     axios.put('/almacen/ingreso-producto/desactivar',{
-                        'id': idproductoalmacen
+                     axios.put('/tienda/ingreso-producto/desactivar',{
+                        'id': idproductotienda
                     }).then(function (response) {
                         swalWithBootstrapButtons.fire(
                             'Desactivado!',
                             'El registro a sido desactivado Correctamente',
                             'success'
                         )
-                        me.listarProductosAlmacen(1);
+                        me.listarProductosTienda(1);
                     }).catch(function (error) {
                         error401(error);
                         console.log(error);
@@ -708,7 +760,8 @@ import { error401 } from '../../errores';
                 }
                 })
             },
-            activarProductoAlmacen(idproductoalmacen){
+
+            activarProductoTienda(idproductotienda){
                 let me=this;
                 const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -728,8 +781,8 @@ import { error401 } from '../../errores';
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-                     axios.put('/almacen/ingreso-producto/activar',{
-                        'id': idproductoalmacen
+                     axios.put('/tienda/ingreso-producto/activar',{
+                        'id': idproductotienda
                     }).then(function (response) {
                         
                         swalWithBootstrapButtons.fire(
@@ -757,13 +810,13 @@ import { error401 } from '../../errores';
                 })
             },
 
-            actualizarProductoEnAlmacen(){
+            actualizarProductoEnTienda(){
                 let me =this;
-                axios.put('/almacen/ingreso-producto/actualizar',{
-                    'id':me.idalmingresoproducto,
+                axios.put('/tienda/ingreso-producto/actualizar',{
+                    'id':me.idtdaingresoproducto,
                     'id_prod_producto':me.idproductoRealSeleccionado,
                     'envase':me.envaseProductoSelecionadoIngresoAlmacen,
-                    'idalmacen':me.almacenselected,
+                    'idtienda':me.tiendaselected,
                     'cantidad':me.cantidad,
                     'id_tipo_entrada':me.tipo_entrada,
                     'fecha_vencimiento':me.fecha_vencimiento,
@@ -806,10 +859,12 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
+                        console.log(data);
+                        console.log(me.arrayRubro);
                         me.tituloModal='Actualizar Producto';
                         me.tipoAccion=2;
-                        me.idalmingresoproducto = data.id;
-                        me.idproductoselected =me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
+                        me.idtdaingresoproducto = data.id;
+                        me.idproductoselected = me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).value;
                         me.idproductoRealSeleccionado = data.id_prod_producto;//me.opciones2.find((opcion) => (opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado)).idproduc;
                         me.envaseProductoSelecionadoIngresoAlmacen = data.envaseregistrado;
                         me.cantidad = data.cantidad;
@@ -825,14 +880,14 @@ import { error401 } from '../../errores';
                             fechaVencimiento:me.fecha_vencimiento,
                             registroSanitario:me.registrosanitario
                         });
-                        me.productoperecedero = me.arrayRubro.find((rubro)=> rubro.id == data.idrubroproducto).areamedica;
+                        me.productoperecedero = me.arrayRubro.find((rubro)=> rubro.id == data.id_rubro_producto).areamedica;
                         me.classModal.openModal('registrar');
                         break;
                     }
 
                     case 'bucarProductoIngresoAlmacen':
                     {
-                        me.inputTextBuscarProductoIngresoAlmacen='';
+                        me.inputTextBuscarProductoIngresoTienda='';
                         me.opciones3=[];
                         me.classModal.openModal('staticBackdrop');
                     }
@@ -895,15 +950,16 @@ import { error401 } from '../../errores';
                 },
                         
             
-            buscarProductoPorEnvaseIngresoAlamcen(ex){
+                buscarProductoPorEnvaseIngresoTienda(ex){
                 let me = this;
                 me.opciones3=[];
-                //console.log("keypress: "+ex.keyCode+"---"+ex.key);
+                console.log("keypress: "+ex.keyCode+"---"+ex.key);
+                console.log(me.opciones2);
                 if(ex.keyCode==32 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
-                    me.inputTextBuscarProductoIngresoAlmacen = me.inputTextBuscarProductoIngresoAlmacen+ex.key;
-                    me.opciones2.forEach(element => {
-                       if(element.codigointernacional.includes(me.inputTextBuscarProductoIngresoAlmacen))
+                    me.inputTextBuscarProductoIngresoTienda = me.inputTextBuscarProductoIngresoTienda+ex.key;
+                    me.opciones2.forEach( (element) => {
+                       if(element.codigointernacional.includes(me.inputTextBuscarProductoIngresoTienda))
                        {
                          me.opciones3.push(element);
                        }

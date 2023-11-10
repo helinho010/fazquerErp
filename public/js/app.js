@@ -23482,7 +23482,7 @@ __webpack_require__.r(__webpack_exports__);
       matriz: 0,
       arrayRubros: [],
       idrubro: 0,
-      arrayAlmacenes: [],
+      arrayAlmacenesTiendas: [],
       arrayProductos: [],
       arrayProductosAlterado: [],
       arrayProductosAlteradoCopy: [],
@@ -23560,18 +23560,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    // pruebaListarProductosIngreso(){
-    //     let me = this;
-    //     var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
-    //     axios.get(url).then(function(response){
-    //         console.log("@@@@@@@@@@");
-    //         console.log(response.data.productosAlmacen.data);
-    //     })
-    //     .catch(function(error){
-    //         error401(error);
-    //         console.log(error);
-    //     });
-    // },
+    pruebaListarProductosIngreso: function pruebaListarProductosIngreso() {
+      var me = this;
+      var url = '/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen=' + me.tiendaalmacenselected;
+      axios.get(url).then(function (response) {
+        console.log("@@@@@@@@@@");
+        console.log(response.data.productosAlmacen.data);
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+        console.log(error);
+      });
+    },
     listarLineas: function listarLineas() {
       var me = this;
       var url = '/linea/selectlinea';
@@ -23779,20 +23778,52 @@ __webpack_require__.r(__webpack_exports__);
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
       });
     },
-    listarAlmacenes: function listarAlmacenes(page) {
+    listarAlmacenesTiendas: function listarAlmacenesTiendas(page) {
       var me = this;
-      var copiaArrayAlmacenes = [];
-      var url = '/almacen?page=' + page + '&buscar=' + me.buscar;
-      axios.get(url).then(function (response) {
+      var copiaArrayAlmacenesTiendas = [];
+      axios.get('/almacen?page=' + page).then(function (response) {
         var respuesta = response.data;
         me.pagination = respuesta.pagination;
-        me.arrayAlmacenes = respuesta.almacenes.data;
-        me.arrayAlmacenes.forEach(function (element) {
+        me.arrayAlmacenesTiendas = respuesta.almacenes.data;
+        me.arrayAlmacenesTiendas.forEach(function (element) {
           if (element.activo == 1) {
-            copiaArrayAlmacenes.push(element);
+            copiaArrayAlmacenesTiendas.push(element);
           }
         });
-        me.arrayAlmacenes = copiaArrayAlmacenes;
+        me.arrayAlmacenesTiendas = copiaArrayAlmacenesTiendas;
+      })["catch"](function (error) {
+        (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+      });
+      var me2 = this;
+      var arrayTiendas = [];
+      var copiaArrayTiendas = [];
+      axios.get('/tienda?page=' + page).then(function (response) {
+        var respuesta = response.data;
+        me.pagination = respuesta.pagination;
+        arrayTiendas = respuesta.tiendas.data;
+        arrayTiendas.forEach(function (tienda) {
+          console.log(tienda);
+
+          if (tienda.activo_tienda == 1) {
+            tienda.activo = tienda.activo_tienda;
+            tienda.codigo = tienda.codigo_tienda;
+            tienda.codsuc = tienda.codigo_sucursal;
+            tienda.correlativo = 1;
+            tienda.id = tienda.id_tienda;
+            tienda.idrubro = tienda.id_rubro;
+            tienda.idsucursal = tienda.id_sucursal;
+            tienda.nombre_almacen = tienda.razon_social;
+            tienda.razon_social = tienda.razon_social;
+            tienda.telefono = tienda.telefonos;
+            tienda.tipo = "Tienda";
+            copiaArrayTiendas.push(tienda);
+          }
+        });
+        me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
+        console.log("777777777");
+        console.log(copiaArrayTiendas);
+        console.log("88888888");
+        console.log(me2.arrayAlmacenesTiendas);
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
       });
@@ -23883,7 +23914,7 @@ __webpack_require__.r(__webpack_exports__);
           axios.put('/almacen/activar', {
             'id': idalmacen
           }).then(function (response) {
-            me.listarAlmacenes();
+            me.listarAlmacenesTiendas();
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
           })["catch"](function (error) {
             (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
@@ -23911,7 +23942,7 @@ __webpack_require__.r(__webpack_exports__);
         'departamento': me.departamento,
         'ciudad': me.ciudad
       }).then(function (response) {
-        me.listarAlmacenes();
+        me.listarAlmacenesTiendas();
         sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Actualizado Correctamente!', 'El registro a sido actualizado Correctamente', 'success');
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
@@ -24169,7 +24200,7 @@ __webpack_require__.r(__webpack_exports__);
     this.listarEmvasesEmbalajes();
     this.listarFormaUnidadDeMedida();
     this.listarTipoEntradaProducto();
-    this.listarAlmacenes(1);
+    this.listarAlmacenesTiendas(1);
     this.listarSucursales(1);
     this.selectDepartamentos();
     this.selectCiudades();
@@ -30287,9 +30318,9 @@ __webpack_require__.r(__webpack_exports__);
       opciones2: [],
       opciones3: [],
       envaseProductoSelecionadoIngresoAlmacen: '',
-      inputTextBuscarProductoIngresoAlmacen: '',
+      inputTextBuscarProductoIngresoTienda: '',
       idproductoRealSeleccionado: 0,
-      idalmingresoproducto: 0,
+      idtdaingresoproducto: 0,
       tiendaRubroareamedica: 0
     };
   },
@@ -30431,6 +30462,7 @@ __webpack_require__.r(__webpack_exports__);
     listarProductosTienda: function listarProductosTienda(page) {
       var me = this;
       var objTienda = {};
+      me.arrayIngresoProducto = [];
 
       if (me.tiendaselected != 0) {
         var url = '/tienda/ingreso-producto?page=' + page + '&idtienda=' + me.tiendaselected;
@@ -30438,15 +30470,12 @@ __webpack_require__.r(__webpack_exports__);
           var respuesta = response.data;
           me.pagination = respuesta.pagination;
           me.arrayIngresoProducto = respuesta.productosTienda.data;
-          console.log("@@@@@@@@@@");
-          console.log(me.tiendaselected);
           objTienda = me.arrayIngresoProducto.find(function (producto) {
             return producto.idtienda == me.tiendaselected;
           });
           me.tiendaRubroareamedica = me.arrayRubro.find(function (rubro) {
             return rubro.id == objTienda.id_rubro_producto;
           }).areamedica;
-          console.log(me.arrayIngresoProducto);
           me.arrayIngresoProducto.forEach(function (producto) {
             producto.nombreLinea = me.arrayLineasMarca.find(function (linea) {
               return linea.id == producto.idlinea;
@@ -30467,9 +30496,15 @@ __webpack_require__.r(__webpack_exports__);
                   return envase.id == producto.iddispenserprimario;
                 }).nombre;
                 producto.cantidadEnvaseProducto = producto.cantidadprimario;
-                producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
-                  return formaunidad.id == producto.idformafarmaceuticaprimario;
-                }).nombre;
+
+                if (producto.idformafarmaceuticaprimario == 0) {
+                  producto.formaUnidadMedidaProducto = '';
+                } else {
+                  producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
+                    return formaunidad.id == producto.idformafarmaceuticaprimario;
+                  }).nombre;
+                }
+
                 break;
 
               case 'secundario':
@@ -30477,9 +30512,15 @@ __webpack_require__.r(__webpack_exports__);
                   return envase.id == producto.iddispensersecundario;
                 }).nombre;
                 producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
-                  return formaunidad.id == producto.idformafarmaceuticasecundario;
-                }).nombre;
+
+                if (producto.idformafarmaceuticasecundario == 0) {
+                  producto.formaUnidadMedidaProducto = '';
+                } else {
+                  producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
+                    return formaunidad.id == producto.idformafarmaceuticasecundario;
+                  }).nombre;
+                }
+
                 break;
 
               case 'terciario':
@@ -30487,9 +30528,15 @@ __webpack_require__.r(__webpack_exports__);
                   return envase.id == producto.iddispenserterciario;
                 }).nombre;
                 producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
-                  return formaunidad.id == producto.idformafarmaceuticaterciario;
-                }).nombre;
+
+                if (producto.idformafarmaceuticaterciario == 0) {
+                  producto.formaUnidadMedidaProducto = '';
+                } else {
+                  producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find(function (formaunidad) {
+                    return formaunidad.id == producto.idformafarmaceuticaterciario;
+                  }).nombre;
+                }
+
                 break;
 
               default:
@@ -30498,6 +30545,7 @@ __webpack_require__.r(__webpack_exports__);
                 break;
             }
           });
+          me.arrayProductosAlteradoCopy = me.arrayIngresoProducto;
         })["catch"](function (error) {
           (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
           console.log(error);
@@ -30505,6 +30553,37 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       me.listarProductos();
+    },
+    bucarProducto: function bucarProducto() {
+      var me = this;
+      var arrayProductosAlterado2 = [];
+
+      if (me.buscar.trim().length == 0) {
+        me.arrayIngresoProducto = me.arrayProductosAlteradoCopy;
+      } else {
+        var evaluacion = false;
+        var texto = me.buscar.trim().toLowerCase();
+        me.arrayIngresoProducto.forEach(function (producto) {
+          evaluacion = producto.codigo_producto.toLowerCase().includes(texto) || producto.nombreLinea.toLowerCase().includes(texto) || producto.envaseEmbalajeProductoNombre.toLowerCase().includes(texto) || producto.formaUnidadMedidaProducto.toLowerCase().includes(texto) || producto.tipo_entrada.toLowerCase().includes(texto) || producto.nombreUsuarioRegistroIngreso.toLowerCase().includes(texto) || producto.lote.toLowerCase().includes(texto) || producto.nombre_producto.toLowerCase().includes(texto);
+
+          if (producto.registro_sanitario !== null) {
+            evaluacion = evaluacion || producto.registro_sanitario.toLowerCase().includes(texto);
+          }
+
+          if (producto.fecha_vencimiento !== null) {
+            evaluacion = evaluacion || producto.fecha_vencimiento.toLowerCase().includes(texto);
+          }
+
+          if (producto.fecha_ingreso !== null) {
+            evaluacion = evaluacion || producto.fecha_ingreso.toLowerCase().includes(texto);
+          }
+
+          if (evaluacion) {
+            arrayProductosAlterado2.push(producto);
+          }
+        });
+        me.arrayIngresoProducto = arrayProductosAlterado2;
+      }
     },
     obtenerfecha: function obtenerfecha() {
       var me = this;
@@ -30627,7 +30706,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    eliminarProductoAlmacen: function eliminarProductoAlmacen(idproductoalmacen) {
+    eliminarProductoTienda: function eliminarProductoTienda(idproductotienda) {
       var me = this;
       var swalWithBootstrapButtons = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().mixin({
         customClass: {
@@ -30646,11 +30725,11 @@ __webpack_require__.r(__webpack_exports__);
         reverseButtons: true
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios.put('/almacen/ingreso-producto/desactivar', {
-            'id': idproductoalmacen
+          axios.put('/tienda/ingreso-producto/desactivar', {
+            'id': idproductotienda
           }).then(function (response) {
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro a sido desactivado Correctamente', 'success');
-            me.listarProductosAlmacen(1);
+            me.listarProductosTienda(1);
           })["catch"](function (error) {
             (0,_errores__WEBPACK_IMPORTED_MODULE_2__.error401)(error);
             console.log(error);
@@ -30666,7 +30745,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    activarProductoAlmacen: function activarProductoAlmacen(idproductoalmacen) {
+    activarProductoTienda: function activarProductoTienda(idproductotienda) {
       var me = this;
       var swalWithBootstrapButtons = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().mixin({
         customClass: {
@@ -30685,8 +30764,8 @@ __webpack_require__.r(__webpack_exports__);
         reverseButtons: true
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios.put('/almacen/ingreso-producto/activar', {
-            'id': idproductoalmacen
+          axios.put('/tienda/ingreso-producto/activar', {
+            'id': idproductotienda
           }).then(function (response) {
             swalWithBootstrapButtons.fire('Activado!', 'El registro a sido Activado Correctamente', 'success');
             me.listarProductosTienda(1);
@@ -30705,13 +30784,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    actualizarProductoEnAlmacen: function actualizarProductoEnAlmacen() {
+    actualizarProductoEnTienda: function actualizarProductoEnTienda() {
       var me = this;
-      axios.put('/almacen/ingreso-producto/actualizar', {
-        'id': me.idalmingresoproducto,
+      axios.put('/tienda/ingreso-producto/actualizar', {
+        'id': me.idtdaingresoproducto,
         'id_prod_producto': me.idproductoRealSeleccionado,
         'envase': me.envaseProductoSelecionadoIngresoAlmacen,
-        'idalmacen': me.almacenselected,
+        'idtienda': me.tiendaselected,
         'cantidad': me.cantidad,
         'id_tipo_entrada': me.tipo_entrada,
         'fecha_vencimiento': me.fecha_vencimiento,
@@ -30756,9 +30835,11 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'actualizar':
           {
+            console.log(data);
+            console.log(me.arrayRubro);
             me.tituloModal = 'Actualizar Producto';
             me.tipoAccion = 2;
-            me.idalmingresoproducto = data.id;
+            me.idtdaingresoproducto = data.id;
             me.idproductoselected = me.opciones2.find(function (opcion) {
               return opcion.idproduc == data.id_prod_producto && opcion.envase == data.envaseregistrado;
             }).value;
@@ -30778,7 +30859,7 @@ __webpack_require__.r(__webpack_exports__);
               registroSanitario: me.registrosanitario
             });
             me.productoperecedero = me.arrayRubro.find(function (rubro) {
-              return rubro.id == data.idrubroproducto;
+              return rubro.id == data.id_rubro_producto;
             }).areamedica;
             me.classModal.openModal('registrar');
             break;
@@ -30786,7 +30867,7 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'bucarProductoIngresoAlmacen':
           {
-            me.inputTextBuscarProductoIngresoAlmacen = '';
+            me.inputTextBuscarProductoIngresoTienda = '';
             me.opciones3 = [];
             me.classModal.openModal('staticBackdrop');
           }
@@ -30842,14 +30923,16 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    buscarProductoPorEnvaseIngresoAlamcen: function buscarProductoPorEnvaseIngresoAlamcen(ex) {
+    buscarProductoPorEnvaseIngresoTienda: function buscarProductoPorEnvaseIngresoTienda(ex) {
       var me = this;
-      me.opciones3 = []; //console.log("keypress: "+ex.keyCode+"---"+ex.key);
+      me.opciones3 = [];
+      console.log("keypress: " + ex.keyCode + "---" + ex.key);
+      console.log(me.opciones2);
 
       if (ex.keyCode == 32 || ex.keyCode == 8 || ex.keyCode == 45 || ex.keyCode >= 48 && ex.keyCode <= 57) {
-        me.inputTextBuscarProductoIngresoAlmacen = me.inputTextBuscarProductoIngresoAlmacen + ex.key;
+        me.inputTextBuscarProductoIngresoTienda = me.inputTextBuscarProductoIngresoTienda + ex.key;
         me.opciones2.forEach(function (element) {
-          if (element.codigointernacional.includes(me.inputTextBuscarProductoIngresoAlmacen)) {
+          if (element.codigointernacional.includes(me.inputTextBuscarProductoIngresoTienda)) {
             me.opciones3.push(element);
           }
         });
@@ -37595,7 +37678,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.tiendaalmacenselected = $event;
     })
-  }, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayAlmacenes, function (almacen) {
+  }, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayAlmacenesTiendas, function (almacen) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: almacen.id,
       value: almacen.id,
@@ -49766,6 +49849,7 @@ var _hoisted_18 = /*#__PURE__*/_withScopeId(function () {
 
 var _hoisted_19 = ["value"];
 var _hoisted_20 = {
+  key: 0,
   "class": "col-md-4"
 };
 var _hoisted_21 = {
@@ -50232,7 +50316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   ))], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.tiendaselected]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.tiendaselected]])])]), $data.tiendaselected != 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     id: "texto",
     name: "texto",
@@ -50242,7 +50326,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.buscar = $event;
     }),
     onKeyup: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
-      return _ctx.listarProductosAlmacen(1);
+      return $options.bucarProducto(1);
     }, ["enter"]))
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
@@ -50250,9 +50334,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit",
     "class": "btn btn-primary",
     onClick: _cache[5] || (_cache[5] = function ($event) {
-      return _ctx.listarProductosAlmacen(1);
+      return $options.bucarProducto(1);
     })
-  }, _hoisted_24)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_26, _hoisted_27, _hoisted_28, _hoisted_29, _hoisted_30, _hoisted_31, $data.tiendaRubroareamedica == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", _hoisted_32, "Vencimiento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tiendaRubroareamedica == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", _hoisted_33, "R.S. SENASAG")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_34, _hoisted_35, _hoisted_36])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayIngresoProducto, function (ingresoProducto) {
+  }, _hoisted_24)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_26, _hoisted_27, _hoisted_28, _hoisted_29, _hoisted_30, _hoisted_31, $data.tiendaRubroareamedica == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", _hoisted_32, "Vencimiento")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tiendaRubroareamedica == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", _hoisted_33, "R.S. SENASAG")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_34, _hoisted_35, _hoisted_36])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayIngresoProducto, function (ingresoProducto) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: ingresoProducto.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -50268,7 +50352,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       "class": "btn btn-danger btn-sm",
       onClick: function onClick($event) {
-        return $options.eliminarProductoAlmacen(ingresoProducto.id);
+        return $options.eliminarProductoTienda(ingresoProducto.id);
       }
     }, _hoisted_43, 8
     /* PROPS */
@@ -50277,7 +50361,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       "class": "btn btn-info btn-sm",
       onClick: function onClick($event) {
-        return $options.activarProductoAlmacen(ingresoProducto.id);
+        return $options.activarProductoTienda(ingresoProducto.id);
       }
     }, _hoisted_46, 8
     /* PROPS */
@@ -50471,7 +50555,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     "class": "btn btn-primary",
     onClick: _cache[22] || (_cache[22] = function ($event) {
-      return $options.actualizarProductoEnAlmacen();
+      return $options.actualizarProductoEnTienda();
     }),
     disabled: !$options.sicompleto
   }, "Actualizar", 8
@@ -50490,14 +50574,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "exampleInputEmail1",
     "aria-describedby": "emailHelp",
     "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
-      return $data.inputTextBuscarProductoIngresoAlmacen = $event;
+      return $data.inputTextBuscarProductoIngresoTienda = $event;
     }),
     onKeypress: _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.buscarProductoPorEnvaseIngresoAlamcen && $options.buscarProductoPorEnvaseIngresoAlamcen.apply($options, arguments);
+      return $options.buscarProductoPorEnvaseIngresoTienda && $options.buscarProductoPorEnvaseIngresoTienda.apply($options, arguments);
     }, ["prevent"]))
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.inputTextBuscarProductoIngresoAlmacen]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div id=\"emailHelp\" class=\"form-text\">We'll never share your email with anyone else.</div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_121, [_hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.opciones3.length > 0 ? $data.opciones3 : $data.opciones2, function (item1, index) {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.inputTextBuscarProductoIngresoTienda]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div id=\"emailHelp\" class=\"form-text\">We'll never share your email with anyone else.</div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_121, [_hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.opciones3.length > 0 ? $data.opciones3 : $data.opciones2, function (item1, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: index,
       onClick: function onClick($event) {

@@ -25,7 +25,7 @@
                                 <select class="form-control" @change="listarProductosTiendaAlmacen(1)"
                                     v-model="tiendaalmacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacenes" :key="almacen.id" :value="almacen.id"
+                                    <option v-for="almacen in arrayAlmacenesTiendas" :key="almacen.id" :value="almacen.id"
                                         v-text="(almacen.codsuc === null ? '' : almacen.codsuc + ' -> ') + almacen.codigo + ' ' + almacen.nombre_almacen">
                                     </option>
                                 </select>
@@ -425,7 +425,7 @@ export default {
             matriz: 0,
             arrayRubros: [],
             idrubro: 0,
-            arrayAlmacenes: [],
+            arrayAlmacenesTiendas: [],
             arrayProductos: [],
             arrayProductosAlterado:[],
             arrayProductosAlteradoCopy:[],
@@ -504,18 +504,18 @@ export default {
     },
     methods: {
         
-        // pruebaListarProductosIngreso(){
-        //     let me = this;
-        //     var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
-        //     axios.get(url).then(function(response){
-        //         console.log("@@@@@@@@@@");
-        //         console.log(response.data.productosAlmacen.data);
-        //     })
-        //     .catch(function(error){
-        //         error401(error);
-        //         console.log(error);
-        //     });
-        // },
+        pruebaListarProductosIngreso(){
+            let me = this;
+            var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
+            axios.get(url).then(function(response){
+                console.log("@@@@@@@@@@");
+                console.log(response.data.productosAlmacen.data);
+            })
+            .catch(function(error){
+                error401(error);
+                console.log(error);
+            });
+        },
         
         listarLineas(){
                 let me = this;
@@ -724,25 +724,66 @@ export default {
                 });
         },
 
-        listarAlmacenes(page) {
+        listarAlmacenesTiendas(page) {
             let me = this;
-            let copiaArrayAlmacenes=[];
-            var url = '/almacen?page=' + page + '&buscar=' + me.buscar;
-            axios.get(url)
-                .then(function (response) {
+            let copiaArrayAlmacenesTiendas=[];
+            axios.get('/almacen?page=' + page)
+            .then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
-                    me.arrayAlmacenes = respuesta.almacenes.data;
-                    me.arrayAlmacenes.forEach(element => {
+                    me.arrayAlmacenesTiendas = respuesta.almacenes.data;
+                    me.arrayAlmacenesTiendas.forEach(element => {
                         if(element.activo == 1){
-                            copiaArrayAlmacenes.push(element);
+                            copiaArrayAlmacenesTiendas.push(element);
                         }
                     });
-                    me.arrayAlmacenes = copiaArrayAlmacenes;
-                })
-                .catch(function (error) {
+                    me.arrayAlmacenesTiendas = copiaArrayAlmacenesTiendas;
+            })
+            .catch(function (error) {
                     error401(error);
-                });
+            });
+
+            let me2 = this;
+            let arrayTiendas = [];
+            let copiaArrayTiendas = [];
+            
+            axios.get('/tienda?page=' + page)
+            .then(function (response) {
+                    var respuesta = response.data;
+                    me.pagination = respuesta.pagination;
+                    arrayTiendas = respuesta.tiendas.data;
+                    arrayTiendas.forEach(tienda => {
+                        console.log(tienda);
+                        if(tienda.activo_tienda == 1){
+                            tienda.activo = tienda.activo_tienda;
+                            tienda.codigo = tienda.codigo_tienda;
+                            tienda.codsuc = tienda.codigo_sucursal
+                            tienda.correlativo = 1
+                            tienda.id = tienda.id_tienda;
+                            tienda.idrubro = tienda.id_rubro;
+                            tienda.idsucursal = tienda.id_sucursal
+                            tienda.nombre_almacen = tienda.razon_social;
+                            tienda.razon_social = tienda.razon_social;
+                            tienda.telefono = tienda.telefonos;
+                            tienda.tipo = "Tienda";
+                            copiaArrayTiendas.push(tienda);
+                        }
+                    });
+                    
+                    me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
+
+                    console.log("777777777");
+                    console.log(copiaArrayTiendas);
+
+                    console.log("88888888");
+                    console.log(me2.arrayAlmacenesTiendas);
+                    
+            })
+            .catch(function (error) {
+                    error401(error);
+            });
+
+
         },
 
         cambiarPagina(page) {
@@ -847,7 +888,7 @@ export default {
                     axios.put('/almacen/activar', {
                         'id': idalmacen
                     }).then(function (response) {
-                        me.listarAlmacenes();
+                        me.listarAlmacenesTiendas();
                         swalWithBootstrapButtons.fire(
                             'Activado!',
                             'El registro a sido Activado Correctamente',
@@ -882,7 +923,7 @@ export default {
                 'departamento': me.departamento,
                 'ciudad': me.ciudad,
             }).then(function (response) {
-                me.listarAlmacenes();
+                me.listarAlmacenesTiendas();
                 Swal.fire(
                     'Actualizado Correctamente!',
                     'El registro a sido actualizado Correctamente',
@@ -1151,7 +1192,7 @@ export default {
         this.listarEmvasesEmbalajes();
         this.listarFormaUnidadDeMedida();
         this.listarTipoEntradaProducto();
-        this.listarAlmacenes(1);
+        this.listarAlmacenesTiendas(1);
         this.listarSucursales(1);
         this.selectDepartamentos();
         this.selectCiudades();

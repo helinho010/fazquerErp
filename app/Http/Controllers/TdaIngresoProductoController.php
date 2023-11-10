@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class TdaIngresoProductoController extends Controller
 {
-    private $columnasIngresoProductos = '
-    tda__ingreso_productos.id,
+    private $columnasIngresoProductos = 'tda__ingreso_productos.id,
 	tda__ingreso_productos.idtienda, 
 	tda__ingreso_productos.id_prod_producto,
 	tda__ingreso_productos.envase as envaseregistrado,
@@ -21,6 +20,7 @@ class TdaIngresoProductoController extends Controller
 	tda__ingreso_productos.registro_sanitario,
 	tda__ingreso_productos.activo as activo_tda_ingreso_producto,
 	tda__ingreso_productos.id_usuario_registra,
+	tda__ingreso_productos.created_at as fecha_ingreso,
 	prod__productos.id as id_producto,
 	prod__productos.codigo as codigo_producto,
 	prod__productos.idlinea,
@@ -41,6 +41,7 @@ class TdaIngresoProductoController extends Controller
     prod__productos.precioventasecundario,
     prod__productos.preciolistaterciario,
     prod__productos.precioventaterciario,
+    prod__productos.activo as activo_producto,
 	tda__tiendas.id as id_tienda,
 	tda__tiendas.codigo as codigo_tienda,
 	tda__tiendas.activo as activo_tienda';
@@ -49,11 +50,12 @@ class TdaIngresoProductoController extends Controller
     public function index(Request $request)
     {
         $productosTienda = DB::table('tda__ingreso_productos')
-                              ->leftJoin('tda__tiendas','tda__tiendas.id','=','tda__ingreso_productos.id_prod_producto')
-                              ->leftJoin('prod__productos','prod__productos.id','=','prod__productos.id')
-                              //->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
+                              ->leftJoin('prod__productos','prod__productos.id','=', 'tda__ingreso_productos.id_prod_producto')
+                              ->leftJoin('tda__tiendas','tda__tiendas.id','=','tda__ingreso_productos.idtienda')
                               ->select(DB::raw($this->columnasIngresoProductos))    
-                              ->where('tda__ingreso_productos.idtienda','=',$request->idtienda)
+                              ->where('prod__productos.activo',1)
+                              ->where('tda__tiendas.activo',1)
+                              ->where('tda__ingreso_productos.idtienda',$request->idtienda)
                               ->paginate(10);
             return 
             [
@@ -85,6 +87,39 @@ class TdaIngresoProductoController extends Controller
         $nuevoProducto->registro_sanitario = $request->registro_sanitario;
         $nuevoProducto->id_usuario_registra=auth()->user()->id;
         $nuevoProducto->save();
+    }
+
+    public function update(Request $request)
+    {
+        $actualizarProducto = Tda_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->id_prod_producto = $request->id_prod_producto;
+        $actualizarProducto->envase = $request->envase;
+        $actualizarProducto->idtienda = $request->idtienda;
+        $actualizarProducto->cantidad = $request->cantidad;
+        $actualizarProducto->stock_ingreso = $request->cantidad;
+        $actualizarProducto->id_tipoentrada = $request->id_tipo_entrada;
+        $actualizarProducto->fecha_vencimiento = $request->fecha_vencimiento;
+        $actualizarProducto->lote = $request->lote;
+        $actualizarProducto->registro_sanitario = $request->registro_sanitario;
+        $actualizarProducto->id_usuario_modifica = auth()->user()->id;
+        $actualizarProducto->save();
+    }
+
+
+    public function desactivar(Request $request)
+    {
+        $actualizarProducto = Tda_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->activo = 0;
+        $actualizarProducto->id_usuario_modifica = auth()->user()->id;
+        $actualizarProducto->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $actualizarProducto = Tda_IngresoProducto::findOrFail($request->id);
+        $actualizarProducto->activo = 1;
+        $actualizarProducto->id_usuario_modifica = auth()->user()->id;
+        $actualizarProducto->save();
     }
 
 }

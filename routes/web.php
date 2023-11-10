@@ -369,6 +369,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/tienda',[TdaTiendaController::class,'index']);
     Route::get('/tienda/ingreso-producto',[TdaIngresoProductoController::class,'index']);
     Route::post('/tienda/ingreso-producto/registrar', [TdaTiendaController::class,'store']);
+    Route::put('/tienda/ingreso-producto/actualizar', [TdaIngresoProductoController::class,'update']);
+    Route::put('/tienda/ingreso-producto/desactivar', [TdaIngresoProductoController::class,'desactivar']);
+    Route::put('/tienda/ingreso-producto/activar', [TdaIngresoProductoController::class,'activar']);
 
     //////// Gestion Precio Venta
     Route::post('/gestionprecioventa/actualizar-registrar', [GesPreVentaController::class,'update_store']);
