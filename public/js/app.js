@@ -23566,6 +23566,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         console.log("@@@@@@@@@@");
         console.log(response.data.productosAlmacen.data);
+        console.log(me.tiendaalmacenselected);
       })["catch"](function (error) {
         (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
         console.log(error);
@@ -23625,87 +23626,91 @@ __webpack_require__.r(__webpack_exports__);
       me.pruebaListarProductosIngreso();
       me.arrayProductosAlterado = [];
 
-      if (me.tiendaalmacenselected != 0) {
-        var url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected;
-        axios.get(url).then(function (response) {
-          var respuesta = response.data;
-          me.pagination = respuesta.pagination;
-          me.arrayProductos = respuesta.productosAlmacen.data;
-          var nombreEnvaseEmbalajeDelProducto = '';
-          var nombreFormaUnidadMedidaProducto = '';
-          me.arrayProductos.forEach(function (element) {
-            element.lineaProductoNombre = me.arrayLineas.find(function (element2) {
-              return element2.id == element.idlinea;
-            }).nombre;
-            element.perecedero = me.arrayRubros.find(function (rubro) {
-              return rubro.id == element.idrubroproducto;
-            }).areamedica;
-            element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find(function (usuario) {
-              return usuario.id == element.id_usuario_registra;
-            }).name;
-            element.tipoentrada = me.arrayTipoEntradaProductos.find(function (tipoentrada) {
-              return tipoentrada.id == element.id_tipoentrada;
-            }).nombre;
+      if (me.tiendaalmacenselected.id != 0) {
+        if (me.tiendaalmacenselected.tipo.toLowerCase() == 'tienda') {
+          console.log("array de productos en la tienda");
+        } else {
+          var url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected.id;
+          axios.get(url).then(function (response) {
+            var respuesta = response.data;
+            me.pagination = respuesta.pagination;
+            me.arrayProductos = respuesta.productosAlmacen.data;
+            var nombreEnvaseEmbalajeDelProducto = '';
+            var nombreFormaUnidadMedidaProducto = '';
+            me.arrayProductos.forEach(function (element) {
+              element.lineaProductoNombre = me.arrayLineas.find(function (element2) {
+                return element2.id == element.idlinea;
+              }).nombre;
+              element.perecedero = me.arrayRubros.find(function (rubro) {
+                return rubro.id == element.idrubroproducto;
+              }).areamedica;
+              element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find(function (usuario) {
+                return usuario.id == element.id_usuario_registra;
+              }).name;
+              element.tipoentrada = me.arrayTipoEntradaProductos.find(function (tipoentrada) {
+                return tipoentrada.id == element.id_tipoentrada;
+              }).nombre;
 
-            switch (element.envaseregistrado) {
-              case 'primario':
-                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
-                  return element3.id == element.iddispenserprimario;
-                }).nombre;
-
-                if (element.idformafarmaceuticaprimario == 0) {
-                  nombreFormaUnidadMedidaProducto = '';
-                } else {
-                  nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
-                    return element4.id == element.idformafarmaceuticaprimario;
+              switch (element.envaseregistrado) {
+                case 'primario':
+                  nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
+                    return element3.id == element.iddispenserprimario;
                   }).nombre;
-                }
 
-                break;
+                  if (element.idformafarmaceuticaprimario == 0) {
+                    nombreFormaUnidadMedidaProducto = '';
+                  } else {
+                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
+                      return element4.id == element.idformafarmaceuticaprimario;
+                    }).nombre;
+                  }
 
-              case 'secundario':
-                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
-                  return element3.id == element.iddispensersecundario;
-                }).nombre;
+                  break;
 
-                if (element.idformafarmaceuticasecundario == 0) {
-                  nombreFormaUnidadMedidaProducto = '';
-                } else {
-                  nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
-                    return element4.id == element.idformafarmaceuticasecundario;
+                case 'secundario':
+                  nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
+                    return element3.id == element.iddispensersecundario;
                   }).nombre;
-                }
 
-                break;
+                  if (element.idformafarmaceuticasecundario == 0) {
+                    nombreFormaUnidadMedidaProducto = '';
+                  } else {
+                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
+                      return element4.id == element.idformafarmaceuticasecundario;
+                    }).nombre;
+                  }
 
-              case 'terciario':
-                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
-                  return element3.id == element.iddispenserterciario;
-                }).nombre;
+                  break;
 
-                if (element.idformafarmaceuticaterciario == 0) {
-                  nombreFormaUnidadMedidaProducto = '';
-                } else {
-                  nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
-                    return element4.id == element.idformafarmaceuticaterciario;
+                case 'terciario':
+                  nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find(function (element3) {
+                    return element3.id == element.iddispenserterciario;
                   }).nombre;
-                }
 
-                break;
+                  if (element.idformafarmaceuticaterciario == 0) {
+                    nombreFormaUnidadMedidaProducto = '';
+                  } else {
+                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find(function (element4) {
+                      return element4.id == element.idformafarmaceuticaterciario;
+                    }).nombre;
+                  }
 
-              default:
-                break;
-            }
+                  break;
 
-            element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
-            element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
-            me.arrayProductosAlterado.push(element);
+                default:
+                  break;
+              }
+
+              element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
+              element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
+              me.arrayProductosAlterado.push(element);
+            });
+            me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
+          })["catch"](function (error) {
+            (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
+            console.log(error);
           });
-          me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
-        })["catch"](function (error) {
-          (0,_errores__WEBPACK_IMPORTED_MODULE_1__.error401)(error);
-          console.log(error);
-        });
+        }
       }
     },
     bucarProducto: function bucarProducto() {
@@ -23820,8 +23825,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
         me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
-        console.log("777777777");
-        console.log(copiaArrayTiendas);
         console.log("88888888");
         console.log(me2.arrayAlmacenesTiendas);
       })["catch"](function (error) {
@@ -30424,9 +30427,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    actualizarProductoEnTienda: function actualizarProductoEnTienda() {
+    actualizarTienda: function actualizarTienda() {
       var me = this;
-      axios.put('/tienda/ingreso-producto/actualizar', {
+      axios.put('/tienda/actualizar', {
         'id': me.idtdaingresoproducto,
         'id_prod_producto': me.idproductoRealSeleccionado,
         'envase': me.envaseProductoSelecionadoIngresoAlmacen,
@@ -38000,7 +38003,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayAlmacenesTiendas, function (almacen) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: almacen.id,
-      value: almacen.id,
+      value: {
+        'id': almacen.id,
+        'tipo': almacen.tipo
+      },
       textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((almacen.codsuc === null ? '' : almacen.codsuc + ' -> ') + almacen.codigo + ' ' + almacen.nombre_almacen)
     }, null, 8
     /* PROPS */
@@ -50149,30 +50155,16 @@ var _hoisted_15 = ["onClick"];
 
 var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "icon-pencil"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_17 = [_hoisted_16];
-
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
-
-var _hoisted_19 = ["onClick"];
-
-var _hoisted_20 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "icon-trash"
   }, null, -1
   /* HOISTED */
   );
 });
 
-var _hoisted_21 = [_hoisted_20];
-var _hoisted_22 = ["onClick"];
+var _hoisted_17 = [_hoisted_16];
+var _hoisted_18 = ["onClick"];
 
-var _hoisted_23 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "icon-check"
   }, null, -1
@@ -50180,12 +50172,12 @@ var _hoisted_23 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_24 = [_hoisted_23];
-var _hoisted_25 = {
+var _hoisted_20 = [_hoisted_19];
+var _hoisted_21 = {
   key: 0
 };
 
-var _hoisted_26 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_22 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge badge-success"
   }, "Activo", -1
@@ -50193,12 +50185,12 @@ var _hoisted_26 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_27 = [_hoisted_26];
-var _hoisted_28 = {
+var _hoisted_23 = [_hoisted_22];
+var _hoisted_24 = {
   key: 1
 };
 
-var _hoisted_29 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_25 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge badge-warning"
   }, "Desactivado", -1
@@ -50206,37 +50198,37 @@ var _hoisted_29 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_30 = [_hoisted_29];
-var _hoisted_31 = {
+var _hoisted_26 = [_hoisted_25];
+var _hoisted_27 = {
   "class": "pagination"
 };
-var _hoisted_32 = {
+var _hoisted_28 = {
   key: 0,
   "class": "page-item"
 };
-var _hoisted_33 = ["onClick", "textContent"];
-var _hoisted_34 = {
+var _hoisted_29 = ["onClick", "textContent"];
+var _hoisted_30 = {
   key: 1,
   "class": "page-item"
 };
-var _hoisted_35 = {
+var _hoisted_31 = {
   "class": "modal fade",
   id: "staticBackdrop",
   tabindex: "-2",
   "aria-labelledby": "exampleModalLabel",
   "aria-hidden": "true"
 };
-var _hoisted_36 = {
+var _hoisted_32 = {
   "class": "modal-dialog modal-dialog-scrollable modal-primary"
 };
-var _hoisted_37 = {
+var _hoisted_33 = {
   "class": "modal-content"
 };
-var _hoisted_38 = {
+var _hoisted_34 = {
   "class": "modal-header"
 };
 
-var _hoisted_39 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_35 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
     id: "exampleModalLabel"
@@ -50245,7 +50237,7 @@ var _hoisted_39 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_40 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_36 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-body"
   }, null, -1
@@ -50253,7 +50245,7 @@ var _hoisted_40 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_41 = {
+var _hoisted_37 = {
   "class": "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -50280,33 +50272,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, _hoisted_12)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.arrayTiendas, function (tienda) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: tienda.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      "class": "btn btn-warning btn-sm",
-      onClick: function onClick($event) {
-        return $options.abrirModal('actualizar', tienda);
-      }
-    }, _hoisted_17, 8
-    /* PROPS */
-    , _hoisted_15), _hoisted_18, tienda.activo_tienda == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"button\" class=\"btn btn-warning btn-sm\"\r\n                                        @click=\"abrirModal('actualizar', tienda)\">\r\n                                        <i class=\"icon-pencil\"></i>\r\n                                    </button> &nbsp; "), tienda.activo_tienda == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       type: "button",
       "class": "btn btn-danger btn-sm",
       onClick: function onClick($event) {
         return $options.eliminarTienda(tienda.id_tienda);
       }
-    }, _hoisted_21, 8
+    }, _hoisted_17, 8
     /* PROPS */
-    , _hoisted_19)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    , _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 1,
       type: "button",
       "class": "btn btn-info btn-sm",
       onClick: function onClick($event) {
         return $options.activarTienda(tienda.id_tienda);
       }
-    }, _hoisted_24, 8
+    }, _hoisted_20, 8
     /* PROPS */
-    , _hoisted_22))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tienda.codigo_tienda), 1
+    , _hoisted_18))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tienda.codigo_tienda), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tienda.direccion), 1
     /* TEXT */
@@ -50314,10 +50298,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tienda.telefonos), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [tienda.activo_tienda == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, _hoisted_27)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, _hoisted_30))])]);
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [tienda.activo_tienda == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, _hoisted_23)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, _hoisted_26))])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_31, [$data.pagination.current_page > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_27, [$data.pagination.current_page > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
     onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
@@ -50336,18 +50320,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page)
     }, null, 8
     /* PROPS */
-    , _hoisted_33)], 2
+    , _hoisted_29)], 2
     /* CLASS */
     );
   }), 128
   /* KEYED_FRAGMENT */
-  )), $data.pagination.current_page < $data.pagination.last_page ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  )), $data.pagination.current_page < $data.pagination.last_page ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
     onClick: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.cambiarPagina($data.pagination.current_page + 1);
     }, ["prevent"]))
-  }, "Sig")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fin ejemplo de tabla Listado ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal para la busqueda de producto por lote "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Sig")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fin ejemplo de tabla Listado ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal para la busqueda de producto por lote "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $options.cerrarModal('staticBackdrop');
@@ -50355,7 +50339,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  }, "X")]), _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "X")]), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     "data-bs-dismiss": "modal",

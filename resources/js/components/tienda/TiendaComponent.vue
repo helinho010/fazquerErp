@@ -35,10 +35,10 @@
                         <tbody>
                             <tr v-for="tienda in arrayTiendas" :key="tienda.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm"
+                                    <!-- <button type="button" class="btn btn-warning btn-sm"
                                         @click="abrirModal('actualizar', tienda)">
                                         <i class="icon-pencil"></i>
-                                    </button> &nbsp;
+                                    </button> &nbsp; -->
                                     <button v-if="tienda.activo_tienda == 1" type="button"
                                         class="btn btn-danger btn-sm" @click="eliminarTienda(tienda.id_tienda)">
                                         <i class="icon-trash"></i>
@@ -310,9 +310,9 @@ export default {
             })
         },
 
-        actualizarProductoEnTienda() {
+        actualizarTienda() {
             let me = this;
-            axios.put('/tienda/ingreso-producto/actualizar', {
+            axios.put('/tienda/actualizar', {
                 'id': me.idtdaingresoproducto,
                 'id_prod_producto': me.idproductoRealSeleccionado,
                 'envase': me.envaseProductoSelecionadoIngresoAlmacen,

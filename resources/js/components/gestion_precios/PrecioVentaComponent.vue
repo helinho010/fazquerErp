@@ -25,7 +25,7 @@
                                 <select class="form-control" @change="listarProductosTiendaAlmacen(1)"
                                     v-model="tiendaalmacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacenesTiendas" :key="almacen.id" :value="almacen.id"
+                                    <option v-for="almacen in arrayAlmacenesTiendas" :key="almacen.id" :value="{'id':almacen.id,'tipo':almacen.tipo}"
                                         v-text="(almacen.codsuc === null ? '' : almacen.codsuc + ' -> ') + almacen.codigo + ' ' + almacen.nombre_almacen">
                                     </option>
                                 </select>
@@ -510,6 +510,7 @@ export default {
             axios.get(url).then(function(response){
                 console.log("@@@@@@@@@@");
                 console.log(response.data.productosAlmacen.data);
+                console.log(me.tiendaalmacenselected);
             })
             .catch(function(error){
                 error401(error);
@@ -583,58 +584,61 @@ export default {
             let me = this;
             me.pruebaListarProductosIngreso();
             me.arrayProductosAlterado = [];
-            if (me.tiendaalmacenselected != 0) {
-                let url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected;
-                axios.get(url).then(function (response) {
-                    var respuesta = response.data;
-                    me.pagination = respuesta.pagination;
-                    me.arrayProductos = respuesta.productosAlmacen.data;
-                    let nombreEnvaseEmbalajeDelProducto='';
-                    let nombreFormaUnidadMedidaProducto='';
-                    me.arrayProductos.forEach(element => {
-                        element.lineaProductoNombre = me.arrayLineas.find((element2)=>element2.id==element.idlinea).nombre;
-                        element.perecedero = me.arrayRubros.find((rubro)=>rubro.id==element.idrubroproducto).areamedica;
-                        element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario)=>usuario.id==element.id_usuario_registra).name;
-                        element.tipoentrada = me.arrayTipoEntradaProductos.find((tipoentrada) => tipoentrada.id == element.id_tipoentrada).nombre;
-                        switch (element.envaseregistrado) {
-                            case 'primario':
-                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserprimario).nombre; 
-                                if(element.idformafarmaceuticaprimario == 0){
-                                    nombreFormaUnidadMedidaProducto = '';    
-                                }else{
-                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaprimario).nombre;
-                                }
-                                break;
-                            case 'secundario':
-                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispensersecundario).nombre;
-                                if( element.idformafarmaceuticasecundario ==0 ){
-                                    nombreFormaUnidadMedidaProducto = '';
-                                }else
-                                {
-                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticasecundario).nombre;    
-                                }
-                                break;
-                            case 'terciario':
-                                nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3)=>element3.id==element.iddispenserterciario).nombre;
-                                if(element.idformafarmaceuticaterciario == 0){
-                                    nombreFormaUnidadMedidaProducto = '';
-                                }else{
-                                    nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4)=>element4.id==element.idformafarmaceuticaterciario).nombre;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
-                        element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
-                        me.arrayProductosAlterado.push(element);
+            if (me.tiendaalmacenselected.id != 0) {
+                if (me.tiendaalmacenselected.tipo.toLowerCase() == 'tienda') {
+                    console.log("array de productos en la tienda");
+                } else {
+                    let url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected.id;
+                    axios.get(url).then(function (response) {
+                        var respuesta = response.data;
+                        me.pagination = respuesta.pagination;
+                        me.arrayProductos = respuesta.productosAlmacen.data;
+                        let nombreEnvaseEmbalajeDelProducto = '';
+                        let nombreFormaUnidadMedidaProducto = '';
+                        me.arrayProductos.forEach(element => {
+                            element.lineaProductoNombre = me.arrayLineas.find((element2) => element2.id == element.idlinea).nombre;
+                            element.perecedero = me.arrayRubros.find((rubro) => rubro.id == element.idrubroproducto).areamedica;
+                            element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario) => usuario.id == element.id_usuario_registra).name;
+                            element.tipoentrada = me.arrayTipoEntradaProductos.find((tipoentrada) => tipoentrada.id == element.id_tipoentrada).nombre;
+                            switch (element.envaseregistrado) {
+                                case 'primario':
+                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispenserprimario).nombre;
+                                    if (element.idformafarmaceuticaprimario == 0) {
+                                        nombreFormaUnidadMedidaProducto = '';
+                                    } else {
+                                        nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4) => element4.id == element.idformafarmaceuticaprimario).nombre;
+                                    }
+                                    break;
+                                case 'secundario':
+                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispensersecundario).nombre;
+                                    if (element.idformafarmaceuticasecundario == 0) {
+                                        nombreFormaUnidadMedidaProducto = '';
+                                    } else {
+                                        nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4) => element4.id == element.idformafarmaceuticasecundario).nombre;
+                                    }
+                                    break;
+                                case 'terciario':
+                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispenserterciario).nombre;
+                                    if (element.idformafarmaceuticaterciario == 0) {
+                                        nombreFormaUnidadMedidaProducto = '';
+                                    } else {
+                                        nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((element4) => element4.id == element.idformafarmaceuticaterciario).nombre;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
+                            element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
+                            me.arrayProductosAlterado.push(element);
+                        });
+                        me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
+                    }).catch(function (error) {
+                        error401(error);
+                        console.log(error);
                     });
-                    me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
-                }).catch(function (error) {
-                    error401(error);
-                    console.log(error);
-                });
+                }
             }
         },
 
@@ -726,35 +730,35 @@ export default {
 
         listarAlmacenesTiendas(page) {
             let me = this;
-            let copiaArrayAlmacenesTiendas=[];
+            let copiaArrayAlmacenesTiendas = [];
             axios.get('/almacen?page=' + page)
-            .then(function (response) {
+                .then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     me.arrayAlmacenesTiendas = respuesta.almacenes.data;
                     me.arrayAlmacenesTiendas.forEach(element => {
-                        if(element.activo == 1){
+                        if (element.activo == 1) {
                             copiaArrayAlmacenesTiendas.push(element);
                         }
                     });
                     me.arrayAlmacenesTiendas = copiaArrayAlmacenesTiendas;
-            })
-            .catch(function (error) {
+                })
+                .catch(function (error) {
                     error401(error);
-            });
+                });
 
             let me2 = this;
             let arrayTiendas = [];
             let copiaArrayTiendas = [];
-            
+
             axios.get('/tienda?page=' + page)
-            .then(function (response) {
+                .then(function (response) {
                     var respuesta = response.data;
                     me.pagination = respuesta.pagination;
                     arrayTiendas = respuesta.tiendas.data;
                     arrayTiendas.forEach(tienda => {
                         console.log(tienda);
-                        if(tienda.activo_tienda == 1){
+                        if (tienda.activo_tienda == 1) {
                             tienda.activo = tienda.activo_tienda;
                             tienda.codigo = tienda.codigo_tienda;
                             tienda.codsuc = tienda.codigo_sucursal
@@ -769,21 +773,16 @@ export default {
                             copiaArrayTiendas.push(tienda);
                         }
                     });
-                    
-                    me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
 
-                    console.log("777777777");
-                    console.log(copiaArrayTiendas);
+                    me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
 
                     console.log("88888888");
                     console.log(me2.arrayAlmacenesTiendas);
                     
-            })
-            .catch(function (error) {
+                })
+                .catch(function (error) {
                     error401(error);
-            });
-
-
+                });
         },
 
         cambiarPagina(page) {
