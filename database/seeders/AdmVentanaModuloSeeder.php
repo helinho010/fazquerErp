@@ -50,8 +50,9 @@ class AdmVentanaModuloSeeder extends Seeder
         
 
         //Tienda 400
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'401','idmodulo'=>$tienda->id,'nombre'=>'Ingreso Productos','template'=>'tienda-component']);
-        DB::table('adm__ventana_modulos')->insert(['codventana'=>'402','idmodulo'=>$tienda->id,'nombre'=>'Codificacion','template'=>'tienda-codificacion-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'401','idmodulo'=>$tienda->id,'nombre'=>'Tiendas','template'=>'tienda-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'402','idmodulo'=>$tienda->id,'nombre'=>'Ingreso Productos','template'=>'tienda-ingreso-producto-component']);
+        DB::table('adm__ventana_modulos')->insert(['codventana'=>'403','idmodulo'=>$tienda->id,'nombre'=>'Codificacion','template'=>'tienda-codificacion-component']);
 
 
         //servicios 500

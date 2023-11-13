@@ -71,6 +71,23 @@ class TdaTiendaController extends Controller
     }
 
 
+    public function desactivar(Request $request)
+    {
+        $producto = Tda_Tienda::findOrFail($request->id);
+        $producto->activo=0;
+        $producto->id_usuario_modifica=auth()->user()->id;
+        $producto->save();
+    }
+
+    public function activar(Request $request)
+    {
+        $producto = Tda_Tienda::findOrFail($request->id);
+        $producto->activo=1;
+        $producto->id_usuario_modifica=auth()->user()->id;
+        $producto->save();
+    }
+
+
     public function getProductosTiendaEnvase(Request $request)
     {
         $idrubroDeAlmacenSeleccionado = DB::table('alm__almacens')

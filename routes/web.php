@@ -367,6 +367,8 @@ Route::group(['middleware'=>'auth'],function(){
 
     //Tienda
     Route::get('/tienda',[TdaTiendaController::class,'index']);
+    Route::put('/tienda/desactivar', [TdaTiendaController::class,'desactivar']);
+    Route::put('/tienda/activar', [TdaTiendaController::class,'activar']);
     Route::get('/tienda/ingreso-producto',[TdaIngresoProductoController::class,'index']);
     Route::post('/tienda/ingreso-producto/registrar', [TdaTiendaController::class,'store']);
     Route::put('/tienda/ingreso-producto/actualizar', [TdaIngresoProductoController::class,'update']);
