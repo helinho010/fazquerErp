@@ -67,14 +67,14 @@
                                         <i class="icon-check"></i>
                                     </button>
                                 </td>
-                                <td>{{ ingresoProducto.codigo_producto }}</td>
+                                <td> {{ ingresoProducto.codigo_producto }} </td>
                                 <td> {{ ingresoProducto.nombreLinea }} </td>
-                                <td> {{ ingresoProducto.nombre_producto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
+                                <td> {{ ingresoProducto.nombre_producto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} </td>
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-if="ingresoProducto.perecederoProducto == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-if="ingresoProducto.perecederoProducto == 1" v-text="ingresoProducto.registro_sanitario"></td>
-                                <td>{{ ingresoProducto.nombreUsuarioRegistroIngreso }}</td>
+                                <td>{{ ingresoProducto.fecingreso }}</td>
                                 <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo_tda_ingreso_producto==1">
@@ -494,6 +494,7 @@ import { error401 } from '../../errores';
                             producto.nombreUsuarioRegistroIngreso = me.arrayUsuario.find((usuario) => usuario.id == producto.id_usuario_registra).name;
                             producto.perecederoProducto = me.arrayRubro.find((rubro)=>rubro.id==producto.id_rubro_producto).areamedica;
                             producto.tipo_entrada = me.arrayTipoEntradaProductos.find((tipo_entrada) => tipo_entrada.id == producto.id_tipoentrada).nombre;
+                            producto.fecingreso = producto.fecha_ingreso;
                             switch (producto.envaseregistrado.toLowerCase()) {
                                 case 'primario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
@@ -866,8 +867,6 @@ import { error401 } from '../../errores';
                     
                     case 'actualizar':
                     {
-                        console.log(data);
-                        console.log(me.arrayRubro);
                         me.tituloModal='Actualizar Producto';
                         me.tipoAccion=2;
                         me.idtdaingresoproducto = data.id;
@@ -960,8 +959,6 @@ import { error401 } from '../../errores';
                 buscarProductoPorEnvaseIngresoTienda(ex){
                 let me = this;
                 me.opciones3=[];
-                console.log("keypress: "+ex.keyCode+"---"+ex.key);
-                console.log(me.opciones2);
                 if(ex.keyCode==32 || ex.keyCode==8 || ex.keyCode == 45 || (ex.keyCode >= 48 && ex.keyCode <= 57) )
                 {
                     me.inputTextBuscarProductoIngresoTienda = me.inputTextBuscarProductoIngresoTienda+ex.key;
@@ -1002,14 +999,12 @@ import { error401 } from '../../errores';
 
         mounted() {
             this.listarTiendas(1);
-            // this.obtenerfecha(1);
             this.listarLineaMarca();
             this.listarEnvaseEmbalaje();
             this.listarTipoEntradaProducto();
             this.listarFormaUnidadMedida();
             this.listarUsuarios();
             this.listarRubro();
-            // this.selectSucursals();
             this.classModal = new _pl.Modals();
             this.classModal.addModal('registrar');
             this.classModal.addModal('staticBackdrop');

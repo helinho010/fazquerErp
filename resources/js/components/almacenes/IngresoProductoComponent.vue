@@ -67,7 +67,7 @@
                                 </td>
                                 <td>{{ ingresoProducto.codproducto  }}</td>
                                 <td> {{ ingresoProducto.nombreLinea }} </td>
-                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} FI: {{ ingresoProducto.fecingreso }} - LOTE: {{ ingresoProducto.lote }} {{  ingresoProducto.perecederoProducto == 0 ? '': ("- FV: "+ingresoProducto.fecha_vencimiento) }} </td>  
+                                <td> {{ ingresoProducto.nomproducto }} - {{ ingresoProducto.envaseEmbalajeProductoNombre }} X {{ ingresoProducto.cantidadEnvaseProducto }} {{ ingresoProducto.formaUnidadMedidaProducto }} </td>
                                 <td v-text="ingresoProducto.cantidad" style="text-align:right"></td>
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
@@ -503,17 +503,29 @@ import { error401 } from '../../errores';
                                 case 'primario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserprimario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadprimario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                                    if(producto.idformafarmaceuticaprimario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaprimario).nombre ;
+                                    }
                                 break;
                                 case 'secundario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                                    if(producto.idformafarmaceuticaprimario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
+                                    }
                                 break;
                                 case 'terciario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                                    producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                                    if(producto.idformafarmaceuticaprimario == 0){
+                                        producto.formaUnidadMedidaProducto = '';    
+                                    }else{
+                                        producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre
+                                    }
                                 break;
                             
                                 default:

@@ -586,7 +586,64 @@ export default {
             me.arrayProductosAlterado = [];
             if (me.tiendaalmacenselected.id != 0) {
                 if (me.tiendaalmacenselected.tipo.toLowerCase() == 'tienda') {
-                    console.log("array de productos en la tienda");
+                    axios.get('/tienda/ingreso-producto?idtienda='+me.tiendaalmacenselected.id)
+                    .then(function(response){
+                        var respuesta = response.data;
+                        me.pagination = respuesta.pagination;
+                        me.arrayProductos = respuesta.productosTienda.data;
+                        let nombreEnvaseEmbalajeDelProducto = '';
+                        let nombreFormaUnidadMedidaProducto = '';
+                        me.arrayProductos.forEach(producto => {
+                            if(producto.activo_tda_ingreso_producto == 1)
+                            {
+                                producto.lineaProductoNombre = me.arrayLineas.find((linea) => linea.id == producto.idlinea).nombre;
+                                producto.perecedero = me.arrayRubros.find((rubro) => rubro.id == producto.id_rubro_producto).areamedica;
+                                producto.usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario) => usuario.id == producto.id_usuario_registra).name;
+                                producto.tipoentrada = me.arrayTipoEntradaProductos.find((tipoentrada) => tipoentrada.id == producto.id_tipoentrada).nombre;
+                                switch (producto.envaseregistrado) {
+                                    case 'primario':
+                                        nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((envase) => envase.id == producto.iddispenserprimario).nombre;
+                                        if (producto.idformafarmaceuticaprimario == 0) {
+                                            nombreFormaUnidadMedidaProducto = '';
+                                        } else {
+                                            nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((unidadmedida) => unidadmedida.id == producto.idformafarmaceuticaprimario).nombre;
+                                        }
+                                        break;
+                                    case 'secundario':
+                                        nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((envase) => envase.id == producto.iddispensersecundario).nombre;
+                                        if (producto.idformafarmaceuticasecundario == 0) {
+                                            nombreFormaUnidadMedidaProducto = '';
+                                        } else {
+                                            nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((unidadmedida) => unidadmedida.id == producto.idformafarmaceuticasecundario).nombre;
+                                        }
+                                        break;
+                                    case 'terciario':
+                                        nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((envase) => envase.id == producto.iddispenserterciario).nombre;
+                                        if (producto.idformafarmaceuticaterciario == 0) {
+                                            nombreFormaUnidadMedidaProducto = '';
+                                        } else {
+                                            nombreFormaUnidadMedidaProducto = me.arrayFormaUnidadMedidas.find((unidadmedida) => unidadmedida.id == producto.idformafarmaceuticaterciario).nombre;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                producto.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
+                                producto.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
+                                producto.codproducto = producto.codigo_producto;
+                                producto.nomproducto = producto.nombre_producto;
+                                producto.fecingreso = producto.fecha_ingreso;
+                                me.arrayProductosAlterado.push(producto);
+                            }
+                            
+                        });
+                    })
+                    .catch(function(error){
+                        error401(error);
+                        console.log(error);
+                    }); 
+
                 } else {
                     let url = '/almacen/ingreso-producto?page=' + page + '&idalmacen=' + me.tiendaalmacenselected.id;
                     axios.get(url).then(function (response) {
@@ -596,6 +653,8 @@ export default {
                         let nombreEnvaseEmbalajeDelProducto = '';
                         let nombreFormaUnidadMedidaProducto = '';
                         me.arrayProductos.forEach(element => {
+                            if(element.activo == 1){
+
                             element.lineaProductoNombre = me.arrayLineas.find((element2) => element2.id == element.idlinea).nombre;
                             element.perecedero = me.arrayRubros.find((rubro) => rubro.id == element.idrubroproducto).areamedica;
                             element.usuarioRegistroIngresoProducto = me.arrayUsuarios.find((usuario) => usuario.id == element.id_usuario_registra).name;
@@ -632,6 +691,7 @@ export default {
                             element.envaseEmbalajeProductoNombre = nombreEnvaseEmbalajeDelProducto;
                             element.formaUnidadMedidaProducto = nombreFormaUnidadMedidaProducto;
                             me.arrayProductosAlterado.push(element);
+                          }
                         });
                         me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     }).catch(function (error) {
@@ -757,7 +817,6 @@ export default {
                     me.pagination = respuesta.pagination;
                     arrayTiendas = respuesta.tiendas.data;
                     arrayTiendas.forEach(tienda => {
-                        console.log(tienda);
                         if (tienda.activo_tienda == 1) {
                             tienda.activo = tienda.activo_tienda;
                             tienda.codigo = tienda.codigo_tienda;
@@ -775,9 +834,6 @@ export default {
                     });
 
                     me2.arrayAlmacenesTiendas = me2.arrayAlmacenesTiendas.concat(copiaArrayTiendas);
-
-                    console.log("88888888");
-                    console.log(me2.arrayAlmacenesTiendas);
                     
                 })
                 .catch(function (error) {
