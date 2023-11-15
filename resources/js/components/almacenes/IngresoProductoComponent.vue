@@ -440,10 +440,16 @@ import { error401 } from '../../errores';
 
             listarTipoEntradaProducto(){
               let me = this;
-                var url = '/tipoentrada';
-              axios.get(url)
+              let arrayAuxiliar = [];
+              axios.get('/tipoentrada')
               .then(function(response){
                 me.arrayTipoEntradaProductos = response.data.tipoentrada_data;
+                me.arrayTipoEntradaProductos.forEach(tipo => {
+                    if(tipo.activo == 1){
+                        arrayAuxiliar.push(tipo);
+                    }
+                });
+                me.arrayTipoEntradaProductos = arrayAuxiliar;
               }).catch(function(error){
                     error401(error);
               });  
@@ -512,7 +518,7 @@ import { error401 } from '../../errores';
                                 case 'secundario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispensersecundario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadsecundario;
-                                    if(producto.idformafarmaceuticaprimario == 0){
+                                    if(producto.idformafarmaceuticasecundario == 0){
                                         producto.formaUnidadMedidaProducto = '';    
                                     }else{
                                         producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticasecundario).nombre;
@@ -521,7 +527,7 @@ import { error401 } from '../../errores';
                                 case 'terciario':
                                     producto.envaseEmbalajeProductoNombre = me.arrayEnvaseEmbalaje.find((envase)=> envase.id == producto.iddispenserterciario).nombre;
                                     producto.cantidadEnvaseProducto = producto.cantidadterciario;
-                                    if(producto.idformafarmaceuticaprimario == 0){
+                                    if(producto.idformafarmaceuticaterciario == 0){
                                         producto.formaUnidadMedidaProducto = '';    
                                     }else{
                                         producto.formaUnidadMedidaProducto = me.arrayFormaUnidadMedida.find((formaunidad) => formaunidad.id == producto.idformafarmaceuticaterciario).nombre

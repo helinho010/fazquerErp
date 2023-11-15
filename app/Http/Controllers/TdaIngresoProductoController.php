@@ -20,7 +20,7 @@ class TdaIngresoProductoController extends Controller
 	tda__ingreso_productos.registro_sanitario,
 	tda__ingreso_productos.activo as activo_tda_ingreso_producto,
 	tda__ingreso_productos.id_usuario_registra,
-	tda__ingreso_productos.created_at as fecha_ingreso,
+	tda__ingreso_productos.updated_at as fecha_ingreso,
 	prod__productos.id as id_producto,
 	prod__productos.codigo as codigo_producto,
 	prod__productos.idlinea,

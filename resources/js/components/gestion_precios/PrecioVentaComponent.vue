@@ -60,10 +60,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id">
+                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id" style="background-color: #FAD537;">
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"
-                                        @click="abrirModal('editarPrecioUtilidadProducto', producto)">
+                                        @click="abrirModal('editarPrecioUtilidadProducto', producto)" :disabled="producto.stock_ingreso == 0">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
                                     <!-- <button v-if="almacen.activo == 1" type="button" class="btn btn-danger btn-sm"
@@ -78,17 +78,17 @@
                                 <!-- <td v-text="(almacen.codsuc === null ? '': almacen.codsuc+' - ') + almacen.codigo"></td> -->
                                 <td>{{ producto.codproducto }}</td>
                                 <td>{{ producto.lineaProductoNombre }}</td>
-                                <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }} FI: {{ producto.fecingreso }} - LOTE: {{ producto.lote }} {{  producto.perecedero == 0 ? '': ("- FV: "+producto.fecha_vencimiento) }} </td>
+                                <td>{{ producto.nomproducto }} - {{ producto.envaseEmbalajeProductoNombre }} X {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.cantidadprimario:'' }} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.cantidadsecundario:'' }} {{ producto.envaseregistrado.toLowerCase()=='terceario'?producto.cantidadterciario:'' }} {{ producto.formaUnidadMedidaProducto }} - LOTE: {{ producto.lote }} {{  producto.perecedero == 0 ? '': ("- FV: "+producto.fecha_vencimiento) }} - FI: {{ producto.fecingreso }}   </td>
                                 <td>{{ producto.cantidad }}</td> <!-- Cantidad Envase o Enbalaje -->
                                 <td>{{ producto.stock_ingreso }}</td><!-- Cantidad stock-->
                                 <td><!-- Precio lista -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">
+                                        <span class="">
                                           {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
                                         </span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">
+                                        <span class="">
                                             {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
                                         </span>
                                     </div>
@@ -98,7 +98,7 @@
                                         <span class="badge badge-secondary">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
+                                        <span class="">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
                                 </td>
                                 <td><!-- Precio de Venta -->
@@ -108,7 +108,7 @@
                                         </span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">
+                                        <span class="">
                                             {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
                                         </span>
                                     </div>
@@ -118,7 +118,7 @@
                                         <span class="badge badge-secondary">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
+                                        <span class="">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
                                     </div>
                                 </td>
                                 <td>{{ producto.tipoentrada }}</td><!-- Tipo Entrada -->
@@ -127,7 +127,7 @@
                                         <span class="badge badge-secondary">{{ producto.fecha_utilidad}}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="badge badge-warning">DD/MM/AAAA</span>
+                                        <span class="">DD/MM/AAAA</span>
                                     </div>
                                 </td> 
                                 <td>{{ producto.usuarioRegistroIngresoProducto }}</td> <!-- Usuario -->
@@ -223,7 +223,7 @@
                                         <label for="basic-url">Margen 20%</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="margen_30"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
 
@@ -231,14 +231,14 @@
                                         <label for="basic-url">Margen 30%</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="margen_40"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <label>Utilidad Bruta</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="utilidad_bruta"
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
                                     
@@ -247,7 +247,7 @@
                                         <label>Utilidad Neta (%)</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" v-model="utilidad_neta" 
-                                                aria-describedby="basic-addon3">
+                                                aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
 
@@ -638,6 +638,7 @@ export default {
                             }
                             
                         });
+                        me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     })
                     .catch(function(error){
                         error401(error);
@@ -719,15 +720,15 @@ export default {
                             element.lote.toLowerCase().includes(me.buscar.toLowerCase()) ||
                             element.nomproducto.toLowerCase().includes(me.buscar.toLowerCase()));
 
-                        if(element.fecha_vencimiento !== null){
+                        if(typeof element.fecha_vencimiento !== 'undefined' && element.fecha_vencimiento !== null){
                           evaluacion = evaluacion || element.fecha_vencimiento.toLowerCase().includes(me.buscar.toLocaleLowerCase())
                         }
 
-                        if(element.fecingreso !== null){
+                        if(typeof element.fecingreso !== 'undefined' && element.fecingreso !== null){
                           evaluacion = evaluacion || element.fecingreso.toLowerCase().includes(me.buscar.toLocaleLowerCase())
                         }
 
-                        if(element.fecha_utilidad !== null){
+                        if(typeof element.fecha_utilidad !== 'undefined' && element.fecha_utilidad !== null){
                           evaluacion = evaluacion || element.fecha_utilidad.toLowerCase().includes(me.buscar.toLocaleLowerCase())
                         }
 
@@ -1274,12 +1275,13 @@ label {
 .modal-xl {
     width: 900px;
 }
+
 table > thead > tr > th {
     text-align: center;
     display: table-cell;
     vertical-align: middle;    
 }
 table > tbody > tr > td > div {
-    font-size: 18px;
+    font-size: 15px;
 }
 </style>
