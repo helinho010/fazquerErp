@@ -222,7 +222,7 @@
                                     <div class="col-md-2">
                                         <label for="basic-url">Margen 20%</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" v-model="margen_30"
+                                            <input type="text" class="form-control" v-model="margen_20"
                                                 aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
@@ -230,7 +230,7 @@
                                     <div class="col-md-2">
                                         <label for="basic-url">Margen 30%</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" v-model="margen_40"
+                                            <input type="text" class="form-control" v-model="margen_30"
                                                 aria-describedby="basic-addon3" readonly>
                                         </div>
                                     </div>
@@ -420,7 +420,7 @@ export default {
             tituloModal:'',
             tipo: 0,
             tipoAccion: 1,
-            idalmingresoproducto:0,
+            id_table_ingreso_tienda_almacen:0,
             buscar: '',
             matriz: 0,
             arrayRubros: [],
@@ -438,8 +438,8 @@ export default {
             p_lista: 0,
             c_disp: 0,
             p_compra: 0,
+            margen_20: 0,
             margen_30: 0,
-            margen_40: 0,
             utilidad_bruta:0,
             p_venta: 0,
             utilidad_neta: 0,
@@ -467,7 +467,7 @@ export default {
 
         sicompleto(){
             let me = this;
-            if(me.p_venta > 0 && me.margen_30>0 && me.margen_40>0 && me.utilidad_neta>=0)
+            if(me.p_venta > 0 && me.margen_20>0 && me.margen_30>0 && me.utilidad_neta>=0)
             {
                 return true;
             }
@@ -852,11 +852,11 @@ export default {
             let me = this;
             
             axios.post('/gestionprecioventa/actualizar-registrar', {
-                'idalmingresoproducto': me.idalmingresoproducto,
+                'id_table_ingreso_tienda_almacen': me.id_table_ingreso_tienda_almacen,
                 'precio_compra_gespreventa': me.p_compra,
                 'precio_venta_prodproductos':me.p_venta,
+                'margen_20p_gespreventa': me.margen_20,
                 'margen_30p_gespreventa': me.margen_30,
-                'margen_40p_gespreventa': me.margen_40,
                 'utilidad_neto_gespreventa': me.utilidad_neta,
                 'idProdProducto':me.idProdProducto,
                 'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
@@ -1034,20 +1034,20 @@ export default {
                         me.idProdProducto=data.id_prod_producto;
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
                         me.cantidadIngresoAlmacen = data.cantidad;
-                        me.idalmingresoproducto = data.id;
+                        me.id_table_ingreso_tienda_almacen = data.id;
                         axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
                         .then(function (response) {                            
                             if (response.data.length == 1) 
                             {
+                                me.margen_20 = response.data[0].margen_20p_gespreventa;
                                 me.margen_30 = response.data[0].margen_30p_gespreventa;
-                                me.margen_40 = response.data[0].margen_40p_gespreventa;
                                 me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
                             }
                             else{
                                 me.p_venta = data.precioventaprimario;
                                 me.utilidad_neta = 0;
+                                me.margen_20 = 0;
                                 me.margen_30 = 0;
-                                me.margen_40 = 0;
                                 me.dpc1 = 0;
                                 me.dpc2 = 0;
                                 me.dpc3 = 0;
@@ -1109,8 +1109,8 @@ export default {
             let me = this;
             me.classModal.closeModal(accion);
             me.tipoAccion = 1;
+            me.margen_20 = 0;
             me.margen_30 = 0;
-            me.margen_40 = 0;
             me.p_venta = 0;
             me.utilidad_neta = 0;
             me.dpc1 = 0;
@@ -1150,8 +1150,8 @@ export default {
 
             let me = this;
             // var p_compra = parseFloat(me.p_compra);
-            me.margen_30 = ((parseFloat(me.p_compra) * 100) / 80).toFixed(2);
-            me.margen_40 = ((parseFloat(me.p_compra) * 100) / 70).toFixed(2);
+            me.margen_20 = ((parseFloat(me.p_compra) * 100) / 80).toFixed(2);
+            me.margen_30 = ((parseFloat(me.p_compra) * 100) / 70).toFixed(2);
             me.utilidad_bruta = (parseFloat(me.p_venta) - parseFloat(me.p_compra)).toFixed(2);
             me.utilidad_neta = ((parseFloat(me.p_venta) - parseFloat(me.p_compra)) / me.p_venta) * 100;
             me.utilidad_neta = Math.round(me.utilidad_neta);
