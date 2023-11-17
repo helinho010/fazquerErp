@@ -51,12 +51,21 @@ class AlmIngresoProductoController extends Controller
     prod__productos.precioventaterciario,
     prod__productos.idrubro as idrubroproducto,
     ges_pre__ventas.id as idgespreventas,
-    ges_pre__ventas.precio_compra_gespreventa,
-    ges_pre__ventas.margen_40p_gespreventa,
+    ges_pre__ventas.id_table_ingreso_tienda_almacen,
+    ges_pre__ventas.tienda,
+    ges_pre__ventas.almacen,
+    ges_pre__ventas.precio_lista_gespreventa,
+    ges_pre__ventas.cantidad_envase_gespreventa,
+    ges_pre__ventas.costo_compra_gespreventa,
+    ges_pre__ventas.precio_venta_gespreventa,
+    ges_pre__ventas.margen_20p_gespreventa,
+    ges_pre__ventas.margen_30p_gespreventa,
+    ges_pre__ventas.utilidad_bruta_gespreventa,
     ges_pre__ventas.utilidad_neto_gespreventa,
     ges_pre__ventas.idusuario as idgespreventasusuario,
     ges_pre__ventas.listo_venta,
-    ges_pre__ventas.updated_at as fecha_utilidad';
+    ges_pre__ventas.updated_at as fecha_utilidad,
+    ges_pre__ventas.created_at as fecha_creacion_utilidad';
     
     public function index(Request $request)
     {
@@ -119,7 +128,7 @@ class AlmIngresoProductoController extends Controller
             $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
+                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id')
                               ->select(DB::raw($this->columnasIngresoProductos))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);
@@ -134,7 +143,7 @@ class AlmIngresoProductoController extends Controller
                             'from'          =>    $productosAlmacen->firstItem(),
                             'to'            =>    $productosAlmacen->lastItem(),
                         ] ,
-                    'productosAlmacen'=>$productosAlmacen,
+                    'productosAlmacen'=> $productosAlmacen,
             ];
         // }
 
@@ -254,7 +263,7 @@ class AlmIngresoProductoController extends Controller
                     $productosAlmacen = Alm_IngresoProducto::select($raw)
                                             ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                                             ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                                            ->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
+                                            ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id')
                                             ->where('alm__ingreso_producto.activo',1)
                                             ->where('alm__ingreso_producto.id',$request->id)
                                             ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
@@ -267,7 +276,7 @@ class AlmIngresoProductoController extends Controller
                                             // DB::table('alm__ingreso_producto')
                                             ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                                             ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                                            ->leftJoin('ges_pre__ventas','ges_pre__ventas.idalmingresoproducto','=','alm__ingreso_producto.id')
+                                            ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id')
                                             ->where('alm__ingreso_producto.activo',1)
                                             ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                                             ->paginate(10);

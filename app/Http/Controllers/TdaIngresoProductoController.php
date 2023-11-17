@@ -44,7 +44,19 @@ class TdaIngresoProductoController extends Controller
     prod__productos.activo as activo_producto,
 	tda__tiendas.id as id_tienda,
 	tda__tiendas.codigo as codigo_tienda,
-	tda__tiendas.activo as activo_tienda';
+	tda__tiendas.activo as activo_tienda,
+	ges_pre__ventas.id as id_gespreventa,
+	ges_pre__ventas.id_table_ingreso_tienda_almacen,
+	ges_pre__ventas.tienda, 
+	ges_pre__ventas.almacen,
+	ges_pre__ventas.precio_lista_gespreventa,
+	ges_pre__ventas.precio_venta_gespreventa,
+	ges_pre__ventas.cantidad_envase_gespreventa,
+	ges_pre__ventas.costo_compra_gespreventa,
+	ges_pre__ventas.margen_20p_gespreventa,
+	ges_pre__ventas.margen_30p_gespreventa,
+	ges_pre__ventas.utilidad_bruta_gespreventa,
+	ges_pre__ventas.utilidad_neto_gespreventa';
 
 
     public function index(Request $request)
@@ -52,6 +64,7 @@ class TdaIngresoProductoController extends Controller
         $productosTienda = DB::table('tda__ingreso_productos')
                               ->leftJoin('prod__productos','prod__productos.id','=', 'tda__ingreso_productos.id_prod_producto')
                               ->leftJoin('tda__tiendas','tda__tiendas.id','=','tda__ingreso_productos.idtienda')
+                              ->leftJoin('ges_pre__ventas', 'ges_pre__ventas.id_table_ingreso_tienda_almacen','=','tda__ingreso_productos.id')
                               ->select(DB::raw($this->columnasIngresoProductos))    
                               ->where('prod__productos.activo',1)
                               ->where('tda__tiendas.activo',1)

@@ -60,7 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id" style="background-color: #FAD537;">
+                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id" :style="[producto.listo_venta == 1 ? '':'background-color: #FAD537' ]">
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"
                                         @click="abrirModal('editarPrecioUtilidadProducto', producto)" :disabled="producto.stock_ingreso == 0">
@@ -84,38 +84,38 @@
                                 <td><!-- Precio lista -->
                                     <div v-if="producto.listo_venta == 1">
                                         <span class="">
-                                          {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
+                                          {{ producto.precio_lista_gespreventa === null ? "0.00": producto.precio_lista_gespreventa }}
                                         </span>
                                     </div>
                                     <div v-else>
                                         <span class="">
-                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.preciolistaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.preciolistasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.preciolistaterciario:''}}
+                                            {{ producto.precio_lista_gespreventa === null ? "0.00": producto.precio_lista_gespreventa }}
                                         </span>
                                     </div>
                                 </td>
                                 <td><!-- Precio Compra -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
+                                        <span>{{ costo_compra_gespreventa === null ? "0.00":producto.costo_compra_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="">{{ producto.precio_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
+                                        <span class="">{{ producto.costo_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
                                     </div>
                                 </td>
                                 <td><!-- Precio de Venta -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">
-                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                        <span  >
+                                            {{ producto.precio_venta_gespreventa === null ? "0.00": producto.precio_venta_gespreventa }} 
                                         </span>
                                     </div>
                                     <div v-else>
                                         <span class="">
-                                            {{ producto.envaseregistrado.toLowerCase()=='primario'?producto.precioventaprimario:''}} {{ producto.envaseregistrado.toLowerCase()=='secundario'?producto.precioventasecundario:''}} {{ producto.envaseregistrado.toLowerCase()=='terciario'?producto.precioventaterciario:''}} 
+                                            {{ producto.precio_venta_gespreventa === null ? "0.00": producto.precio_venta_gespreventa }} 
                                         </span>
                                     </div>
                                 </td>
                                 <td><!-- % Utilidad Bruta -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}</span>
+                                        <span  >{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}</span>
                                     </div>
                                     <div v-else>
                                         <span class="">{{ producto.utilidad_neto_gespreventa === null ? "0.00":producto.utilidad_neto_gespreventa }}  </span>
@@ -124,7 +124,7 @@
                                 <td>{{ producto.tipoentrada }}</td><!-- Tipo Entrada -->
                                 <td> <!-- Fecha de Utilidad -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span class="badge badge-secondary">{{ producto.fecha_utilidad}}</span>
+                                        <span  >{{ producto.fecha_utilidad}}</span>
                                     </div>
                                     <div v-else>
                                         <span class="">DD/MM/AAAA</span>
@@ -506,11 +506,11 @@ export default {
         
         pruebaListarProductosIngreso(){
             let me = this;
-            var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected;
+            var url='/almacen/ingreso-producto/retornarProductosIngreoAlmacen?idalmacen='+me.tiendaalmacenselected.id;
             axios.get(url).then(function(response){
                 console.log("@@@@@@@@@@");
                 console.log(response.data.productosAlmacen.data);
-                console.log(me.tiendaalmacenselected);
+                console.log(me.tiendaalmacenselected.id);
             })
             .catch(function(error){
                 error401(error);
@@ -582,7 +582,7 @@ export default {
         
         listarProductosTiendaAlmacen(page) {
             let me = this;
-            me.pruebaListarProductosIngreso();
+            //me.pruebaListarProductosIngreso();
             me.arrayProductosAlterado = [];
             if (me.tiendaalmacenselected.id != 0) {
                 if (me.tiendaalmacenselected.tipo.toLowerCase() == 'tienda') {
@@ -636,7 +636,7 @@ export default {
                                 producto.fecingreso = producto.fecha_ingreso;
                                 me.arrayProductosAlterado.push(producto);
                             }
-                            
+                            console.log(me.arrayProductosAlterado);
                         });
                         me.arrayProductosAlteradoCopy = me.arrayProductosAlterado; // Esto se hace para facilitar la busqueda de productos en la funcion de bucarProducto()
                     })
@@ -652,6 +652,8 @@ export default {
                         me.pagination = respuesta.pagination;
                         me.arrayProductos = respuesta.productosAlmacen.data;
                         let nombreEnvaseEmbalajeDelProducto = '';
+                        let precio_lista = '';
+                        let precio_venta = '';
                         let nombreFormaUnidadMedidaProducto = '';
                         me.arrayProductos.forEach(element => {
                             if(element.activo == 1){
@@ -662,7 +664,7 @@ export default {
                             element.tipoentrada = me.arrayTipoEntradaProductos.find((tipoentrada) => tipoentrada.id == element.id_tipoentrada).nombre;
                             switch (element.envaseregistrado) {
                                 case 'primario':
-                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispenserprimario).nombre;
+                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispenserprimario).nombre;                                   
                                     if (element.idformafarmaceuticaprimario == 0) {
                                         nombreFormaUnidadMedidaProducto = '';
                                     } else {
@@ -670,7 +672,7 @@ export default {
                                     }
                                     break;
                                 case 'secundario':
-                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispensersecundario).nombre;
+                                    nombreEnvaseEmbalajeDelProducto = me.arrayEmvasesEmbalajes.find((element3) => element3.id == element.iddispensersecundario).nombre;                                    
                                     if (element.idformafarmaceuticasecundario == 0) {
                                         nombreFormaUnidadMedidaProducto = '';
                                     } else {
@@ -853,10 +855,17 @@ export default {
             
             axios.post('/gestionprecioventa/actualizar-registrar', {
                 'id_table_ingreso_tienda_almacen': me.id_table_ingreso_tienda_almacen,
-                'precio_compra_gespreventa': me.p_compra,
+                'tienda':0,
+                'almacen':0,
+                'tiprecio_lista_gespreventaenda':0,
+                'precio_venta_gespreventa':0,
+                'cantidad_envase_gespreventa':0,
+                'costo_compra_gespreventa':0,
+                //'precio_compra_gespreventa': me.p_compra,
                 'precio_venta_prodproductos':me.p_venta,
                 'margen_20p_gespreventa': me.margen_20,
                 'margen_30p_gespreventa': me.margen_30,
+                'utilidad_bruta_gespreventa':0,
                 'utilidad_neto_gespreventa': me.utilidad_neta,
                 'idProdProducto':me.idProdProducto,
                 'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
@@ -1013,6 +1022,8 @@ export default {
 
                 case 'actualizar':
                     {
+                        console.log("=============================");
+                        console.log(data);
                         me.sucursalSeleccionado = data.idsucursal === null ? 0 : data.idsucursal;
                         me.tipoAccion = 2;
                         me.tituloModal = 'Actualizar Datos del Almacen';
@@ -1035,12 +1046,19 @@ export default {
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
                         me.cantidadIngresoAlmacen = data.cantidad;
                         me.id_table_ingreso_tienda_almacen = data.id;
-                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_alm__ingreso_producto='+data.id)   
-                        .then(function (response) {                            
+                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_table_ingreso_tienda_almacen='+data.id)   
+                        .then(function (response) {        
+                            console.log("%%%%%%%%%%%")                    
+                            console.log(response);
                             if (response.data.length == 1) 
                             {
+                                me.p_lista = response.data[0].precio_lista_gespreventa;
+                                me.c_disp = response.data[0].cantidad_envase_gespreventa;
+                                me.p_compra = response.data[0].costo_compra_gespreventa;
+                                me.p_venta = response.data[0].precio_venta_gespreventa;
                                 me.margen_20 = response.data[0].margen_20p_gespreventa;
                                 me.margen_30 = response.data[0].margen_30p_gespreventa;
+                                me.utilidad_bruta = response.data[0].utilidad_bruta_gespreventa;
                                 me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
                             }
                             else{

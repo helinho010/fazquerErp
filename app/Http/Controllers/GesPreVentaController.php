@@ -13,7 +13,7 @@ class GesPreVentaController extends Controller
     
     public function update_store(Request $request)
     {
-        $precioVentaProducto = GesPre_Venta :: firstWhere('idalmingresoproducto',$request->idalmingresoproducto);
+        $precioVentaProducto = GesPre_Venta :: firstWhere('id_table_ingreso_tienda_almacen',$request->id_table_ingreso_tienda_almacen);
 
         if ($precioVentaProducto) {
 
@@ -26,7 +26,7 @@ class GesPreVentaController extends Controller
         $actualizarProductoPrecioVenta->$envase = $request->precio_venta_prodproductos;
         $actualizarProductoPrecioVenta->save();
 
-        $precioVentaProducto->idalmingresoproducto = $request->idalmingresoproducto;
+        $precioVentaProducto->id_table_ingreso_tienda_almacen = $request->id_table_ingreso_tienda_almacen;
         $precioVentaProducto->precio_compra_gespreventa = $request->precio_compra_gespreventa;
         $precioVentaProducto->margen_30p_gespreventa = $request->margen_30p_gespreventa;
         $precioVentaProducto->margen_40p_gespreventa = $request->margen_40p_gespreventa;
@@ -40,7 +40,7 @@ class GesPreVentaController extends Controller
 
     public function verificarProductoPrecio(Request $request)
     {
-        $registroGestionPrecioVenta = GesPre_Venta::where('idalmingresoproducto',$request->id_alm__ingreso_producto)
+        $registroGestionPrecioVenta = GesPre_Venta::where('id_table_ingreso_tienda_almacen',$request->id_table_ingreso_tienda_almacen)
                                                     ->get();
         return $registroGestionPrecioVenta;
     }
