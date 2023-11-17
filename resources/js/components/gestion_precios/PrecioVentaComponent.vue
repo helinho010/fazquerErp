@@ -25,8 +25,8 @@
                                 <select class="form-control" @change="listarProductosTiendaAlmacen(1)"
                                     v-model="tiendaalmacenselected">
                                     <option value="0" disabled>Seleccionar...</option>
-                                    <option v-for="almacen in arrayAlmacenesTiendas" :key="almacen.id" :value="{'id':almacen.id,'tipo':almacen.tipo}"
-                                        v-text="(almacen.codsuc === null ? '' : almacen.codsuc + ' -> ') + almacen.codigo + ' ' + almacen.nombre_almacen">
+                                    <option v-for="almacenTienda in arrayAlmacenesTiendas" :key="almacenTienda.id" :value="{'id':almacenTienda.id,'tipo':almacenTienda.tipo}"
+                                        v-text="(almacenTienda.codsuc === null ? '' : almacenTienda.codsuc + ' -> ') + almacenTienda.codigo + ' ' + almacenTienda.nombre_almacen">
                                     </option>
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id" :style="[producto.listo_venta == 1 ? '':'background-color: #FAD537' ]">
+                            <tr v-for="producto in arrayProductosAlterado" :key="producto.id" :style="[ producto.listo_venta == 1 ? '':'background-color: #FAD537' ]">
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"
                                         @click="abrirModal('editarPrecioUtilidadProducto', producto)" :disabled="producto.stock_ingreso == 0">
@@ -93,12 +93,12 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td><!-- Precio Compra -->
+                                <td><!-- Costo Compra -->
                                     <div v-if="producto.listo_venta == 1">
-                                        <span>{{ costo_compra_gespreventa === null ? "0.00":producto.costo_compra_gespreventa }}</span>
+                                        <span>{{ producto.costo_compra_gespreventa === null ? "0.00":producto.costo_compra_gespreventa }}</span>
                                     </div>
                                     <div v-else>
-                                        <span class="">{{ producto.costo_compra_gespreventa === null ? "0.00":producto.precio_compra_gespreventa }}</span>
+                                        <span>{{ producto.costo_compra_gespreventa === null ? "0.00":producto.costo_compra_gespreventa }}</span>
                                     </div>
                                 </td>
                                 <td><!-- Precio de Venta -->
@@ -435,6 +435,10 @@ export default {
             arrayTipoEntradaProductos:[],
             arrayUsuarios:[],
             tiendaalmacenselected: 0,
+            existe_registro_gespreventa:0,
+            id_gespreventa:0,
+            tienda_gespreventa:0,
+            almacen_gespreventa:0,
             p_lista: 0,
             c_disp: 0,
             p_compra: 0,
@@ -652,8 +656,6 @@ export default {
                         me.pagination = respuesta.pagination;
                         me.arrayProductos = respuesta.productosAlmacen.data;
                         let nombreEnvaseEmbalajeDelProducto = '';
-                        let precio_lista = '';
-                        let precio_venta = '';
                         let nombreFormaUnidadMedidaProducto = '';
                         me.arrayProductos.forEach(element => {
                             if(element.activo == 1){
@@ -852,23 +854,20 @@ export default {
 
         actualizarRegistrarPrecioVenta() {
             let me = this;
-            
             axios.post('/gestionprecioventa/actualizar-registrar', {
-                'id_table_ingreso_tienda_almacen': me.id_table_ingreso_tienda_almacen,
-                'tienda':0,
-                'almacen':0,
-                'tiprecio_lista_gespreventaenda':0,
-                'precio_venta_gespreventa':0,
-                'cantidad_envase_gespreventa':0,
-                'costo_compra_gespreventa':0,
-                //'precio_compra_gespreventa': me.p_compra,
-                'precio_venta_prodproductos':me.p_venta,
-                'margen_20p_gespreventa': me.margen_20,
-                'margen_30p_gespreventa': me.margen_30,
-                'utilidad_bruta_gespreventa':0,
-                'utilidad_neto_gespreventa': me.utilidad_neta,
-                'idProdProducto':me.idProdProducto,
-                'envaseregistrado':me.envaseregistradoAlmIngresoProducto,
+                'existe_registro_gespreventa':me.existe_registro_gespreventa,
+                'id':me.id_gespreventa,
+                'id_table_ingreso_tienda_almacen':me.id_table_ingreso_tienda_almacen,
+                'tienda':me.tienda_gespreventa,
+                'almacen':me.almacen_gespreventa,
+                'precio_lista_gespreventa':me.p_lista,
+                'precio_venta_gespreventa':me.p_venta,
+                'cantidad_envase_gespreventa':me.c_disp,
+                'costo_compra_gespreventa':me.p_compra,
+                'margen_20p_gespreventa':me.margen_20,
+                'margen_30p_gespreventa':me.margen_30,
+                'utilidad_bruta_gespreventa':me.utilidad_bruta,
+                'utilidad_neto_gespreventa':me.utilidad_neta,
             }).then(function (response) {
                 me.cerrarModal('calculadoraModal');
                 Swal.fire(
@@ -1022,8 +1021,6 @@ export default {
 
                 case 'actualizar':
                     {
-                        console.log("=============================");
-                        console.log(data);
                         me.sucursalSeleccionado = data.idsucursal === null ? 0 : data.idsucursal;
                         me.tipoAccion = 2;
                         me.tituloModal = 'Actualizar Datos del Almacen';
@@ -1046,12 +1043,19 @@ export default {
                         me.envaseregistradoAlmIngresoProducto=data.envaseregistrado;
                         me.cantidadIngresoAlmacen = data.cantidad;
                         me.id_table_ingreso_tienda_almacen = data.id;
-                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_table_ingreso_tienda_almacen='+data.id)   
-                        .then(function (response) {        
-                            console.log("%%%%%%%%%%%")                    
-                            console.log(response);
+                        axios.get('/gestionprecioventa/verificarProductoConPrecio?id_table_ingreso_tienda_almacen='+me.id_table_ingreso_tienda_almacen+'&tienda_almacen='+me.tiendaalmacenselected.tipo)   
+                        .then(function (response) { 
+                            console.log("%%%%%%%%%%%")     
+                            console.log(response.data)               
+                            console.log(data);
+                            
                             if (response.data.length == 1) 
                             {
+                                me.existe_registro_gespreventa = 1;
+                                me.id_gespreventa = response.data[0].id;
+                                me.id_table_ingreso_tienda_almacen = response.data[0].id_table_ingreso_tienda_almacen;
+                                me.tienda_gespreventa = response.data[0].tienda;
+                                me.almacen_gespreventa = response.data[0].almacen;
                                 me.p_lista = response.data[0].precio_lista_gespreventa;
                                 me.c_disp = response.data[0].cantidad_envase_gespreventa;
                                 me.p_compra = response.data[0].costo_compra_gespreventa;
@@ -1062,7 +1066,16 @@ export default {
                                 me.utilidad_neta = response.data[0].utilidad_neto_gespreventa;
                             }
                             else{
+                                me.existe_registro_gespreventa = 0;
+                                if(me.tiendaalmacenselected.tipo.toLowerCase() == 'tienda')
+                                {
+                                    me.tienda_gespreventa = 1;
+                                
+                                }else{
+                                    me.almacen_gespreventa = 1;
+                                }
                                 me.p_venta = data.precioventaprimario;
+                                me.utilidad_bruta = 0;
                                 me.utilidad_neta = 0;
                                 me.margen_20 = 0;
                                 me.margen_30 = 0;
@@ -1125,11 +1138,15 @@ export default {
 
         cerrarModal(accion) {
             let me = this;
-            me.classModal.closeModal(accion);
+            me.existe_registro_gespreventa = 0;
+            me.id_gespreventa = 0;
+            me.tienda_gespreventa = 0;
+            me.almacen_gespreventa = 0;
             me.tipoAccion = 1;
             me.margen_20 = 0;
             me.margen_30 = 0;
             me.p_venta = 0;
+            me.utilidad_bruta = 0;
             me.utilidad_neta = 0;
             me.dpc1 = 0;
             me.dpc2 = 0;
@@ -1142,7 +1159,8 @@ export default {
             me.upc =  0;
             me.pvc = 0;
             me.pcc = 0;
-            me.pcdc = 0;        
+            me.pcdc = 0;
+            me.classModal.closeModal(accion);        
         },
 
         selectAll: function (event) {

@@ -56,7 +56,9 @@ class TdaIngresoProductoController extends Controller
 	ges_pre__ventas.margen_20p_gespreventa,
 	ges_pre__ventas.margen_30p_gespreventa,
 	ges_pre__ventas.utilidad_bruta_gespreventa,
-	ges_pre__ventas.utilidad_neto_gespreventa';
+	ges_pre__ventas.utilidad_neto_gespreventa,
+    ges_pre__ventas.listo_venta,
+    ges_pre__ventas.updated_at as fecha_utilidad';
 
 
     public function index(Request $request)
