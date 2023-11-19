@@ -128,7 +128,7 @@ class AlmIngresoProductoController extends Controller
             $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id')
+                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id') //aqui hay que agregar el la condidicional ges_pre__ventas.id_table_ingreso_tienda_almacen = alm__ingreso_producto.id and ges_pre__ventas.almacen = 1
                               ->select(DB::raw($this->columnasIngresoProductos))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
                               ->paginate(10);

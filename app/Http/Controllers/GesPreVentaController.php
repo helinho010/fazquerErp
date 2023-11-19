@@ -30,7 +30,7 @@ class GesPreVentaController extends Controller
         $precioVentaProducto->almacen = $request->almacen;
         $precioVentaProducto->precio_lista_gespreventa = $request->precio_lista_gespreventa;
         $precioVentaProducto->precio_venta_gespreventa = $request->precio_venta_gespreventa;
-        $precioVentaProducto->cantidad_envase_gespreventa = $request->cantidad_envase_gespreventa;
+        $precioVentaProducto->cantidad_envase_gespreventa = preg_match('/[a-z]/',strtolower($request->cantidad_envase_gespreventa)) == 1 ? 1 :$request->cantidad_envase_gespreventa;
         $precioVentaProducto->costo_compra_gespreventa = $request->costo_compra_gespreventa;
         $precioVentaProducto->margen_20p_gespreventa = $request->margen_20p_gespreventa;
         $precioVentaProducto->margen_30p_gespreventa = $request->margen_30p_gespreventa;
@@ -38,7 +38,6 @@ class GesPreVentaController extends Controller
         $precioVentaProducto->utilidad_neto_gespreventa = $request->utilidad_neto_gespreventa;
         $precioVentaProducto->listo_venta = 1;
         $precioVentaProducto->idusuario = auth()->user()->id;
-        dd($precioVentaProducto);
         $precioVentaProducto->save();
         
         return $request;
@@ -52,6 +51,7 @@ class GesPreVentaController extends Controller
         }else{
             $tipoTiendaOAlmacen = 'almacen';
         }
+        
         $registroGestionPrecioVenta = GesPre_Venta::where('id_table_ingreso_tienda_almacen',$request->id_table_ingreso_tienda_almacen)
                                                     ->where($tipoTiendaOAlmacen,1)
                                                     ->get();
