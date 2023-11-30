@@ -66,11 +66,17 @@ class TdaIngresoProductoController extends Controller
         $productosTienda = DB::table('tda__ingreso_productos')
                               ->leftJoin('prod__productos','prod__productos.id','=', 'tda__ingreso_productos.id_prod_producto')
                               ->leftJoin('tda__tiendas','tda__tiendas.id','=','tda__ingreso_productos.idtienda')
-                              ->leftJoin('ges_pre__ventas', 'ges_pre__ventas.id_table_ingreso_tienda_almacen','=','tda__ingreso_productos.id')
+                              //->leftJoin('ges_pre__ventas', 'ges_pre__ventas.id_table_ingreso_tienda_almacen','=','tda__ingreso_productos.id')
+                              ->leftJoin("ges_pre__ventas", function($join){
+                                $join->on("ges_pre__ventas.id_table_ingreso_tienda_almacen", "=", "tda__ingreso_productos.id")
+                                ->where("ges_pre__ventas.tienda", "=", 1);
+                                })
                               ->select(DB::raw($this->columnasIngresoProductos))    
                               ->where('prod__productos.activo',1)
                               ->where('tda__tiendas.activo',1)
                               ->where('tda__ingreso_productos.idtienda',$request->idtienda)
+                              ->orderBy('tda__ingreso_productos.updated_at','desc')
+                              ->orderBy('ges_pre__ventas.updated_at','desc')
                               ->paginate(10);
             return 
             [

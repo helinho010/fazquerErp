@@ -55,7 +55,7 @@
                         <tbody>
                             <tr v-for="ingresoProducto in arrayIngresoProducto" :key="ingresoProducto.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)" :disabled="ingresoProducto.listo_venta == 1">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
                                     <button v-if="ingresoProducto.activo==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoAlmacen(ingresoProducto.id)" >
@@ -72,7 +72,7 @@
                                 <td v-text="ingresoProducto.lote"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.fecha_vencimiento"></td>
                                 <td v-if="almacenRubroareamedica == 1" v-text="ingresoProducto.registro_sanitario"></td>
-                                <td v-text="ingresoProducto.fecingreso"></td>
+                                <td> {{  ingresoProducto.fecingreso }}</td>
                                 <td v-text="ingresoProducto.nombreUsuarioRegistroIngreso"></td>
                                 <td>
                                     <div v-if="ingresoProducto.activo==1">

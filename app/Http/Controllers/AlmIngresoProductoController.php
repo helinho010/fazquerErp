@@ -24,7 +24,7 @@ class AlmIngresoProductoController extends Controller
     alm__ingreso_producto.registro_sanitario, 
     alm__ingreso_producto.activo,
     alm__ingreso_producto.id_usuario_registra,
-    alm__ingreso_producto.created_at as fecingreso,
+    alm__ingreso_producto.updated_at as fecingreso,
     alm__almacens.id as idalmacen, 
     alm__almacens.idsucursal, 
     alm__almacens.codigo as codalmacen, 
@@ -69,68 +69,18 @@ class AlmIngresoProductoController extends Controller
     
     public function index(Request $request)
     {
-        // $buscararray=array();
-        // if(!empty($request->buscar))
-        // {
-        //     $buscararray = explode(" ",$request->buscar);
-        //     if( sizeof($buscararray) > 0 )
-        //     {
-        //         $sqls='';
-        //         foreach($buscararray as $palabra)
-        //         {
-        //             if(empty($sqls)){
-        //                 $sqls="(alm__almacens.codigo like '%".$palabra."%' 
-        //                         or alm__almacens.nombre_almacen like '%".$palabra."%' 
-        //                         or alm__almacens.telefono like '%".$palabra."%' 
-        //                         or alm__almacens.direccion like '%".$palabra."%' 
-        //                         or alm__almacens.departamento like '%".$palabra."%')" ;
-        //             }
-        //             else
-        //             {
-        //                 $sqls.="and (alm__almacens.codigo like '%".$palabra."%'  
-        //                         or alm__almacens.nombre_almacen like '%".$palabra."%' 
-        //                         or alm__almacens.telefono like '%".$palabra."%' 
-        //                         or alm__almacens.direccion like '%".$palabra."%' 
-        //                         or alm__almacens.departamento like '%".$palabra."%')" ;
-        //             }
-    
-        //         }
-
-        //         $almacenes= DB::table('alm__almacens')
-        //                 ->leftJoin('adm__sucursals','alm__almacens.idsucursal','=','adm__sucursals.id')
-        //                 ->selectRaw('alm__almacens.id, adm__sucursals.id as idsucursal, 
-        //                              adm__sucursals.cod as codsuc, adm__sucursals.razon_social,
-        //                              adm__sucursals.tipo, adm__sucursals.correlativo,
-        //                              alm__almacens.codigo, alm__almacens.nombre_almacen, 
-        //                              alm__almacens.telefono, alm__almacens.direccion, 
-        //                              alm__almacens.departamento, alm__almacens.ciudad, 
-        //                              alm__almacens.activo')
-        //                 ->whereraw($sqls)
-        //                 ->paginate(15);
-        //     }
-            
-        //     return 
-        //     [
-        //             'pagination'=>
-        //                 [
-        //                     'total'         =>    $almacenes->total(),
-        //                     'current_page'  =>    $almacenes->currentPage(),
-        //                     'per_page'      =>    $almacenes->perPage(),
-        //                     'last_page'     =>    $almacenes->lastPage(),
-        //                     'from'          =>    $almacenes->firstItem(),
-        //                     'to'            =>    $almacenes->lastItem(),
-        //                 ] ,
-        //             'almacenes'=>$almacenes,
-        //     ];
-        // }
-        // else
-        // {
             $productosAlmacen = DB::table('alm__ingreso_producto')
                               ->leftJoin('alm__almacens','alm__ingreso_producto.idalmacen','=','alm__almacens.id')
                               ->leftJoin('prod__productos','alm__ingreso_producto.id_prod_producto','=','prod__productos.id')
-                              ->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id') //aqui hay que agregar el la condidicional ges_pre__ventas.id_table_ingreso_tienda_almacen = alm__ingreso_producto.id and ges_pre__ventas.almacen = 1
+                              //->leftJoin('ges_pre__ventas','ges_pre__ventas.id_table_ingreso_tienda_almacen','=','alm__ingreso_producto.id') //aqui hay que agregar el la condidicional ges_pre__ventas.id_table_ingreso_tienda_almacen = alm__ingreso_producto.id and ges_pre__ventas.almacen = 1
+                              ->leftJoin("ges_pre__ventas", function($join){
+                                $join->on("ges_pre__ventas.id_table_ingreso_tienda_almacen", "=", "alm__ingreso_producto.id")
+                                ->where("ges_pre__ventas.almacen", "=", 1);
+                                })
                               ->select(DB::raw($this->columnasIngresoProductos))    
                               ->where('alm__ingreso_producto.idalmacen','=',$request->idalmacen)
+                              ->orderBy('alm__ingreso_producto.updated_at','desc')
+                              ->orderBy('ges_pre__ventas.updated_at','desc')
                               ->paginate(10);
             return 
             [

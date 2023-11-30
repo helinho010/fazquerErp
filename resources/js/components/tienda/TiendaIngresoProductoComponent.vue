@@ -57,7 +57,7 @@
                         <tbody>
                             <tr v-for="ingresoProducto in arrayIngresoProducto" :key="ingresoProducto.id">
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)">
+                                    <button type="button" class="btn btn-warning btn-sm" @click="abrirModal('actualizar',ingresoProducto)" :disabled="ingresoProducto.listo_venta == 1">
                                         <i class="icon-pencil"></i>
                                     </button> &nbsp;
                                     <button v-if="ingresoProducto.activo_tda_ingreso_producto==1" type="button" class="btn btn-danger btn-sm" @click="eliminarProductoTienda(ingresoProducto.id)" >

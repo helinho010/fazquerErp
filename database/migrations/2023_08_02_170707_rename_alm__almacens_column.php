@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('alm__almacens', function (Blueprint $table) {
             
             $table->dropColumn("razon_social");
-            $table->renameColumn("nombre_comercial","nombre_almacen")->comment("Nombre de almacen");
+            $table->renameColumn("nombre_comercial","nombre_almacen");
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::table('alm__almacens', function (Blueprint $table) {
             
             $table->string("razon_social")->nullable()->default('**')->comment("Nombre del almacen");
-            $table->renameColumn("nombre_almacen","nombre_comercial")->comment("Nombre de almacen");
+            $table->renameColumn("nombre_almacen","nombre_comercial");
         });
     }
 };
